@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Questions from '../components/questions';
 
 class Game extends Component {
   render() {
@@ -17,6 +18,7 @@ class Game extends Component {
             { localStorage.token }
           </p>
         </header>
+        <Questions />
       </div>
     );
   }
