@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 class Login extends React.Component {
   constructor() {
@@ -59,6 +60,16 @@ class Login extends React.Component {
           />
         </label>
         <button disabled={ disabled } data-testid="btn-play" type="button">Jogar</button>
+        <button
+          data-testid="btn-settings"
+          type="button"
+        >
+          <Link
+            to="/settings"
+          >
+            Configurações
+          </Link>
+        </button>
       </form>
     );
   }
