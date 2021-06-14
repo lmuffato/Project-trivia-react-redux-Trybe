@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import tokenAPI from '../../services/api';
 import './styles.css';
 
@@ -10,6 +11,7 @@ class Login extends Component {
       nickname: '',
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleChange({ target }) {
@@ -24,9 +26,13 @@ class Login extends Component {
     localStorage.setItem('token', token);
   }
 
+  async handleClick() {
+    await this.fetchToken();
+  }
+
   render() {
     const { email, nickname } = this.state;
-    const patternEmail = /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gim;
+    const patternEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return (
       <form>
         <label htmlFor="input-nickname">
@@ -51,6 +57,7 @@ class Login extends Component {
         <button
           type="button"
           data-testid="btn-play"
+          onClick={ this.handleClick }
           disabled={ !((patternEmail.test(email)) && (nickname.length > 0)) }
         >
           Jogar
@@ -59,5 +66,11 @@ class Login extends Component {
     );
   }
 }
+
+Login.protoTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
 
 export default Login;
