@@ -1,5 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { getQuestions } from '../services/triviaAPI';
+import { getApi, user } from '../redux/actions/actions';
 
 class Login extends React.Component {
   constructor() {
@@ -32,6 +35,8 @@ class Login extends React.Component {
   }
 
   render() {
+    const { getLoginDispatch } = this.props;
+    const { state } = this;
     return (
       <form>
         <h1>Página de Login</h1>
@@ -52,6 +57,7 @@ class Login extends React.Component {
             type="button"
             data-testid="btn-play"
             disabled={ !this.checkLogin() }
+            onClick={ () => getLoginDispatch({ state }) }
           >
             Jogar
           </button>
@@ -61,4 +67,13 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+mapStateToProps = (state) => ({
+  getLogin: state.user,
+});
+
+mapDispatchToProps = (dispatch) => ({
+  dispatchAPI: (payload) => dispatch(getApi(payload)),
+  getLoginDispatch: (payload) => dispatch(user(payload)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
