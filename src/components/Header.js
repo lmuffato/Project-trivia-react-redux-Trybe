@@ -11,7 +11,7 @@ class Header extends Component {
       <header>
         <img
           data-testid="header-profile-picture"
-          src={`https://www.gravatar.com/avatar/${hashEmail}`}
+          src={ `https://www.gravatar.com/avatar/${hashEmail}` }
           alt="imagem-perfil"
         />
         <p data-testid="header-player-name">{name}</p>
@@ -23,6 +23,7 @@ class Header extends Component {
 
 Header.propTypes = {
   name: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
