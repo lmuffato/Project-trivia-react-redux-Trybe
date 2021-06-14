@@ -23,6 +23,7 @@ class Login extends React.Component {
 
   render() {
     const { name, email } = this.state;
+    const { login } = this.props;
     return (
       <form>
         <label htmlFor="input-player-name">
@@ -45,7 +46,13 @@ class Login extends React.Component {
             onChange={ this.handleChanges }
           />
         </label>
-        <button type="button" data-testid="btn-play">Jogar</button>
+        <button
+          type="button"
+          data-testid="btn-play"
+          onClick={ () => login({ name, email }) }
+        >
+          Jogar
+        </button>
       </form>
     );
   }
