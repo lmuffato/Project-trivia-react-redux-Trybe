@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
+// import logo from './trivia.png';
+import token from '../services/API'
 
 class Login extends Component {
     constructor(props) {
@@ -25,6 +28,10 @@ class Login extends Component {
     render() {
         const { disabled } = this.state;
         return (
+            <div>
+            {/* <header className="App-header"> */}
+                 {/* <img src={logo} className="App-logo" alt="logo" /> */}
+            {/* </header> */}
             <form>
                 <label htmlFor="name">
                     <input
@@ -46,8 +53,17 @@ class Login extends Component {
 
 
                 </label>
-                <button type="button" data-testid="btn-play" disabled={disabled}>Jogar</button>
+                <Link to="/game">
+                    <button type="button" data-testid="btn-play" disabled={disabled} onClick={ token }>Jogar</button>
+                </Link>
             </form>
+
+            <Link to="/config">
+                <button type="button" data-testid="btn-settings">Configurações</button>
+            </Link>
+
+            </div>
+
         )
     }
 
