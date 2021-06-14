@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -34,6 +36,7 @@ export default function Login() {
         >
           Jogar
         </button>
+        <Link to="/Settings">Configuração</Link>
       </form>
     </div>
   );
