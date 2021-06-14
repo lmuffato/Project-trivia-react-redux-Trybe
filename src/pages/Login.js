@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 class Login extends React.Component {
   constructor() {
@@ -32,6 +33,16 @@ class Login extends React.Component {
     }
   }
 
+  async handleClick() {
+    const key = await fetch('https://opentdb.com/api_token.php?command=request');
+    const token = await key.json();
+    localStorage.setItem('token', token.token);
+  }
+
+  preventLink(event) {
+    event.preventDefault();
+  }
+
   render() {
     const { name, email, disabled } = this.state;
     return (
@@ -58,7 +69,16 @@ class Login extends React.Component {
             onChange={ (event) => this.handleChange(event) }
           />
         </label>
-        <button disabled={ disabled } data-testid="btn-play" type="button">Jogar</button>
+        <button
+          disabled={ disabled }
+          data-testid="btn-play"
+          type="button"
+          onClick={ this.handleClick }
+        >
+          { disabled
+            ? <Link to="/">Jogar</Link>
+            : <Link to="/trivia">Jogar</Link>}
+        </button>
       </form>
     );
   }
