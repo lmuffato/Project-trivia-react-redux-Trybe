@@ -31,9 +31,24 @@ class LoginForm extends Component {
 
   render() {
     const { name, email } = this.state;
+    const regex = /^\w+([.-_]?\w+)*@\w+([.-_]?\w+)*(\.\w{2,3})+$/;
+    const nameLength = 0;
     return (
       <form onSubmit={ this.handleSubmit }>
         <div>
+          <div>
+            <label htmlFor="input-gravatar-email">
+              Email:
+              <input
+                id="input-gravatar-email"
+                name="email"
+                onChange={ this.handleInput }
+                value={ email }
+                data-testid="input-gravatar-email"
+                autoComplete="off"
+              />
+            </label>
+          </div>
           <label htmlFor="input-player-name">
             Name:
             <input
@@ -42,22 +57,16 @@ class LoginForm extends Component {
               onChange={ this.handleInput }
               value={ name }
               data-testid="input-player-name"
+              autoComplete="off"
             />
           </label>
         </div>
-        <div>
-          <label htmlFor="input-gravatar-email">
-            Email:
-            <input
-              id="input-gravatar-email"
-              name="email"
-              onChange={ this.handleInput }
-              value={ email }
-              data-testid="input-gravatar-email"
-            />
-          </label>
-        </div>
-        <input type="submit" value="Play" data-testid="btn-play" />
+        <input
+          type="submit"
+          value="Play"
+          data-testid="btn-play"
+          disabled={ !email.match(regex) || name.length <= nameLength }
+        />
       </form>
     );
   }
