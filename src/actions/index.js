@@ -30,7 +30,7 @@ export function getQuestion(token) {
     const questions = await fetchQuestion(token);
     console.log(questions);
     dispatch(fetchQuestionsSuccess(questions));
-  }
+  };
 }
 
 export function getToken() {
