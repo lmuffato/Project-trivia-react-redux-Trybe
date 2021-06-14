@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { apiTrivia } from '../services/api';
 /* import { connect } from 'react-redux'; */
 /* import login from '../actions'; */
 
@@ -13,6 +15,12 @@ class Login extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.btnCondition = this.btnCondition.bind(this);
+    this.sendRequest = this.sendRequest.bind(this);
+  }
+
+  async sendRequest() {
+    const token = await apiTrivia();
+    localStorage.token = token;
   }
 
   btnCondition() {
@@ -51,13 +59,16 @@ class Login extends Component {
             onChange={ this.handleChange }
           />
         </label>
-        <button
-          data-testid="btn-play"
-          type="button"
-          disabled={ this.btnCondition() }
-        >
-          Jogar
-        </button>
+        <Link to="/tela-jogo">
+          <button
+            data-testid="btn-play"
+            type="button"
+            disabled={ this.btnCondition() }
+            onClick={ this.sendRequest }
+          >
+            Jogar
+          </button>
+        </Link>
       </form>
     );
   }
