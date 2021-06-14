@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { apiTrivia } from '../services/api';
-/* import { connect } from 'react-redux'; */
-/* import login from '../actions'; */
+import login from '../actions';
 
 class Login extends Component {
   constructor(props) {
@@ -19,8 +20,11 @@ class Login extends Component {
   }
 
   async sendRequest() {
+    const { sendLogin } = this.props;
+    const { name, email } = this.state;
     const token = await apiTrivia();
     localStorage.token = token;
+    sendLogin(name, email);
   }
 
   btnCondition() {
@@ -82,10 +86,12 @@ class Login extends Component {
   }
 }
 
-/* const mapDispatchToProps = {
+Login.propTypes = {
+  sendLogin: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = {
   sendLogin: (name, email) => login(name, email),
-}; */
+};
 
-/* export default connect(null, mapDispatchToProps)(Login); */
-
-export default Login;
+export default connect(null, mapDispatchToProps)(Login);
