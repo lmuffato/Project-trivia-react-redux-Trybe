@@ -1,4 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { loginAction } from '../actions';
 
 class Login extends React.Component {
   constructor() {
@@ -30,6 +34,7 @@ class Login extends React.Component {
 
   render() {
     const { isDisabled } = this.state;
+    const { saveLogin } = this.props;
     return (
       <form>
         <label htmlFor="player-name">
@@ -52,17 +57,28 @@ class Login extends React.Component {
             placeholder="Digite seu e-mail"
           />
         </label>
-        <button
-          type="button"
-          disabled={ isDisabled }
-          data-testid="btn-play"
-        >
-          Entrar
-        </button>
+        <Link to="/game">
+          <button
+            type="button"
+            onClick={ () => saveLogin(this.state) }
+            disabled={ isDisabled }
+            data-testid="btn-play"
+          >
+            Jogar
+          </button>
+        </Link>
       </form>
 
     );
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  saveLogin: (state) => dispatch(loginAction(state)),
+});
+
+export default connect(null, mapDispatchToProps)(Login);
+
+Login.propTypes = {
+  saveLogin: PropTypes.func,
+}.isRequired;
