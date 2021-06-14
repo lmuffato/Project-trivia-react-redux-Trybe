@@ -1,10 +1,14 @@
 import React from 'react';
-import logo from './trivia.png';
+import { Switch, Route } from 'react-router';
 import './App.css';
+import Login from './pages/Login';
+import Game from './pages/Game';
 
 export default function App() {
   return (
-    <div className="App">
-    </div>
+    <Switch>
+      <Route path="/game" component={ Game } />
+      <Route exact path="/" component={ Login } />
+    </Switch>
   );
 }
