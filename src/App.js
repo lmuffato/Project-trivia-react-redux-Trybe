@@ -6,6 +6,7 @@ import Feedback from './pages/Feedback';
 import Login from './pages/Login';
 import Trivia from './pages/Trivia';
 import Ranking from './pages/Ranking';
+import Settings from './pages/Settings';
 import store from './store';
 
 export default function App() {
@@ -17,6 +18,7 @@ export default function App() {
           <Route path="/feedback" component={ Feedback } />
           <Route path="/trivia" component={ Trivia } />
           <Route path="/ranking" component={ Ranking } />
+          <Route path="/settings" component={ Settings } />
         </Switch>
       </BrowserRouter>
     </Provider>
