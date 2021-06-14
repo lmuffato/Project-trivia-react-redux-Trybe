@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import fetchToken from '../services/api';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
+  const [redirect, setRedirect] = useState(false);
 
   const handleEmail = (evt) => (
     setEmail(evt.target.value)
@@ -13,9 +15,16 @@ export default function Login() {
     setName(evt.target.value)
   );
 
+  const handleSubmit = async (evt) => {
+    evt.preventDefault();
+    const sessionToken = await fetchToken();
+    localStorage.setItem('token', sessionToken.token);
+    setRedirect(true);
+  };
+
   return (
     <div>
-      <form>
+      <form onSubmit={ handleSubmit }>
         <input
           type="email"
           value={ email }
@@ -36,6 +45,7 @@ export default function Login() {
           Jogar
         </button>
         <Link data-testid="btn-settings" to="/Settings">Configurações</Link>
+        {redirect ? <Redirect to="/game" /> : null}
       </form>
     </div>
   );
