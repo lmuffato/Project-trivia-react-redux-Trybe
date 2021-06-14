@@ -1,18 +1,19 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import md5 from 'crypto-js/md5';
+import { login } from '../actions';
 
 class Login extends React.Component {
   constructor() {
     super();
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
-    this.createHash = this.createHash.bind(this);
+    this.sendData = this.sendData.bind(this);
+
     this.state = {
       name: '',
       email: '',
       playButton: false,
-      emailHash: '',
     };
   }
 
@@ -30,15 +31,17 @@ class Login extends React.Component {
     }, () => this.validateFields());
   }
 
-  createEmailHash() {
-    const { email } = this.state;
-    const emailHash = md5(email).toString();
-    this.setState({ emailHash });
-    this.requestGravatarImg();
+  sendData() {
+    const { state } = this;
+    const { loginAction } = this.props;
+
+    console.log(state);
+
+    loginAction(state);
   }
 
   handleClick() {
-    this.createHash();
+    this.sendData();
     // const { history } = this.props;
     // history.push('/game');
   }
@@ -73,7 +76,7 @@ class Login extends React.Component {
           type="button"
           data-testid="btn-play"
           disabled={ !playButton }
-          onClick={ this.handleClick }
+          onClick={ () => this.handleClick() }
         >
           Jogar
         </button>
@@ -82,4 +85,16 @@ class Login extends React.Component {
   }
 }
 
-export default connect()(Login);
+const mapDispatchToProps = (dispatch) => ({
+  // requestTokenAction: (hash) => dispatch(fetchToken(hash)),
+  loginAction: (state) => dispatch(login(state)),
+});
+
+Login.propTypes = {
+  loginAction: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
+
+export default connect(null, mapDispatchToProps)(Login);

@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from '../components/Header';
 
-class Game extends React.Component {
+class Feedback extends React.Component {
   render() {
     return (
       <div>
@@ -11,4 +11,4 @@ class Game extends React.Component {
   }
 }
 
-export default Game;
+export default Feedback;
