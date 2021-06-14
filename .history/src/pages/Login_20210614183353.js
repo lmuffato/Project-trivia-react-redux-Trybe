@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { newEmail } from '../actions/index';

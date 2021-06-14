@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { newEmail } from '../actions/index';
@@ -95,7 +94,8 @@ class Login extends React.Component {
         <button
           data-testid="btn-settings"
           type="button"
-        > <Link to= "/settings"> Configurações </Link>
+        >
+          Configurações
         </button>
       </form>
     );
