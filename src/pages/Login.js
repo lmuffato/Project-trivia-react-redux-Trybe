@@ -1,13 +1,18 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import md5 from 'crypto-js/md5';
 
 class Login extends React.Component {
   constructor() {
     super();
     this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.createHash = this.createHash.bind(this);
     this.state = {
       name: '',
       email: '',
       playButton: false,
+      emailHash: '',
     };
   }
 
@@ -23,6 +28,19 @@ class Login extends React.Component {
     this.setState({
       [id]: value,
     }, () => this.validateFields());
+  }
+
+  createEmailHash() {
+    const { email } = this.state;
+    const emailHash = md5(email).toString();
+    this.setState({ emailHash });
+    this.requestGravatarImg();
+  }
+
+  handleClick() {
+    this.createHash();
+    // const { history } = this.props;
+    // history.push('/game');
   }
 
   render() {
@@ -51,7 +69,12 @@ class Login extends React.Component {
             onChange={ this.handleChange }
           />
         </label>
-        <button type="button" data-testid="btn-play" disabled={ !playButton }>
+        <button
+          type="button"
+          data-testid="btn-play"
+          disabled={ !playButton }
+          onClick={ this.handleClick }
+        >
           Jogar
         </button>
       </div>
@@ -59,4 +82,4 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+export default connect()(Login);
