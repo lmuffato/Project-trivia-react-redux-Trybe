@@ -1,10 +1,7 @@
-// 20210614175052
-// https://raw.githubusercontent.com/tryber/sd-010-a-project-trivia-react-redux/master/.stylelintrc.json
-
 {
   "plugins": [
-    "stylelint-order"
-  ],
+		"stylelint-order"
+	],
   "rules": {
     "at-rule-empty-line-before": "always",
     "at-rule-name-case": "lower",
@@ -94,9 +91,7 @@
     "rule-empty-line-before": [
       "always",
       {
-        "except": [
-          "after-single-line-comment"
-        ]
+        "except": ["after-single-line-comment"]
       }
     ],
     "selector-attribute-brackets-space-inside": "always",
