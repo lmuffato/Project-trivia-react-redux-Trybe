@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from './trivia.png';
 import './App.css';
+import Routes from './components/routes';
 
 export default function App() {
   return (
@@ -8,7 +9,7 @@ export default function App() {
       <header className="App-header">
         <img src={ logo } className="App-logo" alt="logo" />
         <p>
-          SUA VEZ
+          <Routes />
         </p>
       </header>
     </div>
