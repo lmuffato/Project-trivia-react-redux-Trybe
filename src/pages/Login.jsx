@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import triviaToken from '../services/apiFetch';
+import triviaToken, { redirect } from '../services';
 
 class Login extends Component {
   constructor() {
@@ -12,6 +12,7 @@ class Login extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    // this.redirect = this.redirect.bind(this);
   }
 
   hasValid(field) {
@@ -25,18 +26,20 @@ class Login extends Component {
   }
 
   handleChange(event) {
-    const { target: { id, value } } = event;
-    this.setState({ [id]: value },
-      () => {
-        const { username, email } = this.state;
-        this.setState({ isDisabled: !(this.hasValid(username) && this.hasValid(email)) });
+    const {
+      target: { id, value },
+    } = event;
+    this.setState({ [id]: value }, () => {
+      const { username, email } = this.state;
+      this.setState({
+        isDisabled: !(this.hasValid(username) && this.hasValid(email)),
       });
+    });
   }
 
   handleClick() {
-    const { history } = this.props;
     triviaToken();
-    history.push('/jogo');
+    redirect.call(this, '/trivia');
   }
 
   render() {
@@ -68,6 +71,13 @@ class Login extends Component {
           onClick={ this.handleClick }
         >
           Jogar
+        </button>
+        <button
+          data-testid="btn-settings"
+          onClick={ () => redirect.call(this, '/settings') }
+          type="button"
+        >
+          Configurações
         </button>
       </form>
     );

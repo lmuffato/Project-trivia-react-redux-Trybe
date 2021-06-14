@@ -6,4 +6,9 @@ function triviaToken() {
     .then(({ token }) => localStorage.setItem('token', token));
 }
 
+export function redirect(url) {
+  const { history } = this.props;
+  history.push(url);
+}
+
 export default triviaToken;
