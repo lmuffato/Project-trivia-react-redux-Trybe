@@ -1,4 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { ThunkAPI as ThunkAPIActionCreator } from '../REDUX/Actions/index';
 
 class Login extends React.Component {
   constructor(props) {
@@ -34,6 +38,7 @@ class Login extends React.Component {
 
   render() {
     const { name, email, disabled } = this.state;
+    const { ThunkAPI } = this.props;
     return (
       <form>
         <label htmlFor="nomeInput">
@@ -64,17 +69,30 @@ class Login extends React.Component {
           />
         </label>
 
-        <button
-          type="button"
-          data-testid="btn-play"
-          disabled={ disabled }
-        >
-          JOGAR!
-        </button>
+        <Link to="/game">
+          <button
+            type="button"
+            data-testid="btn-play"
+            disabled={ disabled }
+            onClick={ () => (ThunkAPI()) }
+          >
+            JOGAR!
+          </button>
+        </Link>
 
       </form>
     );
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  ThunkAPI: () => dispatch(
+    ThunkAPIActionCreator(),
+  ),
+});
+
+Login.propTypes = {
+  ThunkAPI: PropTypes.func.isRequired,
+};
+
+export default connect(null, mapDispatchToProps)(Login);
