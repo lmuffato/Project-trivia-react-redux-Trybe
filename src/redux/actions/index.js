@@ -1,0 +1,1 @@
+// Variaveis para o reducer
