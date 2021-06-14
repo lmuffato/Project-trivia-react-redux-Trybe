@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  max-height: 100vh;
 }
 
 .App-logo {
@@ -30,7 +31,7 @@
   flex-direction: column;
   font-size: calc(10px + 2vmin);
   justify-content: center;
-  min-height: 100vh;
+  min-height: 60vh;
 }
 
 .App-link {
@@ -54,4 +55,15 @@
   40%, 60% {
     transform: translate3d(4px, 0, 0);
   }
+}
+
+.form {
+  align-items: center;
+  background-color: #282c34;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  font-size: calc(10px + 2vmin);
+  justify-content: center;
+  min-height: 40vh;
 }
