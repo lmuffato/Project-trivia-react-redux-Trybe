@@ -1,7 +1,11 @@
-import { NEW_EMAIL } from '../actions';
+import {
+  NEW_EMAIL,
+  NEW_TOKEN,
+} from '../actions';
 
 const INITIAL_STATE = {
   email: '',
+  token: '',
 };
 
 function userReducer(state = INITIAL_STATE, action) {
@@ -10,6 +14,11 @@ function userReducer(state = INITIAL_STATE, action) {
     return {
       ...state,
       email: action.payload,
+    };
+  case NEW_TOKEN:
+    return {
+      ...state,
+      token: action.payload.token,
     };
 
   default:

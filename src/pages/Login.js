@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { newEmail } from '../actions/index';
+import { newEmail, newToken } from '../actions/index';
+import getToken from '../services/dataApi';
 
 class Login extends React.Component {
   constructor(props) {
@@ -49,10 +50,13 @@ class Login extends React.Component {
     });
   }
 
-  handleClick() {
+  async handleClick() {
+    const tokenTest = await getToken();
+    localStorage.setItem('token', JSON.stringify(tokenTest.token));
     const { email } = this.state;
-    const { addEmail } = this.props;
+    const { addEmail, addToken } = this.props;
     addEmail(email);
+    addToken(tokenTest);
     this.setState({
       shouldRedirect: true,
     });
@@ -98,6 +102,7 @@ class Login extends React.Component {
 
 const mapDispatchToProps = (dispatch) => ({
   addEmail: (payload) => dispatch(newEmail(payload)),
+  addToken: (state) => dispatch(newToken(state)),
 });
 
 Login.propTypes = {
