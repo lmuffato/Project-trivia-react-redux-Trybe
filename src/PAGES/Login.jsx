@@ -23,6 +23,7 @@ class Login extends React.Component {
     if (validated === true) {
       (this.setState({ [key]: true }));
     }
+
     const { emailValid, nameValid } = this.state;
     if (nameValid && emailValid) {
       return (this.setState({ disabled: false }));
