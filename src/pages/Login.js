@@ -79,7 +79,7 @@ class Login extends React.Component {
             ? <Link to="/">Jogar</Link>
             : <Link to="/trivia">Jogar</Link>}
         </button>
-        <b+utton
+        <button
           data-testid="btn-settings"
           type="button"
         >
