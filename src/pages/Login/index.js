@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import tokenAPI from '../../services/api';
+import logo from '../../images/trivia.png';
 import './styles.css';
 
 class Login extends Component {
@@ -34,35 +36,50 @@ class Login extends Component {
     const { email, nickname } = this.state;
     const patternEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return (
-      <form>
-        <label htmlFor="input-nickname">
-          Nome:
-          <input
-            type="text"
-            name="nickname"
-            data-testid="input-player-name"
-            onChange={ this.handleChange }
-          />
-        </label>
-        <label htmlFor="input-email">
-          Email:
-          <input
-            type="email"
-            name="email"
-            data-testid="input-gravatar-email"
-            pattern={ patternEmail }
-            onChange={ this.handleChange }
-          />
-        </label>
-        <button
-          type="button"
-          data-testid="btn-play"
-          onClick={ this.handleClick }
-          disabled={ !((patternEmail.test(email)) && (nickname.length > 0)) }
+      <div className="App">
+        <header className="App-header">
+          <img src={ logo } className="App-logo" alt="logo" />
+          <p>
+            SUA VEZ
+          </p>
+        </header>
+        <form>
+          <label htmlFor="input-nickname">
+            Nome:
+            <input
+              type="text"
+              name="nickname"
+              data-testid="input-player-name"
+              onChange={ this.handleChange }
+            />
+          </label>
+          <label htmlFor="input-email">
+            Email:
+            <input
+              type="email"
+              name="email"
+              data-testid="input-gravatar-email"
+              pattern={ patternEmail }
+              onChange={ this.handleChange }
+            />
+          </label>
+          <button
+            type="button"
+            data-testid="btn-play"
+            onClick={ this.handleClick }
+            disabled={ !((patternEmail.test(email)) && (nickname.length > 0)) }
+          >
+            Jogar
+          </button>
+        </form>
+        <Link
+          to="/settings"
+          className="btn-settings"
+          data-testid="btn-settings"
         >
-          Jogar
-        </button>
-      </form>
+          Configurações
+        </Link>
+      </div>
     );
   }
 }

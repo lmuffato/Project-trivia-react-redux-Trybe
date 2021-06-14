@@ -28,3 +28,11 @@ button {
 button:disabled {
   cursor: not-allowed;
 }
+
+.btn-settings {
+  color: white;
+  cursor: pointer;
+  font-size: 0.8rem;
+  margin-top: 25px;
+  text-decoration: none;
+}

@@ -1,4 +1,12 @@
+body {
+  background-color: #282c34;
+}
+
 .App {
+  align-items: center;
+  color: white;
+  display: flex;
+  flex-direction: column;
   text-align: center;
 }
 
@@ -24,13 +32,11 @@
 
 .App-header {
   align-items: center;
-  background-color: #282c34;
-  color: white;
   display: flex;
   flex-direction: column;
   font-size: calc(10px + 2vmin);
+  height: 50vh;
   justify-content: center;
-  min-height: 100vh;
 }
 
 .App-link {
