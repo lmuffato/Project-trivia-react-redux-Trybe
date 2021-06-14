@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import triviaToken from '../services/apiFetch';
 
 class Login extends Component {
   constructor() {
@@ -9,6 +11,7 @@ class Login extends Component {
       isDisabled: true,
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   hasValid(field) {
@@ -28,6 +31,12 @@ class Login extends Component {
         const { username, email } = this.state;
         this.setState({ isDisabled: !(this.hasValid(username) && this.hasValid(email)) });
       });
+  }
+
+  handleClick() {
+    const { history } = this.props;
+    triviaToken();
+    history.push('/jogo');
   }
 
   render() {
@@ -56,6 +65,7 @@ class Login extends Component {
           disabled={ isDisabled }
           type="submit"
           data-testid="btn-play"
+          onClick={ this.handleClick }
         >
           Jogar
         </button>
@@ -64,4 +74,7 @@ class Login extends Component {
   }
 }
 
+Login.propTypes = {
+  history: PropTypes.shape({ push: PropTypes.func }),
+}.isRequired;
 export default Login;
