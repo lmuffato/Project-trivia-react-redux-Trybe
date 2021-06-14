@@ -9,6 +9,7 @@ class Login extends React.Component {
     super(props);
 
     this.handleChanges = this.handleChanges.bind(this);
+    this.validateLogin = this.validateLogin.bind(this);
 
     this.state = {
       name: '',
@@ -20,6 +21,16 @@ class Login extends React.Component {
     this.setState({
       [name]: value,
     });
+  }
+
+  validateLogin() {
+    const { name, email } = this.state;
+    const minNameLength = 1;
+    const validateRegex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i;
+    if (validateRegex.test(email) && name.length >= minNameLength) {
+      return false;
+    }
+    return true;
   }
 
   render() {
@@ -39,7 +50,7 @@ class Login extends React.Component {
               onChange={ this.handleChanges }
             />
           </label>
-          <label htmlFor="email">
+          <label htmlFor="input-gravatar-email">
             Email
             <input
               type="email"
@@ -50,6 +61,7 @@ class Login extends React.Component {
             />
           </label>
           <button
+            disabled={ this.validateLogin() }
             type="button"
             data-testid="btn-play"
             onClick={ () => login({ name, email }) }
