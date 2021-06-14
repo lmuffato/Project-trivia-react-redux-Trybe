@@ -8,16 +8,16 @@ function startFetch() {
   return { type: START_FETCH };
 }
 
-function fetchSuccess(payload) {
+export function fetchSuccess(payload) {
   return {
     type: FETCH_SUCCESS,
     payload,
   };
 }
 
-export async function getToken() {
+export function getToken() {
   return async (dispatch) => {
-    dispatch(startFetch);
+    dispatch(startFetch());
     const token = await fetchToken();
     dispatch(fetchSuccess(token));
   };
