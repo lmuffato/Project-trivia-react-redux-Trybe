@@ -4,10 +4,10 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      nome: '',
+      name: '',
       email: '',
+      disabled: true,
     };
-
     this.handleChanges = this.handleChanges.bind(this);
   }
 
@@ -16,10 +16,18 @@ class Login extends React.Component {
     this.setState({
       [name]: value,
     });
+    const emailRegex = /^\w+@\w+.com$/;
+    const { email, nome } = this.state;
+    const minlength = 1;
+    if (emailRegex.test(email) && (nome.length >= minlength)) {
+      return (this.setState({ disabled: false }));
+    } return (this.setState({
+      disabled: true,
+    }));
   }
 
   render() {
-    const { nome, email } = this.state;
+    const { name, email, disabled } = this.state;
     return (
       <form>
         <label htmlFor="nomeInput">
@@ -29,8 +37,8 @@ class Login extends React.Component {
             id="nomeInput"
             type="text"
             name="name"
-            onChange={ this.handleChanges }
-            value={ nome }
+            onChange={ (event) => this.handleChanges(event) }
+            value={ name }
           />
         </label>
 
@@ -41,7 +49,7 @@ class Login extends React.Component {
             id="emailInput"
             type="email"
             name="email"
-            onChange={ this.handleChanges }
+            onChange={ (event) => this.handleChanges(event) }
             value={ email }
           />
         </label>
@@ -49,6 +57,7 @@ class Login extends React.Component {
         <button
           type="button"
           data-testid="btn-play"
+          disabled={ disabled }
         >
           JOGAR!
         </button>
