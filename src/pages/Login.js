@@ -4,7 +4,8 @@ import { Redirect } from 'react-router-dom';
 class Login extends Component {
   constructor() {
     super();
-    this.redirect = this.redirect.bind(this);
+    this.redirectToConfigsNow = this.redirectToConfigsNow.bind(this);
+    this.redirectToGameNow = this.redirectToGameNow.bind(this);
     this.requestToken = this.requestToken.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.isEnabled = this.isEnabled.bind(this);
@@ -12,14 +13,22 @@ class Login extends Component {
       disabled: true,
       name: '',
       email: '',
-      redirectNow: false,
+      redirectToGame: false,
+      redirectToConfigs: false,
     };
   }
 
-  redirect() {
+  redirectToConfigsNow() {
     this.setState((prev) => ({
       ...prev,
-      redirectNow: true,
+      redirectToConfigs: true,
+    }));
+  }
+
+  redirectToGameNow() {
+    this.setState((prev) => ({
+      ...prev,
+      redirectToGame: true,
     }));
   }
 
@@ -28,7 +37,7 @@ class Login extends Component {
     const responseInJSON = await request.json();
     const { token } = responseInJSON;
     localStorage.setItem('token', token);
-    return this.redirect();
+    return this.redirectToGameNow();
   }
 
   isEnabled() {
@@ -53,7 +62,8 @@ class Login extends Component {
   }
 
   render() {
-    const { state: { disabled, redirectNow }, handleChange, requestToken } = this;
+    const { state: { disabled, redirectToGame, redirectToConfigs },
+      handleChange, requestToken, redirectToConfigsNow } = this;
     return (
       <div>
         <form>
@@ -83,8 +93,17 @@ class Login extends Component {
           >
             Jogar
           </button>
+          <button
+            style={ { marginLeft: '740px' } }
+            type="button"
+            data-testid="btn-settings"
+            onClick={ redirectToConfigsNow }
+          >
+            configurações
+          </button>
         </form>
-        { redirectNow ? <Redirect to="/Game" /> : null }
+        { redirectToGame ? <Redirect to="/Game" /> : null }
+        { redirectToConfigs ? <Redirect to="/config" /> : null }
       </div>
     );
   }
