@@ -1,4 +1,4 @@
-import { LOGIN } from '../actions/actionsTypes';
+import { LOGIN, GET_TOKEN } from '../actions/actionsTypes';
 
 const INNITAL_STATE = {
   email: '',
@@ -13,6 +13,11 @@ const player = (state = INNITAL_STATE, action) => {
     return {
       ...state,
       ...action.payload,
+    };
+  case GET_TOKEN:
+    return {
+      ...state,
+      token: action.payload,
     };
   default:
     return state;
