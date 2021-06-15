@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-class FeedbackHeader extends Component {
+class FeedbackMsg extends Component {
   renderMessage = () => {
     const { assertions } = this.props.playerInfo;
 
@@ -25,4 +25,4 @@ const mapStateToProps = ({jogoReducer: { player }}) => ({
   assertions: player.assertions,
 })
 
-export default connect(mapStateToProps)(FeedbackHeader);
+export default connect(mapStateToProps)(FeedbackMsg);
