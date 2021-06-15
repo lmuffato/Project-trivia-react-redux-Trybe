@@ -67,14 +67,15 @@ class Login extends Component {
               value={ email }
             />
           </label>
-          <Link
-            to="/game"
-            type="button"
-            data-testid="btn-play"
-            disabled={ buttonEnable }
-            onClick={ handleClick }
-          >
-            Jogar
+          <Link to="/game">
+            <button
+              type="button"
+              data-testid="btn-play"
+              disabled={ buttonEnable }
+              onClick={ handleClick }
+            >
+              Jogar
+            </button>
           </Link>
         </form>
         <Link to="/Settings">
