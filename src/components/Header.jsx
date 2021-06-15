@@ -1,20 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchGravatar } from '../redux/actions';
+import md5 from 'crypto-js/md5';
 
 class Header extends React.Component {
-  componentDidMount() {
-    const { gravatarAction, email } = this.props;
-    gravatarAction(email);
+  constructor() {
+    super();
+    this.getGravatar = this.getGravatar.bind(this);
+  }
+
+  getGravatar() {
+    const { email } = this.props;
+    const hash = md5(email).toString();
+    return `https://br.gravatar.com/avatar/${hash}`;
   }
 
   render() {
-    const { name = 'user Name', score = 0, gravatar } = this.props;
+    const { name = 'user Name', score = 0 } = this.props;
     return (
       <header>
-        <img src={ gravatar } alt="user" data-testid="header-profile-picture" />
-        <span data-testid=" header-player-name ">{ name }</span>
+        <img src={ this.getGravatar() } alt="user" data-testid="header-profile-picture" />
+        <span data-testid="header-player-name">{ name }</span>
         <span data-testid="header-score">{ score }</span>
       </header>
     );
@@ -24,20 +30,13 @@ class Header extends React.Component {
 const mapStateToProps = (state) => ({
   name: state.player.name,
   score: state.player.score,
-  gravatar: state.player.gravatar,
   email: state.player.email,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  gravatarAction: (email) => dispatch(fetchGravatar(email)),
 });
 
 Header.propTypes = {
   name: PropTypes.string,
   score: PropTypes.number,
-  gravatar: PropTypes.string,
-  gravatarAction: PropTypes.func,
   email: PropTypes.string,
 }.isRequired;
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(mapStateToProps, null)(Header);
