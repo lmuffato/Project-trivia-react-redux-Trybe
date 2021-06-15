@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { addLogin } from '../redux/actions';
 import logo from '../trivia.png';
@@ -69,6 +70,12 @@ class Login extends React.Component {
             Jogar
           </button>
         </form>
+        <button
+          type="button"
+          data-testid="btn-settings"
+        >
+          <Link to="/config">Config</Link>
+        </button>
       </header>
     );
   }

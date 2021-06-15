@@ -5,14 +5,10 @@ class Config extends Component {
   render() {
     return (
       <div>
-        Config
+        <h1 data-testid="settings-title">Settings</h1>
       </div>
     );
   }
 }
-
-// Config.propTypes = {
-
-// };
 
 export default Config;
