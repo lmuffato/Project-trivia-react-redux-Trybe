@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { user } from '../../actions';
 import tokenAPI from '../../services/api';
 import logo from '../../images/trivia.png';
 import './styles.css';
@@ -10,7 +12,7 @@ class Login extends Component {
     super(props);
     this.state = {
       email: '',
-      nickname: '',
+      name: '',
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -29,11 +31,16 @@ class Login extends Component {
   }
 
   async handleClick() {
+    const { name, email } = this.state;
+    const { login, history } = this.props;
+
     await this.fetchToken();
+    login({ name, email });
+    history.push('/game');
   }
 
   render() {
-    const { email, nickname } = this.state;
+    const { email, name } = this.state;
     const patternEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return (
       <div className="App">
@@ -44,11 +51,11 @@ class Login extends Component {
           </p>
         </header>
         <form>
-          <label htmlFor="input-nickname">
+          <label htmlFor="input-name">
             Nome:
             <input
               type="text"
-              name="nickname"
+              name="name"
               data-testid="input-player-name"
               onChange={ this.handleChange }
             />
@@ -67,7 +74,7 @@ class Login extends Component {
             type="button"
             data-testid="btn-play"
             onClick={ this.handleClick }
-            disabled={ !((patternEmail.test(email)) && (nickname.length > 0)) }
+            disabled={ !((patternEmail.test(email)) && (name.length > 0)) }
           >
             Jogar
           </button>
@@ -84,10 +91,15 @@ class Login extends Component {
   }
 }
 
-Login.protoTypes = {
+const mapDispatchToProps = (dispatch) => ({
+  login: (payload) => dispatch(user(payload)),
+});
+
+Login.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
+  login: PropTypes.func.isRequired,
 };
 
-export default Login;
+export default connect(null, mapDispatchToProps)(Login);
