@@ -1,14 +1,16 @@
 import React from 'react';
 import Header from '../components/Header';
+import TrueOrFalse from '../components/TrueOrFalse';
 
-class Feedback extends React.Component {
+class Game extends React.Component {
   render() {
     return (
       <div>
         <Header />
+        <TrueOrFalse />
       </div>
     );
   }
 }
 
-export default Feedback;
+export default Game;
