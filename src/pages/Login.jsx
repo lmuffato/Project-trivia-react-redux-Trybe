@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import triviaToken, { redirect } from '../services';
+import { connect } from 'react-redux';
+import { triviaToken, redirect } from '../services';
+import { login } from '../actions/action';
 
 class Login extends Component {
   constructor() {
@@ -38,7 +40,9 @@ class Login extends Component {
   }
 
   handleClick() {
+    const { props: { loginData }, state: { username, email } } = this;
     triviaToken();
+    loginData({ username, email });
     redirect.call(this, '/trivia');
   }
 
@@ -84,7 +88,13 @@ class Login extends Component {
   }
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    loginData: ({ email, username }) => dispatch(login({ email, username })),
+  };
+}
+
 Login.propTypes = {
   history: PropTypes.shape({ push: PropTypes.func }),
 }.isRequired;
-export default Login;
+export default connect(null, mapDispatchToProps)(Login);
