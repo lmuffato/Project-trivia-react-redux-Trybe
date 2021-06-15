@@ -26,7 +26,7 @@ class Login extends Component {
     event.preventDefault();
     const { email, user, token } = this.state;
     const { userLogin, userNameLogin } = this.props;
-    localStorage.setItem('token', JSON.stringify(token));
+    localStorage.setItem('token', token);
     userLogin(email);
     userNameLogin(user);
     this.setState({ shoudlRedirect: true });

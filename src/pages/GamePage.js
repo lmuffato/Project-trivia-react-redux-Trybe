@@ -7,47 +7,47 @@ import React from 'react';
 import Header from '../components/Header';
 
 class GamePage extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     category: '',
-  //     correctAnswer: '',
-  //     incorrectAnswers: [],
-  //     question: '',
-  //   };
+  constructor(props) {
+    super(props);
+    this.state = {
+      category: '',
+      correctAnswer: '',
+      incorrectAnswers: [],
+      question: '',
+    };
 
-  //   this.fetchApi = this.fetchApi.bind(this);
-  // }
+    this.fetchApi = this.fetchApi.bind(this);
+  }
 
-  // componentDidMount() {
-  //   this.fetchApi();
-  // }
+  componentDidMount() {
+    this.fetchApi();
+  }
 
-  // async fetchApi() {
-  //   const getToken = localStorage.getItem('token');
-  //   const endpoint = `https://opentdb.com/api.php?amount=5&token=${getToken}`;
-  //   try {
-  //     const request = await fetch(endpoint);
-  //     const data = await request.json();
-  //     console.log(data);
-  //     const trivia = data.results[0];
-  //     this.setState({
-  //       category: trivia.category,
-  //       correctAnswer: trivia.correct_answer,
-  //       incorrectAnswers: trivia.incorrect_answers,
-  //       question: trivia.question,
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
+  async fetchApi() {
+    const getToken = localStorage.getItem('token');
+    const endpoint = `https://opentdb.com/api.php?amount=5&token=${getToken}`;
+    try {
+      const request = await fetch(endpoint);
+      const data = await request.json();
+      console.log(data);
+      const trivia = data.results[0];
+      this.setState({
+        category: trivia.category,
+        correctAnswer: trivia.correct_answer,
+        incorrectAnswers: trivia.incorrect_answers,
+        question: trivia.question,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   render() {
-    // const { category, correctAnswer, incorrectAnswers, question } = this.state;
+    const { category, correctAnswer, incorrectAnswers, question } = this.state;
     return (
       <div>
         <Header />
-        {/* <h4 data-testid="question-category">
+        <h4 data-testid="question-category">
           { category }
         </h4>
         <p data-testid="question-text">
@@ -67,7 +67,7 @@ class GamePage extends React.Component {
           >
             {incorrect}
           </button>
-        ))} */}
+        ))}
       </div>
     );
   }

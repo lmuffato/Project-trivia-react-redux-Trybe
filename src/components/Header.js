@@ -8,7 +8,7 @@ import md5 from 'crypto-js/md5';
 function Header({ email, user }) {
   const handleUserImage = () => {
     const hashEmail = md5(email).toString();
-    console.log(hashEmail);
+    // console.log(hashEmail);
     const endpoint = `https://www.gravatar.com/avatar/${hashEmail}`;
     return endpoint;
   };
