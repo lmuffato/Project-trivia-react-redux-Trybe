@@ -4,9 +4,13 @@ import Header from '../components/Header';
 class GameScreen extends React.Component {
   render() {
     return (
-      <section>
+      <>
         <Header />
-      </section>
+        <section>
+          offiline
+        </section>
+      </>
+
     );
   }
 }
