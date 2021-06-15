@@ -16,9 +16,11 @@ class Game extends React.Component {
 
   render() {
     const { questions } = this.state;
-    console.log(questions);
+    const { results } = questions;
+    console.log(results);
     return (
       <div>
+
         <h1>pagina game</h1>
       </div>
     );
