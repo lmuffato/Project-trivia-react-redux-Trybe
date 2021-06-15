@@ -1,0 +1,38 @@
+body {
+  align-content: center;
+  display: flex;
+  justify-content: center;
+  margin-top: 200px;
+}
+
+.form-login {
+  align-items: center;
+  border: 1px solid black;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 180px;
+  padding: 25px;
+  width: 400px;
+}
+
+label {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  margin: 5px;
+}
+
+.name {
+  margin: 5px;
+  width: 300px;
+}
+
+.email {
+  margin: 5px;
+  width: 300px;
+}
+
+.btn-play {
+  width: 80px;
+}
