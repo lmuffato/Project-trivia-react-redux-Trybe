@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import { LOGIN, GET_QUESTIONS, GET_TOKEN, REQUEST_API } from '../actions/actionsTypes';
-=======
-import { LOGIN, GET_TOKEN } from '../actions/actionsTypes';
->>>>>>> b00ebf84f17daae3ee9186216743db13b079c199
 
 const INNITAL_STATE = {
   email: '',
@@ -20,19 +16,15 @@ const player = (state = INNITAL_STATE, action) => {
       ...state,
       ...action.payload,
     };
-<<<<<<< HEAD
   case REQUEST_API:
     return {
       ...state,
       isLoalding: true,
     };
-=======
->>>>>>> b00ebf84f17daae3ee9186216743db13b079c199
   case GET_TOKEN:
     return {
       ...state,
       token: action.payload,
-<<<<<<< HEAD
       isLoalding: false,
     };
   case GET_QUESTIONS:
@@ -40,8 +32,6 @@ const player = (state = INNITAL_STATE, action) => {
       ...state,
       questions: action.payload,
       isLoalding: false,
-=======
->>>>>>> b00ebf84f17daae3ee9186216743db13b079c199
     };
   default:
     return state;
