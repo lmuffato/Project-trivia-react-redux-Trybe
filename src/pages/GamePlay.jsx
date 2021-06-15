@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { fetchQuestions } from '../actions';
+import Header from '../components/Header';
 
 class GamePlay extends React.Component {
   constructor(props) {
@@ -15,10 +16,26 @@ class GamePlay extends React.Component {
   }
 
   renderBooleanQuestion(question) {
+    const { correct_answer } = question;
     return (
-      <button type="button">
-        {question.question}
-      </button>
+      <div>
+        <p data-testid="question-category">{question.category}</p>
+        <p data-testid="question-text">{question.question}</p>
+        <button type="button" data-testid="correct-answer">
+          { correct_answer }
+        </button>
+        {
+          question.incorrect_answers.map((e, index) => (
+            <button
+              key={ index + 1 }
+              type="button"
+              data-testid={ `wrong-answer-${index}` }
+            >
+              {e}
+            </button>
+          ))
+        }
+      </div>
     );
   }
 
@@ -26,7 +43,8 @@ class GamePlay extends React.Component {
     const { correct_answer } = q;
     return (
       <div>
-        <p>{q.question}</p>
+        <p data-testid="question-category">{q.category}</p>
+        <p data-testid="question-text">{q.question}</p>
         <button type="button" data-testid="correct-answer">
           { correct_answer }
         </button>
@@ -60,11 +78,14 @@ class GamePlay extends React.Component {
   render() {
     const { loading } = this.props;
     return (
-      <main>
-        <section>
-          { loading ? 'Loading' : this.renderQuestions() }
-        </section>
-      </main>
+      <>
+        <Header />
+        <main>
+          <section>
+            { loading ? 'Loading' : this.renderQuestions() }
+          </section>
+        </main>
+      </>
     );
   }
 }
