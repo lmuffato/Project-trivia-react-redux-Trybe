@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { gravatarImg } from '../actions/action';
+import { getGravatarImage } from '../actions/action';
 
 class Header extends Component {
   componentDidMount() {
-    const { avatarImg, user: { email } } = this.props;
-    console.log(email);
-    avatarImg(email);
+    const { gravatarImage, user: { email } } = this.props;
+    gravatarImage(email);
   }
 
   render() {
@@ -27,13 +26,13 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-  avatarImg: PropTypes.func,
+  gravatarImage: PropTypes.func,
   urLink: PropTypes.string,
 }.isRequired;
 
 function mapDispatchToProps(dispatch) {
   return {
-    avatarImg: (email) => dispatch(gravatarImg(email)),
+    gravatarImage: (email) => dispatch(getGravatarImage(email)),
   };
 }
 

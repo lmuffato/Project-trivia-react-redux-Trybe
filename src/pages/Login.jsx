@@ -14,7 +14,6 @@ class Login extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
-    // this.redirect = this.redirect.bind(this);
   }
 
   hasValid(field) {
@@ -39,10 +38,11 @@ class Login extends Component {
     });
   }
 
-  handleClick() {
+  handleClick(event) {
+    event.preventDefault();
     const { props: { loginData }, state: { username, email } } = this;
-    triviaToken();
     loginData({ username, email });
+    triviaToken();
     redirect.call(this, '/trivia');
   }
 
