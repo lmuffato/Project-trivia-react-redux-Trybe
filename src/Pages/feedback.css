@@ -4,8 +4,8 @@ body {
 }
 
 .feedback-mensage {
-  align-items: center;
   align-content: flex-end;
+  align-items: center;
   display: flex;
   font-size: large;
   margin: 100px;
