@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-export default class Questions extends Component {
+class Questions extends Component {
   constructor() {
     super();
     this.state = {
@@ -22,8 +24,8 @@ export default class Questions extends Component {
 
   render() {
     const { questions } = this.state;
+    const { disableButton } = this.props;
     const question = questions[0];
-    console.log(questions);
     return !question ? (
       <p>Loading!</p>
     ) : (
@@ -42,6 +44,7 @@ export default class Questions extends Component {
           <button
             type="button"
             data-testid="correct-answer"
+            disabled={ disableButton }
           >
             {question.correct_answer}
           </button>
@@ -50,6 +53,7 @@ export default class Questions extends Component {
               key={ index }
               type="button"
               data-testid={ `wrong-answer-${index}` }
+              disabled={ disableButton }
             >
               {incorrect}
             </button>
@@ -59,3 +63,13 @@ export default class Questions extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  disableButton: state.disableButton.disableByTime,
+});
+
+Questions.propTypes = {
+  disableButton: PropTypes.bool,
+}.isRequired;
+
+export default connect(mapStateToProps, null)(Questions);
