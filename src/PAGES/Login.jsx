@@ -27,6 +27,10 @@ class Login extends React.Component {
     if (validated === true) {
       (this.setState({ [key]: true }));
     }
+    // const { name: nome, email } = this.state;
+    // const { action } = this.props;
+    // console.log(nome);
+    // action(nome, email);
 
     const { emailValid, nameValid } = this.state;
     if (nameValid && emailValid) {
@@ -74,7 +78,7 @@ class Login extends React.Component {
             type="button"
             data-testid="btn-play"
             disabled={ disabled }
-            onClick={ () => (ThunkAPI()) }
+            onClick={ () => (ThunkAPI(name, email)) }
           >
             JOGAR!
           </button>
@@ -88,9 +92,10 @@ class Login extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  ThunkAPI: () => dispatch(
-    ThunkAPIActionCreator(),
+  ThunkAPI: (name, email) => dispatch(
+    ThunkAPIActionCreator(name, email),
   ),
+  // action: (name, email) => dispatch(actionLogin(name, email)),
 });
 
 Login.propTypes = {

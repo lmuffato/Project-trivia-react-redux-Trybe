@@ -23,8 +23,9 @@ export const successRequest = (data) => ({
   data,
 });
 
-export const ThunkAPI = () => (dispatch) => {
+export const ThunkAPI = (name, email) => (dispatch) => {
   dispatch(loadingRequest());
+  dispatch(actionLogin(name, email));
 
   return fetch('https://opentdb.com/api_token.php?command=request')
     .then((response) => (response.json()))
