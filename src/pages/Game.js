@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { getUserImage } from '../actions/index';
 
 class Game extends Component {
   render() {
@@ -25,9 +26,14 @@ const mapStateToProps = ({ player: { email, name } }) => ({
   nomeDoUsuario: name,
 });
 
-export default connect(mapStateToProps, null)(Game);
+const mapDispatchToProps = (dispatch) => ({
+  dispatchImageUrl: (url) => dispatch(getUserImage(url)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Game);
 
 Game.propTypes = {
   emailDoUsuario: PropTypes.string,
   nomeDoUsuario: PropTypes.string,
+  dispatchImageUrl: PropTypes.func,
 }.isRequired;

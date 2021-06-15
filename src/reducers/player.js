@@ -1,6 +1,7 @@
 import {
   NEW_EMAIL,
   NEW_TOKEN,
+  GET_USER_IMAGE,
 } from '../actions';
 
 const INITIAL_STATE = {
@@ -22,7 +23,11 @@ function userReducer(state = INITIAL_STATE, action) {
       ...state,
       token: action.payload.token,
     };
-
+  case GET_USER_IMAGE:
+    return {
+      ...state,
+      userImageId: action.payload,
+    };
   default:
     return state;
   }
