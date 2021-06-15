@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import requestAPIthunk from '../actions';
 // import logo from './trivia.png';
-import { token, emailHash } from '../services/API';
+// import { token, emailHash, questionAPI } from '../services/API';
 
 class Login extends Component {
   constructor(props) {
     super(props);
 
     this.handleValidation = this.handleValidation.bind(this);
-    this.handleClick = this.handleClick.bind(this);
+    // this.handleClick = this.handleClick.bind(this);
 
     this.state = {
       usuario: '',
@@ -26,14 +28,16 @@ class Login extends Component {
     }
   }
 
-  handleClick() {
+  /* handleClick() {
     const { usuario, email } = this.state;
     token();
     emailHash(usuario, email);
-  }
+    questionAPI();
+  } */
 
   render() {
     const { disabled } = this.state;
+    const { handleClick } = this.props;
     return (
       <div>
         {/* <header className="App-header"> */}
@@ -63,7 +67,7 @@ class Login extends Component {
               type="button"
               data-testid="btn-play"
               disabled={ disabled }
-              onClick={ this.handleClick }
+              onClick={ handleClick }
             >
               Jogar
             </button>
@@ -77,4 +81,8 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  handleClick: () => dispatch(requestAPIthunk()),
+});
+
+export default connect(null, mapDispatchToProps)(Login);

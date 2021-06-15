@@ -15,3 +15,9 @@ export const emailHash = (usuario, email) => {
   return console.log(localStorage);
 };
 // export default token;
+
+export const questionAPI = () => {
+  fetch('https://opentdb.com/api.php?amount=5&token')
+    .then((response) => response.json())
+    .then((result) => result);
+};
