@@ -1,8 +1,12 @@
 export const LOGIN = 'LOGIN';
+export const TOKEN = 'TOKEN';
 
-const login = (payload) => ({
+export const login = (payload) => ({
   type: LOGIN,
   payload,
 });
 
-export default login;
+export const token = (payload) => ({
+  type: TOKEN,
+  payload,
+});
