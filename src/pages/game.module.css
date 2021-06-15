@@ -1,40 +1,43 @@
 .question__container {
+  background-color: var(--white);
+  height: 40vh;
+
   /* max-width: 500px; */
   margin: 2rem auto;
   padding: 20px;
-  background-color: var(--white);
-  width: 80vw;
-  height: 40vh;;
   text-align: center;
+  width: 80vw;
 }
 
 .question__card {
   font-size: 1em;
+
   /* margin-bottom: 2rem; */
+
   /* padding: 3rem;  */
 }
 
 .question__list {
-  list-style: none;
   display: flex;
   justify-content: center;
+  list-style: none;
 }
 
 .question__alternatives {
   padding: 1rem;
 }
 
-.question__list li{
+.question__list li {
   padding: 1rem;
 }
 
 .question__button {
   background-color: var(--green-500);
   border: none;
-  cursor: pointer;
-  padding: 1rem;
-  color: white;
-  font-size: 2rem;
   border-radius: 1rem;
+  color: white;
+  cursor: pointer;
+  font-size: 2rem;
   margin: 0 auto;
+  padding: 1rem;
 }

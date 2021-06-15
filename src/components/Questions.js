@@ -9,34 +9,36 @@ export default class Questions extends Component {
     this.handleClickAnswer = this.handleClickAnswer.bind(this);
   }
 
+  changeColorBorder(alternatives, dataTestId, className) {
+    const regex = new RegExp(dataTestId);
+    alternatives.forEach((alternative) => {
+      if (regex.test(alternative.getAttribute('data-testid'))) {
+        alternative.classList.add(className);
+      }
+    });
+  }
+
   handleClickAnswer({ target }) {
+    const classNameAnswerIncorrect = 'question__alternatives__incorrect';
+    const classNameAnswerCorrect = 'question__alternatives__correct';
     const alternatives = Array.from(
       document.getElementsByClassName(
         styles.question__alternatives,
       ),
     );
-    // console.log(alternatives);
     const dataTestid = target.getAttribute('data-testid');
 
     if (dataTestid === 'correct-answer') {
-      alternatives.forEach((alternative) => {
-        if (/wrong-answer/gi.test(alternative.getAttribute('data-testid'))) {
-          alternative.classList.add('question__alternatives__incorrect');
-        }
-      });
-      target.classList.add('question__alternatives__correct');
+      this.changeColorBorder(alternatives,
+        /wrong-answer/gi, classNameAnswerIncorrect);
+      target.classList.add(classNameAnswerCorrect);
     }
     if (/wrong-answer/gi.test(dataTestid)) {
-      alternatives.forEach((alternative) => {
-        if (alternative.getAttribute('data-testid') === 'correct-answer') {
-          alternative.classList.add('question__alternatives__correct');
-        }
-      });
-      alternatives.forEach((alternative) => {
-        if (/wrong-answer/gi.test(alternative.getAttribute('data-testid'))) {
-          alternative.classList.add('question__alternatives__incorrect');
-        }
-      });
+      this.changeColorBorder(alternatives,
+        /correct-answer/gi, classNameAnswerCorrect);
+
+      this.changeColorBorder(alternatives,
+        /wrong-answer/gi, classNameAnswerIncorrect);
     }
     return '';
   }
