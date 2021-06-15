@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { string, func } from 'prop-types';
 import { connect } from 'react-redux';
-import { getToken } from '../actions';
+import { getQuestion, getToken } from '../actions';
 
 class LoginForm extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.handleInput = this.handleInput.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -23,16 +23,19 @@ class LoginForm extends Component {
 
   async handleSubmit(event) {
     event.preventDefault();
-    const { requestToken } = this.props;
+    const { requestToken, history, requestQuestions } = this.props;
     await requestToken();
     const { token } = this.props;
-    console.log(token);
+    history.push('/game');
+    localStorage.setItem('token', token);
+    requestQuestions(token);
   }
 
   render() {
     const { name, email } = this.state;
     const regex = /^\w+([.-_]?\w+)*@\w+([.-_]?\w+)*(\.\w{2,3})+$/;
     const nameLength = 0;
+
     return (
       <form onSubmit={ this.handleSubmit }>
         <div>
@@ -78,6 +81,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   requestToken: () => dispatch(getToken()),
+  requestQuestions: (token) => dispatch(getQuestion(token)),
 });
 
 LoginForm.propTypes = {
