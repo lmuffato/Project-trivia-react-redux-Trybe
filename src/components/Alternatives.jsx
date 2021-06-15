@@ -33,7 +33,7 @@ class Alternatives extends Component {
               data-testid={ answer === correctAnswer ? CORRECT : INCORRECT }
               onClick={ () => { this.setState({ revelaBorda: 'show' }); } }
             >
-              { answer }
+              { answer.replace(/&quot;/gi, '"').replace(/&#039;/gi, '\'') }
             </button>
           ))}
         </div>
