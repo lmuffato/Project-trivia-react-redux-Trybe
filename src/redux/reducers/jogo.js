@@ -27,7 +27,7 @@ const jogoReducer = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       loading: false,
-      results: action.payload,
+      results: [...action.payload],
     };
 
   case GET_API_ERROR:

@@ -24,11 +24,12 @@ export const getAPIError = (payload) => ({
   payload,
 });
 
-export const getAPIThunk = () => (dispatch) => {
+export const getAPIThunk = () => async (dispatch) => {
   dispatch(getAPI());
 
   try {
-    const fetch = getQuestions();
+    const fetch = await getQuestions();
+
     dispatch(getAPISuccess(fetch));
   } catch (error) {
     dispatch(getAPIError(error));

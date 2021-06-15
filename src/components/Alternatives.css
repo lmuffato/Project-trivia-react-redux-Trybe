@@ -1,0 +1,16 @@
+.answers button {
+  background-color: #c71b04;
+  border-radius: 3px;
+  color: white;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: 600;
+  height: 40px;
+  margin-left: 10px;
+  margin-top: 10px;
+  width: 250px;
+}
+
+.answers button:hover {
+  background-color: rgb(90, 207, 141);
+}
