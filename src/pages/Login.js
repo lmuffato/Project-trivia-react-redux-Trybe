@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 class Login extends React.Component {
@@ -10,6 +11,7 @@ class Login extends React.Component {
       disabled: true,
     };
     this.handleButton = this.handleButton.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   async handleChange({ target }) {
@@ -34,9 +36,11 @@ class Login extends React.Component {
   }
 
   async handleClick() {
+    const { history } = this.props;
     const key = await fetch('https://opentdb.com/api_token.php?command=request');
     const token = await key.json();
     localStorage.setItem('token', token.token);
+    history.push('/trivia');
   }
 
   preventLink(event) {
@@ -75,9 +79,7 @@ class Login extends React.Component {
           type="button"
           onClick={ this.handleClick }
         >
-          { disabled
-            ? <Link to="/">Jogar</Link>
-            : <Link to="/trivia">Jogar</Link>}
+          jogar
         </button>
         <button
           data-testid="btn-settings"
@@ -93,5 +95,9 @@ class Login extends React.Component {
     );
   }
 }
+
+Login.propTypes = {
+  history: PropTypes.objectOf(PropTypes.func).isRequired,
+};
 
 export default Login;
