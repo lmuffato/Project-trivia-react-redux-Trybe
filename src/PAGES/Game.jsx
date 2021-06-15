@@ -70,11 +70,9 @@ class Game extends React.Component {
 
     const tempoInicial = 30;
     let tempo = tempoInicial;
-    setInterval(() => {
-      tempo -= 1;
+    return setInterval(() => {
+      return <div>{tempo -= 1}</div>;
     }, segundo);
-
-    return <div>{tempo}</div>;
   }
 
   render() {
