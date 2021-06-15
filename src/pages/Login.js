@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { string, func } from 'prop-types';
 import Settings from '../components/Settings';
-import { getToken, getQuestion } from '../actions/index';
+import { getToken, getQuestion, getName } from '../actions/index';
 
 class Login extends Component {
   constructor() {
@@ -20,7 +20,9 @@ class Login extends Component {
   }
 
   async handleClick() {
-    const { tokenRequest, history, questionRequest } = this.props;
+    const { tokenRequest, history, getPlayerName } = this.props;
+    const { name } = this.state;
+    getPlayerName(name);
     await tokenRequest(() => {
       const { token } = this.props;
       console.log(token);
@@ -106,6 +108,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   tokenRequest: (callback) => dispatch(getToken(callback)),
   questionRequest: (token) => dispatch(getQuestion(token)),
+  getPlayerName: (playerName) => dispatch(getName(playerName)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
