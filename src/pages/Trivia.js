@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class Trivia extends React.Component {
   constructor() {
@@ -10,6 +11,7 @@ class Trivia extends React.Component {
       loading: true,
       disabled: false,
       respostas: [],
+      next: false,
     };
   }
 
@@ -42,6 +44,7 @@ class Trivia extends React.Component {
   handleClick() {
     this.setState({
       disabled: true,
+      next: true,
     });
     const btns = document.getElementsByTagName('button');
     for (let index = 0; index < btns.length; index += 1) {
@@ -72,10 +75,37 @@ class Trivia extends React.Component {
     }));
   }
 
+  nextButton() {
+    return (
+      <button
+        data-testid="btn-next"
+        type="button"
+        onClick={ () => {
+          const { questionNum, questions } = this.state;
+          const { history } = this.props;
+          const btns = document.getElementsByTagName('button');
+          for (let index = 0; index < btns.length; index += 1) {
+            btns[index].className = '';
+          }
+          if (questionNum === questions.length - 1) {
+            history.push('/feedback');
+          }
+          this.setState({
+            questionNum: questionNum + 1,
+            disabled: false,
+            next: false,
+          });
+        } }
+      >
+        Próxima
+      </button>
+    );
+  }
+
   render() {
     const { loading } = this.state;
     if (loading) return (<div>loading</div>);
-    const { questions, questionNum } = this.state;
+    const { questions, questionNum, next } = this.state;
     const { category, question } = questions[questionNum];
     return (
       <div>
@@ -86,9 +116,20 @@ class Trivia extends React.Component {
           {question}
         </p>
         {this.answerButtons()}
+        <br />
+        {
+          next
+            ? this.nextButton()
+            : <span> </span>
+        }
+
       </div>
     );
   }
 }
+
+Trivia.propTypes = {
+  history: PropTypes.objectOf(PropTypes.func).isRequired,
+};
 
 export default Trivia;
