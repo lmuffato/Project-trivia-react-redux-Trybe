@@ -86,7 +86,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  // dispatchAPI: (payload) => dispatch(getAPIThunk(payload)),
   getLoginDispatch: (payload) => dispatch(user(payload)),
 });
 
