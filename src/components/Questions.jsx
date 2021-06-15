@@ -22,6 +22,19 @@ class Questions extends Component {
     this.setState({ questions });
   }
 
+  handleClick() {
+    const green = '3px solid rgb(6, 240, 15)';
+    const red = '3px solid rgb(255, 0, 0)';
+    const right = document.getElementById('correct-answer');
+    right.style.border = green;
+    const wrong = document.getElementsByClassName('wrong-answer');
+    const array = Array.prototype.slice.call(wrong);
+    array.map((button) => {
+      button.style.border = red;
+      return button.style.border;
+    });
+  }
+
   render() {
     const { questions } = this.state;
     const { disableButton } = this.props;
@@ -45,6 +58,8 @@ class Questions extends Component {
             type="button"
             data-testid="correct-answer"
             disabled={ disableButton }
+            id="correct-answer"
+            onClick={ () => this.handleClick() }
           >
             {question.correct_answer}
           </button>
@@ -54,6 +69,8 @@ class Questions extends Component {
               type="button"
               data-testid={ `wrong-answer-${index}` }
               disabled={ disableButton }
+              className="wrong-answer"
+              onClick={ () => this.handleClick() }
             >
               {incorrect}
             </button>
