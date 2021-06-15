@@ -6,10 +6,10 @@ import {
 
 const INITIAL_STATE = {
   player: {
-    name,
-    assertions,
-    score,
-    gravatarEmail,
+    name: '',
+    assertions: '',
+    score: '',
+    gravatarEmail: '',
   },
   loading: false,
   results: [],
