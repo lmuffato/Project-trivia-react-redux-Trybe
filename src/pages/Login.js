@@ -19,10 +19,11 @@ class Login extends Component {
     };
   }
 
-  async handleClick() {
+  handleClick() {
     const { tokenRequest } = this.props;
-    await tokenRequest();
-    const { token } = this.props;
+    const token = tokenRequest();
+    // const { token } = this.props;
+    console.log(token);
     localStorage.setItem('token', token);
   }
 
@@ -43,6 +44,8 @@ class Login extends Component {
 
   render() {
     const { name, email, validation } = this.state;
+    const { token } = this.props;
+    console.log(token);
 
     return (
       <section>
@@ -68,16 +71,16 @@ class Login extends Component {
             onChange={ this.handleChange }
           />
         </label>
-        <Link to="./Game">
-          <button
-            type="submit"
-            onClick={ this.handleClick }
-            data-testid="btn-play"
-            disabled={ validation }
-          >
-            Jogar
-          </button>
-        </Link>
+        {/*  <Link to="./Game"> */}
+        <button
+          type="submit"
+          onClick={ () => this.handleClick() }
+          data-testid="btn-play"
+          disabled={ validation }
+        >
+          Jogar
+        </button>
+        {/*  </Link> */}
       </section>
     );
   }
@@ -88,9 +91,16 @@ Login.propTypes = {
   tokenRequest: func,
 }.isRequired;
 
-const mapStateToProps = (state) => ({
-  token: state.game.token,
-});
+const mapStateToProps = (state) => {
+  console.log(state);
+  return ({
+    token: state.game.token,
+  });
+};
+
+/* const mapStateToProps = (state) => {
+  console.log(state);
+}; */
 
 const mapDispatchToProps = (dispatch) => ({
   tokenRequest: () => dispatch(getToken()),

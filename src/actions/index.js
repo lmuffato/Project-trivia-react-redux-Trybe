@@ -12,21 +12,21 @@ export function requestApi() {
   };
 }
 
-export function requestToken(payload) {
+export function requestToken(token) {
   return {
     type: REQUEST_TOKEN,
-    payload,
+    payload: token,
   };
 }
 
-export function questionsSuccess(payload) {
+/* export function questionsSuccess(payload) {
   return {
     type: REQUEST_QUESTION_SUCESS,
     payload,
   };
 }
-
-export function questionsFail(payload) {
+ */
+/* export function questionsFail(payload) {
   return {
     type: REQUEST_QUESTION_FAIL,
     payload,
@@ -40,15 +40,22 @@ export const getQuestion = (token) => async (dispatch) => {
   } catch (error) {
     dispatch(questionsFail(error));
   }
-};
+}; */
 
-export const getToken = () => async (dispatch) => {
+/* export const getToken = () => async (dispatch) => {
   dispatch(requestApi());
   try {
     const token = await tokenFetch();
     console.log(token);
-    dispatch(requestToken(token));
+    return dispatch(requestToken(token));
   } catch (error) {
-    dispatch(questionsFail(error));
+    console.log('ERROR');
+    dispatch(questionsFail(error))
   }
+}; */
+
+export const getToken = () => (dispatch) => {
+  dispatch(requestApi());
+  tokenFetch()
+    .then((token) => dispatch(requestToken(token)));
 };
