@@ -1,5 +1,4 @@
 import { API_TOKEN } from '../constants';
-import md5 from 'crypto-js/md5';
 
 export function triviaToken() {
   return fetch(API_TOKEN)
