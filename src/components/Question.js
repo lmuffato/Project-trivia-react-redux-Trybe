@@ -3,6 +3,15 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 class Question extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      buttonnext: false,
+    };
+    this.setNextButton = this.setNextButton.bind(this);
+    this.setBorderColor = this.setBorderColor.bind(this);
+  }
+
   setBorderColor() {
     const options = document.querySelectorAll('#options > button');
     options.forEach((op) => {
@@ -12,10 +21,19 @@ class Question extends Component {
         op.style.border = '3px solid rgb(6, 240, 15)';
       }
     });
+    this.setNextButton();
+  }
+
+  setNextButton() {
+    // const { buttonnext } = this.state;
+    this.setState({
+      buttonnext: true,
+    });
   }
 
   render() {
     const { idQuestion, questions } = this.props;
+    const { buttonnext } = this.state;
     let alternatives = [];
     alternatives = [
       ...questions[idQuestion].incorrect_answers,
@@ -47,6 +65,14 @@ class Question extends Component {
               </button>
             )) }
         </div>
+        <button
+          type="button"
+          id="buttonNext"
+          data-testid="btn-next"
+          style={ { visibility: buttonnext ? 'visible' : 'hidden' } }
+        >
+          Próxima Questão
+        </button>
       </div>
     );
   }
