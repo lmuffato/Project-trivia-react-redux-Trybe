@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { string, func } from 'prop-types';
 import { connect } from 'react-redux';
 import { getQuestion, getToken } from '../actions';
+import BtnConfig from './ButtonConfig';
 
 class LoginForm extends Component {
   constructor(props) {
@@ -11,7 +12,7 @@ class LoginForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
 
     this.state = {
-      email: '',
+      gravatarEmail: '',
       name: '',
     };
   }
@@ -24,15 +25,16 @@ class LoginForm extends Component {
   async handleSubmit(event) {
     event.preventDefault();
     const { requestToken, history, requestQuestions } = this.props;
-    await requestToken();
+    await requestToken(this.state);
     const { token } = this.props;
     history.push('/game');
-    localStorage.setItem('token', token);
     requestQuestions(token);
+    // playerData(;
   }
 
   render() {
-    const { name, email } = this.state;
+    const { name, gravatarEmail } = this.state;
+    const { history } = this.props;
     const regex = /^\w+([.-_]?\w+)*@\w+([.-_]?\w+)*(\.\w{2,3})+$/;
     const nameLength = 0;
 
@@ -44,9 +46,9 @@ class LoginForm extends Component {
               Email:
               <input
                 id="input-gravatar-email"
-                name="email"
+                name="gravatarEmail"
                 onChange={ this.handleInput }
-                value={ email }
+                value={ gravatarEmail }
                 data-testid="input-gravatar-email"
                 autoComplete="off"
               />
@@ -68,8 +70,9 @@ class LoginForm extends Component {
           type="submit"
           value="Play"
           data-testid="btn-play"
-          disabled={ !email.match(regex) || name.length <= nameLength }
+          disabled={ !gravatarEmail.match(regex) || name.length <= nameLength }
         />
+        <BtnConfig history={ history } />
       </form>
     );
   }
@@ -80,8 +83,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  requestToken: () => dispatch(getToken()),
+  requestToken: (data) => dispatch(getToken(data)),
   requestQuestions: (token) => dispatch(getQuestion(token)),
+  // playerData: (data) => dispatch(addPlayer(data)),
 });
 
 LoginForm.propTypes = {
