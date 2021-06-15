@@ -3,9 +3,9 @@ import { connect } from 'react-redux'
 
 class FeedbackHeader extends Component {
   render() {
-    const { name, assertions, score, gravatarEmail } = this.props.playerInfo;
+    const { name, score, gravatarEmail } = this.props.playerInfo;
     return (
-      <div>
+      <header>
         <img 
           src={ gravatarEmail } 
           alt="" 
@@ -15,13 +15,13 @@ class FeedbackHeader extends Component {
         <h2 data-testid="header-player-name" >{ name }</h2>
 
         <p data-testid="header-score">{ score }</p>
-      </div>
+      </header>
     )
   }
 }
 
 const mapStateToProps = (state) => ({
-  playerInfo: state.jogo.player
+  playerInfo: state.jogoReducer.player
 })
 
 export default connect(mapStateToProps)(FeedbackHeader);
