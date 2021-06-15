@@ -4,7 +4,8 @@ const INITIAL_STATE = {
   name: '',
   assertions: 0,
   score: 0,
-  gravatarEmail: '',
+  playerEmail: '',
+  token: '',
 };
 
 const player = (state = INITIAL_STATE, action) => {
@@ -13,10 +14,13 @@ const player = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       name: action.payload.name,
-      gravatarEmail: action.payload.email,
+      playerEmail: action.payload.email,
     };
   case REQUEST_TOKEN:
-    return state;
+    return {
+      ...state,
+      token: action.payload,
+    };
   default:
     return state;
   }

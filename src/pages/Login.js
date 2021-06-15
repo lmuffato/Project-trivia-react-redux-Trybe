@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { login } from '../actions';
+import { login, fetchToken } from '../actions';
 
 class Login extends React.Component {
   constructor() {
     super();
     this.handleChange = this.handleChange.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-    this.sendData = this.sendData.bind(this);
+    this.startGame = this.startGame.bind(this);
 
     this.state = {
       name: '',
@@ -31,19 +31,11 @@ class Login extends React.Component {
     }, () => this.validateFields());
   }
 
-  sendData() {
+  startGame() {
     const { state } = this;
-    const { loginAction } = this.props;
-
-    console.log(state);
-
+    const { loginAction, requestTokenAction } = this.props;
+    requestTokenAction();
     loginAction(state);
-  }
-
-  handleClick() {
-    this.sendData();
-    // const { history } = this.props;
-    // history.push('/game');
   }
 
   render() {
@@ -72,29 +64,32 @@ class Login extends React.Component {
             onChange={ this.handleChange }
           />
         </label>
-        <button
-          type="button"
-          data-testid="btn-play"
-          disabled={ !playButton }
-          onClick={ () => this.handleClick() }
-        >
-          Jogar
-        </button>
+        <Link to="/feedback">
+          <button
+            type="button"
+            data-testid="btn-play"
+            disabled={ !playButton }
+            onClick={ this.startGame }
+          >
+            Jogar
+          </button>
+        </Link>
       </div>
     );
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  // requestTokenAction: (hash) => dispatch(fetchToken(hash)),
+  requestTokenAction: () => dispatch(fetchToken()),
   loginAction: (state) => dispatch(login(state)),
 });
 
 Login.propTypes = {
-  loginAction: PropTypes.func.isRequired,
+  loginAction: PropTypes.func,
+  requestTokenAction: PropTypes.func,
   history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
-};
+    push: PropTypes.func,
+  }),
+}.isRequired;
 
 export default connect(null, mapDispatchToProps)(Login);
