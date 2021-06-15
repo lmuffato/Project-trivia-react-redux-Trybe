@@ -1,21 +1,17 @@
-// export const ACTION_INICIAL = 'ACTION_INICIAL';
+import getQuestionsFromAPI from '../services/api';
 export const REQUEST_API_GAME = 'REQUEST_API_GAME';
+export const GET_QUESTIONS = 'GET_QUESTIONS';
 
-export const requestApiGame = (payload) => ({
+export const requestApiGame = (questionsArray) => ({
   type: REQUEST_API_GAME,
-  payload,
+  results: questionsArray,
 });
 
-const requestApiForGame = async () => {
-  const tokenUser = localStorage.getItem('token');
-  const numOfQuestions = 5;
-  const api = await fetch(`https://opentdb.com/api.php?amount=${numOfQuestions}&token=${tokenUser}`);
-  const treatmentJson = await api.json();
-  return treatmentJson;
-};
+const tokenUser = localStorage.getItem('token');
 
-export const requestQuestion = () => async (dispatch) => {
-  const apiQuestion = await requestApiForGame();
-  console.log(apiQuestion);
-  dispatch(requestApiGame(apiQuestion));
+export const requestQuestionThunk = () => async (dispatch) => {
+  const amountOfQuestions = 5;
+  const questions = await getQuestionsFromAPI(amountOfQuestions, tokenUser);
+  const questionsArray = questions.results;
+  dispatch(requestApiGame(questionsArray));
 };
