@@ -16,7 +16,6 @@ class GameScreen extends React.Component {
 
   async mockApi() {
     let { APItoken } = this.props;
-    APItoken = '9965ae223e2bc65f25134bb13e3f99045e0df2d2b668450da4a676fe8b8e898a';
     const getAPIQuestions = await fetch(`https://opentdb.com/api.php?amount=5&token=${APItoken}`);
     const questions = await getAPIQuestions.json();
     this.setState({ questions });
