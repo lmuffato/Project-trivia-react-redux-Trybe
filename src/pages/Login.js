@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { newEmail, newToken } from '../actions/index';
 import getToken from '../services/dataApi';
 
@@ -94,6 +94,9 @@ class Login extends React.Component {
           onClick={ this.handleClick }
         >
           Jogar
+        </button>
+        <button data-testid="btn-settings" type="button">
+          <Link to="/settings">Configurações</Link>
         </button>
       </form>
     );

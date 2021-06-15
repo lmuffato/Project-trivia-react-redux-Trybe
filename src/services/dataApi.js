@@ -5,4 +5,4 @@ const getToken = () => fetch(tokenRequest)
   .then((json) => json);
 
 export default getToken;
-/* https://opentdb.com/api.php?amount=5&token=${seu-token-aquii} */
+/* https://opentdb.com/api.php?amount=5&token=${seu-toke-naqui} */
