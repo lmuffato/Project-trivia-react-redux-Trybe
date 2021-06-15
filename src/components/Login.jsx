@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { getTokenThunk, login } from '../redux/actions';
 
-export default class Login extends Component {
+class Login extends Component {
   constructor() {
     super();
     this.state = {
@@ -9,6 +13,14 @@ export default class Login extends Component {
       disableButton: true,
     };
     this.handleChange = this.handleChange.bind(this);
+    this.onClick = this.onClick.bind(this);
+  }
+
+  onClick() {
+    const { getToken, setUser } = this.props;
+    const { userName, userEmail } = this.state;
+    setUser(userName, userEmail);
+    getToken();
   }
 
   handleChange(event) {
@@ -46,10 +58,36 @@ export default class Login extends Component {
             placeholder="Digite o seu email"
           />
         </label>
-        <button type="submit" data-testid="btn-play" disabled={ disableButton }>
-          Jogar
-        </button>
+        <Link to="/game">
+          <button
+            type="button"
+            data-testid="btn-play"
+            disabled={ disableButton }
+            onClick={ this.onClick }
+          >
+            Jogar
+          </button>
+        </Link>
+        <Link to="/settings">
+          <button
+            type="button"
+            data-testid="btn-settings"
+          >
+            Configurações
+          </button>
+        </Link>
       </form>
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  getToken: () => dispatch(getTokenThunk()),
+  setUser: (name, email) => dispatch(login(name, email)),
+});
+
+Login.propTypes = {
+  getToken: PropTypes.func,
+}.isRequired;
+
+export default connect(null, mapDispatchToProps)(Login);
