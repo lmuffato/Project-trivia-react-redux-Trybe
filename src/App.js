@@ -3,13 +3,22 @@ import { Route, Switch } from 'react-router';
 import './App.css';
 import Game from './Pages/Game';
 import Login from './Pages/Login';
+import Feedback from './Pages/Feedback';
 
 export default function App() {
   return (
     <div className="App">
       <Switch>
-        <Route exact path="/" component={ <Login /> } />
-        <Route path="/game" component={ <Game /> } />
+        {/* Atenção: Utilizar SEMPRE essa estrutura de Route */}
+        <Route exact path="/">
+          <Login />
+        </Route>
+        <Route path="/game">
+          <Game />
+        </Route>
+        <Route exact path="/feedback">
+          <Feedback />
+        </Route>
       </Switch>
     </div>
   );

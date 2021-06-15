@@ -1,4 +1,6 @@
 import React from 'react';
+import { Redirect } from 'react-router';
+import requestToken from '../Api';
 import './login.css';
 
 class Login extends React.Component {
@@ -9,12 +11,21 @@ class Login extends React.Component {
       email: '',
       isDisabled: true,
       redirect: false,
-      token: 0,
+      theToken: null,
     };
     // bind da função handleChange
     this.handleChange = this.handleChange.bind(this);
     this.isDisabled = this.isDisabled.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.setTokenLocalStorage = this.setTokenLocalStorage.bind(this);
+  }
+
+  // Requisito 2 - função responsavel por salvar no localStorage o token
+  setTokenLocalStorage() {
+    const { theToken } = this.state;
+    if (theToken !== null) {
+      localStorage.setItem('token', JSON.stringify(theToken));
+    }
   }
 
   // captura as informações do jogador atraves do input e atribui ao estado local
@@ -41,11 +52,24 @@ class Login extends React.Component {
       });
     }
   }
+
   // Requisito 2 - Redirenciona para pagina de games e faz a requisição do token na api;
-  
+  async handleClick() {
+    const getToken = await requestToken();
+    // https://pt.stackoverflow.com/questions/369892/como-redirecionar-para-uma-rota-usando-onclick-e-react-router
+    this.setState({
+      redirect: true,
+      theToken: getToken.token,
+    }, () => { this.setTokenLocalStorage(); });
+  }
+
   // Requisito 1 - Implementação da página de login
   render() {
-    const { name, email, isDisabled } = this.state;
+    const { name, email, isDisabled, redirect, theToken } = this.state;
+    console.log(theToken);
+    if (redirect) {
+      return <Redirect to="/game" />;
+    }
     return (
       <form className="form-login">
         <label htmlFor="name">
