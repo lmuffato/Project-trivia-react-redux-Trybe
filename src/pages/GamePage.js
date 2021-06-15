@@ -10,10 +10,10 @@ class GamePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // category: '',
-      // correct_answer: '',
-      // incorrect_answers: [],
-      // question: '',
+      category: '',
+      correctAnswer: '',
+      incorrectAnswers: [],
+      question: '',
     };
 
     this.fetchApi = this.fetchApi.bind(this);
@@ -28,13 +28,42 @@ class GamePage extends React.Component {
     const endpoint = `https://opentdb.com/api.php?amount=5&token=${token}`;
     const request = await fetch(endpoint);
     const data = await request.json();
+    const trivia = data.results[0];
     console.log(data);
+    // this.setState({
+    //   category: trivia.category,
+    //   correctAnswer: trivia.correctAnswer,
+    //   incorrectAnswers: trivia.incorrectAnswers,
+    //   question: trivia.question,
+    // });
   }
 
   render() {
+    const { category, correctAnswer, incorrectAnswers, question } = this.state;
     return (
       <div>
         <Header />
+        <h4 data-testid="question-category">
+          { category }
+        </h4>
+        <p data-testid="question-text">
+          { question }
+        </p>
+        <button
+          type="button"
+          data-testid="correct-answer"
+        >
+          { correctAnswer }
+        </button>
+        { incorrectAnswers.map((incorrect, index) => (
+          <button
+            type="button"
+            key={ incorrect }
+            data-testid={ `wrong-answer-${index}` }
+          >
+            {incorrect}
+          </button>
+        ))}
       </div>
     );
   }
