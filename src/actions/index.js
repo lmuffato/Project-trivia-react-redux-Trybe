@@ -41,9 +41,9 @@ export const fetchAPIThunk = () => async (dispatch) => {
   // dispatch(getQuestions());
   try {
 
-    const state = getItemFromLocalStorage('state');
+    const token = getItemFromLocalStorage('token');
 
-    const apiData = await fetchAPI(state.token);
+    const apiData = await fetchAPI(token);
     dispatch(addQuestionSuccess(apiData));
   } catch (error) {
     dispatch(addQuestionError({
