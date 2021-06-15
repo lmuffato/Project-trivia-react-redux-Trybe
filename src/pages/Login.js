@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import logo from '../trivia.png';
+import { getApiToken } from '../services/api';
 
 class Login extends React.Component {
   constructor(props) {
@@ -34,12 +35,13 @@ class Login extends React.Component {
   }
 
   render() {
-    const { formErrors, email } = this.state;
-    const { userEmail } = this.props;
+    const { formErrors } = this.state;
     return (
-      <div>
-        <h1>Bem Vindo a Trybe Wallet</h1>
-        <form>
+      <div className="App">
+        <header className="App-header">
+          <img src={ logo } className="App-logo" alt="logo" />
+        </header>
+        <form className="form">
           <div>
             <input
               data-testid="input-player-name"
@@ -57,26 +59,31 @@ class Login extends React.Component {
             />
           </div>
           <div>
-            <Link to="/">
+            <Link to="/game">
               <button
                 data-testid="btn-play"
                 type="button"
                 disabled={ formErrors }
-                onClick={ () => userEmail({ email }) }
+                onClick={ getApiToken }
               >
                 Jogar
               </button>
             </Link>
-
           </div>
         </form>
+        <div className="btn-settings">
+          <Link to="/settings">
+            <button
+              data-testid="btn-settings"
+              type="button"
+            >
+              Configuração
+            </button>
+          </Link>
+        </div>
       </div>
     );
   }
 }
-
-Login.propTypes = {
-  userEmail: PropTypes.func.isRequired,
-};
 
 export default Login;
