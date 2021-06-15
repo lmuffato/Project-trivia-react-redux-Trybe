@@ -63,9 +63,7 @@ export default class Login extends Component {
             Jogar
           </button>
         </form>
-        <Link to="/Settings">
-          <button type="button" data-testid="btn-settings">Settings</button>
-        </Link>
+        <Link to="/Settings" data-testid="btn-settings">Settings</Link>
       </>
     );
   }
