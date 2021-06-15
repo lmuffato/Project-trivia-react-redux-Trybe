@@ -1,4 +1,5 @@
-import { getToken, fetchAPI } from '../services/triviaApi';
+import { fetchAPI } from '../services/triviaApi';
+import { getItemFromLocalStorage } from '../services/storage';
 
 export const GET_QUESTIONS = 'GET_QUESTIONS';
 export const ADD_QUESTIONS_SUCCESS = 'ADD_QUESTIONS';
@@ -21,7 +22,7 @@ export const addQuestionError = (payload) => ({
   payload,
 });
 
-export const userLogin = (payload) => ({
+export const userLoginAction = (payload) => ({
   type: ADD_USER_LOGIN,
   payload,
 });
@@ -39,8 +40,10 @@ export const getAssertions = (payload) => ({
 export const fetchAPIThunk = () => async (dispatch) => {
   // dispatch(getQuestions());
   try {
-    const apiResponse = await getToken();
-    const apiData = await fetchAPI(apiResponse.token);
+
+    const state = getItemFromLocalStorage('state');
+
+    const apiData = await fetchAPI(state.token);
     dispatch(addQuestionSuccess(apiData));
   } catch (error) {
     dispatch(addQuestionError({
