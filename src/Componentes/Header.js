@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import './header.css';
 // import PropTypes from 'prop-types';
 
 class Header extends Component {
@@ -9,7 +10,7 @@ class Header extends Component {
     const nameState = 'Gatinho Fofinho';
     const scoreState = 10;
     return (
-      <header>
+      <header className="header">
         <img
           data-testid="header-profile-picture"
           src={ imgGravatarState }
