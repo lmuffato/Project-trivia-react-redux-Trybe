@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Alternatives from './Alternatives';
-import TrueFalse from './TrueFalse';
 
 export default class Questions extends Component {
   constructor(props) {
@@ -40,16 +39,12 @@ export default class Questions extends Component {
 
     const aleatoryAnswers = this.shuffle(answers);
 
-    if (aleatoryAnswers.length > 2) {
-      return (
-        <Alternatives
-          question={ currentQuestion }
-          aleatoryAnswers={ aleatoryAnswers }
-          correctAnswer={ currentQuestion.correct_answer }
-        />);
-    }
-
-    return <TrueFalse question={ currentQuestion } />;
+    return (
+      <Alternatives
+        question={ currentQuestion }
+        aleatoryAnswers={ aleatoryAnswers }
+        correctAnswer={ currentQuestion.correct_answer }
+      />);
   }
 }
 

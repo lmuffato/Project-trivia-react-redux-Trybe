@@ -6,8 +6,16 @@ const CORRECT = 'correct-answer';
 const INCORRECT = 'wrong-answer';
 
 class Alternatives extends Component {
+  constructor() {
+    super();
+    this.state = {
+      revelaBorda: '',
+    };
+  }
+
   render() {
     const { question, aleatoryAnswers, correctAnswer } = this.props;
+    const { revelaBorda } = this.state;
     const questionReplaced = question.question
       .replace(/&quot;/gi, '"')
       .replace(/&#039;/gi, '\'');
@@ -17,34 +25,17 @@ class Alternatives extends Component {
         <p data-testid="question-category">{question.category}</p>
         <p data-testid="question-text">{questionReplaced}</p>
         <div className="answers">
-          <button
-            type="button"
-            data-testid={ aleatoryAnswers[0] === correctAnswer ? CORRECT : INCORRECT }
-          >
-            {aleatoryAnswers[0]}
-
-          </button>
-          <button
-            type="button"
-            data-testid={ aleatoryAnswers[1] === correctAnswer ? CORRECT : INCORRECT }
-          >
-            {aleatoryAnswers[1]}
-
-          </button>
-          <button
-            type="button"
-            data-testid={ aleatoryAnswers[2] === correctAnswer ? CORRECT : INCORRECT }
-          >
-            {aleatoryAnswers[2]}
-
-          </button>
-          <button
-            type="button"
-            data-testid={ aleatoryAnswers[3] === correctAnswer ? CORRECT : INCORRECT }
-          >
-            {aleatoryAnswers[3]}
-
-          </button>
+          {aleatoryAnswers.map((answer, index) => (
+            <button
+              key={ index }
+              className={ revelaBorda }
+              type="button"
+              data-testid={ answer === correctAnswer ? CORRECT : INCORRECT }
+              onClick={ () => { this.setState({ revelaBorda: 'show' }); } }
+            >
+              { answer.replace(/&quot;/gi, '"').replace(/&#039;/gi, '\'') }
+            </button>
+          ))}
         </div>
       </div>
     );
