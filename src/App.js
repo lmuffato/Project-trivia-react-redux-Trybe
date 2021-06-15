@@ -5,6 +5,7 @@ import Game from './Pages/Game';
 import Login from './Pages/Login';
 import Feedback from './Pages/Feedback';
 import Settings from './Pages/Settings';
+import Ranking from './Pages/Ranking';
 
 export default function App() {
   return (
@@ -22,6 +23,8 @@ export default function App() {
         </Route>
         <Route path="/settings">
           <Settings />
+        <Route exact path="/ranking">
+          <Ranking />
         </Route>
       </Switch>
     </div>
