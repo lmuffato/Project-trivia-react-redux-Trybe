@@ -80,11 +80,11 @@ body {
 
 .login > .btnSettings {
   background-color: rgba(0, 0, 0, 0);
-  padding: 0;
-  margin: 0;
-  width: auto;
-  height: 35px;
   float: right;
+  height: 35px;
+  margin: 0;
+  padding: 0;
+  width: auto;
 }
 
 .login > .btnSettings:hover {
