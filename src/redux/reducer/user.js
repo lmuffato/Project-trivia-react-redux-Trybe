@@ -1,14 +1,20 @@
+import {
+  USER_GAMER,
+} from '../actions';
+
 const INITIAL_STATE = {
-  user: {
-    name: '',
-    email: '',
-  },
+  name: '',
+  email: '',
 };
 
 function userReducer(state = INITIAL_STATE, { payload, type }) {
   switch (type) {
-  case '':
-    return state + payload;
+  case USER_GAMER:
+    return {
+      ...state,
+      name: payload.user,
+      email: payload.email,
+    };
   default:
     return state;
   }
