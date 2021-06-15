@@ -1,3 +1,5 @@
+import md5 from 'crypto-js/md5';
+
 export async function fetchToken() {
   const tokenApi = 'https://opentdb.com/api_token.php?command=request';
   try {
@@ -9,19 +11,20 @@ export async function fetchToken() {
   }
 }
 
-// export function fetchToken() {
-//   const tokenApi = 'https://opentdb.com/api_token.php?command=request';
-//   fetch(tokenApi)
-//     .then((response) => response.json());
-//   // .then(({ token }) => token);
-//   return response;
-//   // console.log(data);
-// }
-// {
-//   "response_code":0,
-//   "response_message":"Token Generated Successfully!",
-//   "token":"f00cb469ce38726ee00a7c6836761b0a4fb808181a125dcde6d50a9f3c9127b6"
-// }
+export async function fetchGravatar(email) {
+  email = email.toLowerCase();
+  email = email.replace(/\s/g, '');
+  const hash = md5(email).toString();
+  try {
+    const gravatarAPI = `https://www.gravatar.com/avatar/${hash}`;
+    const response = await fetch(gravatarAPI);
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    return url;
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 export async function fetchQuest(seuTokenAqui) {
   const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${seuTokenAqui}`);
