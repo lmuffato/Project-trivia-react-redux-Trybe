@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { loginAction } from '../actions';
+import * as api from '../services/datasApi';
 
 class Login extends React.Component {
   constructor() {
@@ -10,31 +11,37 @@ class Login extends React.Component {
     this.state = {
       nome: '',
       email: '',
-      isDisabled: true,
+      loggedIn: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.validateLogin = this.validateLogin.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleChange({ target: { value, name } }) {
     this.setState({
       [name]: value,
     });
-    this.validateLogin();
   }
 
-  validateLogin() {
-    const { nome, email } = this.state;
-    if (nome && email !== '') {
-      this.setState({
-        isDisabled: false,
-      });
-    }
+  validateLogin(nome, email) {
+    const re = /[^@]+@[^.]+\..+/g;
+    const emailTest = re.test(String(email).toLocaleLowerCase());
+    const usernameTest = nome.length > 0;
+    return (emailTest && usernameTest);
+  }
+
+  handleClick() {
+    const { saveLogin } = this.props;
+    api.fetchToken().then(({ token }) => localStorage
+      .setItem('token', JSON.stringify(token)));
+    this.setState({ loggedIn: true });
+    saveLogin(this.state);
   }
 
   render() {
-    const { isDisabled } = this.state;
-    const { saveLogin } = this.props;
+    const { nome, email, loggedIn } = this.state;
+    const isDisabled = !this.validateLogin(nome, email);
     return (
       <form>
         <label htmlFor="player-name">
@@ -57,16 +64,16 @@ class Login extends React.Component {
             placeholder="Digite seu e-mail"
           />
         </label>
-        <Link to="/game">
-          <button
-            type="button"
-            onClick={ () => saveLogin(this.state) }
-            disabled={ isDisabled }
-            data-testid="btn-play"
-          >
-            Jogar
-          </button>
-        </Link>
+        {loggedIn ? <Redirect to="/game" />
+          : (
+            <button
+              type="button"
+              onClick={ this.handleClick }
+              disabled={ isDisabled }
+              data-testid="btn-play"
+            >
+              Jogar
+            </button>)}
       </form>
 
     );
