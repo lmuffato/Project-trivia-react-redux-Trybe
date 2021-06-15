@@ -1,6 +1,6 @@
 .App {
-  text-align: center;
   max-height: 100vh;
+  text-align: center;
 }
 
 .App-logo {
@@ -57,6 +57,16 @@
   }
 }
 
+.btn-settings {
+  align-items: center;
+  background-color: #282c34;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 10vh;
+}
+
 .form {
   align-items: center;
   background-color: #282c34;
@@ -65,5 +75,5 @@
   flex-direction: column;
   font-size: calc(10px + 2vmin);
   justify-content: center;
-  min-height: 40vh;
+  min-height: 30vh;
 }
