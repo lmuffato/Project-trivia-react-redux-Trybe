@@ -1,7 +1,7 @@
 body {
   background-color: #b5c7cc;
   color: #407d6c;
-  font-family: Quicksand, sans-serif;
+  font-family: Quicksand , sans-serif;
 }
 
 .login {
@@ -14,11 +14,11 @@ body {
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
-  transition: transform 300ms, box-shadow 300ms;
+  transition: transform 300ms , box-shadow 300ms;
   width: 400px;
 }
 
-.login:before , .login:after {
+.login:before, .login:after {
   border-radius: 40% 45% 35% 40%;
   content: '';
   height: 600px;
@@ -46,7 +46,7 @@ body {
   border: 0;
   border-radius: 5px;
   display: block;
-  font-family: Quicksand, sans-serif;
+  font-family: Quicksand , sans-serif;
   font-size: 16px;
   margin: 15px -10px;
   padding: 10px;
@@ -59,7 +59,7 @@ body {
   border-radius: 5px;
   color: white;
   cursor: pointer;
-  font-family: Quicksand, sans-serif;
+  font-family: Quicksand , sans-serif;
   font-size: 16px;
   margin-left: -5px;
   margin-top: 10px;
