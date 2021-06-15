@@ -22,11 +22,21 @@ class Game extends Component {
     const { apiResult } = this.props;
     const { questionNumber } = this.state;
     const { results } = apiResult;
+    if (results === undefined) return;
     const currQuestion = results[questionNumber];
-    const correctQuestion = (<button type="button" data-testid="correct-answer">{currQuestion.correct_answer}</button>);
+    const correctQuestion = (
+      <button type="button" data-testid="correct-answer">
+        {currQuestion.correct_answer}
+      </button>);
     const arrayInCorretAnswers = currQuestion.incorrect_answers
       .map((answer, index) => (
-        <button type="button" key={ index } data-testid={ `wrong-answer-${index}` }>{ answer }</button>
+        <button
+          type="button"
+          key={ index }
+          data-testid={ `wrong-answer-${index}` }
+        >
+          { answer }
+        </button>
       ));
 
     const arrayAllAnswers = arrayInCorretAnswers.concat(correctQuestion);

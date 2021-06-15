@@ -40,7 +40,6 @@ export const getAssertions = (payload) => ({
 export const fetchAPIThunk = () => async (dispatch) => {
   // dispatch(getQuestions());
   try {
-
     const token = getItemFromLocalStorage('token');
 
     const apiData = await fetchAPI(token);
