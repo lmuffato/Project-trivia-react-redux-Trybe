@@ -6,11 +6,6 @@ import { permutate } from '../services';
 import { QUESTIONS_AMOUNT } from '../constants';
 
 class TriviaGame extends Component {
-  constructor() {
-    super();
-    this.getID = this.getID.bind(this);
-  }
-
   componentDidMount() {
     const { fetchQuestions } = this.props;
     fetchQuestions(localStorage.getItem('token'));
