@@ -2,6 +2,7 @@ import React from 'react';
 import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Timer from './Timer';
 
 class Header extends React.Component {
   handleImage() {
@@ -22,6 +23,7 @@ class Header extends React.Component {
         />
         <h3 data-testid="header-player-name">{name}</h3>
         <h3 data-testid="header-score">Score: 0</h3>
+        <Timer />
       </>
     );
   }
