@@ -1,4 +1,9 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { getToken as getTokenThunk } from '../actions/index';
+// import fetchAPI from '../services/fetchtoken';
 // import logo from '../trivia.png';
 
 class Login extends Component {
@@ -11,6 +16,7 @@ class Login extends Component {
     };
     // this.renderLogo = this.renderLogo.bind(this);
     this.renderLogin = this.renderLogin.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   // renderLogo() {
@@ -31,6 +37,11 @@ class Login extends Component {
     if (prevState.email !== email || prevState.name !== name) {
       return this.handleVerifyLogin();
     }
+  }
+
+  handleClick() {
+    const { sendToken } = this.props;
+    sendToken();
   }
 
   handleChange({ target: { name, value } }) {
@@ -75,13 +86,16 @@ class Login extends Component {
             onChange={ (e) => this.handleChange(e) }
           />
         </label>
-        <button
-          type="submit"
-          data-testid="btn-play"
-          disabled={ isDisabled }
-        >
-          Jogar
-        </button>
+        <Link to="/game">
+          <button
+            type="button"
+            data-testid="btn-play"
+            onClick={ () => this.handleClick() }
+            disabled={ isDisabled }
+          >
+            Jogar
+          </button>
+        </Link>
       </form>
     );
   }
@@ -96,4 +110,16 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapStateToProps = (state) => ({
+  token: state.trivia,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  sendToken: () => dispatch(getTokenThunk()),
+});
+
+Login.propTypes = {
+  sendToken: PropTypes.func.isRequired,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
