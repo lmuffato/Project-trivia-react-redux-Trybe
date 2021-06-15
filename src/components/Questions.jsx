@@ -30,7 +30,8 @@ class Questions extends Component {
 
   countTime() {
     const interval = 1000;
-    setInterval(() => this.setState((prevState) => ({ time: prevState.time - 1 })), interval);
+    setInterval(() => (
+      this.setState((prevState) => ({ time: prevState.time - 1 }))), interval);
   }
 
   selectAnswer({ target }) {
