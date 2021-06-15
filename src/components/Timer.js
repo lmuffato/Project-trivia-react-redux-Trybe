@@ -1,56 +1,45 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
 // referencia https://betterprogramming.pub/building-a-simple-countdown-timer-with-react-4ca32763dda7
 
-export default class Timer extends Component {
+class Timer extends Component {
   constructor() {
-    super()
-      this.state = {
-        seconds: 30,
-      };
-    //   this.componentClearTimer = this.componentClearTimer.bind(this);
+    super();
+    this.state = {
+      seconds: 30,
+    };
   }
 
-//   componentDidMount() {
-//     this.myInterval = setInterval(() => {
-//       const { seconds } = this.state
-
-//         if (seconds > 0) {
-//           this.setState(({ seconds }) => ({
-//             seconds: seconds - 1
-//           }))
-//         }
-//         if (seconds === 0) {
-//           clearInterval(this.myInterval)
-//         }
-//     }, 1000)
-//   }
-
-//   componentClearTimer() {
-//     clearInterval(this.myInterval)
-//   }
-
   componentDidMount() {
+    const UM_SEGUNDO = 1000;
     setInterval(() => {
-      const { seconds } = this.state
-
-        if (seconds > 0) {
-          this.setState(({ seconds }) => ({
-            seconds: seconds - 1
-          }))
-        }
-    }, 1000)
+      const { seconds } = this.state;
+      if (seconds > 0) {
+        this.setState((second) => ({
+          seconds: second - 1,
+        }));
+      }
+    }, UM_SEGUNDO);
   }
 
   render() {
-    const { seconds } = this.state
-      return (
+    const { seconds } = this.state;
+    return (
+      <div>
         <div>
-          { seconds === 0
-            ? <h1>Fim</h1>
-            : <h1>Tempo Restante: { seconds }</h1>
+          {
+            seconds === 0
+              ? <h1>Fim</h1> : (
+                <h1>
+                  Tempo Restante:
+                  { seconds }
+                </h1>
+              )
           }
         </div>
-      )
+      </div>
+    );
   }
 }
+
+export default Timer;
