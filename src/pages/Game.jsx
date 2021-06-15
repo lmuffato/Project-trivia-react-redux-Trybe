@@ -4,7 +4,6 @@ import Question from '../components/Question';
 import getTriviaQuestions from '../utils/triviaApi';
 import Header from '../components/Header';
 
-
 class Game extends Component {
   constructor() {
     super();
