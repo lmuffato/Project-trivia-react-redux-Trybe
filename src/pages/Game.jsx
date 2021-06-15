@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import Question from '../components/Question';
 import getTriviaQuestions from '../utils/triviaApi';
+import Header from '../components/Header';
+
 
 class Game extends Component {
   constructor() {
@@ -43,6 +45,9 @@ class Game extends Component {
       <>
         <p>Questão:</p>
         {(currentQuestion) && <Question currQuestion={ currentQuestion } />}
+
+        <Header />
+        <p>Jogo</p>
       </>
     );
   }
