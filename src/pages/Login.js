@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 import { loginAction } from '../redux/actions';
+import requestToken from '../services/requestToken';
 
 class Login extends Component {
   constructor(props) {
@@ -37,8 +38,10 @@ class Login extends Component {
   }
 
   handleClick() {
-    const { state: { name, email }, props: { loginProps } } = this;
+    requestToken();
+    const { state: { name, email }, props: { loginProps, history } } = this;
     loginProps({ name, email });
+    history.push('/game');
   }
 
   render() {
@@ -67,16 +70,14 @@ class Login extends Component {
               value={ email }
             />
           </label>
-          <Link to="/game">
-            <button
-              type="button"
-              data-testid="btn-play"
-              disabled={ buttonEnable }
-              onClick={ handleClick }
-            >
-              Jogar
-            </button>
-          </Link>
+          <button
+            type="button"
+            data-testid="btn-play"
+            disabled={ buttonEnable }
+            onClick={ handleClick }
+          >
+            Jogar
+          </button>
         </form>
         <Link to="/Settings" data-testid="btn-settings">Settings</Link>
       </>
@@ -92,4 +93,7 @@ export default connect(null, mapDispatchToProps)(Login);
 
 Login.propTypes = {
   loginProps: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
