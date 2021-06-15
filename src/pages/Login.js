@@ -20,9 +20,10 @@ class Login extends Component {
   }
 
   async handleClick() {
-    const { tokenRequest, history } = this.props;
+    const { tokenRequest, history, questionRequest } = this.props;
     await tokenRequest(() => {
       const { token } = this.props;
+      console.log(token);
       localStorage.setItem('token', token);
       questionRequest(token);
       history.push('/game');
@@ -98,13 +99,13 @@ Login.propTypes = {
   tokenRequest: func,
 }.isRequired;
 
-const mapStateToProps = (state) => {
-  console.log(state);
-};
+const mapStateToProps = (state) => ({
+  token: state.game.token,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   tokenRequest: (callback) => dispatch(getToken(callback)),
-  questionRequest: (callback) => dispatch(getQuestion(callback)),
+  questionRequest: (token) => dispatch(getQuestion(token)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

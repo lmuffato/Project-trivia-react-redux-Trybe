@@ -1,5 +1,5 @@
 import tokenFetch from '../service/tokenFetch';
-// import questionsFetch from '../service/questionsFetch';
+import questionsFetch from '../service/questionsFetch';
 
 export const REQUEST_API = 'REQUEST_API';
 export const REQUEST_TOKEN = 'REQUEST_TOKEN';
@@ -32,16 +32,21 @@ export function questionsFail(payload) {
     payload,
   };
 }
-export const getQuestion = (token) => async (dispatch) => {
-  dispatch(requestApi());
-  try {
-    const questions = await questionsFetch(token);
-    dispatch(questionsSuccess(questions));
-  } catch (error) {
-    dispatch(questionsFail(error));
-  }
-};
+// export const getQuestion = (token) => async (dispatch) => {
+//   dispatch(requestApi());
+//   try {
+//     const questions = await questionsFetch(token);
+//     dispatch(questionsSuccess(questions));
+//   } catch (error) {
+//     dispatch(questionsFail(error));
+//   }
+// };
 
+export const getQuestion = (token) => async (dispatch) => {
+  console.log(token);
+  dispatch(requestApi());
+  questionsFetch(token).then((questions) => dispatch(questionsSuccess(questions)));
+};
 export const getToken = (callback) => (dispatch) => {
   dispatch(requestApi());
   tokenFetch()
