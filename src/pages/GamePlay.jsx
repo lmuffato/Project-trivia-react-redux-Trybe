@@ -7,7 +7,9 @@ import Header from '../components/Header';
 class GamePlay extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { };
+    this.state = {
+      index: 0,
+    };
     this.renderQuestions = this.renderQuestions.bind(this);
   }
 
@@ -66,11 +68,17 @@ class GamePlay extends React.Component {
 
   renderQuestions() {
     const { questions } = this.props;
+    const { index } = this.state;
+    console.log(questions[index]);
+
+    // const filter = questions.filter((question, index) => question[index] );
+
     return (
       <div>
         {
-          questions.map((e) => (e.type === 'boolean'
-            ? this.renderBooleanQuestion(e) : this.renderMultipleQuestion(e)))
+          questions[index].type === 'boolean'
+            ? this.renderBooleanQuestion(questions[index])
+            : this.renderMultipleQuestion(questions[index])
         }
       </div>
     );
