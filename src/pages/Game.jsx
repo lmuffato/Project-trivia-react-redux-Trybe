@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import Header from '../Components/Header';
+import Header from '../components/Header';
+import TriviaGame from '../components/TriviaGame';
 
 // Creio que meu requesito seja aqui
 
@@ -9,6 +10,7 @@ class Game extends Component {
       <div>
         Game
         <Header />
+        <TriviaGame />
       </div>
     );
   }

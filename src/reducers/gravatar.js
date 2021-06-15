@@ -1,4 +1,4 @@
-import { GRAVATARVATAR } from '../constants';
+import { GET_GRAVATAR } from '../constants';
 
 const INITIAL_STATE = {
   url: '',
@@ -6,7 +6,7 @@ const INITIAL_STATE = {
 
 const gravatar = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-  case GRAVATARVATAR:
+  case GET_GRAVATAR:
     return { ...state, url: action.payload };
   default:
     return state;
