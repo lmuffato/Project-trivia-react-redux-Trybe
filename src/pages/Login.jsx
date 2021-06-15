@@ -1,20 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { addLogin } from '../redux/actions';
+import { Link } from 'react-router-dom';
+import { addLogin, getToken } from '../redux/actions';
 import logo from '../trivia.png';
 
 class Login extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
 
     this.handleChanges = this.handleChanges.bind(this);
     this.validateLogin = this.validateLogin.bind(this);
+    this.handleApi = this.handleApi.bind(this);
 
     this.state = {
       name: '',
       email: '',
     };
+  }
+
+  handleApi() {
+    const { token } = this.props;
+    token();
   }
 
   handleChanges({ target: { name, value } }) {
@@ -66,7 +73,10 @@ class Login extends React.Component {
             data-testid="btn-play"
             onClick={ () => login({ name, email }) }
           >
-            Jogar
+            <Link to="/play" onClick={ this.handleApi }>
+              Jogar
+            </Link>
+
           </button>
         </form>
       </header>
@@ -75,7 +85,9 @@ class Login extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  login: (userInfo) => dispatch(addLogin(userInfo)) });
+  login: (userInfo) => dispatch(addLogin(userInfo)),
+  token: (saveToken) => dispatch(getToken(saveToken)),
+});
 
 Login.propTypes = {
   login: PropTypes.func,

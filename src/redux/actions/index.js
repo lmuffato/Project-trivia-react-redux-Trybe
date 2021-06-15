@@ -1,10 +1,15 @@
+<<<<<<< HEAD
 import { LOGIN, GET_QUESTIONS, GET_TOKEN, REQUEST_API } from './actionsTypes';
+=======
+import { LOGIN, GET_TOKEN } from './actionsTypes';
+>>>>>>> b00ebf84f17daae3ee9186216743db13b079c199
 
 export const addLogin = (userInfo) => ({
   type: LOGIN,
   payload: { ...userInfo },
 });
 
+<<<<<<< HEAD
 export const requestAPI = () => ({ type: REQUEST_API });
 
 export const addToken = () => ({
@@ -60,3 +65,25 @@ export async function fetchQuestion(token) {
       .then((response) => dispatch(updateCurrencies(response)));
   };
 } */
+=======
+export const addToken = (saveToken) => {
+  localStorage.setItem('token', saveToken);
+  return {
+    type: GET_TOKEN,
+    payload: saveToken,
+  };
+};
+
+const fetchApi = async () => {
+  const response = await fetch('https://opentdb.com/api_token.php?command=request');
+  const date = await response.json();
+  return date;
+};
+
+export const getToken = () => (dispatch) => {
+  fetchApi()
+    .then((res) => {
+      dispatch(addToken(res.token));
+    });
+};
+>>>>>>> b00ebf84f17daae3ee9186216743db13b079c199
