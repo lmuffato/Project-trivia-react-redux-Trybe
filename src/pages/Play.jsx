@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 // import PropTypes from 'prop-types';
 
 class Play extends Component {
   render() {
     return (
-      <div>
+      <main>
         Play
-      </div>
+      </main>
     );
   }
 }
@@ -14,5 +15,12 @@ class Play extends Component {
 // Play.propTypes = {
 
 // };
+const mapStateToProps = (state) => ({
+  questions: state.player.questions,
+});
 
-export default Play;
+mapDispatchToProps = (dispatch) => ({
+  
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Play);
