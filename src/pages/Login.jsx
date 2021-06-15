@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { userLoginAction } from '../actions';
 import { getToken } from '../services/triviaApi';
+import Tooltip from '../components/buttonSettings';
 import '../css/Login.css';
 
 class Login extends React.Component {
@@ -49,14 +50,7 @@ class Login extends React.Component {
     return (
       <form onSubmit={ this.login }>
         <div className="login">
-          <button
-            type="button"
-            display="none"
-            className="btnSettings"
-            data-testid="btn-settings"
-          >
-            <img src="https://icongr.am/fontawesome/cog.svg?size=40&color=427d6c" alt="Settings" />
-          </button>
+          <Tooltip />
           <h1>Trybia - Login</h1>
           <input
             type="text"
