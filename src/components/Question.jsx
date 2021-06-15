@@ -29,7 +29,7 @@ class Question extends Component {
         { incorrectAnswer.map((quest, index) => (
           <button
             key={ index }
-            data-test-id={ `wrong-answer-${index}` }
+            data-testid={ `wrong-answer-${index}` }
             type="button"
           >
             { quest }
