@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { FcSettings } from 'react-icons/fc';
 import { fetchToken } from '../redux/actions';
 
 class Login extends React.Component {
@@ -66,6 +67,13 @@ class Login extends React.Component {
           >
             Jogar:
           </button>
+          <Link to="/configuracoes">
+            <FcSettings
+              style={ { fontSize: '1.8em' } }
+              type="button"
+              data-testid="btn-settings"
+            />
+          </Link>
         </Link>
       </form>
     );
