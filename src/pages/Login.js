@@ -54,7 +54,7 @@ export default class Login extends Component {
         />
         <button
           disabled={ isButtonDisabled }
-          type="submit"
+          type="button"
           data-testid="btn-play"
         >
           LOGIN
