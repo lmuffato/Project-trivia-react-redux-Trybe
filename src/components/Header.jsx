@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { string } from 'prop-types';
-import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 
 class Header extends Component {
@@ -26,8 +25,4 @@ Header.propTypes = {
   email: string,
 }.isRequired;
 
-const mapStateToProps = ({ UserInfo: { name, email } }) => ({
-  name, email,
-});
-
-export default connect(mapStateToProps)(Header);
+export default Header;
