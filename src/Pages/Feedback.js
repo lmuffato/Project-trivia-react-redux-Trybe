@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import Header from '../Componentes/Header';
 // import PropTypes from 'prop-types';
 
@@ -10,6 +11,7 @@ class Feedback extends React.Component {
     this.feedbackMensage = this.feedbackMensage.bind(this);
   }
 
+  // Requisito 13 (Método de mensagens de feedback)
   feedbackMensage() {
     // const { assertionsState } = this.props;
     const simulatingHits = 1;
@@ -21,10 +23,34 @@ class Feedback extends React.Component {
   }
 
   render() {
+    // const { assertionsState, scoreState } = this.props;
+    const scoreState = 100;
+    const assertionsState = 5;
     return (
       <div>
+        {/* Requisito 12 */}
         <Header />
-        <p data-testid="feedback-text">{ this.feedbackMensage() }</p>
+        {/* Requisito 13 */}
+        <div>
+          <p data-testid="feedback-text">{ this.feedbackMensage() }</p>
+        </div>
+        {/* Requisito 14 */}
+        <section>
+          <p data-testid="feedback-total-score">
+            { `Placar final: ${scoreState}` }
+          </p>
+          <p data-testid="feedback-total-question">
+            { `Você acertou ${assertionsState} questões` }
+          </p>
+          <div>
+            <Link to="/">
+              <button data-testid="btn-play-again" type="button">Jogar novamente</button>
+            </Link>
+            <Link to="/ranking">
+              <button data-testid="btn-ranking" type="button">Ver Ranking</button>
+            </Link>
+          </div>
+        </section>
       </div>
     );
   }
@@ -32,10 +58,12 @@ class Feedback extends React.Component {
 
 // Feedback.propTypes = {
 //   assertionsState: PropTypes.number.isRequired,
+//   scoreState: PropTypes.number.isRequired,
 // };
 
 // const mapStateProps = (state) => ({
 //   assertionsState: state.player.assertions,
+//   scoreState: state.player.score,
 // });
 
 export default connect(null, null)(Feedback);
