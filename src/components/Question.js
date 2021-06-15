@@ -3,15 +3,24 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 class Question extends Component {
+  setBorderColor() {
+    const options = document.querySelectorAll('#options > button');
+    options.forEach((op) => {
+      if (op.attributes[1].value !== 'correct-answer') {
+        op.style.border = '3px solid rgb(255, 0, 0)';
+      } else {
+        op.style.border = '3px solid rgb(6, 240, 15)';
+      }
+    });
+  }
+
   render() {
     const { idQuestion, questions } = this.props;
     let alternatives = [];
-    if (questions[idQuestion].type !== 'boolean') {
-      alternatives = [
-        ...questions[idQuestion].incorrect_answers,
-        questions[idQuestion].correct_answer,
-      ];
-    }
+    alternatives = [
+      ...questions[idQuestion].incorrect_answers,
+      questions[idQuestion].correct_answer,
+    ];
     return (
       <div>
         <div data-testid="question-category">
@@ -22,7 +31,7 @@ class Question extends Component {
             { `Question ${idQuestion + 1}: ${questions[idQuestion].question}` }
           </p>
         </div>
-        <div>
+        <div id="options">
           { alternatives
             .map((alt, i) => (
               <button
@@ -32,6 +41,7 @@ class Question extends Component {
                   questions[idQuestion].incorrect_answers
                     .includes(alt) ? `wrong-answer-${i}` : 'correct-answer'
                 }
+                onClick={ this.setBorderColor }
               >
                 { alt }
               </button>
