@@ -24,7 +24,7 @@ class Login extends Component {
     const { name } = this.state;
     getPlayerName(name);
     await tokenRequest(() => {
-      const { token } = this.props;
+      const { token, questionRequest } = this.props;
       console.log(token);
       localStorage.setItem('token', token);
       questionRequest(token);
