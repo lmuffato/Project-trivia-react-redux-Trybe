@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 
 class Question extends Component {
   render() {
-    const { currQuestion } = this.props;
+    const { currQuestion, stopTimer, timeLeft } = this.props;
+    const isTimeUp = timeLeft === 0;
     const {
       category,
       question,
@@ -23,6 +24,8 @@ class Question extends Component {
         <button
           type="button"
           data-testid="correct-answer"
+          onClick={ stopTimer }
+          disabled={ isTimeUp }
         >
           { correctAnswer }
         </button>
@@ -31,6 +34,7 @@ class Question extends Component {
             key={ index }
             data-testid={ `wrong-answer-${index}` }
             type="button"
+            disabled={ isTimeUp }
           >
             { quest }
           </button>
@@ -47,6 +51,8 @@ Question.propTypes = {
     incorrect_answers: PropTypes.arrayOf(PropTypes.string),
     correct_answer: PropTypes.string,
   }).isRequired,
+  stopTimer: PropTypes.func.isRequired,
+  timeLeft: PropTypes.number.isRequired,
 };
 
 export default Question;
