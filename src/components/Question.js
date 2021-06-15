@@ -25,7 +25,7 @@ class Question extends Component {
   }
 
   setNextButton() {
-    const { buttonnext } = this.state;
+    // const { buttonnext } = this.state;
     this.setState({
       buttonnext: true,
     });
