@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
-export default class Login extends Component {
-  constructor() {
-    super();
+import { loginAction } from '../redux/actions';
+
+class Login extends Component {
+  constructor(props) {
+    super(props);
     this.state = {
       name: '',
       email: '',
@@ -11,6 +16,7 @@ export default class Login extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.checkInputs = this.checkInputs.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   checkInputs() {
@@ -29,8 +35,14 @@ export default class Login extends Component {
     this.checkInputs();
   }
 
+  handleClick() {
+    const { state: { name, email }, props: { loginProps } } = this;
+    loginProps({ name, email });
+  }
+
   render() {
     const { email, name, buttonEnable } = this.state;
+    const { handleClick, handleChange } = this;
     return (
       <form>
         <label htmlFor="name">
@@ -39,7 +51,7 @@ export default class Login extends Component {
             id="name"
             name="name"
             data-testid="input-player-name"
-            onChange={ this.handleChange }
+            onChange={ handleChange }
             value={ name }
           />
         </label>
@@ -49,18 +61,31 @@ export default class Login extends Component {
             id="email"
             name="email"
             data-testid="input-gravatar-email"
-            onChange={ this.handleChange }
+            onChange={ handleChange }
             value={ email }
           />
         </label>
-        <button
-          type="submit"
-          data-testid="btn-play"
-          disabled={ buttonEnable }
-        >
-          Jogar
-        </button>
+        <Link to="/game">
+          <button
+            type="button"
+            data-testid="btn-play"
+            disabled={ buttonEnable }
+            onClick={ handleClick }
+          >
+            Jogar
+          </button>
+        </Link>
       </form>
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  loginProps: (payload) => dispatch(loginAction(payload)),
+});
+
+export default connect(null, mapDispatchToProps)(Login);
+
+Login.propTypes = {
+  loginProps: PropTypes.func.isRequired,
+};
