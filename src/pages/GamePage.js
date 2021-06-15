@@ -24,17 +24,22 @@ class GamePage extends React.Component {
   }
 
   async fetchApi() {
-    const token = localStorage.getItem('token');
-    const endpoint = `https://opentdb.com/api.php?amount=5&token=${token}`;
-    const request = await fetch(endpoint);
-    const data = await request.json();
-    console.log(data);
-    // this.setState({
-    //   category: trivia.category,
-    //   correctAnswer: trivia.correctAnswer,
-    //   incorrectAnswers: trivia.incorrectAnswers,
-    //   question: trivia.question,
-    // });
+    const getToken = localStorage.getItem('token');
+    const endpoint = `https://opentdb.com/api.php?amount=5&token=${getToken}`;
+    try {
+      const request = await fetch(endpoint);
+      const data = await request.json();
+      console.log(data);
+      const trivia = data.results[0];
+      this.setState({
+        category: trivia.category,
+        correctAnswer: trivia.correct_answer,
+        incorrectAnswers: trivia.incorrect_answers,
+        question: trivia.question,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   render() {
