@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { userLogin } from '../actions';
+import { userLoginAction } from '../actions';
 import '../css/Login.css';
-
 
 class Login extends React.Component {
   constructor(props) {
@@ -39,7 +38,7 @@ class Login extends React.Component {
     this.setState({ redirect: true });
     const { email, name } = this.state;
     const { userLogin } = this.props;
-    userLogin({email, name});
+    userLogin({ email, name });
   }
 
   render() {
@@ -78,11 +77,10 @@ class Login extends React.Component {
       </form>
     );
   }
-
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  userLogin: (payload) => dispatch(userLogin(payload)),
+  userLogin: (payload) => dispatch(userLoginAction(payload)),
 });
 
 Login.propTypes = {

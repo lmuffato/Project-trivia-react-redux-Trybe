@@ -1,4 +1,4 @@
-import { getToken, fetchAPI } from '../services/triviaApi'
+import { getToken, fetchAPI } from '../services/triviaApi';
 
 export const GET_QUESTIONS = 'GET_QUESTIONS';
 export const ADD_QUESTIONS_SUCCESS = 'ADD_QUESTIONS';
@@ -21,7 +21,7 @@ export const addQuestionError = (payload) => ({
   payload,
 });
 
-export const userLogin = (payload) => ({
+export const userLoginAction = (payload) => ({
   type: ADD_USER_LOGIN,
   payload,
 });

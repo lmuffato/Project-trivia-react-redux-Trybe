@@ -12,7 +12,7 @@ const INITIAL_STATE = {
 const player = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case ADD_USER_LOGIN:
-    return { ...state, gravatarEmail: action.payload.email, name: action.payload.name};
+    return { ...state, gravatarEmail: action.payload.email, name: action.payload.name };
   case CALCULATE_SCORE:
     return { ...state, score: action.payload };
   case GET_ASSERTIONS:
