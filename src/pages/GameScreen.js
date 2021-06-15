@@ -1,37 +1,34 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import QuestCard from '../components/QuestCard';
 
 class GameScreen extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      questions: {},
-    };
-    this.mockApi = this.mockApi.bind(this);
+  constructor() {
+    super();
+    this.loading = this.loading.bind(this);
   }
 
-  componentDidMount() {
-    this.mockApi();
-  }
-
-  async mockApi() {
-    let { APItoken } = this.props;
-    const getAPIQuestions = await fetch(`https://opentdb.com/api.php?amount=5&token=${APItoken}`);
-    const questions = await getAPIQuestions.json();
-    this.setState({ questions });
+  loading() {
+    return <h1> Loading </h1>;
   }
 
   render() {
+    const { questions } = this.props;
     return (
       <section>
-        offline
+        { questions === '' ? this.loading() : <QuestCard question={ questions[0] } /> }
       </section>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  APItoken: state.login.token.token,
+  questions: state.login.questions,
 });
+
+GameScreen.propTypes = {
+  questions: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
 
 export default connect(mapStateToProps, null)(GameScreen);
