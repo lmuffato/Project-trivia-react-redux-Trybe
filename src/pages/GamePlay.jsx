@@ -14,9 +14,6 @@ class GamePlay extends React.Component {
     fecthQuestionsAction(token);
   }
 
-  // questionsArray() {
-  // }
-
   renderBooleanQuestion(question) {
     return (
       <div>
@@ -36,8 +33,12 @@ class GamePlay extends React.Component {
   renderQuestions() {
     const { questions } = this.props;
     return (
-      questions.map((e) => (e.type === 'boolean'
-        ? this.renderBooleanQuestion(e) : this.renderMultipleQuestion(e)))
+      <p>
+        {
+          questions.map((e) => (e.type === 'boolean'
+            ? this.renderBooleanQuestion(e) : this.renderMultipleQuestion(e)))
+        }
+      </p>
     );
   }
 
@@ -59,8 +60,8 @@ const mapStateToProps = (state) => ({
   loading: state.triviaReducer.isLoading,
 });
 
-const mapDispatchtoProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch) => ({
   fecthQuestionsAction: (token) => dispatch(fetchQuestions(token)),
 });
 
-export default connect(mapStateToProps, mapDispatchtoProps)(GamePlay);
+export default connect(mapStateToProps, mapDispatchToProps)(GamePlay);

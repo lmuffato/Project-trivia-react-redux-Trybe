@@ -1,7 +1,7 @@
 import { GET_QUESTIONS, GET_QUESTIONS_SUCCESS } from '../actions';
 
 const INITIAL_STATE = {
-  questions: {},
+  questions: [],
   isLoading: false,
 };
 
