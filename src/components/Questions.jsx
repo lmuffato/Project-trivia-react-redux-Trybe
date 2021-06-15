@@ -5,6 +5,7 @@ export default class Questions extends Component {
     super();
     this.state = {
       questions: [],
+      questionNumber: 0,
     };
   }
 
@@ -34,9 +35,8 @@ export default class Questions extends Component {
   }
 
   render() {
-    const { questions } = this.state;
-    const question = questions[0];
-    console.log(questions);
+    const { questions, questionNumber } = this.state;
+    const question = questions[questionNumber];
     return !question ? (
       <p>Loading!</p>
     ) : (
