@@ -66,6 +66,7 @@ export default class Questions extends Component {
               type="button"
               data-testid={ `wrong-answer-${index}` }
               className="wrong-answer"
+              onClick={ () => this.handleClick() }
             >
               {incorrect}
             </button>
