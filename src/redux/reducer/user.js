@@ -1,5 +1,8 @@
 const INITIAL_STATE = {
-  user: {},
+  user: {
+    name: '',
+    email: '',
+  },
 };
 
 function userReducer(state = INITIAL_STATE, { payload, type }) {
