@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { string, func } from 'prop-types';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { getToken } from '../actions/index';
 
 class Login extends Component {
@@ -44,6 +44,8 @@ class Login extends Component {
 
   render() {
     const { name, email, validation } = this.state;
+    const { token } = this.props;
+    console.log(token);
 
     return (
       <section>
@@ -69,16 +71,16 @@ class Login extends Component {
             onChange={ this.handleChange }
           />
         </label>
-        <Link to="./Game">
-          <button
-            type="submit"
-            onClick={ this.handleClick }
-            data-testid="btn-play"
-            disabled={ validation }
-          >
-            Jogar
-          </button>
-        </Link>
+        {/*  <Link to="./Game"> */}
+        <button
+          type="submit"
+          onClick={ () => this.handleClick() }
+          data-testid="btn-play"
+          disabled={ validation }
+        >
+          Jogar
+        </button>
+        {/*  </Link> */}
       </section>
     );
   }
@@ -89,9 +91,16 @@ Login.propTypes = {
   tokenRequest: func,
 }.isRequired;
 
-const mapStateToProps = (state) => ({
-  token: state.game.token,
-});
+const mapStateToProps = (state) => {
+  console.log(state);
+  return ({
+    token: state.game.token,
+  });
+};
+
+/* const mapStateToProps = (state) => {
+  console.log(state);
+}; */
 
 const mapDispatchToProps = (dispatch) => ({
   tokenRequest: () => dispatch(getToken()),

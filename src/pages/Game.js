@@ -4,7 +4,9 @@ class Game extends React.Component {
   render() {
     return (
       <section>
-        <h1>Página do Game em construção...</h1>
+        <h1>Trivia Game!</h1>
+        <h3 data-testid="question-category">CATEGORIA</h3>
+        <h4 data-testid="question-category">QUESTIONS</h4>
       </section>
     );
   }
