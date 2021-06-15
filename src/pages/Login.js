@@ -23,6 +23,7 @@ class Login extends Component {
     const { tokenRequest } = this.props;
     await tokenRequest();
     const { token } = this.props;
+    console.log(token);
     localStorage.setItem('token', token);
   }
 
