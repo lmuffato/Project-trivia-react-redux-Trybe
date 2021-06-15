@@ -2,10 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
-import { getQuestions } from '../services/triviaAPI';
+// import { getQuestions } from '../services/triviaAPI';
 import { getAPIThunk } from '../redux/actions/actions';
 
 class Jogo extends Component {
+  componentDidMount() {
+    const { dispatchAPI } = this.props;
+    dispatchAPI();
+  }
+
   renderGravatarImage() {
     const { email } = this.props;
     const hashMD5 = md5(email).toString();
@@ -18,11 +23,16 @@ class Jogo extends Component {
   }
 
   render() {
-    const { nome, dispatchAPI } = this.props;
-    console.log(getQuestions());
-    console.log(dispatchAPI());
+    const { nome, questions } = this.props;
+    console.log(questions);
+    // console.log(dispatchAPI());
     return (
       <div>
+        {questions.map((question, id) => (
+          <div key={ id }>
+            <h3>{question.question}</h3>
+          </div>
+        ))}
         <header>
           {this.renderGravatarImage()}
           <span data-testid="header-player-name">{ nome }</span>
@@ -52,6 +62,7 @@ Jogo.propTypes = {
 const mapStateToProps = (state) => ({
   email: state.loginReducer.email,
   nome: state.loginReducer.nome,
+  questions: state.jogoReducer.results,
 });
 
 const mapDispatchToProps = (dispatch) => ({

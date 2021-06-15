@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import './Login.css';
 // import { getQuestions } from '../services/triviaAPI';
 import PropTypes from 'prop-types';
 import { user } from '../redux/actions/actions';
@@ -39,39 +40,41 @@ class Login extends React.Component {
     const { getLoginDispatch } = this.props;
     const { state } = this;
     return (
-      <form>
-        <h1>Página de Login</h1>
-        <input
-          type="text"
-          data-testid="input-player-name"
-          placeholder="Nome"
-          onChange={ (e) => this.setState({ nome: e.target.value }) }
-        />
-        <input
-          type="email"
-          data-testid="input-gravatar-email"
-          placeholder="Email"
-          onChange={ (e) => this.setState({ email: e.target.value }) }
-        />
-        <Link to="/jogo">
-          <button
-            type="button"
-            data-testid="btn-play"
-            disabled={ !this.checkLogin() }
-            onClick={ () => getLoginDispatch({ state }) }
-          >
-            Jogar
-          </button>
-        </Link>
-        <Link to="/configuracoes">
-          <button
-            type="button"
-            data-testid="btn-settings"
-          >
-            Configurações
-          </button>
-        </Link>
-      </form>
+      <div className="form-container">
+        <form className="form">
+          <img src="https://www.portsmouthgaslight.com/wp-content/uploads/2016/07/Trivia-Example.png" width="160px" alt="logo" />
+          <input
+            type="text"
+            data-testid="input-player-name"
+            placeholder="Nome"
+            onChange={ (e) => this.setState({ nome: e.target.value }) }
+          />
+          <input
+            type="email"
+            data-testid="input-gravatar-email"
+            placeholder="Email"
+            onChange={ (e) => this.setState({ email: e.target.value }) }
+          />
+          <Link to="/jogo">
+            <button
+              type="button"
+              data-testid="btn-play"
+              disabled={ !this.checkLogin() }
+              onClick={ () => getLoginDispatch({ state }) }
+            >
+              Jogar
+            </button>
+          </Link>
+          <Link to="/configuracoes">
+            <button
+              type="button"
+              data-testid="btn-settings"
+            >
+              Configurações
+            </button>
+          </Link>
+        </form>
+      </div>
     );
   }
 }
