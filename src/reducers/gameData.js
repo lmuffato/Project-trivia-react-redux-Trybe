@@ -3,7 +3,7 @@ import { START_FETCH, FETCH_TOKEN_SUCCESS, FETCH_QUESTIONS_SUCCESS } from '../ac
 const INTIAL_STATE = {
   token: '',
   questions: [],
-  isLoading: false,
+  isLoading: true,
 };
 
 const reducer = (state = INTIAL_STATE, action) => {
@@ -11,7 +11,7 @@ const reducer = (state = INTIAL_STATE, action) => {
   case START_FETCH:
     return { ...state, isLoading: true };
   case FETCH_TOKEN_SUCCESS:
-    return { ...state, token: action.payload, isLoading: false };
+    return { ...state, token: action.payload };
   case FETCH_QUESTIONS_SUCCESS:
     return { ...state, questions: action.payload, isLoading: false };
   default:

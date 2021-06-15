@@ -35,7 +35,6 @@ class LoginForm extends Component {
     const { name, email } = this.state;
     const regex = /^\w+([.-_]?\w+)*@\w+([.-_]?\w+)*(\.\w{2,3})+$/;
     const nameLength = 0;
-
     return (
       <form onSubmit={ this.handleSubmit }>
         <div>
