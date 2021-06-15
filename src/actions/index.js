@@ -1,5 +1,5 @@
 import tokenFetch from '../service/tokenFetch';
-// import questionsFetch from '../service/questionsFetch';
+import questionsFetch from '../service/questionsFetch';
 
 export const REQUEST_API = 'REQUEST_API';
 export const REQUEST_TOKEN = 'REQUEST_TOKEN';
@@ -12,21 +12,21 @@ export function requestApi() {
   };
 }
 
-export function requestToken(token) {
+export function requestToken(payload) {
   return {
     type: REQUEST_TOKEN,
-    payload: token,
+    payload,
   };
 }
 
-/* export function questionsSuccess(payload) {
+export function questionsSuccess(payload) {
   return {
     type: REQUEST_QUESTION_SUCESS,
     payload,
   };
 }
- */
-/* export function questionsFail(payload) {
+
+export function questionsFail(payload) {
   return {
     type: REQUEST_QUESTION_FAIL,
     payload,
@@ -40,22 +40,14 @@ export const getQuestion = (token) => async (dispatch) => {
   } catch (error) {
     dispatch(questionsFail(error));
   }
-}; */
+};
 
-/* export const getToken = () => async (dispatch) => {
+export const getToken = () => async (dispatch) => {
   dispatch(requestApi());
   try {
     const token = await tokenFetch();
-    console.log(token);
-    return dispatch(requestToken(token));
+    dispatch(requestToken(token));
   } catch (error) {
-    console.log('ERROR');
-    dispatch(questionsFail(error))
+    dispatch(questionsFail(error));
   }
-}; */
-
-export const getToken = () => (dispatch) => {
-  dispatch(requestApi());
-  tokenFetch()
-    .then((token) => dispatch(requestToken(token)));
 };

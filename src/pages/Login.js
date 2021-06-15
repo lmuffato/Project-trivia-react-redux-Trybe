@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { string, func } from 'prop-types';
 // import { Link } from 'react-router-dom';
-import { getToken } from '../actions/index';
+import { getToken, questionsFetch } from '../actions/index';
 
 class Login extends Component {
   constructor() {
@@ -25,6 +25,7 @@ class Login extends Component {
     const { token } = this.props;
     console.log(token);
     localStorage.setItem('token', token);
+    questionsFetch
   }
 
   validInput() {
