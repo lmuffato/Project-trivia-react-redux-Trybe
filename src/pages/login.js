@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 // import logo from './trivia.png';
-import token from '../services/API';
+import { token, emailHash } from '../services/API';
 
 class Login extends Component {
   constructor(props) {
     super(props);
 
     this.handleValidation = this.handleValidation.bind(this);
+    this.handleClick = this.handleClick.bind(this);
 
     this.state = {
       usuario: '',
@@ -23,6 +24,12 @@ class Login extends Component {
     if (usuario !== '' && email !== '') {
       this.setState({ disabled: false });
     }
+  }
+
+  handleClick() {
+    const { usuario, email } = this.state;
+    token();
+    emailHash(usuario, email);
   }
 
   render() {
@@ -56,7 +63,7 @@ class Login extends Component {
               type="button"
               data-testid="btn-play"
               disabled={ disabled }
-              onClick={ token }
+              onClick={ this.handleClick }
             >
               Jogar
             </button>
