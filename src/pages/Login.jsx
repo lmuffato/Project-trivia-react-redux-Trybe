@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import fetchToken from '../services/api';
 
-export default function Login() {
+import userEmail from '../redux/actions/userEmail.action';
+import userLogin from '../redux/actions/userLogin.action';
+
+function Login({ emailDispatch, userDispatch }) {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [redirect, setRedirect] = useState(false);
@@ -20,6 +25,8 @@ export default function Login() {
     const sessionToken = await fetchToken();
     localStorage.setItem('token', sessionToken.token);
     setRedirect(true);
+    emailDispatch(email);
+    userDispatch(name);
   };
 
   return (
@@ -50,3 +57,15 @@ export default function Login() {
     </div>
   );
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  emailDispatch: (email) => dispatch(userEmail(email)),
+  userDispatch: (user) => dispatch(userLogin(user)),
+});
+
+Login.propTypes = {
+  emailDispatch: PropTypes.func.isRequired,
+  userDispatch: PropTypes.func.isRequired,
+};
+
+export default connect(null, mapDispatchToProps)(Login);

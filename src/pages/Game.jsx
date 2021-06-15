@@ -1,7 +1,9 @@
 import React from 'react';
 
+import Header from '../components/Header';
+
 export default function Game() {
   return (
-    <h1>Page Game</h1>
+    <Header />
   );
 }
