@@ -1,0 +1,99 @@
+body {
+  background-color: #b5c7cc;
+  color: #407d6c;
+  font-family: Quicksand, sans-serif;
+}
+
+.login {
+  background-color: #f3f3f3;
+  border-radius: 10px;
+  box-shadow: 5px 10px 10px #02809033;
+  left: 50%;
+  overflow: hidden;
+  padding: 40px 30px 30px;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform 300ms, box-shadow 300ms;
+  width: 400px;
+}
+
+.login:before , .login:after {
+  border-radius: 40% 45% 35% 40%;
+  content: '';
+  height: 600px;
+  position: absolute;
+  width: 600px;
+  z-index: -1;
+}
+
+.login:before {
+  animation: wawes 6s infinite linear;
+  background-color: #407d6c1a;
+  bottom: -130%;
+  left: 40%;
+}
+
+.login:after {
+  animation: wawes 7s infinite;
+  background-color: #407d6c33;
+  bottom: -125%;
+  left: 35%;
+}
+
+.login > input {
+  background: white;
+  border: 0;
+  border-radius: 5px;
+  display: block;
+  font-family: Quicksand, sans-serif;
+  font-size: 16px;
+  margin: 15px -10px;
+  padding: 10px;
+  width: 100%;
+}
+
+.login > button {
+  background-color: #7db290;
+  border: 0;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  font-family: Quicksand, sans-serif;
+  font-size: 16px;
+  margin-left: -5px;
+  margin-top: 10px;
+  padding: 10px 0;
+  text-transform: uppercase;
+  transition: background-color 300ms;
+  width: 80px;
+}
+
+.login > button:hover {
+  background-color: #407d6c;
+}
+
+.login > button:disabled {
+  background-color: gray;
+  cursor: not-allowed;
+}
+
+@keyframes wawes {
+
+  from {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+a {
+  bottom: 10px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+  position: absolute;
+  right: 10px;
+  text-decoration: none;
+}
