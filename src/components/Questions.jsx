@@ -20,11 +20,23 @@ export default class Questions extends Component {
     this.setState({ questions });
   }
 
+  handleClick() {
+    const green = '3px solid rgb(6, 240, 15)';
+    const red = '3px solid rgb(255, 0, 0)';
+    const right = document.getElementById('correct-answer');
+    right.style.border = green;
+    const wrong = document.getElementsByClassName('wrong-answer');
+    const array = Array.prototype.slice.call(wrong);
+    console.log(array);
+    array.map((button) => {
+      let colorButton = button.stylte
+    });
+  }
+
   render() {
     const { questions } = this.state;
     const question = questions[0];
     console.log(questions);
-    
     return !question ? (
       <p>Loading!</p>
     ) : (
@@ -43,10 +55,8 @@ export default class Questions extends Component {
           <button
             type="button"
             data-testid="correct-answer"
-            onClick={ (e) => {
-              const green = '3px solid rgb(6, 240, 15)';
-              e.target.style.border = green;
-            } }
+            id="correct-answer"
+            onClick={ () => this.handleClick() }
           >
             {question.correct_answer}
           </button>
@@ -55,10 +65,7 @@ export default class Questions extends Component {
               key={ index }
               type="button"
               data-testid={ `wrong-answer-${index}` }
-              onClick={ (e) => {
-                const red = '3px solid rgb(255, 0, 0)';
-                e.target.style.border = red;
-              } }
+              className="wrong-answer"
             >
               {incorrect}
             </button>
