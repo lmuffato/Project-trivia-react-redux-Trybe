@@ -11,7 +11,7 @@ class Ranking extends Component {
           <li data-testid={ `player-score-${index}` } />
         </ul>
         <Link to="/">
-          <button data-testid="btn-go-home" type="submit">Voltar ao início</button>
+          <button data-testid="btn-go-home" type="button">Voltar ao início</button>
         </Link>
       </div>
     );
