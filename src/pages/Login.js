@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import logo from '../trivia.png';
 import { getApiToken } from '../services/api';
+import { setNameAction, setEmailAction } from '../actions';
 
 class Login extends React.Component {
   constructor(props) {
@@ -17,6 +19,7 @@ class Login extends React.Component {
 
   handleChange({ target }) {
     const { value, name } = target;
+
     this.setState({
       [name]: value,
     }, () => { this.handleErrors(); });
@@ -24,6 +27,8 @@ class Login extends React.Component {
 
   handleErrors() {
     const { email, name } = this.state;
+    const { setName, setEmail } = this.props;
+
     const errorCases = [
       !name,
       !email.match(/^\w+@\w+.com$/),
@@ -32,6 +37,9 @@ class Login extends React.Component {
     this.setState({
       formErrors: !formComplete,
     });
+
+    setName(name);
+    setEmail(email);
   }
 
   render() {
@@ -86,4 +94,14 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  setName: (state) => dispatch(setNameAction(state)),
+  setEmail: (state) => dispatch(setEmailAction(state)),
+});
+
+Login.propTypes = {
+  setName: PropTypes.string.isRequired,
+  setEmail: PropTypes.string.isRequired,
+};
+
+export default connect(null, mapDispatchToProps)(Login);
