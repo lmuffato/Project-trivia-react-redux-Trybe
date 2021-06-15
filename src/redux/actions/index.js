@@ -1,3 +1,4 @@
+import md5 from 'crypto-js/md5';
 import { LOGIN, GET_TOKEN } from './actionsTypes';
 
 export const addLogin = (userInfo) => ({
@@ -25,3 +26,23 @@ export const getToken = () => (dispatch) => {
       dispatch(addToken(res.token));
     });
 };
+
+// Actions Relacionadas ao gravatar
+
+const doingRequest = () => ({ type: REQUESTING });
+
+const receiveData = (data, type) => ({
+  type,
+  payload: data,
+});
+
+export function fetchGravatar(email) {
+  const hash = md5(email).toString();
+  const newURL = `https://br.gravatar.com/site/implement/${hash}/`;
+  return (dispatch) => {
+    dispatch(doingRequest());
+    return fetch(newURL)
+      .then((response) => response.json())
+      .then((data) => dispatch(receiveData(data, ADD_GRAVATAR)));
+  };
+}
