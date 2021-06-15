@@ -18,8 +18,8 @@ class Login extends React.Component {
 
     this.handleClick = this.handleClick.bind(this);
     this.validateFields = this.validateFields.bind(this);
-    this.newEmail = this.newEmail.bind(this);
-    this.newName = this.newName.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    // this.newName = this.newName.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -38,24 +38,30 @@ class Login extends React.Component {
     this.setState({ disable: !(emailValidate && nameValidate) }); // Logica dessa linha desenvolvida com a ajuda de: João Nascimento
   }
 
-  newEmail(event) {
+  handleChange({ target: { name, value } }) {
     this.setState({
-      email: event.target.value,
+      [name]: value,
     });
   }
 
-  newName(event) {
-    this.setState({
-      name: event.target.value,
-    });
-  }
+  // newEmail(event) {
+  //   this.setState({
+  //     email: event.target.value,
+  //   });
+  // }
+
+  // newName(event) {
+  //   this.setState({
+  //     name: event.target.value,
+  //   });
+  // }
 
   async handleClick() {
     const tokenTest = await getToken();
     localStorage.setItem('token', JSON.stringify(tokenTest.token));
-    const { email } = this.state;
+    // const { email } = this.state;
     const { addEmail, addToken } = this.props;
-    addEmail(email);
+    addEmail(this.state);
     addToken(tokenTest);
     this.setState({
       shouldRedirect: true,
@@ -72,9 +78,10 @@ class Login extends React.Component {
           <input
             type="email"
             placeholder="Email"
+            name="email"
             id="email-input"
             data-testid="input-gravatar-email"
-            onChange={ this.newEmail }
+            onChange={ this.handleChange }
           />
         </label>
         <br />
@@ -82,9 +89,10 @@ class Login extends React.Component {
           <input
             type="text"
             placeholder="Nome"
+            name="name"
             id="name-input"
             data-testid="input-player-name"
-            onChange={ this.newName }
+            onChange={ this.handleChange }
           />
         </label>
         <button
