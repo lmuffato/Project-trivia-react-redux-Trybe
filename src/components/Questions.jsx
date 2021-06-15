@@ -22,39 +22,39 @@ export default class Questions extends Component {
 
   render() {
     const { questions } = this.state;
+    const question = questions[0];
     console.log(questions);
-    return (
-      // <div />
+    return !question ? (
+      <p>Loading!</p>
+    ) : (
       <div>
-        {questions.map((question, index) => (
-          <div key={ index }>
-            <h4
-              data-testid="question-category"
-            >
-              {question.category}
-            </h4>
-            <p
-              data-testid="question-text"
-            >
-              {question.question}
-            </p>
+        <div>
+          <h4
+            data-testid="question-category"
+          >
+            {question.category}
+          </h4>
+          <p
+            data-testid="question-text"
+          >
+            {question.question}
+          </p>
+          <button
+            type="button"
+            data-testid="correct-answer"
+          >
+            {question.correct_answer}
+          </button>
+          {question.incorrect_answers.map((incorrect, index) => (
             <button
+              key={ index }
               type="button"
-              data-testid="correct-answer"
+              data-testid={ `wrong-answer-${index}` }
             >
-              {question.correct_answer}
+              {incorrect}
             </button>
-            {question.incorrect_answers.map((incorrect, idx) => (
-              <button
-                key={ idx }
-                type="button"
-                data-testid={ `wrong-answer-${index}` }
-              >
-                {incorrect}
-              </button>
-            ))}
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     );
   }
