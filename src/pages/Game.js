@@ -3,6 +3,7 @@ import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getQuestions } from '../services/dataApi';
+import '../styles/Game.css';
 
 class Game extends Component {
   constructor(props) {
@@ -41,6 +42,14 @@ class Game extends Component {
       index: index + 1,
     });
     this.wrongIndex = -1;
+    const buttons = document.getElementsByClassName('button');
+    const buttonsArray = Array.from(buttons);
+    console.log(buttonsArray);
+    buttonsArray.map((button) => {
+      button.className = '';
+      button.className = 'button';
+      return button.className;
+    });
   }
 
   // Função baseada em um dos exemplos da página a seguir: https://www.delftstack.com/pt/howto/javascript/shuffle-array-javascript/
@@ -57,6 +66,8 @@ class Game extends Component {
         <button
           key={ i }
           type="button"
+          name="correct-answer"
+          className="button"
           data-testid="correct-answer"
           onClick={ this.checkAnswer }
         >
@@ -69,6 +80,8 @@ class Game extends Component {
       <button
         key={ i }
         type="button"
+        name="wrong-answer"
+        className="button"
         data-testid={ `wrong-answer-${this.wrongIndex}` }
         onClick={ this.checkAnswer }
       >
@@ -77,7 +90,19 @@ class Game extends Component {
     );
   }
 
-  checkAnswer() {}
+  checkAnswer() {
+    const buttons = document.getElementsByClassName('button');
+    const buttonsArray = Array.from(buttons);
+    console.log(buttonsArray);
+    buttonsArray.map((button) => {
+      if (button.name === 'correct-answer') {
+        return button.classList.add('correctAnswer');
+        // return button.classList;
+      }
+      return button.classList.add('wrongAnswer');
+      //  button.classList;
+    });
+  }
 
   render() {
     const { emailDoUsuario, nomeDoUsuario } = this.props;
