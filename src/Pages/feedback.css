@@ -4,11 +4,11 @@ body {
 }
 
 .feedback-mensage {
-  display: flex;
   align-items: center;
   align-content: flex-end;
-  margin: 100px;
+  display: flex;
   font-size: large;
+  margin: 100px;
 }
 
 .feedback-section {
