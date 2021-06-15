@@ -1,18 +1,31 @@
 import React, { Component } from 'react';
 import Settings from '../components/Settings';
+import { connect } from 'react-redux';
+import { string, func } from 'prop-types';
+import { getToken } from '../actions/index';
 
-export default class Login extends Component {
+class Login extends Component {
   constructor() {
     super();
 
     this.handleChange = this.handleChange.bind(this);
     this.validInput = this.validInput.bind(this);
+    this.handleClick = this.handleClick.bind(this);
 
     this.state = {
       name: '',
       email: '',
       validation: true,
     };
+  }
+
+  async handleClick() {
+    const { tokenRequest, history } = this.props;
+    await tokenRequest(() => {
+      const { token } = this.props;
+      localStorage.setItem('token', token);
+      history.push('/game');
+    });
   }
 
   validInput() {
@@ -32,6 +45,8 @@ export default class Login extends Component {
 
   render() {
     const { name, email, validation } = this.state;
+    const { token } = this.props;
+    console.log(token);
 
     return (
       <section>
@@ -66,7 +81,7 @@ export default class Login extends Component {
         </label>
         <button
           type="submit"
-          onClick={ this.handleClick }
+          onClick={ () => this.handleClick() }
           data-testid="btn-play"
           disabled={ validation }
         >
@@ -76,3 +91,18 @@ export default class Login extends Component {
     );
   }
 }
+
+Login.propTypes = {
+  token: string,
+  tokenRequest: func,
+}.isRequired;
+
+const mapStateToProps = (state) => {
+  console.log(state);
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  tokenRequest: (callback) => dispatch(getToken(callback)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
