@@ -1,8 +1,25 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import '../styles/question.css';
+
 class Question extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      color: false,
+    };
+    this.changeColorAnswer = this.changeColorAnswer.bind(this);
+  }
+
+  changeColorAnswer() {
+    this.setState({
+      color: true,
+    });
+  }
+
   render() {
+    const { color } = this.state;
     const { currQuestion } = this.props;
     const {
       category,
@@ -23,6 +40,8 @@ class Question extends Component {
         <button
           type="button"
           data-testid="correct-answer"
+          onClick={ this.changeColorAnswer }
+          className={ color ? 'correct-selected' : 'no-color' }
         >
           { correctAnswer }
         </button>
@@ -31,6 +50,8 @@ class Question extends Component {
             key={ index }
             data-testid={ `wrong-answer-${index}` }
             type="button"
+            onClick={ this.changeColorAnswer }
+            className={ color ? 'wrong-selected' : 'no-color' }
           >
             { quest }
           </button>
