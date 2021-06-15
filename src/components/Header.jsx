@@ -13,6 +13,7 @@ class Header extends React.Component {
 
   render() {
     const { name } = this.props;
+    console.log(name);
     return (
       <>
         <img
@@ -29,7 +30,7 @@ class Header extends React.Component {
 
 const mapStateToProps = (state) => ({
   email: state.login.email,
-  userName: state.login.name,
+  name: state.login.name,
 });
 
 Header.propTypes = {
