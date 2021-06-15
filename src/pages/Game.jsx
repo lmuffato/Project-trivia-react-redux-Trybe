@@ -12,6 +12,12 @@ class Game extends Component {
   //   };
   // }
 
+  componentDidMount() {
+    const { requestQuestions } = this.props;
+    const token = localStorage.getItem('token');
+    requestQuestions(token);
+  }
+
   render() {
     const { isLoading, player: { name, score, picture } } = this.props;
     return (
