@@ -12,14 +12,6 @@ function Login({ emailDispatch, userDispatch }) {
   const [name, setName] = useState('');
   const [redirect, setRedirect] = useState(false);
 
-  const handleEmail = (evt) => (
-    setEmail(evt.target.value)
-  );
-
-  const handleName = (evt) => (
-    setName(evt.target.value)
-  );
-
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     const sessionToken = await fetchToken();
@@ -35,13 +27,13 @@ function Login({ emailDispatch, userDispatch }) {
         <input
           type="email"
           value={ email }
-          onChange={ handleEmail }
+          onChange={ (event) => setEmail(event.target.value) }
           data-testid="input-gravatar-email"
         />
         <input
           type="text"
           value={ name }
-          onChange={ handleName }
+          onChange={ (event) => setName(event.target.value) }
           data-testid="input-player-name"
         />
         <button
