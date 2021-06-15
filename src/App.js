@@ -6,10 +6,10 @@ export default function App() {
   return (
     <Switch>
       <Route exact path="/" component={ Login } />
-      <Route exact path="/jogo" component={ Game } />
+      <Route exact path="/trivia" component={ Game } />
       <Route exact path="/results" component={ Result } />
       <Route exact path="/ranking" component={ Ranking } />
-      <Route exact path="/config" component={ Config } />
+      <Route exact path="/settings" component={ Config } />
     </Switch>
   );
 }
