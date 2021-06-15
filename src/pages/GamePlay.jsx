@@ -6,28 +6,49 @@ class GamePlay extends React.Component {
   constructor(props) {
     super(props);
     this.state = { };
+    this.renderQuestions = this.renderQuestions.bind(this);
   }
 
   componentDidMount() {
-    this.questionsArray();
-  }
-
-  questionsArray() {
     const { token, fecthQuestionsAction } = this.props;
     fecthQuestionsAction(token);
   }
 
-  renderQuestion() {
+  // questionsArray() {
+  // }
+
+  renderBooleanQuestion(question) {
     return (
       <div>
-        Pergunta
+        Pergunta booleana
       </div>
     );
   }
 
-  render() {
+  renderMultipleQuestion(question) {
     return (
-      <h1>Gameplay</h1>
+      <div>
+        Pergunta multipla escoha
+      </div>
+    );
+  }
+
+  renderQuestions() {
+    const { questions } = this.props;
+    return (
+      questions.map((e) => (e.type === 'boolean'
+        ? this.renderBooleanQuestion(e) : this.renderMultipleQuestion(e)))
+    );
+  }
+
+  render() {
+    const { loading } = this.props;
+    return (
+      <main>
+        <section>
+          { loading ? 'Loading' : this.renderQuestions() }
+        </section>
+      </main>
     );
   }
 }
@@ -35,6 +56,7 @@ class GamePlay extends React.Component {
 const mapStateToProps = (state) => ({
   token: state.player.token,
   questions: state.triviaReducer.questions,
+  loading: state.triviaReducer.isLoading,
 });
 
 const mapDispatchtoProps = (dispatch) => ({
