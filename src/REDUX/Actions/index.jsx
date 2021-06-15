@@ -10,7 +10,7 @@ export function actionLogin(name, email) {
 }
 
 export const loadingRequest = () => ({
-  type: 'LOADING_REQUEST',
+  type: 'IS_LOADING',
 });
 
 export const errorRequest = (error) => ({
@@ -28,13 +28,9 @@ export const successQuestions = (data) => ({
   data,
 });
 
-export const ThunkTrivia = (token) => (dispatch) => {
-  dispatch(loadingRequest());
-
-  return fetch(`https://opentdb.com/api.php?amount=5&token=${token}`)
-    .then((response) => (response.json()))
-    .then((data) => dispatch(successQuestions(data)));
-};
+export const ThunkTrivia = (token) => (dispatch) => (fetch(`https://opentdb.com/api.php?amount=5&token=${token}`)
+  .then((response) => (response.json()))
+  .then((data) => dispatch(successQuestions(data))));
 
 export const ThunkAPI = (name, email) => async (dispatch) => {
   dispatch(loadingRequest());

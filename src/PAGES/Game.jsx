@@ -10,22 +10,36 @@ class Game extends React.Component {
 
     this.state = {
       // hashEmail: '',
-      // Gravatar: {},
+      questions: [],
       index: 0,
-      // time: 30,
+      time: 30,
     };
     this.handleindex = this.handleindex.bind(this);
-    // this.HandleTime = this.HandleTime.bind(this);
+    this.HandleTime = this.HandleTime.bind(this);
   }
 
-  // componentDidMount() {
-  //   this.HandleTime();
-  // }
+  componentDidMount() {
+    const { time } = this.state;
+    const segundo = 1000;
+    const maxTime = 30;
+
+    if (time <= maxTime && time > 0) {
+      this.timeout = setInterval(this.HandleTime, segundo);
+    }
+  }
+
+  componentDidUpdate() {
+    const { time } = this.state;
+    if (time === 0) {
+      clearInterval(this.timeout);
+    }
+  }
 
   handleindex() {
     const { index } = this.state;
+    this.handleAnswers();
 
-    this.setState({ index: index + 1 });
+    this.setState({ index: index + 1, time: 30 });
   }
 
   // Função retirada do site https://www.horadecodar.com.br/2021/05/10/como-embaralhar-um-array-em-javascript-shuffle/
@@ -38,11 +52,13 @@ class Game extends React.Component {
       [arr[i], arr[j]] = [arr[j], arr[i]];
     }
     // Retornando array com aleatoriedade
-    return arr;
+    this.setState({ questions: arr });
   }
 
-  handleAnswers(obj) {
-    const { correct_answer: correctAnswer, incorrect_answers: incorrectAnswers } = obj;
+  handleAnswers() {
+    const { questions } = this.props;
+    const { index: index2 } = this.state;
+    const { correct_answer: correctAnswer, incorrect_answers: incorrectAnswers } = questions[index2];
     const array = incorrectAnswers.map((answer, index) => (
       <button
         type="button"
@@ -65,21 +81,16 @@ class Game extends React.Component {
   }
 
   HandleTime() {
-    // const { time } = this.state;
-    const segundo = 1000;
+    const { time } = this.state;
 
-    const tempoInicial = 30;
-    let tempo = tempoInicial;
-    return setInterval(() => {
-      return <div>{tempo -= 1}</div>;
-    }, segundo);
+    this.setState({ time: time - 1 });
   }
 
   render() {
-    const { index } = this.state;
-    const { questions } = this.props;
+    const { index, time, questions: questions2 } = this.state;
+    const { questions, isLoading } = this.props;
 
-    if (questions !== undefined) {
+    if (isLoading === false) {
       return (
         <section>
           <Header />
@@ -90,7 +101,7 @@ class Game extends React.Component {
           <p data-testid="question-text">
             {questions[index].question}
           </p>
-          {this.handleAnswers(questions[index])}
+          {questions2}
           <button
             type="button"
             data-testid="btn-next"
@@ -98,9 +109,9 @@ class Game extends React.Component {
           >
             Próxima Pergunta
           </button>
-
-          { this.HandleTime() }
-
+          <div>
+            { time }
+          </div>
         </section>
       );
     } return (
@@ -111,6 +122,7 @@ class Game extends React.Component {
 
 const mapStateToProps = (state) => ({
   questions: state.GameReducer.questions.results,
+  isLoading: state.GameReducer.isLoading,
 });
 
 const mapDispatchToProps = () => ({
@@ -122,6 +134,7 @@ const mapDispatchToProps = () => ({
 
 Game.propTypes = {
   questions: PropTypes.arrayOf(PropTypes.objectOf()).isRequired,
+  isLoading: PropTypes.string.isRequired,
   // getTrivia: PropTypes.func.isRequired,
 };
 
