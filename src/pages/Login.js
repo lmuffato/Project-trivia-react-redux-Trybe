@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { login, fetchToken } from '../actions';
+import Timer from '../components/Timer';
 
 class Login extends React.Component {
   constructor() {
@@ -43,6 +44,7 @@ class Login extends React.Component {
 
     return (
       <div>
+        <Timer />
         <h1>Tela de login</h1>
         <label htmlFor="name">
           Name
