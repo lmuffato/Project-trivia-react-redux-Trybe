@@ -1,5 +1,5 @@
 import tokenFetch from '../service/tokenFetch';
-import questionsFetch from '../service/questionsFetch';
+// import questionsFetch from '../service/questionsFetch';
 
 export const REQUEST_API = 'REQUEST_API';
 export const REQUEST_TOKEN = 'REQUEST_TOKEN';
