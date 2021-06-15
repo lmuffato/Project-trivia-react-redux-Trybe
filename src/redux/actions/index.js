@@ -1,4 +1,4 @@
-import { LOGIN, GET_TOKEN } from './actionsTypes';
+import { LOGIN, GET_TOKEN, ADD_GRAVATAR } from './actionsTypes';
 
 export const addLogin = (userInfo) => ({
   type: LOGIN,
