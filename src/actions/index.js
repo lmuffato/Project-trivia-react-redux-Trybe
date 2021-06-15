@@ -1,4 +1,4 @@
-import { getToken, fetchAPI } from '../services/triviaApi'
+import { getToken, fetchAPI } from '../services/triviaApi';
 
 export const GET_QUESTIONS = 'GET_QUESTIONS';
 export const ADD_QUESTIONS_SUCCESS = 'ADD_QUESTIONS';
