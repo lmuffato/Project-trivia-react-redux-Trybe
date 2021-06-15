@@ -37,7 +37,6 @@ export function getQuestion(token) {
   return async (dispatch) => {
     dispatch(startFetch());
     const questions = await fetchQuestion(token);
-    // console.log(questions);
     dispatch(fetchQuestionsSuccess(questions));
   };
 }
