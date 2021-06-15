@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Redirect, Link } from 'react-router';
+import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router';
 import { loginAction, userNameAction } from '../actions';
 
 class Login extends Component {
