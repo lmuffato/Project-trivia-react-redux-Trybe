@@ -1,8 +1,15 @@
-import { HANDLE_CHANGE_USER } from '../actions/actionUser';
+import {
+  HANDLE_CHANGE_USER,
+  GET_TOKEN,
+  GET_TOKEN_SUCCESS,
+  GET_TOKEN_ERROR,
+} from '../actions/actionUser';
 
 const INITIAL_STATE = {
   email: '',
   name: '',
+  isLoading: false,
+  token: {},
 };
 
 const user = (state = INITIAL_STATE, action) => {
@@ -11,6 +18,17 @@ const user = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       [action.payload.name]: action.payload.value,
+    };
+  case GET_TOKEN:
+    return {
+      ...state,
+      isLoading: true,
+    };
+  case GET_TOKEN_SUCCESS || GET_TOKEN_ERROR:
+    return {
+      ...state,
+      isLoading: false,
+      token: action.payload.token,
     };
   default:
     return state;
