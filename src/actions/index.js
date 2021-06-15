@@ -37,13 +37,11 @@ export const getAssertions = (payload) => ({
 });
 
 export const fetchAPIThunk = () => async (dispatch) => {
-  dispatch(getQuestions());
+  // dispatch(getQuestions());
   try {
     const apiResponse = await getToken();
-    const apiData = await fetchAPI(apiResponse);
-    dispatch(addQuestionSuccess({
-      apiResponse: apiData,
-    }));
+    const apiData = await fetchAPI(apiResponse.token);
+    dispatch(addQuestionSuccess(apiData));
   } catch (error) {
     dispatch(addQuestionError({
       apiError: error,
