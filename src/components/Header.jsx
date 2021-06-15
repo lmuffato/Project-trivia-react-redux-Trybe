@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 
 class Header extends React.Component {
   handleImage() {
-    const { email } = this.props;
-    const emailConversion = md5(email).toString();
+    const { gravatarEmail } = this.props;
+    const emailConversion = md5(gravatarEmail).toString();
     const gravatar = `https://www.gravatar.com/avatar/${emailConversion}`;
     return gravatar;
   }
@@ -29,7 +29,7 @@ class Header extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  email: state.login.email,
+  gravatarEmail: state.login.gravatarEmail,
   name: state.login.name,
 });
 

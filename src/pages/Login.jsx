@@ -7,7 +7,7 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
+      gravatarEmail: '',
       name: '',
     };
     this.handleClick = this.handleClick.bind(this);
@@ -23,7 +23,7 @@ class Login extends React.Component {
   }
 
   render() {
-    const { email, name } = this.state;
+    const { gravatarEmail, name } = this.state;
     return (
       <form>
         <label htmlFor="input-player-name">
@@ -43,9 +43,9 @@ class Login extends React.Component {
           <input
             name="email"
             type="email"
-            value={ email }
+            value={ gravatarEmail }
             data-testid="input-gravatar-email"
-            onChange={ (e) => this.setState({ email: e.target.value }) }
+            onChange={ (e) => this.setState({ gravatarEmail: e.target.value }) }
           />
         </label>
         <br />
@@ -53,7 +53,7 @@ class Login extends React.Component {
         <button
           type="button"
           data-testid="btn-play"
-          disabled={ (name === '' || email === '') }
+          disabled={ (name === '' || gravatarEmail === '') }
           onClick={ this.handleClick }
         >
           Jogar
