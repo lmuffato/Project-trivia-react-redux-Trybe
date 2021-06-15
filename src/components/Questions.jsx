@@ -5,24 +5,48 @@ import { connect } from 'react-redux';
 class Questions extends Component {
   constructor(props) {
     super(props);
+
     const { questions } = this.props;
+    this.selectAnswer = this.selectAnswer.bind(this);
+    this.sortQuestions = this.sortQuestions.bind(this);
+
     this.state = {
       questions,
+      question: '',
+      category: '',
       count: 0,
+      gameOn: true,
+      shuffleAnswers: [],
+      correctAnswer: '',
     };
   }
 
-  render() {
+  componentDidMount() {
+    this.sortQuestions();
+  }
+
+  selectAnswer({ target }) {
+    const { correctAnswer } = this.state;
+    if (correctAnswer === target.innerText) console.log('acertou');
+    else console.log('errou');
+    this.setState({ gameOn: false });
+  }
+
+  sortQuestions() {
     const { questions, count } = this.state;
-    const { category, question,
+    const {
+      question,
+      category,
       correct_answer: correctAnswer,
       incorrect_answers: incorrectAnswer } = questions[count];
-    console.log(questions[count]);
-    console.log(incorrectAnswer);
-    const arrayQuestions = [...incorrectAnswer, correctAnswer];
     const sortValue = 0.5;
-    const questionsArray = arrayQuestions.sort(() => Math.random() - sortValue);
-    console.log(arrayQuestions);
+    const shuffleAnswers = [...incorrectAnswer, correctAnswer]
+      .sort(() => Math.random() - sortValue);
+    this.setState({ shuffleAnswers, correctAnswer, question, category });
+  }
+
+  render() {
+    const { question, category, gameOn, shuffleAnswers, correctAnswer } = this.state;
     return (
       <div>
         <div>
@@ -30,16 +54,34 @@ class Questions extends Component {
           <p data-testid="question-text">{question}</p>
         </div>
         <div>
-          {questionsArray.map((query, index) => {
+          {shuffleAnswers.map((query, index) => {
             if (query === correctAnswer) {
               return (
-                <p data-testid="correct-answer" key={ `answer-${index}` }>
-                  <button type="button">{ query }</button>
+                <p
+                  key={ `answer-${index}` }
+                >
+                  <button
+                    data-testid="correct-answer"
+                    onClick={ this.selectAnswer }
+                    type="button"
+                    style={ gameOn ? null : { border: '3px solid rgb(6, 240, 15)' } }
+                  >
+                    { query }
+                  </button>
                 </p>);
             }
             return (
-              <p data-testid={ `wrong-answer-${index}` } key={ `answer-${index}` }>
-                <button type="button">{ query }</button>
+              <p
+                key={ `answer-${index}` }
+              >
+                <button
+                  style={ gameOn ? null : { border: '3px solid rgb(255, 0, 0)' } }
+                  data-testid={ `wrong-answer-${index}` }
+                  onClick={ this.selectAnswer }
+                  type="button"
+                >
+                  { query }
+                </button>
               </p>
             );
           })}
