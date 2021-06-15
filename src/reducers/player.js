@@ -1,25 +1,25 @@
-import { PLAYER } from '../actions';
+import { GET_PLAYER } from '../actions';
 
 const INITIAL_STATE = {
-  player: {
-    name: '',
-    score: 0,
-  },
+  playerName: '',
+  assertions: 0,
+  score: 0,
+  gravatarEmail: '',
 };
 
-const playerStorage = JSON.parse(localStorage.getItem('player'));
-
-const playerFunction = (state = playerStorage || INITIAL_STATE, action) => {
-  console.log(action);
+const player = (state = INITIAL_STATE, action) => {
   const { payload } = action;
   switch (action.type) {
-  case PLAYER:
-    return {
+  case GET_PLAYER:
+    return ({
       ...state,
-      player: { ...payload },
-    };
-  default: return state;
+      playerName: payload.name,
+      gravatarEmail: payload.email,
+    });
+
+  default:
+    return state;
   }
 };
 
-export default playerFunction;
+export default player;

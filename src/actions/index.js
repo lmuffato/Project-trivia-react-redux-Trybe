@@ -5,7 +5,7 @@ export const REQUEST_API = 'REQUEST_API';
 export const REQUEST_TOKEN = 'REQUEST_TOKEN';
 export const REQUEST_QUESTION_SUCESS = 'REQUEST_QUESTION_SUCESS';
 export const REQUEST_QUESTION_FAIL = 'REQUEST_QUESTION_FAIL';
-export const PLAYER = 'PLAYER';
+export const GET_PLAYER = 'GET_PLAYER';
 
 export function requestApi() {
   return {
@@ -17,13 +17,6 @@ export function requestToken(token) {
   return {
     type: REQUEST_TOKEN,
     payload: token,
-  };
-}
-
-export function updatePlayer(player) {
-  return {
-    type: PLAYER,
-    payload: player,
   };
 }
 
@@ -70,3 +63,17 @@ export const getToken = (callback) => (dispatch) => {
       callback();
     });
 };
+
+// export function getName(namePlayer) {
+//   return {
+//     type: GET_NAME,
+//     payload: namePlayer,
+//   };
+// }
+
+export function getPlayer(player) {
+  return {
+    type: GET_PLAYER,
+    payload: player,
+  };
+}

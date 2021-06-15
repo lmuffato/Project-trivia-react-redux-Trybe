@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { string, func } from 'prop-types';
-import { getToken, updatePlayer } from '../actions/index';
+import { getToken, getPlayer } from '../actions/index';
 import Settings from '../components/Settings';
 
 class Login extends Component {
@@ -20,7 +20,9 @@ class Login extends Component {
   }
 
   async handleClick() {
-    const { tokenRequest, history } = this.props;
+    const { tokenRequest, history, dispatchPlayer } = this.props;
+    const { name, email } = this.state;
+    dispatchPlayer({ name, email });
     await tokenRequest(() => {
       const { token } = this.props;
       localStorage.setItem('token', token);
@@ -39,12 +41,6 @@ class Login extends Component {
   handleChange({ target: { name, value } }) {
     this.setState({
       [name]: value,
-    }, () => {
-      const { update } = this.props;
-      const { name: playerName } = this.state;
-      const player = { name: playerName };
-      localStorage.setItem('player', JSON.stringify(player));
-      update(player);
     });
     this.validInput();
   }
@@ -103,13 +99,13 @@ Login.propTypes = {
   tokenRequest: func,
 }.isRequired;
 
-const mapStateToProps = (state) => {
-  console.log(state);
-};
+const mapStateToProps = (state) => ({
+  token: state.game.token,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   tokenRequest: (callback) => dispatch(getToken(callback)),
-  update: (data) => dispatch(updatePlayer(data)),
+  dispatchPlayer: (player) => dispatch(getPlayer(player)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
