@@ -16,16 +16,31 @@ class GamePlay extends React.Component {
 
   renderBooleanQuestion(question) {
     return (
-      <div>
-        Pergunta booleana
-      </div>
+      <button type="button">
+        {question.question}
+      </button>
     );
   }
 
-  renderMultipleQuestion(question) {
+  renderMultipleQuestion(q) {
+    const { correct_answer } = q;
     return (
       <div>
-        Pergunta multipla escoha
+        <p>{q.question}</p>
+        <button type="button" data-testid="correct-answer">
+          { correct_answer }
+        </button>
+        {
+          q.incorrect_answers.map((e, index) => (
+            <button
+              key={ index + 1 }
+              type="button"
+              data-testid={ `wrong-answer-${index}` }
+            >
+              {e}
+            </button>
+          ))
+        }
       </div>
     );
   }
