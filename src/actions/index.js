@@ -6,6 +6,11 @@ const login = (name, email) => ({
   email,
 });
 
+export const timer = (tempo) => ({
+  type: 'TIMER',
+  tempo,
+});
+
 export default login;
 
 export const setQuestions = (questions) => ({ type: 'SET_QUESTIONS', questions });
