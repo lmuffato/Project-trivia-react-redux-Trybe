@@ -29,6 +29,7 @@ export const getAPIThunk = () => async (dispatch) => {
 
   try {
     const fetch = await getQuestions();
+
     dispatch(getAPISuccess(fetch));
   } catch (error) {
     dispatch(getAPIError(error));

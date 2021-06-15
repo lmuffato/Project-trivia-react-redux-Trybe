@@ -10,34 +10,17 @@ const TOTAL_QUESTION_NUMBER = 4;
 class Jogo extends Component {
   constructor(props) {
     super(props);
-    const { questions } = this.props;
+
+    this.nextQuestion = this.nextQuestion.bind(this);
 
     this.state = {
-      questions,
-      randomNumberArray: [],
+      currentIndex: 0,
     };
   }
 
   componentDidMount() {
     const { dispatchAPI } = this.props;
     dispatchAPI();
-  }
-
-  getRandomNumber() {
-    const { randomNumberArray } = this.state;
-    let randomNumber = 0;
-
-    while (randomNumberArray.length < TOTAL_QUESTION_NUMBER) {
-      const random = Math.floor(Math.random() * TOTAL_QUESTION_NUMBER); // 0 e 3
-
-      if (!randomNumberArray.includes(randomNumber)) {
-        this.setState({ randomNumberArray: [...randomNumberArray, random] });
-        randomNumber = random;
-        break;
-      }
-    }
-
-    return randomNumber;
   }
 
   // link: https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
@@ -55,6 +38,18 @@ class Jogo extends Component {
     return array;
   }
 
+  nextQuestion() {
+    const { currentIndex } = this.state;
+    const nextIndex = currentIndex + 1;
+    if (nextIndex < TOTAL_QUESTION_NUMBER) {
+      this.setState({ currentIndex: nextIndex });
+    }
+  }
+
+  toResultsPage() {
+
+  }
+
   renderGravatarImage() {
     const { email } = this.props;
     const hashMD5 = md5(email).toString();
@@ -67,28 +62,33 @@ class Jogo extends Component {
   }
 
   renderQuestions() {
-    const { questions } = this.state;
+    const { currentIndex } = this.state;
+    const { questions } = this.props;
 
     if (questions[0]) {
-      const currentQuestion = questions[0];
-
-      let answers = [
+      const currentQuestion = questions[currentIndex];
+      const answers = [
         currentQuestion.correct_answer,
         ...currentQuestion.incorrect_answers];
-
-      answers = this.shuffle(answers);
+      const aleatoryAnswers = this.shuffle(answers);
 
       if (answers.length > 2) {
         return (
           <div>
-            <span data-testid="question-category">{currentQuestion.category}</span>
+            <p data-testid="question-category">{currentQuestion.category}</p>
             <p data-testid="question-text">{currentQuestion.question}</p>
             <div>
-              <button type="button">{answers[0]}</button>
-              <button type="button">{answers[1]}</button>
-              <button type="button">{answers[2]}</button>
-              <button type="button">{answers[3]}</button>
+              <button type="button">{aleatoryAnswers[0]}</button>
+              <button type="button">{aleatoryAnswers[1]}</button>
+              <button type="button">{aleatoryAnswers[2]}</button>
+              <button type="button">{aleatoryAnswers[3]}</button>
             </div>
+            {
+              currentIndex > TOTAL_QUESTION_NUMBER
+                ? (<button type="button" onClick={ this.nextQuestion }>Proximo</button>)
+                : (<button type="button" onClick={ this.toResultsPage }>Proximo</button>)
+            }
+
           </div>
         );
       }
@@ -101,6 +101,11 @@ class Jogo extends Component {
             <button type="button">True</button>
             <button type="button">False</button>
           </div>
+          {
+            currentIndex > TOTAL_QUESTION_NUMBER
+              ? (<button type="button" onClick={ this.nextQuestion }>Proximo</button>)
+              : (<button type="button" onClick={ this.toResultsPage }>Proximo</button>)
+          }
         </div>
       );
     }
@@ -115,6 +120,7 @@ class Jogo extends Component {
           {this.renderGravatarImage()}
           <span data-testid="header-player-name">{ nome }</span>
           <span data-testid="header-score">0</span>
+
         </header>
         <h1>Página do Jogo</h1>
         {this.renderQuestions()}
