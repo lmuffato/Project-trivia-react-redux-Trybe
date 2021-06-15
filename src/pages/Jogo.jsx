@@ -43,10 +43,10 @@ class Jogo extends Component {
           <span data-testid="question-category">Categoria</span>
           <p data-testid="question-text">texto da pergunta</p>
           <div>
-            <button />
-            <button />
-            <button />
-            <button />
+            <button type="button">question 1</button>
+            <button type="button">question 2</button>
+            <button type="button">question 3</button>
+            <button type="button">question 4</button>
           </div>
         </div>
       </div>
