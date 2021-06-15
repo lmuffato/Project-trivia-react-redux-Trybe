@@ -12,13 +12,14 @@ class Game extends React.Component {
       // hashEmail: '',
       // Gravatar: {},
       index: 0,
+      // time: 30,
     };
     this.handleindex = this.handleindex.bind(this);
+    // this.HandleTime = this.HandleTime.bind(this);
   }
 
   // componentDidMount() {
-  //   const { getTrivia, token } = this.props;
-  //   getTrivia(token);
+  //   this.HandleTime();
   // }
 
   handleindex() {
@@ -63,9 +64,23 @@ class Game extends React.Component {
     return this.shuffleArray(array);
   }
 
+  HandleTime() {
+    // const { time } = this.state;
+    const segundo = 1000;
+
+    const tempoInicial = 30;
+    let tempo = tempoInicial;
+    setInterval(() => {
+      tempo -= 1;
+    }, segundo);
+
+    return <div>{tempo}</div>;
+  }
+
   render() {
     const { index } = this.state;
     const { questions } = this.props;
+
     if (questions !== undefined) {
       return (
         <section>
@@ -85,6 +100,9 @@ class Game extends React.Component {
           >
             Próxima Pergunta
           </button>
+
+          { this.HandleTime() }
+
         </section>
       );
     } return (
