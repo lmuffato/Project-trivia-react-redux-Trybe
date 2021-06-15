@@ -25,3 +25,5 @@ export const getToken = () => (dispatch) => {
       dispatch(addToken(res.token));
     });
 };
+
+// Actions Relacionadas ao gravatar
