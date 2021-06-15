@@ -5,7 +5,7 @@ class Game extends Component {
   render() {
     return (
       <>
-        <h2>Pagina linda do jogo bolado</h2>
+        <h2>Pagina linda do jogo bolado!!!</h2>
         <Header />
       </>
     );
