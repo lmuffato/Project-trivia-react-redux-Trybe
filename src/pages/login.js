@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+// import logo from './trivia.png';
+import token from '../services/API';
 
 class Login extends Component {
   constructor(props) {
@@ -25,28 +28,44 @@ class Login extends Component {
   render() {
     const { disabled } = this.state;
     return (
-      <form>
-        <label htmlFor="name">
-          <input
-            type="text"
-            data-testid="input-player-name"
-            name="usuario"
-            id="name"
-            onChange={ this.handleValidation }
-          />
-        </label>
-        <label htmlFor="email">
-          <input
-            type="text"
-            data-testid="input-gravatar-email"
-            name="email"
-            id="email"
-            onChange={ this.handleValidation }
-          />
-
-        </label>
-        <button type="button" data-testid="btn-play" disabled={ disabled }>Jogar</button>
-      </form>
+      <div>
+        {/* <header className="App-header"> */}
+        {/* <img src={logo} className="App-logo" alt="logo" /> */}
+        {/* </header> */}
+        <form>
+          <label htmlFor="name">
+            <input
+              type="text"
+              data-testid="input-player-name"
+              name="usuario"
+              id="name"
+              onChange={ this.handleValidation }
+            />
+          </label>
+          <label htmlFor="email">
+            <input
+              type="text"
+              data-testid="input-gravatar-email"
+              name="email"
+              id="email"
+              onChange={ this.handleValidation }
+            />
+          </label>
+          <Link to="/game">
+            <button
+              type="button"
+              data-testid="btn-play"
+              disabled={ disabled }
+              onClick={ token }
+            >
+              Jogar
+            </button>
+          </Link>
+        </form>
+        <Link to="/config">
+          <button type="button" data-testid="btn-settings">Configurações</button>
+        </Link>
+      </div>
     );
   }
 }
