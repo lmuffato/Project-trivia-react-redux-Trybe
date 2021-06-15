@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { Redirect, Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { func } from 'prop-types';
 
 import userValidation from '../utils/functions';
 import retrieveData from '../utils/api';
+import { userGamer } from '../redux/actions';
 
 class Login extends Component {
   constructor() {
@@ -23,7 +26,9 @@ class Login extends Component {
   }
 
   handleClick() {
+    const { addUserGamer } = this.props;
     retrieveData();
+    addUserGamer(this.state);
     this.setState({
       toRedirect: true,
     });
@@ -79,4 +84,12 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  addUserGamer: (state) => dispatch(userGamer(state)),
+});
+
+Login.propTypes = {
+  addUserGamer: func.isRequired,
+};
+
+export default connect(null, mapDispatchToProps)(Login);
