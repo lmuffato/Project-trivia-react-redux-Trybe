@@ -13,7 +13,6 @@ class Header extends React.Component {
 
   render() {
     const { name } = this.props;
-    console.log(name);
     return (
       <>
         <img
