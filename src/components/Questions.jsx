@@ -9,7 +9,7 @@ class Questions extends Component {
     const { questions } = this.props;
     this.selectAnswer = this.selectAnswer.bind(this);
     this.sortQuestions = this.sortQuestions.bind(this);
-    this.countTime = this.countTime.bind(this);
+    this.runGame = this.runGame.bind(this);
 
     this.state = {
       questions,
@@ -25,13 +25,23 @@ class Questions extends Component {
 
   componentDidMount() {
     this.sortQuestions();
-    this.countTime();
+    this.runGame();
   }
 
-  countTime() {
-    const interval = 1000;
-    setInterval(() => (
-      this.setState((prevState) => ({ time: prevState.time - 1 }))), interval);
+  runGame() {
+    const oneSecond = 1000;
+    const thritySeconds = 30000;
+    const timer = setInterval(() => {
+      this.setState((prevState) => {
+        if (prevState.time > 0 && prevState.gameOn) {
+          return { time: prevState.time - 1 };
+        }
+      });
+    }, oneSecond);
+    setTimeout(() => {
+      clearInterval(timer);
+      this.setState({ gameOn: false });
+    }, thritySeconds);
   }
 
   selectAnswer({ target }) {
@@ -57,7 +67,7 @@ class Questions extends Component {
   render() {
     const { question, category, gameOn, shuffleAnswers, correctAnswer } = this.state;
     const { time } = this.state;
-    // this.countTime();
+
     return (
       <div>
         <div>
@@ -76,6 +86,7 @@ class Questions extends Component {
                     onClick={ this.selectAnswer }
                     type="button"
                     style={ gameOn ? null : { border: '3px solid rgb(6, 240, 15)' } }
+                    disabled={ !gameOn }
                   >
                     { query }
                   </button>
@@ -90,6 +101,7 @@ class Questions extends Component {
                   data-testid={ `wrong-answer-${index}` }
                   onClick={ this.selectAnswer }
                   type="button"
+                  disabled={ !gameOn }
                 >
                   { query }
                 </button>
