@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { userLoginAction } from '../actions';
+import { getToken } from '../services/triviaApi';
 import '../css/Login.css';
 
 class Login extends React.Component {
@@ -35,6 +36,7 @@ class Login extends React.Component {
 
   login(event) {
     event.preventDefault();
+    localStorage.setItem('token', getToken());
     this.setState({ redirect: true });
     const { email, name } = this.state;
     const { userLogin } = this.props;
@@ -47,6 +49,14 @@ class Login extends React.Component {
     return (
       <form onSubmit={ this.login }>
         <div className="login">
+          <button
+            type="button"
+            display="none"
+            className="btnSettings"
+            data-testid="btn-settings"
+          >
+            <img src="https://icongr.am/fontawesome/cog.svg?size=40&color=427d6c" alt="Settings" />
+          </button>
           <h1>Trybia - Login</h1>
           <input
             type="text"
