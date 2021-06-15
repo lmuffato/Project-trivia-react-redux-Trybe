@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { userLoginAction } from '../actions';
 import { getToken } from '../services/triviaApi';
+import { setToLocalStorage } from '../services/storage';
 import Tooltip from '../components/buttonSettings';
 import '../css/Login.css';
 
@@ -35,11 +36,21 @@ class Login extends React.Component {
     this.setState({ disabledButton: !(validEmail && validName) });
   }
 
-  login(event) {
+  async login(event) {
     event.preventDefault();
-    localStorage.setItem('token', getToken());
+    const { name, email } = this.state;
+    // const { player } = this.props;
+    const token = await getToken();
+    const state = {
+      player: {
+        name,
+        gravatarEmail: email,
+      },
+    };
+    setToLocalStorage('state', state);
+    setToLocalStorage('token', token);
+    setToLocalStorage('ranking', []);
     this.setState({ redirect: true });
-    const { email, name } = this.state;
     const { userLogin } = this.props;
     userLogin({ email, name });
   }
@@ -87,8 +98,12 @@ const mapDispatchToProps = (dispatch) => ({
   userLogin: (payload) => dispatch(userLoginAction(payload)),
 });
 
+const mapStateToProps = ({ player }) => ({
+  player,
+});
+
 Login.propTypes = {
   userLogin: PropTypes.func.isRequired,
 };
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

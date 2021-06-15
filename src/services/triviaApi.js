@@ -18,7 +18,7 @@ export const getToken = async () => {
   try {
     const fetchApi = await fetch('https://opentdb.com/api_token.php?command=request');
     const apiJson = await fetchApi.json();
-    return apiJson;
+    return apiJson.token;
   } catch (error) {
     throw error(error);
   }

@@ -1,10 +1,10 @@
 import React from 'react';
-import { Route, Switch } from 'react-router';
+import { Switch, Route } from 'react-router-dom';
+// import logo from './trivia.png';
+import Game from './pages/Game';
 import './App.css';
-
 import Login from './pages/Login';
 import NotFound from './pages/NotFound';
-import Game from './pages/Game';
 
 export default function App() {
   return (

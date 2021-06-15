@@ -1,4 +1,5 @@
-import { getToken, fetchAPI } from '../services/triviaApi';
+import { fetchAPI } from '../services/triviaApi';
+import { getItemFromLocalStorage } from '../services/storage';
 
 export const GET_QUESTIONS = 'GET_QUESTIONS';
 export const ADD_QUESTIONS_SUCCESS = 'ADD_QUESTIONS';
@@ -37,13 +38,12 @@ export const getAssertions = (payload) => ({
 });
 
 export const fetchAPIThunk = () => async (dispatch) => {
-  dispatch(getQuestions());
+  // dispatch(getQuestions());
   try {
-    const apiResponse = await getToken();
-    const apiData = await fetchAPI(apiResponse);
-    dispatch(addQuestionSuccess({
-      apiResponse: apiData,
-    }));
+    const token = getItemFromLocalStorage('token');
+
+    const apiData = await fetchAPI(token);
+    dispatch(addQuestionSuccess(apiData));
   } catch (error) {
     dispatch(addQuestionError({
       apiError: error,
