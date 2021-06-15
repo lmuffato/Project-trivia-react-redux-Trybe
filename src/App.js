@@ -3,6 +3,7 @@ import { Route } from 'react-router-dom';
 
 import Game from './pages/Game';
 import Login from './pages/Login';
+import Game from './pages/Game';
 import logo from './trivia.png';
 
 export default function App() {
