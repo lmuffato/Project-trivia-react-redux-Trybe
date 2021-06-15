@@ -12,12 +12,15 @@ class Login extends React.Component {
       isDisabled: true,
       redirect: false,
       theToken: null,
+      settings: false,
     };
     // bind da função handleChange
     this.handleChange = this.handleChange.bind(this);
     this.isDisabled = this.isDisabled.bind(this);
-    this.handleClick = this.handleClick.bind(this);
+    this.handleClickPlay = this.handleClickPlay.bind(this);
     this.setTokenLocalStorage = this.setTokenLocalStorage.bind(this);
+    this.createInputs = this.createInputs.bind(this);
+    this.handleClickSettings = this.handleClickSettings.bind(this);
   }
 
   // Requisito 2 - função responsavel por salvar no localStorage o token
@@ -53,8 +56,14 @@ class Login extends React.Component {
     }
   }
 
+  handleClickSettings() {
+    this.setState({
+      settings: true,
+    });
+  }
+
   // Requisito 2 - Redirenciona para pagina de games e faz a requisição do token na api;
-  async handleClick() {
+  async handleClickPlay() {
     const getToken = await requestToken();
     // https://pt.stackoverflow.com/questions/369892/como-redirecionar-para-uma-rota-usando-onclick-e-react-router
     this.setState({
@@ -63,46 +72,53 @@ class Login extends React.Component {
     }, () => { this.setTokenLocalStorage(); });
   }
 
+  // Requisito 1 - Criar os inputs de forma dinamica
+  createInputs(n, f, dt, st) {
+    return (
+      <label htmlFor={ n }>
+        { f }
+        <input
+          className={ n }
+          data-testid={ dt }
+          name={ n }
+          onChange={ this.handleChange }
+          type="text"
+          value={ st }
+        />
+      </label>
+    );
+  }
+
   // Requisito 1 - Implementação da página de login
   render() {
-    const { name, email, isDisabled, redirect, theToken } = this.state;
-    console.log(theToken);
+    const { name, email, isDisabled, redirect, settings } = this.state;
     if (redirect) {
       return <Redirect to="/game" />;
     }
+    if (settings) {
+      return <Redirect to="/settings" />;
+    }
     return (
       <form className="form-login">
-        <label htmlFor="name">
-          Nome do jogador:
-          <input
-            type="text"
-            className="name"
-            name="name"
-            data-testid="input-player-name"
-            value={ name }
-            onChange={ this.handleChange }
-          />
-        </label>
-        <label htmlFor="email">
-          Email:
-          <input
-            type="email"
-            className="email"
-            name="email"
-            data-testid="input-gravatar-email"
-            value={ email }
-            onChange={ this.handleChange }
-          />
-        </label>
+        {this.createInputs('name', 'Nome do jogador:', 'input-player-name', name)}
+        { this.createInputs('email', 'Email', 'input-gravatar-email', email)}
         <button
-          name="btn-play"
           className="btn-play"
           type="button"
           disabled={ isDisabled }
           data-testid="btn-play"
-          onClick={ this.handleClick }
+          onClick={ this.handleClickPlay }
         >
           Jogar
+        </button>
+        {/* Requisito 3 - Botão que redireciona para tela de configuração */}
+        <button
+          className="btn-settings"
+          type="button"
+          data-testid="btn-settings"
+          onClick={ this.handleClickSettings }
+        >
+          Configurar
         </button>
       </form>
     );
