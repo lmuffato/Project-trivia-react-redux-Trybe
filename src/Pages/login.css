@@ -11,7 +11,7 @@ body {
   border-radius: 20px;
   display: flex;
   flex-direction: column;
-  height: 180px;
+  height: 150px;
   padding: 25px;
   width: 400px;
 }
