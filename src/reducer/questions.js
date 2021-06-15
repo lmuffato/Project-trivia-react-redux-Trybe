@@ -7,11 +7,11 @@ const INITIAL_STATE = {
 
 function questions(state = INITIAL_STATE, action) {
   switch (action.type) {
-  case GENERATE_QUESTION:
-    return { state: action.state, loading: false };
-  case REQUEST_QUESTION:
-    return { ...state, loading: true };
-  default: return state;
+    case GENERATE_QUESTION:
+      return { ...state, questions: action.state, loading: false };
+    case REQUEST_QUESTION:
+      return { ...state, loading: true };
+    default: return state;
   }
 }
 
