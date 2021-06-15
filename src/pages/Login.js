@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { string, func } from 'prop-types';
-import { Link } from 'react-router-dom';
 import { getToken } from '../actions/index';
 
 class Login extends Component {
@@ -19,12 +18,13 @@ class Login extends Component {
     };
   }
 
-  handleClick() {
-    const { tokenRequest } = this.props;
-    const token = tokenRequest();
-    // const { token } = this.props;
-    console.log(token);
-    localStorage.setItem('token', token);
+  async handleClick() {
+    const { tokenRequest, history } = this.props;
+    await tokenRequest(() => {
+      const { token } = this.props;
+      localStorage.setItem('token', token);
+      history.push('/game');
+    });
   }
 
   validInput() {
@@ -71,7 +71,6 @@ class Login extends Component {
             onChange={ this.handleChange }
           />
         </label>
-        {/*  <Link to="./Game"> */}
         <button
           type="submit"
           onClick={ () => this.handleClick() }
@@ -80,7 +79,6 @@ class Login extends Component {
         >
           Jogar
         </button>
-        {/*  </Link> */}
       </section>
     );
   }
@@ -93,17 +91,10 @@ Login.propTypes = {
 
 const mapStateToProps = (state) => {
   console.log(state);
-  return ({
-    token: state.game.token,
-  });
 };
 
-/* const mapStateToProps = (state) => {
-  console.log(state);
-}; */
-
 const mapDispatchToProps = (dispatch) => ({
-  tokenRequest: () => dispatch(getToken()),
+  tokenRequest: (callback) => dispatch(getToken(callback)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

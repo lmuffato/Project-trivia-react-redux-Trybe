@@ -54,8 +54,11 @@ export const getQuestion = (token) => async (dispatch) => {
   }
 }; */
 
-export const getToken = () => (dispatch) => {
+export const getToken = (callback) => (dispatch) => {
   dispatch(requestApi());
   tokenFetch()
-    .then((token) => dispatch(requestToken(token)));
+    .then((token) => dispatch(requestToken(token)))
+    .then(() => {
+      callback();
+    });
 };
