@@ -5,10 +5,54 @@ import PropTypes from 'prop-types';
 // import { getQuestions } from '../services/triviaAPI';
 import { getAPIThunk } from '../redux/actions/actions';
 
+const TOTAL_QUESTION_NUMBER = 4;
+
 class Jogo extends Component {
+  constructor(props) {
+    super(props);
+    const { questions } = this.props;
+
+    this.state = {
+      questions,
+      randomNumberArray: [],
+    };
+  }
+
   componentDidMount() {
     const { dispatchAPI } = this.props;
     dispatchAPI();
+  }
+
+  getRandomNumber() {
+    const { randomNumberArray } = this.state;
+    let randomNumber = 0;
+
+    while (randomNumberArray.length < TOTAL_QUESTION_NUMBER) {
+      const random = Math.floor(Math.random() * TOTAL_QUESTION_NUMBER); // 0 e 3
+
+      if (!randomNumberArray.includes(randomNumber)) {
+        this.setState({ randomNumberArray: [...randomNumberArray, random] });
+        randomNumber = random;
+        break;
+      }
+    }
+
+    return randomNumber;
+  }
+
+  // link: https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+  shuffle(array) {
+    let currentIndex = array.length; let randomIndex;
+
+    while (currentIndex !== 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex], array[currentIndex]];
+    }
+
+    return array;
   }
 
   renderGravatarImage() {
@@ -22,33 +66,58 @@ class Jogo extends Component {
       />);
   }
 
+  renderQuestions() {
+    const { questions } = this.state;
+
+    if (questions[0]) {
+      const currentQuestion = questions[0];
+
+      let answers = [
+        currentQuestion.correct_answer,
+        ...currentQuestion.incorrect_answers];
+
+      answers = this.shuffle(answers);
+
+      if (answers.length > 2) {
+        return (
+          <div>
+            <span data-testid="question-category">{currentQuestion.category}</span>
+            <p data-testid="question-text">{currentQuestion.question}</p>
+            <div>
+              <button type="button">{answers[0]}</button>
+              <button type="button">{answers[1]}</button>
+              <button type="button">{answers[2]}</button>
+              <button type="button">{answers[3]}</button>
+            </div>
+          </div>
+        );
+      }
+
+      return (
+        <div>
+          <span data-testid="question-category">{currentQuestion.category}</span>
+          <p data-testid="question-text">{currentQuestion.question}</p>
+          <div>
+            <button type="button">True</button>
+            <button type="button">False</button>
+          </div>
+        </div>
+      );
+    }
+  }
+
   render() {
-    const { nome, questions } = this.props;
-    console.log(questions);
-    // console.log(dispatchAPI());
+    const { nome } = this.props;
+
     return (
       <div>
-        {questions.map((question, id) => (
-          <div key={ id }>
-            <h3>{question.question}</h3>
-          </div>
-        ))}
         <header>
           {this.renderGravatarImage()}
           <span data-testid="header-player-name">{ nome }</span>
           <span data-testid="header-score">0</span>
         </header>
         <h1>Página do Jogo</h1>
-        <div>
-          <span data-testid="question-category">Categoria</span>
-          <p data-testid="question-text">texto da pergunta</p>
-          <div>
-            <button type="button">question 1</button>
-            <button type="button">question 2</button>
-            <button type="button">question 3</button>
-            <button type="button">question 4</button>
-          </div>
-        </div>
+        {this.renderQuestions()}
       </div>
     );
   }
