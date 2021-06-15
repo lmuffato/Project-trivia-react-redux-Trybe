@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 // import { getQuestions } from '../services/triviaAPI';
 import PropTypes from 'prop-types';
-import { getAPIThunk, user } from '../redux/actions/actions';
+import { user } from '../redux/actions/actions';
 
 class Login extends React.Component {
   constructor() {
@@ -83,7 +83,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  dispatchAPI: (payload) => dispatch(getAPIThunk(payload)),
+  // dispatchAPI: (payload) => dispatch(getAPIThunk(payload)),
   getLoginDispatch: (payload) => dispatch(user(payload)),
 });
 
