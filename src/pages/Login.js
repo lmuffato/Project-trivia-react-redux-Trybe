@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { string, func } from 'prop-types';
-import { getToken } from '../actions/index';
+import { getToken, getName } from '../actions/index';
 
 class Login extends Component {
   constructor() {
@@ -19,7 +19,9 @@ class Login extends Component {
   }
 
   async handleClick() {
-    const { tokenRequest, history } = this.props;
+    const { tokenRequest, history, getPlayerName } = this.props;
+    const { name } = this.state;
+    getPlayerName(name);
     await tokenRequest(() => {
       const { token } = this.props;
       localStorage.setItem('token', token);
@@ -89,12 +91,13 @@ Login.propTypes = {
   tokenRequest: func,
 }.isRequired;
 
-const mapStateToProps = (state) => {
-  console.log(state);
-};
+const mapStateToProps = (state) => ({
+  token: state.game.token,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   tokenRequest: (callback) => dispatch(getToken(callback)),
+  getPlayerName: (playerName) => dispatch(getName(playerName)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
