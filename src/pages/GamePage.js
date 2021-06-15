@@ -28,7 +28,6 @@ class GamePage extends React.Component {
     const endpoint = `https://opentdb.com/api.php?amount=5&token=${token}`;
     const request = await fetch(endpoint);
     const data = await request.json();
-    const trivia = data.results[0];
     console.log(data);
     // this.setState({
     //   category: trivia.category,
