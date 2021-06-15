@@ -3,14 +3,31 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 class Question extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.changeClass = this.changeClass.bind(this);
+
+    this.state = {
+      addClass: false,
+    };
+  }
+
   decodeHtml(html) {
     const texto = document.createElement('textarea');
     texto.innerHTML = html;
     return texto.value;
   }
 
+  changeClass() {
+    this.setState({
+      addClass: true,
+    });
+  }
+
   render() {
     const { question } = this.props;
+    const { addClass } = this.state;
     return (
       <section>
         <p data-testid="question-category">{ question.category }</p>
@@ -22,7 +39,8 @@ class Question extends React.Component {
                 data-testid="correct-answer"
                 name="correct-answer"
                 type="button"
-                className="correct-answer"
+                className={ addClass ? 'correct-answer' : 'qualquer-classe' }
+                onClick={ this.changeClass }
               >
                 { this.decodeHtml(answer.correct) }
               </button>);
@@ -33,7 +51,8 @@ class Question extends React.Component {
               name="wrong-answer"
               type="button"
               key={ `wrong-answer-${index}` }
-              className="wrong-answer"
+              onClick={ this.changeClass }
+              className={ addClass ? 'wrong-answer' : 'qualquer-classe' }
             >
               { this.decodeHtml(answer.incorrect) }
             </button>);

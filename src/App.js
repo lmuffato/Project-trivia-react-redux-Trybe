@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router';
+import './App.css';
 import Configs from './pages/Configs';
 import Login from './pages/Login';
 import TelaDoJogo from './pages/TelaDoJogo';
