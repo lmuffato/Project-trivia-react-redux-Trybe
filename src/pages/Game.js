@@ -11,7 +11,7 @@ class Game extends Component {
     return (
       <div>
         <header>
-          <img src={ `https://br.gravatar.com/site/implement/${hashGerada}` } alt="usário" data-testid="header-profile-picture" />
+          <img src={ `https://www.gravatar.com/avatar/${hashGerada}` } alt="usário" data-testid="header-profile-picture" />
           <p data-testid="header-player-name">{nomeDoUsuario}</p>
           <p data-testid="header-score">0</p>
         </header>
