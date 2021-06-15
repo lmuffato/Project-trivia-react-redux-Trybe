@@ -1,5 +1,5 @@
 import tokenFetch from '../service/tokenFetch';
-import questionsFetch from '../service/questionsFetch';
+// import questionsFetch from '../service/questionsFetch';
 
 export const REQUEST_API = 'REQUEST_API';
 export const REQUEST_TOKEN = 'REQUEST_TOKEN';
@@ -42,12 +42,11 @@ export const getQuestion = (token) => async (dispatch) => {
   }
 };
 
-export const getToken = () => async (dispatch) => {
+export const getToken = (callback) => (dispatch) => {
   dispatch(requestApi());
-  try {
-    const token = await tokenFetch();
-    dispatch(requestToken(token));
-  } catch (error) {
-    dispatch(questionsFail(error));
-  }
+  tokenFetch()
+    .then((token) => dispatch(requestToken(token)))
+    .then(() => {
+      callback();
+    });
 };

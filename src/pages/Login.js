@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { string, func } from 'prop-types';
-// import { Link } from 'react-router-dom';
-import { getToken, questionsFetch } from '../actions/index';
+import Settings from '../components/Settings';
+import { getToken, getQuestion } from '../actions/index';
 
 class Login extends Component {
   constructor() {
@@ -20,12 +20,13 @@ class Login extends Component {
   }
 
   async handleClick() {
-    const { tokenRequest } = this.props;
-    await tokenRequest();
-    const { token } = this.props;
-    console.log(token);
-    localStorage.setItem('token', token);
-    questionsFetch
+    const { tokenRequest, history } = this.props;
+    await tokenRequest(() => {
+      const { token } = this.props;
+      localStorage.setItem('token', token);
+      questionRequest(token);
+      history.push('/game');
+    });
   }
 
   validInput() {
@@ -50,6 +51,13 @@ class Login extends Component {
 
     return (
       <section>
+        <button
+          type="button"
+          data-testid="btn-settings"
+          className="bi bi-gear-fill"
+          aria-label="Configurações"
+        />
+        <Settings />
         <label htmlFor="player-name">
           Nome:
           <input
@@ -72,7 +80,6 @@ class Login extends Component {
             onChange={ this.handleChange }
           />
         </label>
-        {/*  <Link to="./Game"> */}
         <button
           type="submit"
           onClick={ () => this.handleClick() }
@@ -81,7 +88,6 @@ class Login extends Component {
         >
           Jogar
         </button>
-        {/*  </Link> */}
       </section>
     );
   }
@@ -94,17 +100,11 @@ Login.propTypes = {
 
 const mapStateToProps = (state) => {
   console.log(state);
-  return ({
-    token: state.game.token,
-  });
 };
 
-/* const mapStateToProps = (state) => {
-  console.log(state);
-}; */
-
 const mapDispatchToProps = (dispatch) => ({
-  tokenRequest: () => dispatch(getToken()),
+  tokenRequest: (callback) => dispatch(getToken(callback)),
+  questionRequest: (callback) => dispatch(getQuestion(callback)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
