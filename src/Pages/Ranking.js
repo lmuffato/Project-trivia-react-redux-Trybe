@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 class Ranking extends Component {
   render() {
+    const index = '';
     return (
       <div>
         <ul>
