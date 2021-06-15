@@ -7,3 +7,5 @@ const login = (name, email) => ({
 });
 
 export default login;
+
+export const setQuestions = (questions) => ({ type: 'SET_QUESTIONS', questions });
