@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Settings from '../components/Settings';
 import { connect } from 'react-redux';
 import { string, func } from 'prop-types';
-import { getToken, getName } from '../actions/index';
+import Settings from '../components/Settings';
+import { getToken, getQuestion, getName } from '../actions/index';
 
 class Login extends Component {
   constructor() {
@@ -24,8 +24,10 @@ class Login extends Component {
     const { name } = this.state;
     getPlayerName(name);
     await tokenRequest(() => {
-      const { token } = this.props;
+      const { token, questionRequest } = this.props;
+      console.log(token);
       localStorage.setItem('token', token);
+      questionRequest(token);
       history.push('/game');
     });
   }
@@ -105,6 +107,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   tokenRequest: (callback) => dispatch(getToken(callback)),
+  questionRequest: (token) => dispatch(getQuestion(token)),
   getPlayerName: (playerName) => dispatch(getName(playerName)),
 });
 

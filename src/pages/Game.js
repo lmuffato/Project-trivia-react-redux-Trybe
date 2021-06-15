@@ -1,12 +1,17 @@
 import React from 'react';
+import Questions from '../components/Questions';
 import Header from '../components/Header';
 
 class Game extends React.Component {
+  // constructor() {
+  //   super();
+  // }
+
   render() {
     return (
       <section>
-        <h1>Página do Game em construção...</h1>
         <Header />
+        <Questions />
       </section>
     );
   }
