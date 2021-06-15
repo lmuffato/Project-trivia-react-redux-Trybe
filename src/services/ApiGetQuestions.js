@@ -1,3 +1,4 @@
+import dataTestid from '../utils/dataTestid';
 import shuffleArray from '../utils/shuffleArray';
 
 const ApiGetQuestions = async (token = '') => {
@@ -10,9 +11,12 @@ const ApiGetQuestions = async (token = '') => {
     question: data.question,
     type: data.type,
     correctAnswer: data.correct_answer,
-    difficulty: data.difficulty,
     incorrectAnswers: shuffleArray(data.incorrect_answers),
-    questions: shuffleArray([...data.incorrect_answers, data.correct_answer]),
+    difficulty: data.difficulty,
+
+    alternatives: shuffleArray([...dataTestid(data.incorrect_answers),
+      { [data.correct_answer]: 'correct-answer' }]),
+
   }));
 
   return questions;

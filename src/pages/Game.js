@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import ApiGetQuestions from '../services/ApiGetQuestions';
 import Loading from '../components/Loading';
+import styles from './game.module.css';
+import Questions from '../components/Questions';
 
 export default class Game extends Component {
   constructor(props) {
@@ -39,34 +41,16 @@ export default class Game extends Component {
       return <Loading />;
     }
     return (
-      <div>
-        <div>
-          <span data-testid="question-category">{questionsFiltered.category}</span>
-          <p data-testid="question-text">{questionsFiltered.question}</p>
-        </div>
-
-        <div>
-          <ul>
-            <li data-testid="correct-answer">{questionsFiltered.correctAnswer}</li>
-
-            {questionsFiltered.incorrectAnswers.map((answer, index) => (
-              <li
-                key={ index }
-                data-testid={ `wrong-answer-${index}` }
-              >
-                {answer}
-              </li>
-            )) }
-
-          </ul>
-        </div>
-
+      <div className={ styles.question__container }>
+        <Questions questionsFiltered={ questionsFiltered } />
         <button
           type="button"
           onClick={ () => this.nextQuestion(questions.length) }
+          className={ styles.question__button }
         >
           Next
         </button>
+
       </div>
     );
   }

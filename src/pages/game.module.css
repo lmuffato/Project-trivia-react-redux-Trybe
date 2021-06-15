@@ -1,0 +1,36 @@
+.question__container {
+  /* max-width: 500px; */
+  margin: 2rem auto;
+  padding: 20px;
+  background-color: var(--white);
+  width: 80vw;
+  height: 40vh;;
+  text-align: center;
+}
+
+.question__card {
+  font-size: 1em;
+  /* margin-bottom: 2rem; */
+  /* padding: 3rem;  */
+}
+
+.question__list {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+}
+
+.question__list li{
+  padding: 1rem;
+}
+
+.question__button {
+  background-color: var(--green-500);
+  border: none;
+  cursor: pointer;
+  padding: 1rem;
+  color: white;
+  font-size: 2rem;
+  border-radius: 1rem;
+  margin: 0 auto;
+}
