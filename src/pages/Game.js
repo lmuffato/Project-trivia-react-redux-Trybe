@@ -1,9 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 class Game extends React.Component {
   render() {
     return (
-      <div />
+      <section>
+        <Link to="/feedback">Teste</Link>
+      </section>
     );
   }
 }
