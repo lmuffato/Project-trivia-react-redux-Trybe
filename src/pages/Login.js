@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { loginAction } from '../actions';
+import { Redirect } from 'react-router';
+import { loginAction, userNameAction } from '../actions';
 
 class Login extends Component {
   constructor(props) {
@@ -11,21 +12,24 @@ class Login extends Component {
       user: '',
       isButtonDisabled: true,
       token: '',
+      shoudlRedirect: false,
     };
 
     this.handleChange = this.handleChange.bind(this);
   }
 
-  async componentDidMount() {
-    await this.handleToken();
+  componentDidMount() {
+    this.handleToken();
   }
 
-  setTokenStorage(event) {
+  async setTokenStorage(event) {
     event.preventDefault();
-    const { token, email } = this.state;
-    const { userLogin } = this.props;
-    localStorage.setItem('token', JSON.stringify(token));
+    const { email, user, token } = this.state;
+    const { userLogin, userNameLogin } = this.props;
+    localStorage.setItem('token', token);
     userLogin(email);
+    userNameLogin(user);
+    this.setState({ shoudlRedirect: true });
   }
 
   async handleToken() {
@@ -56,7 +60,14 @@ class Login extends Component {
   }
 
   render() {
-    const { email, user, isButtonDisabled } = this.state;
+    const { email, user,
+      shoudlRedirect,
+      isButtonDisabled,
+    } = this.state;
+    if (shoudlRedirect) {
+      return <Redirect to="/game" />;
+    }
+
     return (
       <div>
         <input
@@ -91,10 +102,12 @@ class Login extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   userLogin: (email) => dispatch(loginAction(email)),
+  userNameLogin: (user) => dispatch(userNameAction(user)),
 });
 
 Login.propTypes = {
   userLogin: PropTypes.func.isRequired,
+  userNameLogin: PropTypes.func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Login);
