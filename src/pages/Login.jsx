@@ -25,7 +25,7 @@ class Login extends Component {
   handleClick() {
     retrieveData();
     this.setState({
-      toRedirect: true,
+      toRetdirect: true,
     });
   }
 
