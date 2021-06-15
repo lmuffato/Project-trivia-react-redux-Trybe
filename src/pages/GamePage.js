@@ -14,6 +14,7 @@ class GamePage extends React.Component {
       correctAnswer: '',
       incorrectAnswers: [],
       question: '',
+      loading: true,
     };
 
     this.fetchApi = this.fetchApi.bind(this);
@@ -32,6 +33,7 @@ class GamePage extends React.Component {
       console.log(data);
       const trivia = data.results[0];
       this.setState({
+        loading: false,
         category: trivia.category,
         correctAnswer: trivia.correct_answer,
         incorrectAnswers: trivia.incorrect_answers,
@@ -43,32 +45,39 @@ class GamePage extends React.Component {
   }
 
   render() {
-    const { category, correctAnswer, incorrectAnswers, question } = this.state;
+    const { category, correctAnswer, incorrectAnswers, question, loading } = this.state;
+    if (loading) {
+      return 'Carregando...'; // solução provisória
+    }
+
     return (
-      <div>
+      <>
         <Header />
-        <h4 data-testid="question-category">
-          { category }
-        </h4>
-        <p data-testid="question-text">
-          { question }
-        </p>
-        <button
-          type="button"
-          data-testid="correct-answer"
-        >
-          { correctAnswer }
-        </button>
-        { incorrectAnswers.map((incorrect, index) => (
+        <div>
+          <h4 data-testid="question-category">
+            { category }
+          </h4>
+          <p data-testid="question-text">
+            { question }
+          </p>
           <button
             type="button"
-            key={ incorrect }
-            data-testid={ `wrong-answer-${index}` }
+            data-testid="correct-answer"
           >
-            {incorrect}
+            { correctAnswer }
           </button>
-        ))}
-      </div>
+          { incorrectAnswers.map((incorrect, index) => (
+            <button
+              type="button"
+              key={ incorrect }
+              data-testid={ `wrong-answer-${index}` }
+            >
+              {incorrect}
+            </button>
+          ))}
+
+        </div>
+      </>
     );
   }
 }
