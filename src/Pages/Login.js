@@ -8,10 +8,13 @@ class Login extends React.Component {
       name: '',
       email: '',
       isDisabled: true,
+      redirect: false,
+      token: 0,
     };
     // bind da função handleChange
     this.handleChange = this.handleChange.bind(this);
     this.isDisabled = this.isDisabled.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   // captura as informações do jogador atraves do input e atribui ao estado local
@@ -38,7 +41,8 @@ class Login extends React.Component {
       });
     }
   }
-
+  // Requisito 2 - Redirenciona para pagina de games e faz a requisição do token na api;
+  
   // Requisito 1 - Implementação da página de login
   render() {
     const { name, email, isDisabled } = this.state;
@@ -72,6 +76,7 @@ class Login extends React.Component {
           type="button"
           disabled={ isDisabled }
           data-testid="btn-play"
+          onClick={ this.handleClick }
         >
           Jogar
         </button>
