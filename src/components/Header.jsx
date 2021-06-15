@@ -15,7 +15,9 @@ class Header extends React.Component {
 }
 
 Header.propTypes = {
-
+  name: PropTypes.string,
+  score: PropTypes.number,
+  gravatar: PropTypes.string,
 }.isRequired;
 
 export default Header;
