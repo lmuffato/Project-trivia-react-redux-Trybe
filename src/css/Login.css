@@ -78,6 +78,25 @@ body {
   cursor: not-allowed;
 }
 
+.login > .btnSettings {
+  background-color: rgba(0, 0, 0, 0);
+  float: right;
+  height: 35px;
+  margin: 0;
+  padding: 0;
+  width: auto;
+}
+
+.login > .btnSettings:hover {
+  animation: wawes 2s infinite linear;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+img {
+  padding: 0;
+  margin: 0;
+}
+
 @keyframes wawes {
 
   from {
