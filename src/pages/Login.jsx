@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 
 import userValidation from '../utils/functions';
+import retrieveData from '../utils/api';
 
 class Login extends Component {
   constructor() {
@@ -8,8 +10,10 @@ class Login extends Component {
     this.state = {
       user: '',
       email: '',
+      toRedirect: false,
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleChange({ target: { name, value } }) {
@@ -18,8 +22,15 @@ class Login extends Component {
     });
   }
 
+  handleClick() {
+    retrieveData();
+    this.setState({
+      toRedirect: true,
+    });
+  }
+
   render() {
-    const { user, email } = this.state;
+    const { user, email, toRedirect } = this.state;
     return (
       <section>
         <form>
@@ -49,10 +60,12 @@ class Login extends Component {
             disabled={ userValidation(this.state) }
             data-testid="btn-play"
             type="button"
+            onClick={ this.handleClick }
           >
             Jogar
           </button>
         </form>
+        { toRedirect ? <Redirect to="/Game" /> : null }
       </section>
     );
   }
