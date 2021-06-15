@@ -42,8 +42,8 @@ class Login extends Component {
     event.preventDefault();
     const { props: { loginData }, state: { username, email } } = this;
     loginData({ username, email });
-    triviaToken();
-    redirect.call(this, '/trivia');
+    triviaToken()
+      .then(() => redirect.call(this, '/trivia'));
   }
 
   render() {
