@@ -58,7 +58,7 @@ class Login extends React.Component {
             name="name"
           />
         </label>
-        <Link to="/TelaJogo">
+        <Link to="/game">
           <button
             onClick={ () => loginAction(name, email) }
             disabled={ disabled }

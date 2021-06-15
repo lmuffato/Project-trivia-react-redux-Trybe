@@ -9,7 +9,7 @@ function App() {
   return (
     <Switch>
       <Route exact path="/"><Login /></Route>
-      <Route path="/TelaJogo"><GameScreen /></Route>
+      <Route path="/game"><GameScreen /></Route>
       <Route path="/configuracoes"><Settings /></Route>
     </Switch>
   );
