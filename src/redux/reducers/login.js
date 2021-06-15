@@ -1,4 +1,4 @@
-import { LOGIN } from '../actions/index';
+import { LOGIN, USER_NAME } from '../actions/index';
 
 const INITIAL_STATE = {
   token: '',
@@ -11,6 +11,8 @@ function tokenReducer(state = INITIAL_STATE, action) {
   case LOGIN:
     window.localStorage.setItem('token', action.token);
     return { ...state, token: action.token };
+  case USER_NAME:
+    return { ...state, name: action.name };
   default:
     return state;
   }
