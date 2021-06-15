@@ -5,6 +5,7 @@ export default class Questions extends Component {
     super();
     this.state = {
       questions: [],
+      question: {},
     };
   }
 
@@ -20,42 +21,17 @@ export default class Questions extends Component {
     this.setState({ questions });
   }
 
+  // handleClick() {
+  //   const green = '3px solid rgb(6, 240, 15)';
+  //   const red = '3px solid rgb(255, 0, 0)';
+  // }
+
   render() {
-    const { questions } = this.state;
-    console.log(questions);
+    // const { questions } = this.state;
+    // const question = questions[0];
+    // this.setState({ question });
     return (
-      // <div />
-      <div>
-        {questions.map((question, index) => (
-          <div key={ index }>
-            <h4
-              data-testid="question-category"
-            >
-              {question.category}
-            </h4>
-            <p
-              data-testid="question-text"
-            >
-              {question.question}
-            </p>
-            <button
-              type="button"
-              data-testid="correct-answer"
-            >
-              {question.correct_answer}
-            </button>
-            {question.incorrect_answers.map((incorrect, idx) => (
-              <button
-                key={ idx }
-                type="button"
-                data-testid={ `wrong-answer-${index}` }
-              >
-                {incorrect}
-              </button>
-            ))}
-          </div>
-        ))}
-      </div>
+      <div />
     );
   }
 }
