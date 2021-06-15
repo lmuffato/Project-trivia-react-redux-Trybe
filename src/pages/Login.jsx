@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { getQuestions } from '../services/triviaAPI';
-import { getApi, user } from '../redux/actions/actions';
+// import { getQuestions } from '../services/triviaAPI';
+import PropTypes from 'prop-types';
+import { getAPIThunk, user } from '../redux/actions/actions';
 
 class Login extends React.Component {
   constructor() {
@@ -67,12 +68,14 @@ class Login extends React.Component {
   }
 }
 
-mapStateToProps = (state) => ({
+Login.propTypes = { getLoginDispatch: PropTypes.func.isRequired };
+
+const mapStateToProps = (state) => ({
   getLogin: state.user,
 });
 
-mapDispatchToProps = (dispatch) => ({
-  dispatchAPI: (payload) => dispatch(getApi(payload)),
+const mapDispatchToProps = (dispatch) => ({
+  dispatchAPI: (payload) => dispatch(getAPIThunk(payload)),
   getLoginDispatch: (payload) => dispatch(user(payload)),
 });
 

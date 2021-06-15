@@ -10,7 +10,7 @@ export const user = (payload) => ({
   payload,
 });
 
-export const getAPI = () => ({
+const getAPI = () => ({
   type: GET_API,
 });
 
@@ -34,3 +34,5 @@ export const getAPIThunk = () => (dispatch) => {
     dispatch(getAPIError(error));
   }
 };
+
+export default getAPI;
