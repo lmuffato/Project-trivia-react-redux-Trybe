@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { sendUser } from '../redux/actions';
@@ -106,6 +106,10 @@ class Login extends Component {
         { this.renderEmailInput() }
         <br />
         { this.renderButton() }
+        <br />
+        <Link to="/setupscreen">
+          <button type="button" data-testid="btn-settings">Settings</button>
+        </Link>
         { redirect ? <Redirect to="/gamescreen" /> : null }
       </div>
     );
