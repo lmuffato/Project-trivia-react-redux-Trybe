@@ -27,3 +27,7 @@ export const getToken = () => (dispatch) => {
 };
 
 // Actions Relacionadas ao gravatar
+export const addGravatar = (url) => ({
+  type: ADD_GRAVATAR,
+  payload: url,
+});
