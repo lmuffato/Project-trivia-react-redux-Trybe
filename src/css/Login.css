@@ -81,7 +81,7 @@ body {
 .login > .btnSettings {
   background-color: rgba(0, 0, 0, 0);
   float: right;
-  height: 35px;
+  height: 40px;
   margin: 0;
   padding: 0;
   width: auto;
@@ -92,9 +92,19 @@ body {
   background-color: rgba(0, 0, 0, 0);
 }
 
+.tooltip {
+  align-items: center;
+  background-color: white;
+  border-radius: 10px;
+  display: flex;
+  height: 300px;
+  justify-content: center;
+  width: 300px;
+}
+
 img {
-  padding: 0;
   margin: 0;
+  padding: 0;
 }
 
 @keyframes wawes {
