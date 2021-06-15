@@ -4,6 +4,7 @@ import './App.css';
 import Game from './Pages/Game';
 import Login from './Pages/Login';
 import Feedback from './Pages/Feedback';
+import Settings from './Pages/Settings';
 
 export default function App() {
   return (
@@ -16,8 +17,11 @@ export default function App() {
         <Route path="/game">
           <Game />
         </Route>
-        <Route exact path="/feedback">
+        <Route path="/feedback">
           <Feedback />
+        </Route>
+        <Route path="/settings">
+          <Settings />
         </Route>
       </Switch>
     </div>
