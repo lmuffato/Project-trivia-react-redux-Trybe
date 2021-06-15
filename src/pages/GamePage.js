@@ -47,7 +47,7 @@ class GamePage extends React.Component {
   render() {
     const { category, correctAnswer, incorrectAnswers, question, loading } = this.state;
     if (loading) {
-      return 'Carregando...'; // solução provisória
+      return 'Carregando...'; // solução provisória --> podemos componentizar isto depois
     }
 
     return (
