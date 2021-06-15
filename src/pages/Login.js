@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { sendUser } from '../redux/actions';
@@ -10,6 +11,7 @@ class Login extends Component {
       auth: false,
       userName: '',
       userEmail: '',
+      redirect: false,
     };
     this.handleAuth = this.handleAuth.bind(this);
     this.updateState = this.updateState.bind(this);
@@ -33,11 +35,22 @@ class Login extends Component {
     this.handleAuth();
   }
 
+  async tokenRequest() {
+    const request = await fetch('https://opentdb.com/api_token.php?command=request');
+    const response = await request.json();
+    const { token } = response;
+    localStorage.setItem('token', token);
+  }
+
   dispatchButton() {
     const { sendDataUser } = this.props;
     const { userEmail, userName } = this.state;
     const userData = { userEmail, userName };
     sendDataUser(userData);
+    this.tokenRequest();
+    this.setState({
+      redirect: true,
+    });
   }
 
   renderLoginInput() {
@@ -85,6 +98,7 @@ class Login extends Component {
   }
 
   render() {
+    const { redirect } = this.state;
     return (
       <div>
         { this.renderLoginInput() }
@@ -92,6 +106,11 @@ class Login extends Component {
         { this.renderEmailInput() }
         <br />
         { this.renderButton() }
+        <br />
+        <Link to="/setupscreen">
+          <button type="button" data-testid="btn-settings">Settings</button>
+        </Link>
+        { redirect ? <Redirect to="/gamescreen" /> : null }
       </div>
     );
   }
