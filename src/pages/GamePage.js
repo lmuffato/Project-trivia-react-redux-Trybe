@@ -18,6 +18,8 @@ class GamePage extends React.Component {
     };
 
     this.fetchApi = this.fetchApi.bind(this);
+    this.handleClickCorrectAnswer = this.handleClickCorrectAnswer.bind(this);
+    this.handleClickIncorrectAnswer = this.handleClickIncorrectAnswer.bind(this);
   }
 
   componentDidMount() {
@@ -44,6 +46,18 @@ class GamePage extends React.Component {
     }
   }
 
+  handleClickCorrectAnswer() {
+    console.log('correct answer click');
+    const element = document.querySelector('.hide-button');
+    return element.setAttribute('class', 'flex');
+  }
+
+  handleClickIncorrectAnswer() {
+    console.log('incorrect answer click');
+    const element = document.querySelector('.hide-button');
+    return element.setAttribute('class', 'flex');
+  }
+
   render() {
     const { category, correctAnswer, incorrectAnswers, question, loading } = this.state;
     if (loading) {
@@ -63,6 +77,7 @@ class GamePage extends React.Component {
           <button
             type="button"
             data-testid="correct-answer"
+            onClick={ this.handleClickCorrectAnswer }
           >
             { correctAnswer }
           </button>
@@ -71,11 +86,20 @@ class GamePage extends React.Component {
               type="button"
               key={ incorrect }
               data-testid={ `wrong-answer-${index}` }
+              onClick={ this.handleClickIncorrectAnswer }
             >
               {incorrect}
             </button>
           ))}
-
+        </div>
+        <div>
+          <button
+            type="button"
+            data-testid="btn-next"
+            className="hide-button"
+          >
+            Próxima
+          </button>
         </div>
       </>
     );
