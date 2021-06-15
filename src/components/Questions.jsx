@@ -9,6 +9,7 @@ class Questions extends Component {
     const { questions } = this.props;
     this.selectAnswer = this.selectAnswer.bind(this);
     this.sortQuestions = this.sortQuestions.bind(this);
+    this.countTime = this.countTime.bind(this);
 
     this.state = {
       questions,
@@ -18,11 +19,18 @@ class Questions extends Component {
       gameOn: true,
       shuffleAnswers: [],
       correctAnswer: '',
+      time: 30,
     };
   }
 
   componentDidMount() {
     this.sortQuestions();
+    this.countTime();
+  }
+
+  countTime() {
+    const interval = 1000;
+    setInterval(() => this.setState((prevState) => ({ time: prevState.time - 1 })), interval);
   }
 
   selectAnswer({ target }) {
@@ -47,6 +55,8 @@ class Questions extends Component {
 
   render() {
     const { question, category, gameOn, shuffleAnswers, correctAnswer } = this.state;
+    const { time } = this.state;
+    // this.countTime();
     return (
       <div>
         <div>
@@ -86,6 +96,7 @@ class Questions extends Component {
             );
           })}
         </div>
+        <p>{time}</p>
       </div>
     );
   }
