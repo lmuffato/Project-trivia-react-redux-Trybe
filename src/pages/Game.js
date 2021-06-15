@@ -1,41 +1,48 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { requestQuestion } from '../actions';
+import { requestQuestionThunk } from '../actions';
 
 class Game extends Component {
   constructor() {
     super();
-    this.time = this.time.bind(this);
-    this.state = {
-      loading: true,
-    };
+    this.createAlternativesButtons = this.createAlternativesButtons.bind(this);
   }
 
   componentDidMount() {
-    const { props: { request } } = this;
-    request();
-    this.time();
+    const { props: { requestQuestions } } = this;
+    requestQuestions();
   }
 
-  time() {
-    setTimeout(() => this.setState({ loading: false }), 1000);
+  createAlternativesButtons(question) {
+    const altArray = [...question.incorrect_answers, question.correct_answer];
+    const randomNumber = 0.5;
+    const shuffledAltArray = altArray.sort(() => Math.random() - randomNumber);
+    return shuffledAltArray.map((alt, index) => {
+      const isCorrect = (alt === question.correct_answer);
+      return (
+        <button
+          key={ index }
+          type="button"
+          data-testid={ isCorrect ? 'correct-answer' : `wrong-answer-${index}` }
+        >
+          {alt}
+        </button>
+      );
+    });
   }
 
   render() {
-    const { props: { questions } } = this;
-    const { state: { loading } } = this;
-    console.log(questions);
+    const { props: { questions, loading }, createAlternativesButtons } = this;
     return (
       <div>
-        {loading ? <p>loading</p> : (
-          <>
-            <p data-testid="question-category">
-              {questions[0].category}
-            </p>
-            <p data-testid="question-text">
-              {questions[0].question}
-            </p>
-          </>
+        {loading ? <p>loading...</p> : (
+          <div>
+            <p data-testid="question-category">{questions[0].category}</p>
+            <p data-testid="question-text">{questions[0].question}</p>
+            {createAlternativesButtons(questions[0])}
+
+          </div>
         )}
       </div>
     );
@@ -43,11 +50,25 @@ class Game extends Component {
 }
 
 const mapSatateToProps = (state) => ({
-  questions: state.questionGame.results,
+  questions: state.questions.results,
+  loading: state.questions.loading,
 });
 
 const mapDispatchToProps = () => (dispatch) => ({
-  request: () => dispatch(requestQuestion()),
+  requestQuestions: () => dispatch(requestQuestionThunk()),
 });
+
+Game.propTypes = {
+  requestQuestions: PropTypes.func,
+  questions: PropTypes.arrayOf(PropTypes.shape({
+    category: PropTypes.string,
+    type: PropTypes.string,
+    difficulty: PropTypes.string,
+    question: PropTypes.string,
+    correct_answer: PropTypes.string,
+    incorrect_answers: PropTypes.arrayOf(PropTypes.string),
+  })),
+  loading: PropTypes.bool,
+}.isRequired;
 
 export default connect(mapSatateToProps, mapDispatchToProps)(Game);
