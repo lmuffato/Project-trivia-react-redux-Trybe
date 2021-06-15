@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
-import { trivia } from './trivia';
+import { user } from './user';
+import { game } from './game';
 
 const roootReducer = combineReducers({
-  trivia,
+  user,
+  game,
 });
 
 export default roootReducer;

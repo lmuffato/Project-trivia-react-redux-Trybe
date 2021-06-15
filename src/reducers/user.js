@@ -1,15 +1,15 @@
 const INITIAL_STATE = {
-  nome: '',
+  name: '',
   email: '',
   score: 0,
 };
 
-export const trivia = (state = INITIAL_STATE, action) => {
+export const user = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case 'SET_NAME':
     return {
       ...state,
-      nome: action.payload.nome,
+      name: action.payload.name,
     };
   case 'SET_EMAIL':
     return {
@@ -20,4 +20,4 @@ export const trivia = (state = INITIAL_STATE, action) => {
   }
 };
 
-export default trivia;
+export default user;

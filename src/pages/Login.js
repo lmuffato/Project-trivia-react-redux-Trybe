@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import logo from '../trivia.png';
-import { getApiToken } from '../services/api';
-import { setNameAction, setEmailAction } from '../actions';
+import { setNameAction, setEmailAction, getApiQuestionsThunk } from '../actions';
 
 class Login extends React.Component {
   constructor(props) {
@@ -44,6 +44,7 @@ class Login extends React.Component {
 
   render() {
     const { formErrors } = this.state;
+    const { getApi } = this.props;
     return (
       <div className="App">
         <header className="App-header">
@@ -66,18 +67,16 @@ class Login extends React.Component {
               name="email"
             />
           </div>
-          <div>
-            <Link to="/game">
-              <button
-                data-testid="btn-play"
-                type="button"
-                disabled={ formErrors }
-                onClick={ getApiToken }
-              >
-                Jogar
-              </button>
-            </Link>
-          </div>
+          <Link to="/game">
+            <button
+              data-testid="btn-play"
+              type="button"
+              disabled={ formErrors }
+              onClick={ getApi }
+            >
+              Jogar
+            </button>
+          </Link>
         </form>
         <div className="btn-settings">
           <Link to="/settings">
@@ -97,11 +96,13 @@ class Login extends React.Component {
 const mapDispatchToProps = (dispatch) => ({
   setName: (state) => dispatch(setNameAction(state)),
   setEmail: (state) => dispatch(setEmailAction(state)),
+  getApi: (state) => dispatch(getApiQuestionsThunk(state)),
 });
 
 Login.propTypes = {
   setName: PropTypes.string.isRequired,
   setEmail: PropTypes.string.isRequired,
+  getApi: PropTypes.func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Login);
