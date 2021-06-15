@@ -38,7 +38,6 @@ export const fetchQuestions = (token) => async (dispatch) => {
   try {
     const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
     const questions = await response.json();
-    console.log(questions.results);
     return dispatch(requestQuestionsSuccess(questions.results));
   } catch (error) {
     console.log('Erro na requisição de perguntas da função fecthQuestions', error);
