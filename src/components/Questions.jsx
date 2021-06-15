@@ -27,9 +27,9 @@ export default class Questions extends Component {
     right.style.border = green;
     const wrong = document.getElementsByClassName('wrong-answer');
     const array = Array.prototype.slice.call(wrong);
-    console.log(array);
     array.map((button) => {
-      let colorButton = button.stylte
+      button.style.border = red;
+      return button.style.border;
     });
   }
 
