@@ -15,10 +15,10 @@
   background-color: rgb(90, 207, 141);
 }
 
-.show[data-testid="correct-answer"] {
+.show[ data-testid = 'correct-answer' ] {
   border: 3px solid rgb(6, 240, 15);
 }
 
-.show[data-testid="wrong-answer"] {
-  border: 3px solid rgb(255, 0, 0);
+.show[ data-testid = 'wrong-answer' ] {
+  border: 3px solid red;
 }
