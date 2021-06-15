@@ -1,20 +1,18 @@
-import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
-
+import React from 'react';
+import { Route, Switch } from 'react-router';
 import Login from './pages/Login';
-import GameScreen from './components/GameScreen';
-
+import Settings from './pages/Settings';
+import GameScreen from './pages/GameScreen';
 import './App.css';
 
-class App extends Component {
-  render() {
-    return (
-      <Switch>
-        <Route exact path="/" component={ Login } />
-        <Route path="/game" component={ GameScreen } />
-      </Switch>
-    );
-  }
+function App() {
+  return (
+    <Switch>
+      <Route exact path="/"><Login /></Route>
+      <Route path="/game"><GameScreen /></Route>
+      <Route path="/configuracoes"><Settings /></Route>
+    </Switch>
+  );
 }
 
 export default App;
