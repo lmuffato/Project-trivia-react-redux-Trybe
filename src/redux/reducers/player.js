@@ -5,6 +5,7 @@ const INNITAL_STATE = {
   name: '',
   token: '',
   score: 0,
+  gravatar: '',
 };
 
 const player = (state = INNITAL_STATE, action) => {
