@@ -6,8 +6,8 @@ import { addLogin, getToken } from '../redux/actions';
 import logo from '../trivia.png';
 
 class Login extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
 
     this.handleChanges = this.handleChanges.bind(this);
     this.validateLogin = this.validateLogin.bind(this);
@@ -42,8 +42,7 @@ class Login extends React.Component {
 
   render() {
     const { name, email } = this.state;
-    const { login, tokenToSave } = this.props;
-    console.log(tokenToSave);
+    const { login } = this.props;
     return (
       <header className="App-header">
         <img src={ logo } className="App-logo" alt="logo" />
@@ -90,12 +89,8 @@ const mapDispatchToProps = (dispatch) => ({
   token: (saveToken) => dispatch(getToken(saveToken)),
 });
 
-const mapStateToProps = (state) => ({
-  tokenToSave: state.player.token,
-});
-
 Login.propTypes = {
   login: PropTypes.func,
 }.isRequired;
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(null, mapDispatchToProps)(Login);
