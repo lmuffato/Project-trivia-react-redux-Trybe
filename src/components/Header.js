@@ -5,11 +5,11 @@ import md5 from 'crypto-js/md5';
 
 class Header extends Component {
   render() {
-    const { userName, email } = this.props;
+    const { userName, userEmail } = this.props;
     return (
       <div className="header">
         <img
-          src={ `https://www.gravatar.com/avatar/${md5(email)}` }
+          src={ `https://www.gravatar.com/avatar/${md5(userEmail)}` }
           alt="Sua Foto do Gravatar"
           data-testid="header-profile-picture"
         />
@@ -22,6 +22,7 @@ class Header extends Component {
 
 const mapStateToProps = (state) => ({
   userName: state.login.name,
+  userEmail: state.login.email,
 });
 
 Header.propTypes = {
