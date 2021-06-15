@@ -1,9 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { login, fetchToken } from '../actions';
 
 class Login extends React.Component {
   constructor() {
     super();
     this.handleChange = this.handleChange.bind(this);
+    this.startGame = this.startGame.bind(this);
+
     this.state = {
       name: '',
       email: '',
@@ -23,6 +29,13 @@ class Login extends React.Component {
     this.setState({
       [id]: value,
     }, () => this.validateFields());
+  }
+
+  startGame() {
+    const { state } = this;
+    const { loginAction, requestTokenAction } = this.props;
+    requestTokenAction();
+    loginAction(state);
   }
 
   render() {
@@ -51,12 +64,32 @@ class Login extends React.Component {
             onChange={ this.handleChange }
           />
         </label>
-        <button type="button" data-testid="btn-play" disabled={ !playButton }>
-          Jogar
-        </button>
+        <Link to="/feedback">
+          <button
+            type="button"
+            data-testid="btn-play"
+            disabled={ !playButton }
+            onClick={ this.startGame }
+          >
+            Jogar
+          </button>
+        </Link>
       </div>
     );
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  requestTokenAction: () => dispatch(fetchToken()),
+  loginAction: (state) => dispatch(login(state)),
+});
+
+Login.propTypes = {
+  loginAction: PropTypes.func,
+  requestTokenAction: PropTypes.func,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+}.isRequired;
+
+export default connect(null, mapDispatchToProps)(Login);
