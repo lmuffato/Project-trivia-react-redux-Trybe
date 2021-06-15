@@ -1,9 +1,9 @@
 export const LOGIN = 'LOGIN';
-export const USER_NAME = 'USER_NAME';
+export const USER_DATA = 'USER_DATA';
 
 export const receiveToken = (token) => ({ type: LOGIN, token });
 
-export const nameAction = (name) => ({ type: USER_NAME, name });
+export const loginAction = (name, email) => ({ type: USER_DATA, name, email });
 
 export const fetchToken = () => async (dispatch) => {
   const tokenJson = await fetch('https://opentdb.com/api_token.php?command=request');
@@ -11,7 +11,7 @@ export const fetchToken = () => async (dispatch) => {
   dispatch(receiveToken(token));
 };
 
-export const buttonLoginAction = (name) => async (dispatch) => {
-  dispatch(nameAction(name));
+export const buttonLoginAction = (name, email) => async (dispatch) => {
+  dispatch(loginAction(name, email));
   dispatch(fetchToken());
 };

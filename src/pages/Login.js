@@ -37,7 +37,7 @@ class Login extends React.Component {
 
   render() {
     const { loginAction } = this.props;
-    const { disabled, name } = this.state;
+    const { disabled, name, email } = this.state;
     return (
       <form>
         <label htmlFor="email">
@@ -60,7 +60,7 @@ class Login extends React.Component {
         </label>
         <Link to="/TelaJogo">
           <button
-            onClick={ () => loginAction(name) }
+            onClick={ () => loginAction(name, email) }
             disabled={ disabled }
             data-testid="btn-play"
             type="button"
@@ -81,7 +81,7 @@ class Login extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  loginAction: (name) => dispatch(buttonLoginAction(name)),
+  loginAction: (name, email) => dispatch(buttonLoginAction(name, email)),
 });
 
 Login.propTypes = {
