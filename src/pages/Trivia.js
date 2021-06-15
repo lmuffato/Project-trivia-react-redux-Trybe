@@ -8,6 +8,7 @@ class Trivia extends React.Component {
       questions: [],
       questionNum: 0,
       loading: true,
+      disabled: false,
     };
   }
 
@@ -19,17 +20,26 @@ class Trivia extends React.Component {
     const token = await localStorage.getItem('token');
     const key = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
     const questions = await key.json();
-    console.log(questions);
     this.setState({
       questions: questions.results,
       loading: false,
     });
   }
 
+  handleClick() {
+    this.setState({
+      disabled: true,
+    });
+    const btns = document.getElementsByTagName('button');
+    for (let index = 0; index < btns.length; index += 1) {
+      btns[index].id = btns[index].className;
+    }
+  }
+
   answerButtons() {
     const shuffIndex = 0.5;
     const sliceIndex = -1;
-    const { questions, questionNum } = this.state;
+    const { questions, questionNum, disabled } = this.state;
     const { correct_answer: corAns, incorrect_answers: incAns } = questions[questionNum];
     const answers = [corAns, ...incAns];
     const ind = [];
@@ -39,11 +49,16 @@ class Trivia extends React.Component {
       const index = answ.slice(sliceIndex);
       const answer = answ.slice(0, sliceIndex);
       let testId = 'correct-answer';
-      if (index !== '0') {
-        testId = `wrong-answer-${index - 1}`;
-      }
+      if (index !== '0') { testId = `wrong-answer-${index - 1}`; }
       return (
-        <button type="button" key={ i } data-testid={ testId }>
+        <button
+          type="button"
+          key={ i }
+          className={ testId }
+          data-testid={ testId }
+          disabled={ disabled }
+          onClick={ () => this.handleClick() }
+        >
           { answer }
         </button>
       );
