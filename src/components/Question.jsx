@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 
 class Question extends Component {
   render() {
-    const { currQuestion } = this.props;
+    console.log('Question');
+    const { currQuestion, handleClick } = this.props;
     const {
       category,
       question,
       incorrect_answers: incorrectAnswer,
       correct_answer: correctAnswer,
+      difficulty,
     } = currQuestion;
     return (
       <section className="question-card">
@@ -23,6 +25,7 @@ class Question extends Component {
         <button
           type="button"
           data-testid="correct-answer"
+          onClick={ () => handleClick(difficulty) }
         >
           { correctAnswer }
         </button>
@@ -46,7 +49,9 @@ Question.propTypes = {
     question: PropTypes.string,
     incorrect_answers: PropTypes.arrayOf(PropTypes.string),
     correct_answer: PropTypes.string,
+    difficulty: PropTypes.string,
   }).isRequired,
+  handleClick: PropTypes.func.isRequired,
 };
 
 export default Question;
