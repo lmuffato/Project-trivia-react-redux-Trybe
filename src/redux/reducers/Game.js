@@ -7,7 +7,7 @@ const INITIAL_STATE = {
   loading: false,
 };
 
-const gameReducer = (state = INITIAL_STATE, action) => {
+const game = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case GET_QUESTIONS:
     return {};
@@ -27,4 +27,4 @@ const gameReducer = (state = INITIAL_STATE, action) => {
   }
 };
 
-export default gameReducer;
+export default game;

@@ -1,25 +1,25 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Header from '../components/Header';
 
 class Game extends React.Component {
   componentDidUpdate() {
     const { token } = this.props;
-    console.log(token);
     localStorage.setItem('token', JSON.stringify(token));
   }
 
   render() {
     return (
       <div>
-        PAGINA DO JOGO
+        <Header />
       </div>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  token: state.gameReducer.token,
+  token: state.game.token,
 });
 
 Game.propTypes = {

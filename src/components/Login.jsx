@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getTokenThunk } from '../redux/actions';
+import { getTokenThunk, login } from '../redux/actions';
 
 class Login extends Component {
   constructor() {
@@ -17,7 +17,9 @@ class Login extends Component {
   }
 
   onClick() {
-    const { getToken } = this.props;
+    const { getToken, setUser } = this.props;
+    const { userName, userEmail } = this.state;
+    setUser(userName, userEmail);
     getToken();
   }
 
@@ -81,6 +83,7 @@ class Login extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   getToken: () => dispatch(getTokenThunk()),
+  setUser: (name, email) => dispatch(login(name, email)),
 });
 
 Login.propTypes = {
