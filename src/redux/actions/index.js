@@ -1,10 +1,12 @@
 import md5 from 'crypto-js/md5';
-import getAPIToken from '../../services/getAPI';
+import { getAPIToken, getAPIQuestions } from '../../services/getAPI';
 
 export const GET_TOKEN = 'GET_TOKEN';
 export const GET_TOKEN_SUCCESS = 'GET_TOKEN_SUCCESS';
 export const FETCH_GRAVATAR = 'FETCH_GRAVATAR';
 export const GET_PLACAR = 'GET_PLACAR';
+export const GET_QUESTION = 'GET_QUESTIONS';
+export const GET_QUESTION_SUCCESS = 'GET_QUESTION_SUCCESS';
 
 export const getPlacar = (payload) => ({
   type: GET_PLACAR,
@@ -25,6 +27,15 @@ export const getTokenSuccess = (payload) => ({
   payload,
 });
 
+export const getQuestion = () => ({
+  type: GET_QUESTION,
+});
+
+export const getQuestionSuccess = (payload) => ({
+  type: GET_QUESTION_SUCCESS,
+  payload,
+});
+
 export const getTokenThunk = (value) => (dispatch) => {
   dispatch(getToken());
   getAPIToken()
@@ -38,3 +49,19 @@ export const getTokenThunk = (value) => (dispatch) => {
       dispatch(getGravatar({ gravatarImg }));
     });
 };
+
+export const getQuestionsThunk = (token) => (dispatch) => {
+  dispatch(getQuestion());
+  getAPIQuestions(token)
+    .then(({ results }) => dispatch(getQuestionSuccess(results)));
+};
+
+/* {
+  id: 0,
+  questão: '',
+  respostas: [{
+    resp: '',
+    atr: '',
+  }],
+  respostaCorreta: '',
+} */
