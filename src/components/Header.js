@@ -2,7 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import md5 from 'crypto-js';
 
 class Header extends React.Component {
@@ -16,14 +16,16 @@ class Header extends React.Component {
   }
 
   render() {
-    // const userImage = this.handleUserImage();
+    const { user } = this.props;
     return (
       <div>
         <img
-          src=""
+          src={ () => this.handleUserImage() }
           alt="User"
           data-testid="header-profile-picture"
         />
+        <span data-testid="header-player-name">{ user }</span>
+        <span data-testid="header-score"> 0 </span>
       </div>
     );
   }
@@ -31,6 +33,12 @@ class Header extends React.Component {
 
 Header.propTypes = {
   email: PropTypes.string.isRequired,
+  user: PropTypes.string.isRequired,
 };
 
-export default Header;
+const mapStateToProps = (state) => ({
+  email: state.userReducer.email,
+  user: state.userReducer.user,
+});
+
+export default connect(mapStateToProps)(Header);

@@ -9,6 +9,13 @@ import Header from '../components/Header';
 class GamePage extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      // category: '',
+      // correct_answer: '',
+      // incorrect_answers: [],
+      // question: '',
+    };
+
     this.fetchApi = this.fetchApi.bind(this);
   }
 
@@ -17,7 +24,7 @@ class GamePage extends React.Component {
   }
 
   async fetchApi() {
-    const token = '834e8c8f0e1b1b61f853b673ee0743749c2409685e44b211bb9657f5919e8c17';
+    const token = localStorage.getItem('token');
     const endpoint = `https://opentdb.com/api.php?amount=5&token=${token}`;
     const request = await fetch(endpoint);
     const data = await request.json();

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { loginAction } from '../actions';
+import { loginAction, userNameAction } from '../actions';
 
 class Login extends Component {
   constructor(props) {
@@ -22,10 +22,11 @@ class Login extends Component {
 
   setTokenStorage(event) {
     event.preventDefault();
-    const { token, email } = this.state;
-    const { userLogin } = this.props;
+    const { token, email, user } = this.state;
+    const { userLogin, userNameLogin } = this.props;
     localStorage.setItem('token', JSON.stringify(token));
     userLogin(email);
+    userNameLogin(user);
   }
 
   async handleToken() {
@@ -91,10 +92,12 @@ class Login extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   userLogin: (email) => dispatch(loginAction(email)),
+  userNameLogin: (user) => dispatch(userNameAction(user)),
 });
 
 Login.propTypes = {
   userLogin: PropTypes.func.isRequired,
+  userNameLogin: PropTypes.func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Login);
