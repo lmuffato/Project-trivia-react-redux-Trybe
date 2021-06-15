@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import './Alternatives.css';
 
 const CORRECT = 'correct-answer';
 const INCORRECT = 'wrong-answer';
@@ -7,12 +8,15 @@ const INCORRECT = 'wrong-answer';
 class Alternatives extends Component {
   render() {
     const { question, aleatoryAnswers, correctAnswer } = this.props;
+    const questionReplaced = question.question
+      .replace(/&quot;/gi, '"')
+      .replace(/&#039;/gi, '\'');
 
     return (
       <div>
         <p data-testid="question-category">{question.category}</p>
-        <p data-testid="question-text">{question.question}</p>
-        <div>
+        <p data-testid="question-text">{questionReplaced}</p>
+        <div className="answers">
           <button
             type="button"
             data-testid={ aleatoryAnswers[0] === correctAnswer ? CORRECT : INCORRECT }

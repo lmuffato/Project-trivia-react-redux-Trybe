@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Alternatives from './Alternatives';
-import trueFalse from './trueFalse';
+import TrueFalse from './TrueFalse';
 
 export default class Questions extends Component {
   constructor(props) {
@@ -31,9 +31,8 @@ export default class Questions extends Component {
     const { currentIndex } = this.state;
     const { questions } = this.props;
 
-    console.log(questions);
-
     const currentQuestion = questions[currentIndex];
+    console.log(currentQuestion);
 
     const answers = [
       currentQuestion.correct_answer,
@@ -50,7 +49,7 @@ export default class Questions extends Component {
         />);
     }
 
-    return <trueFalse question={ currentQuestion } />;
+    return <TrueFalse question={ currentQuestion } />;
   }
 }
 
