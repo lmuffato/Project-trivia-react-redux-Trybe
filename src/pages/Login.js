@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Settings from '../components/Settings';
 import { connect } from 'react-redux';
 import { string, func } from 'prop-types';
 import { getToken } from '../actions/index';
@@ -49,6 +50,13 @@ class Login extends Component {
 
     return (
       <section>
+        <button
+          type="button"
+          data-testid="btn-settings"
+          className="bi bi-gear-fill"
+          aria-label="Configurações"
+        />
+        <Settings />
         <label htmlFor="player-name">
           Nome:
           <input
