@@ -15,11 +15,14 @@ export default class Questions extends Component {
         <div className={ styles.question__card }>
           <ul className={ styles.question__list }>
             {questionsFiltered.alternatives.map((question, index) => (
-              <li
-                data-testid={ Object.values(question) }
-                key={ index }
-              >
-                {Object.keys(question)}
+              <li key={ index }>
+                <button
+                  type="button"
+                  className={ styles.question__alternatives }
+                  data-testid={ Object.values(question) }
+                >
+                  {Object.keys(question)}
+                </button>
               </li>
             ))}
           </ul>

@@ -20,6 +20,10 @@
   justify-content: center;
 }
 
+.question__alternatives {
+  padding: 1rem;
+}
+
 .question__list li{
   padding: 1rem;
 }
