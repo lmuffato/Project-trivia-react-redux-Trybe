@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router';
+import { Redirect, Link } from 'react-router';
 import { loginAction, userNameAction } from '../actions';
 
 class Login extends Component {
@@ -95,6 +95,9 @@ class Login extends Component {
         >
           LOGIN
         </button>
+        <Link to="/settings">
+          <button type="submit" data-testid="btn-settings"> Configurações </button>
+        </Link>
       </div>
     );
   }
