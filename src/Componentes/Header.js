@@ -41,6 +41,6 @@ class Header extends Component {
 //   scoreState: state.ranking.score,
 // });
 
-// Fique em dúvida se as indormações do state vão vir do player ou da chave ranking
+// Fique em dúvida se as informações do state vão vir do player ou da chave ranking
 
 export default connect(null, null)(Header);
