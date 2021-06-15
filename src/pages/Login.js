@@ -1,23 +1,38 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { loginAction } from '../actions';
 
-export default class Login extends Component {
+class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
       email: '',
       user: '',
       isButtonDisabled: true,
+      token: '',
     };
 
     this.handleChange = this.handleChange.bind(this);
   }
 
-  verifyInput() {
-    const { email, user } = this.state;
-    const emailRegex = /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gm;
-    const three = 3;
+  async componentDidMount() {
+    await this.handleToken();
+  }
 
-    return user.length >= three && emailRegex.test(email);
+  setTokenStorage(event) {
+    event.preventDefault();
+    const { token, email } = this.state;
+    const { userLogin } = this.props;
+    localStorage.setItem('token', JSON.stringify(token));
+    userLogin(email);
+  }
+
+  async handleToken() {
+    const request = await fetch('https://opentdb.com/api_token.php?command=request');
+    const data = await request.json();
+    const { token } = data;
+    this.setState({ token });
   }
 
   handleChange(event) {
@@ -30,6 +45,14 @@ export default class Login extends Component {
         this.setState({ isButtonDisabled: true });
       }
     });
+  }
+
+  verifyInput() {
+    const { email, user } = this.state;
+    const emailRegex = /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gm;
+    const three = 3;
+
+    return user.length >= three && emailRegex.test(email);
   }
 
   render() {
@@ -52,10 +75,12 @@ export default class Login extends Component {
           placeholder="nome"
           onChange={ this.handleChange }
         />
+
         <button
           disabled={ isButtonDisabled }
           type="button"
           data-testid="btn-play"
+          onClick={ (event) => this.setTokenStorage(event) }
         >
           LOGIN
         </button>
@@ -63,3 +88,13 @@ export default class Login extends Component {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  userLogin: (email) => dispatch(loginAction(email)),
+});
+
+Login.propTypes = {
+  userLogin: PropTypes.func.isRequired,
+};
+
+export default connect(null, mapDispatchToProps)(Login);
