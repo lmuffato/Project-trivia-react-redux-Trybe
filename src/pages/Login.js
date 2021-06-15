@@ -1,17 +1,29 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { string, func } from 'prop-types';
+import { Link } from 'react-router-dom';
+import { getToken } from '../actions/index';
 
-export default class Login extends Component {
+class Login extends Component {
   constructor() {
     super();
 
     this.handleChange = this.handleChange.bind(this);
     this.validInput = this.validInput.bind(this);
+    this.handleClick = this.handleClick.bind(this);
 
     this.state = {
       name: '',
       email: '',
       validation: true,
     };
+  }
+
+  async handleClick() {
+    const { tokenRequest } = this.props;
+    await tokenRequest();
+    const { token } = this.props;
+    localStorage.setItem('token', token);
   }
 
   validInput() {
@@ -56,15 +68,32 @@ export default class Login extends Component {
             onChange={ this.handleChange }
           />
         </label>
-        <button
-          type="submit"
-          onClick={ this.handleClick }
-          data-testid="btn-play"
-          disabled={ validation }
-        >
-          Jogar
-        </button>
+        <Link to="./Game">
+          <button
+            type="submit"
+            onClick={ this.handleClick }
+            data-testid="btn-play"
+            disabled={ validation }
+          >
+            Jogar
+          </button>
+        </Link>
       </section>
     );
   }
 }
+
+Login.propTypes = {
+  token: string,
+  tokenRequest: func,
+}.isRequired;
+
+const mapStateToProps = (state) => ({
+  token: state.game.token,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  tokenRequest: () => dispatch(getToken()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
