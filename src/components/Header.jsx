@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
+import PropTypes from 'prop-types';
 
 class Header extends React.Component {
   constructor() {
@@ -45,5 +46,10 @@ const mapStateToProps = (state) => ({
   score: state.player.score,
   email: state.player.gravatarEmail,
 });
+
+Header.propTypes = {
+  name: PropTypes.string,
+  score: PropTypes.string,
+}.isRequired;
 
 export default connect(mapStateToProps)(Header);
