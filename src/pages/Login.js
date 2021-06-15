@@ -8,6 +8,7 @@ import { loginAction } from '../redux/actions';
 class Login extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       name: '',
       email: '',
@@ -44,37 +45,42 @@ class Login extends Component {
     const { email, name, buttonEnable } = this.state;
     const { handleClick, handleChange } = this;
     return (
-      <form>
-        <label htmlFor="name">
-          <input
-            type="text"
-            id="name"
-            name="name"
-            data-testid="input-player-name"
-            onChange={ handleChange }
-            value={ name }
-          />
-        </label>
-        <label htmlFor="email">
-          <input
-            type="email"
-            id="email"
-            name="email"
-            data-testid="input-gravatar-email"
-            onChange={ handleChange }
-            value={ email }
-          />
-        </label>
-        <Link
-          to="/game"
-          type="button"
-          data-testid="btn-play"
-          disabled={ buttonEnable }
-          onClick={ handleClick }
-        >
-          Jogar
+      <>
+        <form>
+          <label htmlFor="name">
+            <input
+              type="text"
+              id="name"
+              name="name"
+              data-testid="input-player-name"
+              onChange={ handleChange }
+              value={ name }
+            />
+          </label>
+          <label htmlFor="email">
+            <input
+              type="email"
+              id="email"
+              name="email"
+              data-testid="input-gravatar-email"
+              onChange={ handleChange }
+              value={ email }
+            />
+          </label>
+          <Link
+            to="/game"
+            type="button"
+            data-testid="btn-play"
+            disabled={ buttonEnable }
+            onClick={ handleClick }
+          >
+            Jogar
+          </Link>
+        </form>
+        <Link to="/Settings">
+          <button type="button" data-testid="btn-settings">Settings</button>
         </Link>
-      </form>
+      </>
     );
   }
 }
