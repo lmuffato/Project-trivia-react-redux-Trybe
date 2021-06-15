@@ -1,7 +1,11 @@
-import { GET_QUESTIONS } from '../actions';
+import {
+  GET_QUESTIONS,
+  GET_QUESTIONS_SUCCESS,
+} from '../actions';
 
 const INITIAL_STATE = {
   questions: [],
+  isLoading: true,
 };
 
 export default function triviaReducer(state = INITIAL_STATE, action) {
@@ -9,7 +13,13 @@ export default function triviaReducer(state = INITIAL_STATE, action) {
   case GET_QUESTIONS:
     return {
       ...state,
+      isLoading: true,
+    };
+  case GET_QUESTIONS_SUCCESS:
+    return {
+      ...state,
       questions: action.payload,
+      isLoading: false,
     };
   default:
     return state;

@@ -1,5 +1,6 @@
 export const LOG_IN = 'LOG_IN';
 export const REQUEST_TOKEN = 'REQUEST_TOKEN';
+export const GET_QUESTIONS_SUCCESS = 'GET_QUESTIONS_SUCCESS';
 export const GET_QUESTIONS = 'GET_QUESTIONS';
 
 export const login = (payload) => ({
@@ -12,9 +13,13 @@ const requestToken = (payload) => ({
   payload,
 });
 
-export const requestQuestions = (payload) => ({
-  type: GET_QUESTIONS,
+const requestQuestionsSuccess = (payload) => ({
+  type: GET_QUESTIONS_SUCCESS,
   payload,
+});
+
+const requestQuestions = () => ({
+  type: GET_QUESTIONS,
 });
 
 export const fetchToken = () => async (dispatch) => {
@@ -29,11 +34,11 @@ export const fetchToken = () => async (dispatch) => {
 };
 
 export const fetchQuestions = (token) => async (dispatch) => {
+  dispatch(requestQuestions());
   try {
     const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
     const questions = await response.json();
-    console.log(questions.results);
-    return dispatch(requestQuestions(questions.results));
+    return dispatch(requestQuestionsSuccess(questions.results));
   } catch (error) {
     console.log('Erro na requisição de perguntas da função fecthQuestions', error);
   }

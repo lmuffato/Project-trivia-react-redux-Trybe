@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import '../App.css';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import trivia from '../trivia.png';
 import { login, fetchToken } from '../actions';
 
 class Login extends React.Component {
@@ -38,12 +40,10 @@ class Login extends React.Component {
     loginAction(state);
   }
 
-  render() {
+  renderInputs() {
     const { name, email, playButton } = this.state;
-
     return (
-      <div>
-        <h1>Tela de login</h1>
+      <>
         <label htmlFor="name">
           Name
           <input
@@ -64,7 +64,7 @@ class Login extends React.Component {
             onChange={ this.handleChange }
           />
         </label>
-        <Link to="/game">
+        <Link to="/gameplay">
           <button
             type="button"
             data-testid="btn-play"
@@ -82,7 +82,22 @@ class Login extends React.Component {
             Configurações
           </button>
         </Link>
-      </div>
+      </>
+    );
+  }
+
+  render() {
+    return (
+      <main className="App">
+        <img
+          className="App-logo"
+          src={ trivia }
+          alt="trivia"
+        />
+        <section>
+          {this.renderInputs()}
+        </section>
+      </main>
     );
   }
 }
