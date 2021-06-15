@@ -12,11 +12,9 @@ export default function App() {
       <header>
         <img src={ logo } width="200" alt="logo" />
       </header>
-      <Route path="/" component={ Login } />
       <Route path="/game" component={ Game } />
       <Route path="/settings" component={ Settings } />
       <Route exact path="/" component={ Login } />
-      <Route path="/game" component={ Game } />
     </div>
   );
 }
