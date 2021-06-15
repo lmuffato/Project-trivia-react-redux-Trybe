@@ -7,9 +7,9 @@ import Settings from '../pages/Settings';
 export default function Routers() {
   return (
     <Switch>
+      <Route exact path="/" component={ Login } />
       <Route path="/game" component={ Game } />
       <Route path="/Settings" component={ Settings } />
-      <Route exact path="/" component={ Login } />
     </Switch>
   );
 }
