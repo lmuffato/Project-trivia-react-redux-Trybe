@@ -27,12 +27,15 @@ class Questions extends Component {
       <div>
         <div>
           <h3>{category}</h3>
-          <p>{question}</p>
+          <p data-testid="question-text">{question}</p>
         </div>
         <div>
-          {questionsArray.map((query) => (
-            <p key={ query }>{ query }</p>
-          ))}
+          {questionsArray.map((query) => {
+            if (query === correctAnswer) {
+              return <p data-testid="correct-answer" key={ query }>{ query }</p>;
+            }
+            return <p key={ query }>{ query }</p>;
+          })}
         </div>
       </div>
     );
