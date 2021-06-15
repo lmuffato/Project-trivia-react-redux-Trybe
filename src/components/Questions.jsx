@@ -24,6 +24,7 @@ export default class Questions extends Component {
     const { questions } = this.state;
     const question = questions[0];
     console.log(questions);
+    
     return !question ? (
       <p>Loading!</p>
     ) : (
@@ -42,7 +43,10 @@ export default class Questions extends Component {
           <button
             type="button"
             data-testid="correct-answer"
-            id="correct-answer"
+            onClick={ (e) => {
+              const green = '3px solid rgb(6, 240, 15)';
+              e.target.style.border = green;
+            } }
           >
             {question.correct_answer}
           </button>
@@ -51,7 +55,10 @@ export default class Questions extends Component {
               key={ index }
               type="button"
               data-testid={ `wrong-answer-${index}` }
-              className="wrong-answer"
+              onClick={ (e) => {
+                const red = '3px solid rgb(255, 0, 0)';
+                e.target.style.border = red;
+              } }
             >
               {incorrect}
             </button>
