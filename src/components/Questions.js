@@ -6,12 +6,6 @@ class Question extends React.Component {
   constructor(props) {
     super(props);
 
-    const { results } = this.props;
-
-    this.state = {
-      actualQuestion: results,
-    };
-
     this.renderQuestion = this.renderQuestion.bind(this);
   }
 
@@ -19,17 +13,20 @@ class Question extends React.Component {
     return (
       <>
         <h3>{results[index].question}</h3>
-        <p data-testid="question-category">Category: {results[index].category}</p>
+        <p data-testid="question-category">
+          Category:
+          { results[index].category }
+        </p>
         <button type="button">{ results[index].correct_answer }</button>
-        {results[index].incorrect_answers.map((elem) => <button type="button" key={ elem }>{elem}</button>)}
+        {results[index].incorrect_answers.map((elem) => (
+          <button type="button" key={ elem }>{elem}</button>))}
       </>
     );
   }
 
   render() {
-    let index = 0;
+    const index = 0;
     const { results } = this.props;
-    const { actualQuestion } = this.state;
     return (
       <div>
         {results.length !== 0
