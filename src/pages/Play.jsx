@@ -27,14 +27,26 @@ class Play extends Component {
     const { category, question, incorrect_answers: incorrectAnswers,
       correct_answer: correctAnswer } = questions[questionNumber];
     let answersOfRound = incorrectAnswers.map((answer, index) => (
-      <option key={ index } data-testid={ `wrong-answer-${index}` }>
+      <label htmlFor={ index } key={ index }>
+        <input
+          id={ index }
+          type="radio"
+          name="answer"
+          data-testid={ `wrong-answer-${index}` }
+        />
         {answer}
-      </option>
+      </label>
     ));
     answersOfRound.push(
-      <option data-testid="correct-answer">
+      <label htmlFor="correct-answer" key="correct-answer">
+        <input
+          id="correct-answer"
+          type="radio"
+          name="answer"
+          data-testid="correct-answer"
+        />
         {correctAnswer}
-      </option>,
+      </label>,
     );
     const probToChangePosition = 0.5;
     answersOfRound = answersOfRound.sort(() => Math.random() - probToChangePosition);
@@ -47,18 +59,22 @@ class Play extends Component {
     this.setState({ answersOfRound, questionOfRound });
   }
 
+  nextQuestion() {
+    this.setState((previusState) => ({
+      questionNumber: previusState.questionNumber + 1,
+    }), () => this.mountRound());
+  }
+
   render() {
     const { answersOfRound, questionOfRound } = this.state;
     return (
       <main>
         {questionOfRound}
         <aside>
-          <select>
-            {answersOfRound}
-          </select>
+          {answersOfRound}
         </aside>
 
-        <button type="button">testar</button>
+        <button type="button" onClick={ () => this.nextQuestion() }>testar</button>
       </main>
     );
   }
