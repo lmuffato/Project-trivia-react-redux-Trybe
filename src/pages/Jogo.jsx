@@ -95,8 +95,8 @@ Jogo.propTypes = {
 }.isRequired;
 
 const mapStateToProps = (state) => ({
-  email: state.loginReducer.email,
-  nome: state.loginReducer.nome,
+  email: state.loginReducer.user.email,
+  nome: state.loginReducer.user.nome,
   questions: state.jogoReducer.results,
   assertions: state.jogoReducer.player.assertions,
   score: state.jogoReducer.player.score,
