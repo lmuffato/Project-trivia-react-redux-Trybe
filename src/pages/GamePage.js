@@ -92,3 +92,4 @@ export default GamePage;
 // Referências:
 // função shuffleArr adaptada de: https://stackoverflow.com/questions/56501078/randomizing-quiz-answers-fetched-from-a-rest-api
 // sobre splice: https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/splice
+// função getNextQuestion adaptada de: https://www.freecodecamp.org/news/how-to-build-a-quiz-app-using-react/
