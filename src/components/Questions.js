@@ -6,44 +6,32 @@ import './questions.css';
 export default class Questions extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      borderColor: [],
+    };
     this.handleClickAnswer = this.handleClickAnswer.bind(this);
   }
 
-  changeColorBorder(alternatives, dataTestId, classNameCorrect, ClassNameIncorrect) {
+  handleClickAnswer() {
+    const alternatives = Array.from(document
+      .getElementsByClassName(styles.question__alternatives));
+    const classAnswerCorrect = 'question__alternatives__correct';
+    const classAnswerIncorrect = 'question__alternatives__incorrect';
     alternatives.forEach((alternative) => {
-      if (dataTestId.test(alternative.getAttribute('data-testid'))) {
-        alternative.classList.add(classNameCorrect);
+      if (/wrong/gi.test(alternative.getAttribute('data-testid'))) {
+        this.setState((prevState) => ({
+          borderColor: [...prevState.borderColor, classAnswerIncorrect],
+        }));
       } else {
-        alternative.classList.add(ClassNameIncorrect);
+        this.setState((prevState) => ({
+          borderColor: [...prevState.borderColor, classAnswerCorrect],
+        }));
       }
     });
   }
 
-  handleClickAnswer({ target }) {
-    const classNameAnswerIncorrect = 'question__alternatives__incorrect';
-    const classNameAnswerCorrect = 'question__alternatives__correct';
-    const dataTestId = 'data-testid';
-
-    const alternatives = Array.from(
-      document.getElementsByClassName(
-        styles.question__alternatives,
-      ),
-    );
-
-    const dataTestid = target.getAttribute(dataTestId);
-
-    if (/correct-answer/gi.test(dataTestid)) {
-      this.changeColorBorder(alternatives, /correct-answer/gi,
-        classNameAnswerCorrect, classNameAnswerIncorrect);
-    } else {
-      this.changeColorBorder(
-        alternatives, /correct-answer/gi,
-        classNameAnswerCorrect, classNameAnswerIncorrect,
-      );
-    }
-  }
-
   render() {
+    const { borderColor } = this.state;
     const { questionsFiltered } = this.props;
     return (
       <div>
@@ -59,7 +47,8 @@ export default class Questions extends Component {
                 <button
                   onClick={ this.handleClickAnswer }
                   type="button"
-                  className={ styles.question__alternatives }
+                  className={ [styles
+                    .question__alternatives, borderColor[index]].join(' ') }
                   data-testid={ Object.values(question) }
                 >
                   {Object.keys(question)}
