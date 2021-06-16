@@ -30,10 +30,10 @@ class Question extends Component {
     const btnAnswers = document.getElementsByTagName('button');
     [...btnAnswers].map((btn) => {
       if (btn.getAttribute('data-testid') === 'correct-answer') {
-        btn.setAttribute('class', 'green');
+        btn.classList.add('green');
       }
       if (btn.getAttribute('data-testid').includes('wrong-answer')) {
-        btn.setAttribute('class', 'red');
+        btn.classList.add('red');
       }
       this.setState({ isButtonDisabled: true });
       const element = document.querySelector('.hide-button');
