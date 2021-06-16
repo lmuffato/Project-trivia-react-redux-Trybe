@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { arrayOf, object } from 'prop-types';
 import { connect } from 'react-redux';
+import { rightAnswer } from '../actions';
 import '../styles/question.css';
 
 class Questions extends Component {
@@ -11,11 +12,14 @@ class Questions extends Component {
     this.selectAnswer = this.selectAnswer.bind(this);
     this.sortQuestions = this.sortQuestions.bind(this);
     this.runGame = this.runGame.bind(this);
+    this.saveAtLocalStorage = this.saveAtLocalStorage.bind(this);
+    this.timeCounter = this.timeCounter.bind(this);
 
     this.state = {
       questions,
       question: '',
       category: '',
+      difficulty: '',
       count: 0,
       gameOn: true,
       shuffleAnswers: [],
@@ -29,32 +33,54 @@ class Questions extends Component {
     this.runGame();
   }
 
+  componentWillUnmount() {
+    clearInterval(this.timer);
+  }
+
   runGame() {
     const oneSecond = 1000;
-    const thritySeconds = 30000;
-    const timer = setInterval(() => {
+    this.timer = setInterval(() => {
       this.setState((prevState) => {
         if (prevState.time > 0 && prevState.gameOn) {
           return { time: prevState.time - 1 };
         }
+        clearInterval(this.timer);
+        this.saveAtLocalStorage();
+
+        return { gameOn: false };
       });
     }, oneSecond);
-    setTimeout(() => {
-      clearInterval(timer);
-      this.setState({ gameOn: false });
-    }, thritySeconds);
   }
 
-  selectAnswer({ target }) {
-    const { correctAnswer } = this.state;
-    if (correctAnswer === target.innerText) console.log('acertou');
-    else console.log('errou');
+  saveAtLocalStorage() {
+    const { player: redux } = this.props;
+    const player = { ...redux };
+    delete player.picture;
+    localStorage.setItem('state', JSON.stringify({ player }));
+  }
+
+  async selectAnswer({ target }) {
     this.setState({ gameOn: false });
+    const { correctAnswer, time, difficulty } = this.state;
+    const scoreMultiplicators = {
+      hard: 3,
+      medium: 2,
+      easy: 1,
+    };
+    const { incrementScore } = this.props;
+    const rightAnswerScore = 10;
+    const score = rightAnswerScore + (time * scoreMultiplicators[difficulty]);
+    if (correctAnswer === target.innerText) {
+      console.log('acertou');
+      await incrementScore(score);
+    } else console.log('errou');
+    this.saveAtLocalStorage(score);
   }
 
   sortQuestions() {
     const { questions, count } = this.state;
     const {
+      difficulty,
       question,
       category,
       correct_answer: correctAnswer,
@@ -62,10 +88,10 @@ class Questions extends Component {
     const sortValue = 0.5;
     const shuffleAnswers = [...incorrectAnswer, correctAnswer]
       .sort(() => Math.random() - sortValue);
-    this.setState({ shuffleAnswers, correctAnswer, question, category });
+    this.setState({ shuffleAnswers, correctAnswer, question, category, difficulty });
   }
 
-  timer() {
+  timeCounter() {
     const { gameOn } = this.state;
     const { time } = this.state;
     return (
@@ -123,7 +149,7 @@ class Questions extends Component {
             );
           })}
         </div>
-        { this.timer() }
+        { this.timeCounter() }
         <button type="button">Next Question</button>
       </div>
     );
@@ -132,10 +158,15 @@ class Questions extends Component {
 
 const mapStateToProps = (state) => ({
   questions: state.gameData.questions,
+  player: state.player,
+});
+
+const dispatchStateToProps = (dispatch) => ({
+  incrementScore: (score) => dispatch(rightAnswer(score)),
 });
 
 Questions.propTypes = {
   questions: arrayOf(object),
 }.isRequired;
 
-export default connect(mapStateToProps, null)(Questions);
+export default connect(mapStateToProps, dispatchStateToProps)(Questions);

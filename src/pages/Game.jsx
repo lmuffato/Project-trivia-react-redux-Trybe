@@ -6,17 +6,29 @@ import { getQuestion } from '../actions';
 import '../styles/header.css';
 
 class Game extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     algo: '',
-  //   };
-  // }
+  constructor() {
+    super();
+
+    this.setLocalStorage = this.setLocalStorage.bind(this);
+  }
 
   componentDidMount() {
     const { requestQuestions } = this.props;
     const token = localStorage.getItem('token');
     requestQuestions(token);
+    this.setLocalStorage();
+  }
+
+  setLocalStorage() {
+    const { player } = this.props;
+    const { name, gravatarEmail, assertions, score } = player;
+    const state = { player: {
+      name,
+      assertions,
+      score,
+      gravatarEmail,
+    } };
+    localStorage.setItem('state', JSON.stringify(state));
   }
 
   render() {
