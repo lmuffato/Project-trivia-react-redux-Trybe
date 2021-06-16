@@ -38,6 +38,12 @@ class Questions extends React.Component {
             {answer}
           </button>
         ))}
+        <button
+          type="button"
+          data-testid="btn-next"
+        >
+          Next
+        </button>
       </section>
     );
   }
