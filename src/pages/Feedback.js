@@ -14,7 +14,6 @@ class Feedback extends React.Component {
   }
 
   render() {
-    localStorage.setItem('player', JSON.stringify({ assertions: 2 }));
     const { assertions } = JSON.parse(localStorage.getItem('player'));
     const goodAssertions = 3;
     return (
