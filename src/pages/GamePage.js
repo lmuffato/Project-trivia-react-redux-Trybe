@@ -15,11 +15,13 @@ class GamePage extends React.Component {
       incorrectAnswers: [],
       question: '',
       loading: true,
+      isButtonDisabled: false,
     };
 
     this.fetchApi = this.fetchApi.bind(this);
     this.handleClickCorrectAnswer = this.handleClickCorrectAnswer.bind(this);
     this.handleClickIncorrectAnswer = this.handleClickIncorrectAnswer.bind(this);
+    this.shuffleArr = this.shuffleArr.bind(this);
   }
 
   componentDidMount() {
@@ -48,22 +50,38 @@ class GamePage extends React.Component {
 
   handleClickCorrectAnswer() {
     console.log('correct answer click');
+    this.setState({ isButtonDisabled: true });
     const element = document.querySelector('.hide-button');
     return element.setAttribute('class', 'flex');
   }
 
   handleClickIncorrectAnswer() {
     console.log('incorrect answer click');
+    this.setState({ isButtonDisabled: true });
     const element = document.querySelector('.hide-button');
     return element.setAttribute('class', 'flex');
   }
 
+  shuffleArr(answersArray) {
+    const answers = answersArray;
+    const randomizedArray = [];
+    while (answers.length > 0) {
+      const randomIndex = Math.floor(Math.random() * answers.length);
+      randomizedArray.push(answers[randomIndex]);
+      answers.splice(randomIndex, 1);
+    }
+    return randomizedArray;
+  }
+
   render() {
-    const { category, correctAnswer, incorrectAnswers, question, loading } = this.state;
+    const { category,
+      correctAnswer, incorrectAnswers, question, loading, isButtonDisabled } = this.state;
+    const answers = [...incorrectAnswers, correctAnswer];
+    const shuffledAnswers = this.shuffleArr(answers);
+
     if (loading) {
       return 'Carregando...'; // solução provisória --> podemos componentizar isto depois
     }
-
     return (
       <>
         <Header />
@@ -71,39 +89,43 @@ class GamePage extends React.Component {
           <h4 data-testid="question-category">
             { category }
           </h4>
-          <p data-testid="question-text">
-            { question }
-          </p>
-          <button
-            type="button"
-            data-testid="correct-answer"
-            onClick={ this.handleClickCorrectAnswer }
-          >
-            { correctAnswer }
-          </button>
-          { incorrectAnswers.map((incorrect, index) => (
+          <p data-testid="question-text">{ question }</p>
+          { shuffledAnswers.map((answer, index) => (answer === correctAnswer ? (
+            <button
+              key={ answer }
+              type="button"
+              data-testid="correct-answer"
+              onClick={ this.handleClickCorrectAnswer }
+              disabled={ isButtonDisabled }
+            >
+              { answer }
+            </button>
+          ) : (
             <button
               type="button"
-              key={ incorrect }
+              key={ answer }
               data-testid={ `wrong-answer-${index}` }
               onClick={ this.handleClickIncorrectAnswer }
+              disabled={ isButtonDisabled }
             >
-              {incorrect}
+              { answer }
             </button>
-          ))}
+          )))}
         </div>
-        <div>
-          <button
-            type="button"
-            data-testid="btn-next"
-            className="hide-button"
-          >
-            Próxima
-          </button>
-        </div>
+        <button
+          type="button"
+          data-testid="btn-next"
+          className="hide-button"
+        >
+          Próxima
+        </button>
       </>
     );
   }
 }
 
 export default GamePage;
+
+// Referências:
+// função shuffleArr adaptada de: https://stackoverflow.com/questions/56501078/randomizing-quiz-answers-fetched-from-a-rest-api
+// sobre splice: https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/splice
