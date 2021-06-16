@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { user, questionsApi, token } from '../../actions';
+import { user, token } from '../../actions';
 import { tokenAPI } from '../../services/api';
 import logo from '../../images/trivia.png';
 import './styles.css';
@@ -30,22 +30,17 @@ class Login extends Component {
     const tokenValue = await tokenAPI();
     localStorage.setItem('token', tokenValue);
 
-    console.log(tokenValue);
     userToken(tokenValue);
-
-    // const questions = await triviaAPI(token);
-    // triviaQuestions(questions);
   }
 
   async handleClick() {
     const { name, email } = this.state;
     const { login, history } = this.props;
-    console.log('Clique jogar');
 
     login({ name, email });
     await this.fetchToken();
-    // history.push('/game');
-    const time = 5000;
+
+    const time = 1000;
     setTimeout(() => { history.push('/game'); }, time);
   }
 
@@ -80,7 +75,6 @@ class Login extends Component {
               onChange={ this.handleChange }
             />
           </label>
-          {/* <Link to="/game"> */}
           <button
             type="button"
             data-testid="btn-play"
@@ -89,7 +83,6 @@ class Login extends Component {
           >
             Jogar
           </button>
-          {/* </Link> */}
         </form>
         <Link to="/settings">
           <button type="button" data-testid="btn-settings">Configurações</button>
@@ -101,7 +94,6 @@ class Login extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   login: (payload) => dispatch(user(payload)),
-  triviaQuestions: (payload) => dispatch(questionsApi(payload)),
   userToken: (payload) => dispatch(token(payload)),
 });
 
