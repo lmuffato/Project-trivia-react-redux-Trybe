@@ -1,4 +1,4 @@
-import { ADD_PLAYER } from '../actions';
+import { ADD_PLAYER, RIGHT_ANSWER } from '../actions';
 
 const INTIAL_STATE = {
   name: '',
@@ -12,6 +12,10 @@ const playerReducer = (state = INTIAL_STATE, action) => {
   switch (action.type) {
   case ADD_PLAYER:
     return { ...state, ...action.payload };
+  case RIGHT_ANSWER:
+    return { ...state,
+      assertions: state.assertions + 1,
+      score: state.score + action.payload };
   default:
     return state;
   }

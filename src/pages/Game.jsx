@@ -5,13 +5,6 @@ import Questions from '../components/Questions';
 import { getQuestion } from '../actions';
 
 class Game extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     algo: '',
-  //   };
-  // }
-
   componentDidMount() {
     const { requestQuestions } = this.props;
     const token = localStorage.getItem('token');
