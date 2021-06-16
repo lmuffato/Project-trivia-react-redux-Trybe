@@ -15,8 +15,8 @@ class Timer extends Component {
     setInterval(() => {
       const { seconds } = this.state;
       if (seconds > 0) {
-        this.setState((second) => ({
-          seconds: second - 1,
+        this.setState((prevState) => ({
+          seconds: prevState.seconds - 1,
         }));
       }
     }, UM_SEGUNDO);
