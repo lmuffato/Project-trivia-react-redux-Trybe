@@ -120,7 +120,6 @@ class Question extends React.Component {
     const incorrectWAtt = setAttribute(incorrectAnswers);
     const answers = [...correctAnswer, ...incorrectWAtt];
     const randomAnswers = shuffle(answers);
-    console.log(randomAnswers);
     return (
       <>
         <h3 data-testid="question-text">{results[index].question}</h3>
