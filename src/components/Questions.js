@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import setAttribute from '../services/setAttribute';
 import shuffle from '../services/shuffle';
 import changeColors from '../services/changeColors';
+import disableBtns from '../services/disableBtns';
 
 class Question extends React.Component {
   constructor(props) {
@@ -11,11 +12,18 @@ class Question extends React.Component {
     this.state = {
       index: 0,
       nextBtn: false,
+      timer: 30,
     };
 
     this.renderQuestion = this.renderQuestion.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.checkAnswer = this.checkAnswer.bind(this);
+    this.updateTimer = this.updateTimer.bind(this);
+    this.stopInterval = this.stopInterval.bind(this);
+  }
+
+  componentDidMount() {
+    this.updateTimerFunc();
   }
 
   handleClick() {
@@ -40,8 +48,27 @@ class Question extends React.Component {
     );
   }
 
+  updateTimer() {
+    const { timer } = this.state;
+    this.setState({ timer: timer - 1 });
+  }
+
+  updateTimerFunc() {
+    const seconds = 1000;
+    const maxTime = 30000;
+    const myInterval = setInterval(this.updateTimer, seconds);
+    setTimeout(() => this.stopInterval(myInterval), maxTime);
+    return myInterval;
+  }
+
+  stopInterval(myInterval) {
+    this.setState({ nextBtn: true });
+    disableBtns();
+    clearInterval(myInterval);
+  }
+
   renderQuestion(results, index) {
-    const { level } = this.state;
+    const { timer } = this.state;
     const correctAnswer = [{
       answer: results[index].correct_answer,
       attribute: 'correct-answer',
@@ -59,8 +86,8 @@ class Question extends React.Component {
           { results[index].category }
         </p>
         <p>
-          dificuldade
-          { level }
+          tempo
+          { timer }
         </p>
         <div>Respostas ;</div>
         {randomAnswers.map((elem) => (
