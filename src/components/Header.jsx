@@ -8,7 +8,6 @@ class Header extends React.Component {
     super(props);
     this.state = {
       Gravatar: {},
-      // score: 0,
     };
     this.convertEmailtoHash = this.convertEmailtoHash.bind(this);
   }

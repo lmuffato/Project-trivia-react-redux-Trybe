@@ -31,6 +31,10 @@ class Game extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    localStorage.clear();
+  }
+
   playTime() {
     const { time } = this.state;
     console.log('time');
@@ -59,15 +63,26 @@ class Game extends React.Component {
     }), this.playTime);
   }
 
-  updateScore(score) {
-    const myLocalStorage = localStorage.getItem('score');
-    const mlsNumber = Number(myLocalStorage);
-    localStorage.setItem('score', score + mlsNumber);
-    // pegar o valor do score no local storage
-    // enviar para estado para pasar como props
-    this.setState({
-      globalScore: score + mlsNumber,
-    });
+  updateScore(points) {
+    const myLocalStorage = JSON.parse(localStorage.getItem('player'));
+    if (myLocalStorage !== null) {
+      const mlsNumber = Number(myLocalStorage.score);
+      const player = {
+        score: points + mlsNumber,
+      };
+      localStorage.setItem('player', JSON.stringify(player));
+      this.setState({
+        globalScore: points + mlsNumber,
+      });
+    } else {
+      const player = {
+        score: points,
+      };
+      localStorage.setItem('player', JSON.stringify(player));
+      this.setState({
+        globalScore: points,
+      });
+    }
   }
 
   handleClickAnswer(type, difficulty) {
