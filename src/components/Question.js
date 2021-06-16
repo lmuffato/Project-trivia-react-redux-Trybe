@@ -9,6 +9,7 @@ class Question extends React.Component {
 
     this.handleScore = this.handleScore.bind(this);
     this.decreaseTimer = this.decreaseTimer.bind(this);
+    this.buttonNext = this.buttonNext.bind(this);
 
     this.state = {
       addClass: false,
@@ -62,6 +63,14 @@ class Question extends React.Component {
     }, INTERVAL);
   }
 
+  buttonNext() {
+    const { nextQuestion, dispatchTimer, time } = this.props;
+    // const { initialTimer } = this.state;
+    this.setState({ addClass: false, disabled: false });
+    nextQuestion();
+    dispatchTimer(time);
+  }
+
   decodeHtml(html) {
     const texto = document.createElement('textarea');
     texto.innerHTML = html;
@@ -75,18 +84,6 @@ class Question extends React.Component {
       disabled: true,
     });
     if (target.name === 'correct-answer') this.getScore();
-  }
-
-  buttonNext() {
-    return (
-      <button
-        type="button"
-        data-testid="btn-next"
-        className="invisible-btn"
-      >
-        Próxima
-      </button>
-    );
   }
 
   render() {
@@ -124,7 +121,16 @@ class Question extends React.Component {
               { this.decodeHtml(answer.incorrect) }
             </button>);
         })}
-        { isVisible && this.buttonNext() }
+        <div>
+          { isVisible || addClass ? (
+            <button
+              data-testid="btn-next"
+              type="button"
+              onClick={ this.buttonNext }
+            >
+              PRÓXIMO
+            </button>) : null }
+        </div>
       </section>
     );
   }
@@ -135,6 +141,7 @@ Question.propTypes = {
   time: PropTypes.number.isRequired,
   dispatchTimer: PropTypes.func.isRequired,
   setScoreTotal: PropTypes.func.isRequired,
+  nextQuestion: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ trivia }) => ({
