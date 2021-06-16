@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
+import Questions from '../components/Questions';
 
 class Game extends React.Component {
   componentDidUpdate() {
@@ -13,6 +14,7 @@ class Game extends React.Component {
     return (
       <div>
         <Header />
+        <Questions />
       </div>
     );
   }

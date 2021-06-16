@@ -1,26 +1,37 @@
-import { GET_QUESTIONS, GET_TOKEN, GET_TOKEN_SUCCESS } from '../actions';
+import { GET_QUESTIONS, GET_QUESTIONS_SUCCESS,
+  GET_TOKEN, GET_TOKEN_SUCCESS } from '../actions';
 
 const INITIAL_STATE = {
   ranking: [],
   token: '',
   questions: [],
-  loading: false,
+  loadingToken: false,
+  loadingQuestions: false,
 };
 
 const game = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case GET_QUESTIONS:
-    return {};
+    return {
+      ...state,
+      loadingQuestions: true,
+    };
+  case GET_QUESTIONS_SUCCESS:
+    return {
+      ...state,
+      questions: action.payload.questions,
+      loadingQuestions: false,
+    };
   case GET_TOKEN:
     return {
       ...state,
-      loading: true,
+      loadingToken: true,
     };
   case GET_TOKEN_SUCCESS:
     return {
       ...state,
       token: action.payload.token,
-      loading: false,
+      loadingToken: false,
     };
   default:
     return state;
