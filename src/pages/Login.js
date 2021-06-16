@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { requestQuestionThunk } from '../actions';
@@ -76,7 +75,9 @@ class Login extends Component {
 
   render() {
     const { state: { disabled, redirectToGame, redirectToConfigs },
-      handleChange, requestToken, redirectToConfigsNow } = this;
+      handleChange, requestToken, redirectToConfigsNow,
+      props: { questions } } = this;
+      console.log(questions);
     return (
       <div>
         <form>
@@ -122,12 +123,12 @@ class Login extends Component {
   }
 }
 
+const mapSatateToProps = (state) => ({
+  questions: state.questions.results,
+});
+
 const mapDispatchToProps = () => (dispatch) => ({
   requestQuestions: () => dispatch(requestQuestionThunk()),
 });
 
-Login.propTypes = {
-  requestQuestions: PropTypes.func,
-}.isRequired;
-
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapSatateToProps, mapDispatchToProps)(Login);
