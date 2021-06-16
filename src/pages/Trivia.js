@@ -19,7 +19,6 @@ class Trivia extends React.Component {
 
   componentDidMount() {
     this.questionMaker();
-    localStorage.setItem('player', JSON.stringify({ assertions: 0 }));
   }
 
   async questionMaker() {
@@ -54,9 +53,29 @@ class Trivia extends React.Component {
       btns[index].className = btns[index].id;
     }
     if (event.target.id === 'correct-answer') {
-      const prevAssertions = JSON.parse(localStorage.getItem('player')).assertions;
-      localStorage.setItem('player', JSON.stringify({ assertions: prevAssertions + 1 }));
+      const state = JSON.parse(localStorage.getItem('state'));
+      localStorage.setItem('state', JSON.stringify(
+        {
+          player: {
+            name: state.player.name,
+            assertions: state.player.assertions + 1,
+            gravatarEmail: state.player.gravatarEmail,
+            score: state.player.score + this.playerScore(),
+          } },
+      ));
     }
+  }
+
+  playerScore() {
+    const { questionNum, questions, timeRemaining } = this.state;
+    const { difficulty } = questions[questionNum];
+    const magicNumber = 10;
+    const diffScore = {
+      easy: 1,
+      medium: 2,
+      hard: 3,
+    };
+    return (magicNumber + (timeRemaining * diffScore[difficulty]));
   }
 
   answerButtons() {
@@ -137,13 +156,14 @@ class Trivia extends React.Component {
   }
 
   render() {
+    const { score } = JSON.parse(localStorage.getItem('state')).player;
     const { loading } = this.state;
     if (loading) return (<div>loading</div>);
     const { questions, questionNum, next } = this.state;
     const { category, question } = questions[questionNum];
     return (
       <div>
-        <Header />
+        <Header score={ score } />
         {this.Timer()}
         <p data-testid="question-category">
           {category}

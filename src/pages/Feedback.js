@@ -15,16 +15,26 @@ class Feedback extends React.Component {
   }
 
   render() {
-    const { assertions } = JSON.parse(localStorage.getItem('player'));
+    const { assertions, score } = JSON.parse(localStorage.getItem('state')).player;
     const goodAssertions = 3;
     return (
       <div>
-        <Header />
+        <Header score={ score } />
         {
           parseFloat(assertions) < goodAssertions
             ? <p data-testid="feedback-text">Podia ser melhor...</p>
             : <p data-testid="feedback-text">Mandou bem!</p>
         }
+        <p>
+          Acertos:
+          {' '}
+          <span data-testid="feedback-total-question">{assertions}</span>
+        </p>
+        <p>
+          Pontuação:
+          {' '}
+          <span data-testid="feedback-total-score">{score}</span>
+        </p>
         <button
           onClick={ this.handleClick }
           data-testid="btn-play-again"
