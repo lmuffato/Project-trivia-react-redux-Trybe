@@ -1,14 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { arrayOf, object } from 'prop-types';
-import permutate from '../service/permutate';
+import { disableAnswer as disableAnswerAction } from '../actions';
 import decoder from '../service/decoder';
+import permutate from '../service/permutate';
 
 // Requisito realizado com a lógica e ajuda de RAFAEL MEDEIROS Turma 10A
 class Questions extends React.Component {
   constructor() {
     super();
     this.getID = this.getID.bind(this);
+    this.handleClickNext = this.handleClickNext.bind(this);
     this.checkAnswer = this.checkAnswer.bind(this);
   }
 
@@ -16,6 +18,11 @@ class Questions extends React.Component {
     const { questions } = this.props;
     if (answer === questions[0].correct_answer) return 'correct-answer';
     return `wrong-answer-${questions[0].incorrect_answers.indexOf(answer)}`;
+  }
+
+  handleClickNext() {
+    const { disableAnswer } = this.props;
+    disableAnswer(false);
   }
 
   checkAnswer({ target: { parentElement } }) {
@@ -29,7 +36,7 @@ class Questions extends React.Component {
   }
 
   render() {
-    const { questions } = this.props;
+    const { questions, timesUp } = this.props;
     if (questions.length === 0) return <div>Loading...</div>;
     const { category, question } = questions[0];
     const answers = [
@@ -54,6 +61,7 @@ class Questions extends React.Component {
                   id={ this.getID(answer) }
                   key={ index }
                   onClick={ this.checkAnswer }
+                  disabled={ timesUp }
                 >
                   {answerDecoded}
                 </button>
@@ -61,6 +69,13 @@ class Questions extends React.Component {
             })}
           </div>
         </div>
+        <button
+          type="button"
+          data-testid="btn-next"
+          onClick={ this.handleClickNext }
+        >
+          Next
+        </button>
       </section>
     );
   }
@@ -72,6 +87,11 @@ Questions.propTypes = {
 
 const mapStateToProps = (state) => ({
   questions: state.game.questions,
+  timesUp: state.gameMatch.timesUp,
 });
 
-export default connect(mapStateToProps, null)(Questions);
+const mapDispatchToProps = (dispatch) => ({
+  disableAnswer: () => dispatch(disableAnswerAction()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Questions);

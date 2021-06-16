@@ -27,7 +27,7 @@ class Ranking extends Component {
 
   buildRanking() {
     // const playerInfo = JSON.parse(localStorage.getItem('player'));
-    // const oldRanking = localStorage.getItem('ranking');
+    // const ranking = localStorage.getItem('ranking');
 
     const playerInfo = { name: 'Rose', score: 90, gravatarEmail: 'URL3' }; // Info mockada
     const ranking = [{ name: 'Bia', score: 20, gravatarEmail: 'URL' },
