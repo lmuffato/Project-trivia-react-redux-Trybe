@@ -6,6 +6,7 @@ export default class Questions extends Component {
     this.state = {
       questions: [],
       questionNumber: 0,
+      displayBtn: false,
     };
   }
 
@@ -32,6 +33,23 @@ export default class Questions extends Component {
       button.style.border = red;
       return button.style.border;
     });
+    this.setState({ displayBtn: true });
+  }
+
+  nextButton() {
+    const { displayBtn } = this.state;
+    if (displayBtn) {
+      return (
+        <button
+          type="button"
+          data-testid="btn-next"
+          id="btn-next"
+        >
+          Próxima
+        </button>
+      );
+    }
+    return <div />;
   }
 
   render() {
@@ -71,6 +89,7 @@ export default class Questions extends Component {
               {incorrect}
             </button>
           ))}
+          {this.nextButton()}
         </div>
       </div>
     );
