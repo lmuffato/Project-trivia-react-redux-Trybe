@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { timer } from '../actions';
+import { setScore, timer } from '../actions';
 
 class Question extends React.Component {
   constructor(props) {
     super(props);
 
-    this.changeClass = this.changeClass.bind(this);
+    this.handleScore = this.handleScore.bind(this);
     this.decreaseTimer = this.decreaseTimer.bind(this);
 
     this.state = {
@@ -17,6 +17,29 @@ class Question extends React.Component {
 
   componentDidMount() {
     this.decreaseTimer();
+  }
+
+  getDifficultScore(difficult) {
+    const SCORE_EASY = 1;
+    const SCORE_MEDIUM = 2;
+    const SCORE_HARD = 3;
+
+    switch (difficult) {
+    case 'easy':
+      return SCORE_EASY;
+    case 'medium':
+      return SCORE_MEDIUM;
+    default:
+      return SCORE_HARD;
+    }
+  }
+
+  getScore() {
+    const { time, setScoreTotal, question: { difficulty } } = this.props;
+    const BASE_SCORE = 10;
+    const difficultyScore = this.getDifficultScore(difficulty);
+    const finalScore = BASE_SCORE + (time * difficultyScore);
+    setScoreTotal(finalScore);
   }
 
   decreaseTimer() {
@@ -37,10 +60,11 @@ class Question extends React.Component {
     return texto.value;
   }
 
-  changeClass() {
+  handleScore({ target }) {
     this.setState({
       addClass: true,
     });
+    if (target.name === 'correct-answer') this.getScore();
   }
 
   render() {
@@ -60,7 +84,7 @@ class Question extends React.Component {
                 type="button"
                 className={ addClass ? 'correct-answer' : 'qualquer-classe' }
                 disabled={ time <= 0 }
-                onClick={ this.changeClass }
+                onClick={ this.handleScore }
               >
                 { this.decodeHtml(answer.correct) }
               </button>);
@@ -71,7 +95,7 @@ class Question extends React.Component {
               name="wrong-answer"
               type="button"
               key={ `wrong-answer-${index}` }
-              onClick={ this.changeClass }
+              onClick={ this.handleScore }
               disabled={ time <= 0 }
               className={ addClass ? 'wrong-answer' : 'qualquer-classe' }
             >
@@ -87,6 +111,7 @@ Question.propTypes = {
   question: PropTypes.string.isRequired,
   time: PropTypes.number.isRequired,
   dispatchTimer: PropTypes.func.isRequired,
+  setScoreTotal: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ trivia }) => ({
@@ -95,6 +120,7 @@ const mapStateToProps = ({ trivia }) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   dispatchTimer: (time) => dispatch(timer(time)),
+  setScoreTotal: (score) => dispatch(setScore(score)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Question);

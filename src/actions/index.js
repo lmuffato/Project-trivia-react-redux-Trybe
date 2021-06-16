@@ -11,6 +11,11 @@ export const timer = (tempo) => ({
   tempo,
 });
 
+export const setScore = (score) => ({
+  type: 'SCORE',
+  score,
+});
+
 export default login;
 
 export const setQuestions = (questions) => ({ type: 'SET_QUESTIONS', questions });
