@@ -26,10 +26,21 @@ class GamePlay extends React.Component {
           name: 'easy',
         },
       },
+      correctClass: 'answer',
+      wrongClass: 'answer',
+      player: {
+        name: '',
+        assertions: 0,
+        score: 0,
+        gravatarEmail: '',
+      },
     };
     this.renderQuestions = this.renderQuestions.bind(this);
     this.showNextQuestionBtn = this.showNextQuestionBtn.bind(this);
     this.score = this.score.bind(this);
+    this.renderQuestions = this.renderQuestions.bind(this);
+    this.showNextQuestionBtn = this.showNextQuestionBtn.bind(this);
+    this.handleAlternativeClick = this.handleAlternativeClick.bind(this);
   }
 
   componentDidMount() {
@@ -39,7 +50,13 @@ class GamePlay extends React.Component {
 
   handleClick(value) {
     const three = 3;
-    this.setState({ index: value, visible: false });
+    this.setState({
+      index: value,
+      visible: false,
+      correctClass: 'answer',
+      wrongClass: 'answer',
+    });
+
     const { index } = this.state;
     if (index === three) {
       this.setState({ nextQuestionBtn: false });
@@ -52,8 +69,6 @@ class GamePlay extends React.Component {
     const number = 10;
     const time = 17;
     let score;
-
-    console.log(difficulty);
 
     switch (difficulty) {
     case (hard.name):
@@ -73,14 +88,25 @@ class GamePlay extends React.Component {
     }
   }
 
-  showNextQuestionBtn(question) {
+  showNextQuestionBtn(difficulty) {
     this.setState({ visible: true });
-    this.score(question);
+    this.score(difficulty);
+  }
+
+  handleAlternativeClick(difficulty) {
+    // Adição de classe em React baseada em pesquisa no StackOverflow no link:
+    // https://stackoverflow.com/questions/28732253/how-to-add-or-remove-a-classname-on-event-in-reactjs
+    this.setState((prevState) => ({
+      correctClass: `${prevState.correctClass} correct`,
+      wrongClass: `${prevState.wrongClass} wrong`,
+    }));
+    this.showNextQuestionBtn(difficulty);
   }
 
   renderQuestion(question) {
     const { difficulty, correct_answer: correctAnswer,
       incorrect_answers: incorrectAnswers } = question;
+    const { correctClass, wrongClass } = this.state;
     return (
       <div>
         <p data-testid="question-category">{question.category}</p>
@@ -88,7 +114,8 @@ class GamePlay extends React.Component {
         <button
           type="button"
           data-testid="correct-answer"
-          onClick={ () => this.showNextQuestionBtn(difficulty) }
+          onClick={ () => this.handleAlternativeClick(difficulty) }
+          className={ correctClass }
         >
           { correctAnswer }
         </button>
@@ -98,7 +125,8 @@ class GamePlay extends React.Component {
               key={ index }
               type="button"
               data-testid={ `wrong-answer-${index}` }
-              onClick={ () => this.showNextQuestionBtn() }
+              onClick={ () => this.handleAlternativeClick() }
+              className={ wrongClass }
             >
               {e}
             </button>
