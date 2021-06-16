@@ -13,6 +13,7 @@ class Trivia extends React.Component {
       disabled: false,
       respostas: [],
       next: false,
+      timeRemaining: 30,
     };
   }
 
@@ -100,11 +101,38 @@ class Trivia extends React.Component {
             questionNum: questionNum + 1,
             disabled: false,
             next: false,
+            timeRemaining: 30,
           });
         } }
       >
         Próxima
       </button>
+    );
+  }
+
+  Timer() {
+    const oneSecond = 1000;
+    const { timeRemaining, disabled } = this.state;
+    if (timeRemaining !== 0 && disabled === false) {
+      setTimeout(() => {
+        this.setState({
+          timeRemaining: timeRemaining - 1,
+        });
+      },
+      oneSecond);
+    } if (timeRemaining === 0 && disabled === false) {
+      const btns = document.getElementsByTagName('button');
+      for (let index = 0; index < btns.length; index += 1) {
+        btns[index].className = btns[index].id;
+      }
+      this.setState({
+        next: true,
+        disabled: true,
+      });
+    }
+
+    return (
+      <p>{timeRemaining}</p>
     );
   }
 
@@ -116,6 +144,7 @@ class Trivia extends React.Component {
     return (
       <div>
         <Header />
+        {this.Timer()}
         <p data-testid="question-category">
           {category}
         </p>
