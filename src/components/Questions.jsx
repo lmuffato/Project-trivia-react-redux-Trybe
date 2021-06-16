@@ -13,8 +13,7 @@ class Questions extends Component {
     this.sortQuestions = this.sortQuestions.bind(this);
     this.runGame = this.runGame.bind(this);
     this.saveAtLocalStorage = this.saveAtLocalStorage.bind(this);
-
-    this.timer = null;
+    this.timeCounter = this.timeCounter.bind(this);
 
     this.state = {
       questions,
@@ -71,7 +70,6 @@ class Questions extends Component {
     const { incrementScore } = this.props;
     const rightAnswerScore = 10;
     const score = rightAnswerScore + (time * scoreMultiplicators[difficulty]);
-    console.log(score);
     if (correctAnswer === target.innerText) {
       console.log('acertou');
       await incrementScore(score);
@@ -93,7 +91,7 @@ class Questions extends Component {
     this.setState({ shuffleAnswers, correctAnswer, question, category, difficulty });
   }
 
-  timer() {
+  timeCounter() {
     const { gameOn } = this.state;
     const { time } = this.state;
     return (
@@ -151,7 +149,7 @@ class Questions extends Component {
             );
           })}
         </div>
-        { this.timer() }
+        { this.timeCounter() }
         <button type="button">Next Question</button>
       </div>
     );
