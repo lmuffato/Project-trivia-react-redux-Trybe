@@ -60,6 +60,7 @@ GameScreen.propTypes = {
   questions: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.arrayOf(PropTypes.object)]).isRequired,
+  time: PropTypes.number.isRequired,
 };
 
 export default connect(mapStateToProps, null)(GameScreen);
