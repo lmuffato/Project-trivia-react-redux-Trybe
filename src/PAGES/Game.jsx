@@ -9,7 +9,7 @@ class Game extends React.Component {
     super();
 
     this.state = {
-      // hashEmail: '',
+      nextBtnVisible: 'none',
       selectedStyle: false,
       index: 0,
       time: 30,
@@ -43,7 +43,7 @@ class Game extends React.Component {
 
   handleClickAnswer(type) {
     clearInterval(this.timeout);
-    this.setState({ selectedStyle: true });
+    this.setState({ selectedStyle: true, nextBtnVisible: '' });
     if (type === true) {
       console.log(type);
     }
@@ -99,7 +99,7 @@ class Game extends React.Component {
   }
 
   render() {
-    const { index, time } = this.state;
+    const { index, time, nextBtnVisible } = this.state;
     const { questions, isLoading } = this.props;
 
     if (isLoading === false) {
@@ -118,6 +118,7 @@ class Game extends React.Component {
             type="button"
             data-testid="btn-next"
             onClick={ () => this.handleindex() }
+            style={ { display: [nextBtnVisible] } }
           >
             Próxima Pergunta
           </button>
