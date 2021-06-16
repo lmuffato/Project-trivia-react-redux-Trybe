@@ -3,7 +3,7 @@ import React from 'react';
 class Ranking extends React.Component {
   render() {
     return (
-      <div>Ranking</div>
+      <div data-testid="ranking-title">Ranking</div>
     );
   }
 }

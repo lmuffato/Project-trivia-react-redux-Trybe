@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 class Feedback extends React.Component {
@@ -29,6 +30,12 @@ class Feedback extends React.Component {
           type="button"
         >
           Jogar novamente
+        </button>
+        <button
+          data-testid="btn-ranking"
+          type="button"
+        >
+          <Link to="/ranking">Ver Ranking</Link>
         </button>
       </div>
     );
