@@ -1,5 +1,8 @@
+// Requisito 5 - Requisição da Api das perguntas e renderixação na tela
 import React from 'react';
+// import Timer from '../Componentes/Timer';
 import { requestTrivia } from '../Api';
+import Timer from './Timer';
 
 class PlayGame extends React.Component {
   constructor() {
@@ -37,27 +40,39 @@ class PlayGame extends React.Component {
 
   renderQuestions() {
     const { questions } = this.state;
-    return questions.map((question, indexKey) => (
-      <div key={ indexKey }>
-        <p data-testid="question-category">{question.category}</p>
-        <h3 data-testid="question-text">{question.question}</h3>
-        <button
-          data-testid="correct-answer"
-          type="button"
-        >
-          {question.correct_answer}
-        </button>
-        {question.incorrect_answers.map((incorrect, index) => (
-          <button
-            data-testid={ `wrong-answer-${index}` }
-            type="button"
-            key={ index }
-          >
-            {incorrect}
-          </button>
-        ))}
-      </div>
-    ));
+    return (
+      <>
+        <div>
+          {/* Exibe o timer criado para p requisito 8 */}
+          <Timer />
+        </div>
+        <div>
+          {
+            questions.map((question, indexKey) => (
+              <div key={ indexKey }>
+                <p data-testid="question-category">{question.category}</p>
+                <h3 data-testid="question-text">{question.question}</h3>
+                <button
+                  data-testid="correct-answer"
+                  type="button"
+                >
+                  {question.correct_answer}
+                </button>
+                {question.incorrect_answers.map((incorrect, index) => (
+                  <button
+                    data-testid={ `wrong-answer-${index}` }
+                    type="button"
+                    key={ index }
+                  >
+                    {incorrect}
+                  </button>
+                ))}
+              </div>
+            ))
+          }
+        </div>
+      </>
+    );
   }
 
   // category: "Entertainment: Music"
@@ -81,7 +96,6 @@ class PlayGame extends React.Component {
     console.log(questions);
     return (
       <div>
-        Game
         { loading ? this.renderLoading() : this.renderQuestions() }
       </div>
     );
