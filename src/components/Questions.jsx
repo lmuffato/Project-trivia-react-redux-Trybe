@@ -11,10 +11,12 @@ class Questions extends React.Component {
       questionsPosition: 0,
       questions: [],
     };
+
     this.onClick = this.onClick.bind(this);
     this.requisitions = this.requisitions.bind(this);
     this.boolean = this.boolean.bind(this);
     this.multiple = this.multiple.bind(this);
+    this.btnStyle = this.btnStyle.bind(this);
   }
 
   componentDidMount() {
@@ -22,9 +24,17 @@ class Questions extends React.Component {
   }
 
   onClick() {
+    const correctBtn = document.querySelector('.correct-answer');
+    const incorrectBtns = document.querySelectorAll('.incorrect-answer');
+
     this.setState((previous) => ({
       questionsPosition: previous.questionsPosition + 1,
     }));
+
+    correctBtn.style.border = '';
+    incorrectBtns.forEach((btn) => {
+      btn.style.border = '';
+    });
   }
 
   async requisitions() {
@@ -39,9 +49,26 @@ class Questions extends React.Component {
     getQuestions(data.results);
   }
 
+  btnStyle() {
+    const correctBtn = document.querySelector('.correct-answer');
+    const incorrectBtns = document.querySelectorAll('.incorrect-answer');
+
+    correctBtn.style.border = '3px solid rgb(6, 240, 15)';
+    incorrectBtns.forEach((btn) => {
+      btn.style.border = '3px solid rgb(255, 0, 0)';
+    });
+  }
+
   boolean() {
     const { questions, questionsPosition } = this.state;
     const dataTestIdCorrect = 'correct-answer';
+    const dataTestIdIncorrect = 'incorrect-answer';
+
+    const dataTestId = questions[questionsPosition].correct_answer === 'True'
+      ? dataTestIdCorrect : `wrong-answer-${0}`;
+    const dataTestId2 = dataTestId === dataTestIdCorrect
+      ? `wrong-answer-${0}` : dataTestIdCorrect;
+
     return (
       <>
         <h2 data-testid="question-category">
@@ -52,21 +79,21 @@ class Questions extends React.Component {
         </h3>
         <button
           type="button"
-          data-testid={
-            questions[questionsPosition].correct_answer === 'True'
-              ? dataTestIdCorrect
-              : `wrong-answer-${0}`
+          data-testid={ dataTestId }
+          className={
+            dataTestId === dataTestIdCorrect ? dataTestIdCorrect : dataTestIdIncorrect
           }
+          onClick={ this.btnStyle }
         >
           True
         </button>
         <button
           type="button"
-          data-testid={
-            !questions[questionsPosition].correct_answer === 'True'
-              ? dataTestIdCorrect
-              : `wrong-answer-${0}`
+          data-testid={ dataTestId2 }
+          className={
+            dataTestId2 === dataTestIdCorrect ? dataTestIdCorrect : dataTestIdIncorrect
           }
+          onClick={ this.btnStyle }
         >
           False
         </button>
@@ -76,6 +103,8 @@ class Questions extends React.Component {
 
   multiple() {
     const { questions, questionsPosition } = this.state;
+    const dataTestIdCorrect = 'correct-answer';
+    const dataTestIdIncorrect = 'incorrect-answer';
     const incorrectAnswers = [
       ...questions[questionsPosition].incorrect_answers,
     ];
@@ -87,6 +116,7 @@ class Questions extends React.Component {
       0,
       questions[questionsPosition].correct_answer,
     );
+
     return (
       <>
         <h2 data-testid="question-category">
@@ -95,17 +125,24 @@ class Questions extends React.Component {
         <h3 data-testid="question-text">
           {questions[questionsPosition].question}
         </h3>
-        {incorrectAnswers.map((question, index) => (
-          <button
-            data-testid={
-              index === randomIndex ? 'correct-answer' : `wrong-answer-${index}`
-            }
-            key={ index }
-            type="button"
-          >
-            {question}
-          </button>
-        ))}
+        {incorrectAnswers.map((question, index) => {
+          const dataTestId3 = index === randomIndex
+            ? dataTestIdCorrect : `wrong-answer-${index}`;
+          return (
+            <button
+              data-testid={ dataTestId3 }
+              key={ index }
+              type="button"
+              className={
+                dataTestId3 === dataTestIdCorrect
+                  ? dataTestIdCorrect : dataTestIdIncorrect
+              }
+              onClick={ this.btnStyle }
+            >
+              {question}
+            </button>
+          );
+        })}
       </>
     );
   }
@@ -121,7 +158,11 @@ class Questions extends React.Component {
         {questions[questionsPosition].type === 'multiple'
           ? this.multiple()
           : this.boolean()}
-        <button type="button" onClick={ this.onClick }>
+        <button
+          type="button"
+          data-testid="btn-next"
+          onClick={ this.onClick }
+        >
           Próxima pergunta
         </button>
       </div>
