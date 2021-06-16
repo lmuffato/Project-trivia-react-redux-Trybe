@@ -57,13 +57,13 @@
 }
 
 .button-green {
-  border: 3px solid rgb(6, 240, 15)
+  border: 3px solid rgb(6, 240, 15);
 }
 
 .button-uncolor {
-  border: 2px solid rgb(118, 118, 118) ;
+  border: 2px solid rgb(118, 118, 118);
 }
 
 .button-red {
-  border: 3px solid rgb(255, 0, 0)
+  border: 3px solid red;
 }
