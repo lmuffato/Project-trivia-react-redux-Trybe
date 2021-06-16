@@ -5,7 +5,6 @@ import { disableAnswer as disableAnswerAction } from '../actions';
 import decoder from '../service/decoder';
 import permutate from '../service/permutate';
 
-
 // Requisito realizado com a lógica e ajuda de RAFAEL MEDEIROS Turma 10A
 class Questions extends React.Component {
   constructor() {
@@ -13,7 +12,6 @@ class Questions extends React.Component {
     this.getID = this.getID.bind(this);
     this.handleClickNext = this.handleClickNext.bind(this);
     this.checkAnswer = this.checkAnswer.bind(this);
-
   }
 
   getID(answer) {
@@ -21,7 +19,6 @@ class Questions extends React.Component {
     if (answer === questions[0].correct_answer) return 'correct-answer';
     return `wrong-answer-${questions[0].incorrect_answers.indexOf(answer)}`;
   }
-
 
   handleClickNext() {
     const { disableAnswer } = this.props;
