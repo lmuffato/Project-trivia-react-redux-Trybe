@@ -119,8 +119,7 @@ class Play extends Component {
   }
 
   render() {
-    const { answersOfRound, questionOfRound, isLoading } = this.state;
-    console.log(answersOfRound);
+    const {questionOfRound, isLoading } = this.state;
     return (
       <main>
         <Header />
