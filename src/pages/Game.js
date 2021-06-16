@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { requestQuestionThunk } from '../actions';
+import Header from '../components/Header';
 
 class Game extends Component {
   constructor() {
@@ -36,6 +37,7 @@ class Game extends Component {
     const { props: { questions, loading }, createAlternativesButtons } = this;
     return (
       <div>
+        <Header />
         {(loading && !questions.length) ? <p>loading...</p> : (
           <div>
             <p data-testid="question-category">{questions[0].category}</p>

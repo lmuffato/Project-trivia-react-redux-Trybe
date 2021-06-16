@@ -18,6 +18,18 @@ class Login extends Component {
     };
   }
 
+  LocalCreate() {
+    const state = {
+      player: {
+        name: '',
+        assertions: 0,
+        score: 0,
+        email: '',
+      },
+    };
+    localStorage.setItem('state', JSON.stringify(state));
+  }
+
   redirectToConfigsNow() {
     this.setState((prev) => ({
       ...prev,
@@ -33,10 +45,20 @@ class Login extends Component {
   }
 
   async requestToken() {
+    const { name, email } = this.state;
     const request = await fetch('https://opentdb.com/api_token.php?command=request');
     const responseInJSON = await request.json();
     const { token } = responseInJSON;
     localStorage.setItem('token', token);
+    const state = {
+      player: {
+        name,
+        assertions: 0,
+        score: 0,
+        email,
+      },
+    };
+    localStorage.setItem('state', JSON.stringify(state));
     return this.redirectToGameNow();
   }
 
