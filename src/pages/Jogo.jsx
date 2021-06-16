@@ -25,6 +25,7 @@ class Jogo extends Component {
 
   componentDidMount() {
     const { dispatchAPI } = this.props;
+
     dispatchAPI();
   }
 
@@ -52,7 +53,7 @@ class Jogo extends Component {
   }
 
   render() {
-    const { nome, questions } = this.props;
+    const { nome, questions, assertions, score } = this.props;
     const { time, revelaBorda } = this.state;
 
     return (
@@ -62,8 +63,9 @@ class Jogo extends Component {
             <Link to="/">
               {this.renderGravatarImage()}
             </Link>
+            <h1>{assertions}</h1>
             <span data-testid="header-player-name">{ nome }</span>
-            <span data-testid="header-score" className="score">{`Score: ${0}`}</span>
+            <span data-testid="header-score" className="score">{`Score: ${score}`}</span>
           </header>
           <div className="timer">
             <Timer time={ time } setTimer={ this.setTimer } />
@@ -71,6 +73,7 @@ class Jogo extends Component {
         </div>
         <h1>Página do Jogo</h1>
         {questions && questions.length && (<Questions
+          time={ time }
           questions={ questions }
           revelaBorda={ revelaBorda }
           setRevelaBorda={ this.setRevelaBorda }
@@ -92,9 +95,11 @@ Jogo.propTypes = {
 }.isRequired;
 
 const mapStateToProps = (state) => ({
-  email: state.loginReducer.email,
-  nome: state.loginReducer.nome,
+  email: state.loginReducer.user.email,
+  nome: state.loginReducer.user.nome,
   questions: state.jogoReducer.results,
+  assertions: state.jogoReducer.player.assertions,
+  score: state.jogoReducer.player.score,
 });
 
 const mapDispatchToProps = (dispatch) => ({

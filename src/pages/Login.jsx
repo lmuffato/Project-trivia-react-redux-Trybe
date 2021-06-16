@@ -39,6 +39,10 @@ class Login extends React.Component {
     return check;
   }
 
+  initilizeStorage() {
+    localStorage.setItem('state', JSON.stringify({ player: { score: 0 } }));
+  }
+
   render() {
     const { getLoginDispatch } = this.props;
     const { state } = this;
@@ -63,7 +67,7 @@ class Login extends React.Component {
               type="button"
               data-testid="btn-play"
               disabled={ !this.checkLogin() }
-              onClick={ () => getLoginDispatch({ state }) }
+              onClick={ () => { getLoginDispatch({ state }); this.initilizeStorage(); } }
             >
               Jogar
             </button>

@@ -1,14 +1,61 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { string, arrayOf, shape, func } from 'prop-types';
+import { connect } from 'react-redux';
 import Alternatives from './Alternatives';
+import { updateScore } from '../redux/actions/actions';
 
-export default class Questions extends Component {
+class Questions extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       currentIndex: 0,
     };
+    this.setScore = this.setScore.bind(this);
+    this.saveInStorage = this.saveInStorage.bind(this);
+  }
+
+  async setScore(shouldCalc) {
+    const { currentIndex } = this.state;
+    const { questions, timer, time, saveScore } = this.props;
+    const currentQuestion = questions[currentIndex];
+    const { difficulty } = currentQuestion;
+    const THREE_POINTS = 3;
+    const SCORE_PARAM = 10;
+
+    const difficultyConditional = () => {
+      switch (difficulty) {
+      case 'easy':
+        return 1;
+      case 'medium':
+        return 2;
+      case 'hard':
+        return THREE_POINTS;
+      default:
+        return 0;
+      }
+    };
+
+    clearInterval(timer.timer);
+
+    if (shouldCalc === true) {
+      const score = SCORE_PARAM + (time * difficultyConditional());
+      await saveScore(score);
+    }
+
+    this.saveInStorage();
+  }
+
+  saveInStorage() {
+    const { assertions, score, nome, email } = this.props;
+
+    const player = { assertions, score };
+    player.name = nome;
+    player.gravatarEmail = email;
+
+    const json = JSON.stringify({ player });
+
+    localStorage.setItem('state', json);
   }
 
   render() {
@@ -21,6 +68,7 @@ export default class Questions extends Component {
 
     return (
       <Alternatives
+        setScore={ this.setScore }
         question={ currentQuestion }
         aleatoryAnswers={ aleatoryAnswers }
         correctAnswer={ currentQuestion.correct_answer }
@@ -31,13 +79,28 @@ export default class Questions extends Component {
 }
 
 Questions.propTypes = {
-  questions: PropTypes.arrayOf(
-    PropTypes.shape({
-      correct_answer: PropTypes.string,
-      incorrect_answers: PropTypes.arrayOf(PropTypes.string),
-      aleatory_answers: PropTypes.arrayOf(PropTypes.string),
+  questions: arrayOf(
+    shape({
+      correct_answer: string,
+      incorrect_answers: arrayOf(string),
+      aleatory_answers: arrayOf(string),
     }),
   ).isRequired,
-  revelaBorda: PropTypes.string.isRequired,
-  setRevelaBorda: PropTypes.func.isRequired,
-};
+  revelaBorda: string,
+  difficulty: string,
+  setRevelaBorda: func,
+}.isRequired;
+
+const mapStateToProps = (state) => ({
+  timer: state.jogoReducer.time,
+  assertions: state.jogoReducer.player.assertions,
+  score: state.jogoReducer.player.score,
+  nome: state.loginReducer.user.nome,
+  email: state.loginReducer.user.email,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  saveScore: (payload) => dispatch(updateScore(payload)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Questions);

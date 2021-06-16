@@ -2,17 +2,18 @@ import {
   GET_API,
   GET_API_ERROR,
   GET_API_SUCCESS,
+  UPDATE_SCORE,
+  SAVE_TIME,
 } from '../actions/actions';
 
 const INITIAL_STATE = {
   player: {
-    name: '',
-    assertions: '',
-    score: '',
-    gravatarEmail: '',
+    assertions: 0,
+    score: 0,
   },
   loading: false,
   results: [],
+  time: 0,
 };
 
 const jogoReducer = (state = INITIAL_STATE, action) => {
@@ -35,6 +36,18 @@ const jogoReducer = (state = INITIAL_STATE, action) => {
       ...state,
       loading: false,
       results: action.payload.error,
+    };
+
+  case UPDATE_SCORE:
+    return { ...state,
+      player: { ...state.player,
+        score: state.player.score + action.payload,
+        assertions: state.player.assertions + 1 } };
+
+  case SAVE_TIME:
+    return {
+      ...state,
+      time: action.payload,
     };
 
   default:
