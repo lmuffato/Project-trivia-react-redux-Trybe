@@ -17,6 +17,7 @@ class Trivia extends React.Component {
 
   componentDidMount() {
     this.questionMaker();
+    localStorage.setItem('player', JSON.stringify({ assertions: 0 }));
   }
 
   async questionMaker() {
@@ -41,7 +42,7 @@ class Trivia extends React.Component {
     });
   }
 
-  handleClick() {
+  handleClick(event) {
     this.setState({
       disabled: true,
       next: true,
@@ -49,6 +50,10 @@ class Trivia extends React.Component {
     const btns = document.getElementsByTagName('button');
     for (let index = 0; index < btns.length; index += 1) {
       btns[index].className = btns[index].id;
+    }
+    if (event.target.id === 'correct-answer') {
+      const prevAssertions = JSON.parse(localStorage.getItem('player')).assertions;
+      localStorage.setItem('player', JSON.stringify({ assertions: prevAssertions + 1 }));
     }
   }
 
@@ -67,7 +72,7 @@ class Trivia extends React.Component {
           id={ testId }
           data-testid={ testId }
           disabled={ disabled }
-          onClick={ () => this.handleClick() }
+          onClick={ (event) => this.handleClick(event) }
         >
           { answer }
         </button>
