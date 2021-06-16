@@ -7,10 +7,29 @@ import '../styles/header.css';
 import Header from '../components/Header';
 
 class Game extends Component {
+  constructor() {
+    super();
+
+    this.setLocalStorage = this.setLocalStorage.bind(this);
+  }
+
   componentDidMount() {
     const { requestQuestions } = this.props;
     const token = localStorage.getItem('token');
     requestQuestions(token);
+    this.setLocalStorage();
+  }
+
+  setLocalStorage() {
+    const { player } = this.props;
+    const { name, gravatarEmail, assertions, score } = player;
+    const state = { player: {
+      name,
+      assertions,
+      score,
+      gravatarEmail,
+    } };
+    localStorage.setItem('state', JSON.stringify(state));
   }
 
   render() {
