@@ -7,12 +7,12 @@
   pointer-events: none;
 }
 
-.red {
-  border: 1px solid red;
+.green {
+  border: 3px solid rgb(6, 240, 15)
 }
 
-.green {
-  border: 1px solid green;
+.red {
+  border: 3px solid rgb(255, 0, 0)
 }
 
 @media ( prefers-reduced-motion : no-preference ) {
