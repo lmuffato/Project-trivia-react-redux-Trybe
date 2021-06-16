@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from "react-router-dom";
 
 const second = 1000;
 
@@ -10,8 +11,9 @@ class Questions extends Component {
       questions: [],
       questionNumber: 0,
       displayBtn: false,
-      currentTime: 5,
+      currentTime: 30,
       disableButton: false,
+      showAsnwer: false,
     };
     this.setTime = this.setTime.bind(this);
   }
@@ -42,17 +44,10 @@ class Questions extends Component {
   }
 
   handleClick() {
-    const green = '3px solid rgb(6, 240, 15)';
-    const red = '3px solid rgb(255, 0, 0)';
-    const right = document.getElementById('correct-answer');
-    right.style.border = green;
-    const wrong = document.getElementsByClassName('wrong-answer');
-    const array = Array.prototype.slice.call(wrong);
-    array.map((button) => {
-      button.style.border = red;
-      return button.style.border;
-    });
-    this.setState({ displayBtn: true });
+    this.setState(
+      { displayBtn: true,
+      showAsnwer:true }
+      );
   }
 
   nextButton() {
@@ -69,20 +64,27 @@ class Questions extends Component {
         </button>
       );
     }
-    return <div />;
   }
 
   handleNext() {
     const { questionNumber } = this.state;
-    this.setState({
-      questionNumber: questionNumber + 1,
-      currentTime: 5,
-    });
+    const maxQuestion = 4;
+    if ( questionNumber <= maxQuestion) {
+      this.setState({
+        currentTime: 30,
+        disableButton:false,
+        displayBtn: false,
+        showAsnwer: false,
+        questionNumber: questionNumber + 1,
+      })
+    }
   }
 
+
   render() {
-    const { questions, questionNumber, currentTime, disableButton } = this.state;
-    const question = questions[questionNumber];
+    const {questions, questionNumber, currentTime, disableButton, showAsnwer } = this.state;
+    let question = questions[questionNumber];
+    if (questionNumber === 5) return <Redirect to="/feedback"/>
     return !question ? (
       <p>Loading!</p>
     ) : (
@@ -103,6 +105,7 @@ class Questions extends Component {
           </p>
           <button
             type="button"
+            className={ showAsnwer ? "button-green" : "button-uncolor" }
             data-testid="correct-answer"
             disabled={ disableButton }
             id="correct-answer"
@@ -114,9 +117,9 @@ class Questions extends Component {
             <button
               key={ index }
               type="button"
+              className={ showAsnwer ? "button-red" : "button-uncolor" }
               data-testid={ `wrong-answer-${index}` }
               disabled={ disableButton }
-              className="wrong-answer"
               onClick={ () => this.handleClick() }
             >
               {incorrect}
