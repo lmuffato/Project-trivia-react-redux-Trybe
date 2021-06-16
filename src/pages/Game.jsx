@@ -19,11 +19,16 @@ class Game extends Component {
       questions: [],
       currentQuestionId: 0,
       isLoading: false,
-      timer: 10,
+      timeLeft: 30,
     };
+
+    this.timer = 0;
 
     this.handleClick = this.handleClick.bind(this);
     this.fetchApi = this.fetchApi.bind(this);
+    this.countDown = this.countDown.bind(this);
+    this.startTimer = this.startTimer.bind(this);
+    this.stopTimer = this.stopTimer.bind(this);
   }
 
   componentDidMount() {
@@ -35,12 +40,39 @@ class Game extends Component {
     updateLocalStorage('state', { player });
   }
 
+  startTimer() {
+    const oneSecond = 1000;
+    if (this.timer === 0) {
+      this.timer = setInterval(this.countDown, oneSecond);
+    }
+  }
+
+  countDown() {
+    const { timeLeft } = this.state;
+
+    if (timeLeft === 0) {
+      clearInterval(this.timer);
+      this.setState({
+        timeLeft: 0,
+      });
+      return;
+    }
+
+    this.setState((prevState) => ({
+      timeLeft: prevState.timeLeft - 1,
+    }));
+  }
+
+  stopTimer() {
+    clearInterval(this.timer);
+  }
+
   handleClick(difficulty) {
-    const { timer } = this.state;
+    const { timeLeft } = this.state;
     this.setState(({ player }) => ({
       player: {
         ...player,
-        score: player.score + updateUserScore(timer, difficulty),
+        score: player.score + updateUserScore(timeLeft, difficulty),
       },
     }));
   }
@@ -54,6 +86,7 @@ class Game extends Component {
           questions: results,
           isLoading: false,
         });
+        this.startTimer();
       },
     );
   }
@@ -63,7 +96,7 @@ class Game extends Component {
       questions,
       currentQuestionId,
       isLoading,
-      timer,
+      timeLeft,
       player: { score },
     } = this.state;
     const currentQuestion = questions[currentQuestionId];
@@ -74,12 +107,15 @@ class Game extends Component {
       <>
         <Header score={ score } />
         <p>Questão:</p>
-        {(currentQuestion) && (
-          <Question
-            timer={ timer }
+        {(currentQuestion)
+          && <Question
+            stopTimer={ this.stopTimer }
             currQuestion={ currentQuestion }
+            timeLeft={ timeLeft }
             handleClick={ this.handleClick }
-          />)}
+          />}
+
+        <Header />
         <p>Jogo</p>
       </>
     );
