@@ -33,10 +33,12 @@ class Login extends React.Component {
 
   handleClick() {
     const { saveLogin } = this.props;
-    api.fetchToken().then(({ token }) => localStorage
-      .setItem('token', JSON.stringify(token)));
-    this.setState({ loggedIn: true });
-    saveLogin(this.state);
+    const { nome, email } = this.state;
+    api.fetchToken().then(({ token }) => {
+      localStorage.setItem('token', JSON.stringify(token));
+      saveLogin({ nome, email });
+      this.setState({ loggedIn: true });
+    });
   }
 
   render() {
