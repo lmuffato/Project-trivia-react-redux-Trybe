@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { startNewGame } from '../actions/action';
 import { permutate } from '../services';
 import { QUESTIONS_AMOUNT } from '../constants';
+import './TriviaGame.css';
 
 class TriviaGame extends Component {
   componentDidMount() {
@@ -15,6 +16,16 @@ class TriviaGame extends Component {
     const { questions } = this.props;
     if (answer === questions[0].correct_answer) return 'correct-answer';
     return `wrong-answer-${questions[0].incorrect_answers.indexOf(answer)}`;
+  }
+
+  handleClick() {
+    const btnArr = document.getElementsByClassName('btn');
+    [...btnArr].map((btn) => {
+      if (btn.getAttribute('data-testid') === 'correct-answer') {
+        return btn.classList.add('correct');
+      }
+      return btn.classList.add('wrong');
+    });
   }
 
   render() {
@@ -30,6 +41,8 @@ class TriviaGame extends Component {
         {permutate(...answers).map((answer, i) => (
           <button
             type="button"
+            className="btn"
+            onClick={ this.handleClick }
             data-testid={ this.getID(answer) }
             key={ i }
           >
