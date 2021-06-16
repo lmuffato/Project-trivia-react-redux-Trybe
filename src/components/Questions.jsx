@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { arrayOf, object } from 'prop-types';
 import { connect } from 'react-redux';
+import parse from 'html-react-parser';
 import { rightAnswer } from '../actions';
 import '../styles/question.css';
+import NextQuestion from './NextQuestion/NextQuery';
 
 class Questions extends Component {
   constructor(props) {
@@ -14,6 +16,7 @@ class Questions extends Component {
     this.runGame = this.runGame.bind(this);
     this.saveAtLocalStorage = this.saveAtLocalStorage.bind(this);
     this.timeCounter = this.timeCounter.bind(this);
+    this.nextQuestion = this.nextQuestion.bind(this);
 
     this.state = {
       questions,
@@ -105,14 +108,20 @@ class Questions extends Component {
     );
   }
 
+  async nextQuestion() {
+    await this.setState(({ count }) => ({ count: count + 1, time: 30, gameOn: true }));
+    this.saveAtLocalStorage();
+    this.runGame();
+    this.sortQuestions();
+  }
+
   render() {
     const { question, category, gameOn, shuffleAnswers, correctAnswer } = this.state;
-
     return (
       <div className="question-content">
         <div>
           <h3 data-testid="question-category">{category}</h3>
-          <p data-testid="question-text">{question}</p>
+          <p data-testid="question-text">{parse(question)}</p>
         </div>
         <div className="options-content">
           {shuffleAnswers.map((query, index) => {
@@ -128,14 +137,12 @@ class Questions extends Component {
                     style={ gameOn ? null : { border: '3px solid rgb(6, 240, 15)' } }
                     disabled={ !gameOn }
                   >
-                    { query }
+                    { parse(query) }
                   </button>
                 </p>);
             }
             return (
-              <p
-                key={ `answer-${index}` }
-              >
+              <p key={ `answer-${index}` }>
                 <button
                   style={ gameOn ? null : { border: '3px solid rgb(255, 0, 0)' } }
                   data-testid={ `wrong-answer-${index}` }
@@ -143,14 +150,14 @@ class Questions extends Component {
                   type="button"
                   disabled={ !gameOn }
                 >
-                  { query }
+                  { parse(query) }
                 </button>
               </p>
             );
           })}
         </div>
         { this.timeCounter() }
-        <button type="button">Next Question</button>
+        <NextQuestion hidden={ gameOn } nextQuestion={ this.nextQuestion } />
       </div>
     );
   }
