@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import setAttribute from '../services/setAttribute';
 import shuffle from '../services/shuffle';
 import changeColors from '../services/changeColors';
@@ -16,6 +17,8 @@ class Question extends React.Component {
       nextBtn: false,
       timer: 30,
       assertions: 0,
+      redirect: false,
+      score: 0,
     };
 
     this.renderQuestion = this.renderQuestion.bind(this);
@@ -29,28 +32,43 @@ class Question extends React.Component {
     this.updateTimerFunc();
   }
 
+  clearAllIntervals() {
+    for (let i = 0; i < 100; i += 1) {
+      window.clearInterval(i);
+      window.clearTimeout(i);
+    }
+  }
+
   handleClick() {
     const { index } = this.state;
-    this.setState({ index: index + 1 });
-    this.updateTimerFunc();
-    this.setState({ nextBtn: false });
+    const indexMax = 4;
+    if (index === indexMax) {
+      this.setState({ redirect: true });
+    } else {
+      this.setState({ index: index + 1 });
+      this.setState({ nextBtn: false });
+      this.clearAllIntervals();
+      this.setState({ timer: 30 });
+      this.updateTimerFunc();
+    }
   }
 
   checkAnswer(e, timer, difficulty) {
     const { setPointsRedux, name, email } = this.props;
-    const { assertions } = this.state;
+    const { assertions, score } = this.state;
     changeColors();
     this.setState({ nextBtn: true });
     const points = setPoints(e, timer, difficulty);
     if (points !== 0) {
       setPointsRedux({ placar: points });
       this.setState({ assertions: assertions + 1 });
+      this.setState({ score: score + points });
     }
     const player = {
       player: {
         name,
         assertions,
-        score: points,
+        score: score + points,
         gravatarEmail: email,
       },
     };
@@ -58,14 +76,18 @@ class Question extends React.Component {
   }
 
   showNextBtn() {
+    const { redirect } = this.state;
     return (
-      <button
-        type="button"
-        onClick={ this.handleClick }
-        data-testid="btn-next"
-      >
-        Proxima
-      </button>
+      <>
+        <button
+          type="button"
+          onClick={ this.handleClick }
+          data-testid="btn-next"
+        >
+          Proxima
+        </button>
+        {redirect && <Redirect to="/feedback" />}
+      </>
     );
   }
 
