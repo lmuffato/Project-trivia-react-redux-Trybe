@@ -19,7 +19,7 @@ const game = (state = INITIAL_STATE, action) => {
   case GET_QUESTIONS_SUCCESS:
     return {
       ...state,
-      questions: action.payload.questions.results,
+      questions: action.payload.questions,
       loadingQuestions: false,
     };
   case GET_TOKEN:
