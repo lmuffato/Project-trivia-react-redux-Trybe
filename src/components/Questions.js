@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styles from '../pages/game.module.css';
 import Loading from './Loading';
+import Timer from './Timer';
 import './questions.css';
 
 class Questions extends Component {
@@ -12,9 +13,13 @@ class Questions extends Component {
       borderColor: [],
       questionsIndex: 0,
       isVisible: 'false',
+      reset: false,
+      stop: false,
+      disabled: false,
     };
     this.handleClickAnswer = this.handleClickAnswer.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
+    this.handleZero = this.handleZero.bind(this);
   }
 
   nextQuestion(NumberOfQuestions) {
@@ -22,6 +27,9 @@ class Questions extends Component {
       questionsIndex: (prevState.questionsIndex + 1) % NumberOfQuestions,
       borderColor: [],
       isVisible: 'false',
+      reset: true,
+      stop: false,
+      disabled: false,
     }));
   }
 
@@ -41,11 +49,15 @@ class Questions extends Component {
         }));
       }
     });
-    this.setState({ isVisible: 'true' });
+    this.setState({ isVisible: 'true', stop: true, reset: false, disabled: true });
+  }
+
+  handleZero() {
+    this.handleClickAnswer();
   }
 
   render() {
-    const { borderColor, isVisible, questionsIndex } = this.state;
+    const { borderColor, isVisible, questionsIndex, reset, stop, disabled } = this.state;
     const { loading, questions } = this.props;
     const questionsFiltered = questions[questionsIndex];
 
@@ -70,6 +82,7 @@ class Questions extends Component {
                   className={ [styles
                     .question__alternatives, borderColor[index]].join(' ') }
                   data-testid={ Object.values(question) }
+                  disabled={ disabled }
                 >
                   {Object.keys(question)}
                 </button>
@@ -89,6 +102,7 @@ class Questions extends Component {
         >
           Próxima
         </button>
+        <Timer reset={ reset } stop={ stop } handleZero={ this.handleZero } />
       </div>
     );
   }
