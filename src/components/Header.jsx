@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import * as api from '../services/Api';
 
 class Header extends React.Component {
@@ -16,7 +17,7 @@ class Header extends React.Component {
   }
 
   render() {
-    const { userName } = this.props;
+    const { name } = this.props;
     const { gravatar } = this.state;
 
     return (
@@ -26,12 +27,16 @@ class Header extends React.Component {
           alt="User"
           data-testid="header-profile-picture"
         />
-        <p data-testid="header-player-name">{ userName }</p>
+        <p data-testid="header-player-name">{ name }</p>
         <p data-testid="header-score">0</p>
       </>
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  name: state.tokenReducer.name,
+});
 
 Header.propTypes = {
   gravatar: PropTypes.string,
@@ -39,4 +44,4 @@ Header.propTypes = {
   score: PropTypes.number,
 }.isRequired;
 
-export default Header;
+export default connect(mapStateToProps, null)(Header);

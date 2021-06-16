@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { login as loginAction } from '../actions';
 
 class Login extends React.Component {
   constructor() {
@@ -36,10 +38,12 @@ class Login extends React.Component {
   }
 
   async handleClick() {
-    const { history } = this.props;
+    const { name } = this.state;
+    const { history, login } = this.props;
     const key = await fetch('https://opentdb.com/api_token.php?command=request');
     const token = await key.json();
     localStorage.setItem('token', token.token);
+    login(name);
     history.push('/trivia');
   }
 
@@ -96,8 +100,12 @@ class Login extends React.Component {
   }
 }
 
+const mapDispatchToProps = (dispatch) => ({
+  login: (e) => dispatch(loginAction(e)),
+});
+
 Login.propTypes = {
   history: PropTypes.objectOf(PropTypes.func).isRequired,
 };
 
-export default Login;
+export default connect(null, mapDispatchToProps)(Login);
