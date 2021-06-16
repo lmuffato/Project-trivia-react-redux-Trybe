@@ -1,6 +1,6 @@
 const initialState = {
   questions: [],
-  tempo: 5,
+  tempo: 30,
 };
 
 export default function trivia(state = initialState, action) {
