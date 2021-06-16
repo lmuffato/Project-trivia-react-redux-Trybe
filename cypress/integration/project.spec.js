@@ -210,7 +210,7 @@ describe('7 - [TELA DE JOGO] Desenvolva o estilo que, ao clicar em uma resposta,
   });
 });
 
-describe.skip('8 - [TELA DE JOGO] Desenvolva um timer onde a pessoa que joga tem 30 segundos para responder', () => {
+describe('8 - [TELA DE JOGO] Desenvolva um timer onde a pessoa que joga tem 30 segundos para responder', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/');
     cy.clearLocalStorage();
@@ -247,6 +247,7 @@ describe('9 - [TELA DE JOGO] Crie o placar com as seguintes características:', 
 
   it('Soma pontos ao acertar uma questão', () => {
     const then = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
+    
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).click().then(() => {
       const now = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
       expect(then.player.score).to.be.lt(now.player.score);

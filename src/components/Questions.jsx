@@ -15,10 +15,6 @@ class Questions extends Component {
     this.saveInStorage = this.saveInStorage.bind(this);
   }
 
-  componentDidMount() {
-    this.saveInStorage();
-  }
-
   async setScore(shouldCalc) {
     const { currentIndex } = this.state;
     const { questions, timer, time, saveScore } = this.props;

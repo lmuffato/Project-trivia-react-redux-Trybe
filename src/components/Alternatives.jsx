@@ -113,6 +113,7 @@ Alternatives.propTypes = {
   correctAnswer: PropTypes.string.isRequired,
   revelaBorda: PropTypes.string.isRequired,
   setRevelaBorda: PropTypes.func.isRequired,
+  setScore: PropTypes.func.isRequired,
 };
 
 export default Alternatives;
