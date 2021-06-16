@@ -2,17 +2,17 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Proptypes from 'prop-types';
 import Header from '../components/Header';
-import { fetchAPIThunk } from '../actions/index';
+import { fetchAPIThunk, timeOut } from '../actions/index';
+import Timer from '../components/Timer';
+import RenderQuestions from '../components/RenderQuestions';
 
 class Game extends Component {
   constructor() {
     super();
     this.state = {
       questionNumber: 0,
-      questionAnswered: true,
+      // score: 0,
     };
-    this.renderQuestion = this.renderQuestion.bind(this);
-    this.nextQuestion = this.nextQuestion.bind(this);
   }
 
   componentDidMount() {
@@ -20,86 +20,35 @@ class Game extends Component {
     fetchAPI();
   }
 
-  nextQuestion() {
-    this.setState(({ questionNumber }) => ({
-      questionNumber: questionNumber + 1,
-    }));
-  }
-
-  renderQuestion() {
-    const { apiResult } = this.props;
-    const { questionNumber } = this.state;
-    const { results } = apiResult;
-    if (results === undefined) return;
-    const currQuestion = results[questionNumber];
-    const correctQuestion = (
-      <button type="button" data-testid="correct-answer">
-        {currQuestion.correct_answer}
-      </button>);
-    const arrayInCorretAnswers = currQuestion.incorrect_answers
-      .map((answer, index) => (
-        <button
-          type="button"
-          key={ index }
-          data-testid={ `wrong-answer-${index}` }
-        >
-          { answer }
-        </button>
-      ));
-
-    const arrayAllAnswers = arrayInCorretAnswers.concat(correctQuestion);
-    for (let index = arrayAllAnswers.length; index > 0; index -= 1) {
-      const index2 = Math.floor(Math.random() * (index));
-      const temp = arrayAllAnswers[index];
-      arrayAllAnswers[index] = arrayAllAnswers[index2];
-      arrayAllAnswers[index2] = temp;
-    }
-
-    return (
-      <div>
-        <p data-testid="question-category">{currQuestion.category}</p>
-        <h2 data-testid="question-text">{currQuestion.question}</h2>
-        { arrayAllAnswers }
-      </div>
-    );
-  }
-
   render() {
     const { isLoading } = this.props;
-    const { questionAnswered } = this.state;
+    const { questionNumber } = this.state;
     if (isLoading) return <h2>Loading...</h2>;
     return (
       <div>
         <Header />
-        <div>
-          {this.renderQuestion()}
-        </div>
-        {questionAnswered
-          ? (
-            <button
-              type="button"
-              data-testid="btn-next"
-              onClick={ this.nextQuestion }
-            >
-              PRÓXIMA
-            </button>) : ''}
+        <span>
+          Tempo:
+          <Timer />
+          segundos
+        </span>
+        <RenderQuestions question={ questionNumber } />
+        <button type="button">PRÓXIMA</button>
       </div>
     );
   }
 }
-
 const mapDispatchToProps = (dispatch) => ({
   fetchAPI: () => dispatch(fetchAPIThunk()),
+  timeOut: () => dispatch(timeOut()),
 });
 
-const mapStateToProps = ({ apiResponse: { apiResult, isLoading } }) => ({
-  apiResult,
+const mapStateToProps = ({ apiResponse: { isLoading } }) => ({
   isLoading,
 });
 
 Game.propTypes = {
   fetchAPI: Proptypes.func.isRequired,
-  apiResult: Proptypes.arrayOf(Object).isRequired,
   isLoading: Proptypes.bool.isRequired,
 };
 
