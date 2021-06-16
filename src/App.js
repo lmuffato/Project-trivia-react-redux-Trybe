@@ -1,16 +1,28 @@
 import React from 'react';
-import logo from './trivia.png';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import Login from './pages/Login';
+import Settings from './pages/Settings';
+import TriviaGame from './pages/TriviaGame';
+import NotFound from './pages/NotFound';
 import './App.css';
 
 export default function App() {
   return (
-    <div className="App">
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/" component={ Login } />
+        <Route exact path="/settings" component={ Settings } />
+        <Route exact path="/trivia" component={ TriviaGame } />
+        <Route path="*" component={ NotFound } />
+      </Switch>
+    </BrowserRouter>
+  );
+}
+/* <div className="App">
       <header className="App-header">
         <img src={ logo } className="App-logo" alt="logo" />
         <p>
           SUA VEZ
         </p>
       </header>
-    </div>
-  );
-}
+    </div> */
