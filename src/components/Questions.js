@@ -36,6 +36,7 @@ class Questions extends React.Component {
         child.className = 'answer wrong';
       }
     });
+  }
 
   render() {
     const { questions, timesUp } = this.props;
