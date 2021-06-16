@@ -1,10 +1,10 @@
 import fetchAPI from '../services/fetchtoken';
 
-export const LOGIN = 'LOGIN';
+export const USER_INFO = 'USER_INFO';
 export const TOKEN = 'TOKEN';
 
-export const login = (payload) => ({
-  type: LOGIN,
+export const getUserInfo = (payload) => ({
+  type: USER_INFO,
   payload,
 });
 

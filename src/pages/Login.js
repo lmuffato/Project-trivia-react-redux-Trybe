@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getToken as getTokenThunk } from '../actions/index';
+import { getToken as getTokenThunk, getUserInfo } from '../actions/index';
+
 // import fetchAPI from '../services/fetchtoken';
 // import logo from '../trivia.png';
 
@@ -40,8 +41,10 @@ class Login extends Component {
   }
 
   handleClick() {
-    const { sendToken } = this.props;
+    const { sendToken, sendState } = this.props;
+    const { name, email } = this.state;
     sendToken();
+    sendState({ name, email });
   }
 
   handleChange({ target: { name, value } }) {
@@ -124,10 +127,12 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   sendToken: () => dispatch(getTokenThunk()),
+  sendState: (user) => dispatch(getUserInfo(user)),
 });
 
 Login.propTypes = {
-  sendToken: PropTypes.func.isRequired,
-};
+  sendToken: PropTypes.func,
+  sendState: PropTypes.func,
+}.isRequired;
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
