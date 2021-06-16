@@ -15,6 +15,7 @@ class Question extends React.Component {
       addClass: false,
       isVisible: false,
       disabled: false,
+      stopTime: false,
     };
   }
 
@@ -50,8 +51,9 @@ class Question extends React.Component {
 
     setInterval(() => {
       const { time, dispatchTimer } = this.props;
+      const { stopTime } = this.state;
       const remainTime = time - 1;
-      if (remainTime > 0) {
+      if (remainTime > 0 && !stopTime) {
         dispatchTimer(remainTime);
       } else if (remainTime === 0) {
         dispatchTimer(remainTime);
@@ -64,11 +66,12 @@ class Question extends React.Component {
   }
 
   buttonNext() {
-    const { nextQuestion, dispatchTimer, time } = this.props;
+    const { nextQuestion, dispatchTimer } = this.props;
+    const INITIAL_TIME = 30;
     // const { initialTimer } = this.state;
-    this.setState({ addClass: false, disabled: false });
+    this.setState({ addClass: false, disabled: false, stopTime: false });
     nextQuestion();
-    dispatchTimer(time);
+    dispatchTimer(INITIAL_TIME);
   }
 
   decodeHtml(html) {
@@ -82,6 +85,7 @@ class Question extends React.Component {
       addClass: true,
       isVisible: true,
       disabled: true,
+      stopTime: true,
     });
     if (target.name === 'correct-answer') this.getScore();
   }

@@ -19,7 +19,7 @@ export default function login(state = INITIAL_STATE, action) {
     return {
       ...state,
       score: state.score + action.score,
-      correct: state.correct + action.correct,
+      correct: state.correct + 1,
     };
   default:
     return state;
