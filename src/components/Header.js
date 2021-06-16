@@ -2,11 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
+import { saveAvatar } from '../actions';
 
 class Header extends React.Component {
-  render() {
-    const { nameStore, emailStore, scoreStore } = this.props;
+  requestAvatar() {
+    const { emailStore, sendAvatar } = this.props;
     const emailHash = md5(emailStore).toString();
+    const avatar = `https://www.gravatar.com/avatar/${emailHash}`;
+    sendAvatar(avatar);
+  }
+
+  render() {
+    const { nameStore, scoreStore, emailHash } = this.props;
+    this.requestAvatar();
     return (
       <header>
         <img
@@ -27,10 +35,14 @@ const MapStateToProps = (state) => ({
   scoreStore: state.player.score,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  sendAvatar: (avatar) => dispatch(saveAvatar(avatar)),
+});
+
 Header.propTypes = {
   nameStore: PropTypes.string,
   emailStore: PropTypes.string,
   scoreStore: PropTypes.number,
 }.isRequired;
 
-export default connect(MapStateToProps)(Header);
+export default connect(MapStateToProps, mapDispatchToProps)(Header);
