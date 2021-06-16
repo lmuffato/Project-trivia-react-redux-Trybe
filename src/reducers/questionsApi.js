@@ -1,9 +1,7 @@
 import { QUESTIONS_API } from '../actions';
 
 const QUESTIONS_INITIAL_STATE = {
-  questions: {
-    results: [],
-  },
+  questions: {},
 };
 
 const user = (state = QUESTIONS_INITIAL_STATE, action) => {

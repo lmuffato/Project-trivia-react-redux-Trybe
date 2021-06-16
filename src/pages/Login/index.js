@@ -44,7 +44,9 @@ class Login extends Component {
 
     login({ name, email });
     await this.fetchToken();
-    setTimeout(() => { history.push('/game'); }, 5000);
+    // history.push('/game');
+    const time = 5000;
+    setTimeout(() => { history.push('/game'); }, time);
   }
 
   render() {
@@ -85,7 +87,7 @@ class Login extends Component {
             onClick={ this.handleClick }
             disabled={ !((patternEmail.test(email)) && (name.length > 0)) }
           >
-            Jogar/
+            Jogar
           </button>
           {/* </Link> */}
         </form>
