@@ -4,15 +4,20 @@ import PropTypes from 'prop-types';
 import Timer from '../components/Timer';
 import { fetchQuestions } from '../actions';
 import Header from '../components/Header';
+import './GamePlay.css';
 
 class GamePlay extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       index: 0,
-      nextQuestionBtn: true,
+      visible: false,
+      correctClass: 'answer',
+      wrongClass: 'answer',
     };
     this.renderQuestions = this.renderQuestions.bind(this);
+    this.showNextQuestionBtn = this.showNextQuestionBtn.bind(this);
+    this.handleAlternativeClick = this.handleAlternativeClick.bind(this);
   }
 
   componentDidMount() {
@@ -21,22 +26,42 @@ class GamePlay extends React.Component {
   }
 
   handleClick(value) {
-    const three = 3;
-    const { index } = this.state;
-    if (index === three) {
-      this.setState({ nextQuestionBtn: false });
+    const { history } = this.props;
+    const four = 4;
+    this.setState({ index: value, visible: false });
+    if (value > four) {
+      history.push('/feedback');
     }
-    this.setState({ index: value });
+  }
+
+  showNextQuestionBtn() {
+    this.setState({ visible: true });
+  }
+
+  handleAlternativeClick() {
+    // Adição de classe em React baseada em pesquisa no StackOverflow no link:
+    // https://stackoverflow.com/questions/28732253/how-to-add-or-remove-a-classname-on-event-in-reactjs
+    this.setState((prevState) => ({
+      correctClass: `${prevState.correctClass} correct`,
+      wrongClass: `${prevState.wrongClass} wrong`,
+    }));
+    this.showNextQuestionBtn();
   }
 
   renderQuestion(question) {
     const { correct_answer: correctAnswer,
       incorrect_answers: incorrectAnswers } = question;
+    const { correctClass, wrongClass } = this.state;
     return (
       <div>
         <p data-testid="question-category">{question.category}</p>
         <p data-testid="question-text">{question.question}</p>
-        <button type="button" data-testid="correct-answer">
+        <button
+          type="button"
+          data-testid="correct-answer"
+          className={ correctClass }
+          onClick={ this.handleAlternativeClick }
+        >
           { correctAnswer }
         </button>
         {
@@ -45,6 +70,8 @@ class GamePlay extends React.Component {
               key={ index }
               type="button"
               data-testid={ `wrong-answer-${index}` }
+              className={ wrongClass }
+              onClick={ this.handleAlternativeClick }
             >
               {e}
             </button>
@@ -56,13 +83,14 @@ class GamePlay extends React.Component {
 
   renderQuestions() {
     const { questions } = this.props;
-    const { index, nextQuestionBtn } = this.state;
+    const { index, visible } = this.state;
     return (
       <section>
         { this.renderQuestion(questions[index]) }
         <button
           type="button"
-          disabled={ !nextQuestionBtn }
+          // disabled={ !nextQuestionBtn }
+          className={ visible ? 'show-btn' : 'hide-btn' }
           data-testid="btn-next"
           onClick={ () => this.handleClick(index + 1) }
         >
