@@ -2,6 +2,7 @@ export const LOG_IN = 'LOG_IN';
 export const REQUEST_TOKEN = 'REQUEST_TOKEN';
 export const GET_QUESTIONS_SUCCESS = 'GET_QUESTIONS_SUCCESS';
 export const GET_QUESTIONS = 'GET_QUESTIONS';
+export const SAVE_AVATAR = 'SAVE_AVATAR';
 
 export const login = (payload) => ({
   type: LOG_IN,
@@ -20,6 +21,11 @@ const requestQuestionsSuccess = (payload) => ({
 
 const requestQuestions = () => ({
   type: GET_QUESTIONS,
+});
+
+export const saveAvatar = (payload) => ({
+  type: SAVE_AVATAR,
+  payload,
 });
 
 export const fetchToken = () => async (dispatch) => {

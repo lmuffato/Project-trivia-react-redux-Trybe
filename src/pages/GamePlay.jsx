@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { fetchQuestions } from '../actions';
 import Header from '../components/Header';
@@ -33,6 +34,12 @@ class GamePlay extends React.Component {
 
   showNextQuestionBtn() {
     this.setState({ visible: true });
+  }
+
+  showFeedback() {
+    return (
+      <Redirect to="/feedback" />
+    );
   }
 
   renderQuestion(question) {
@@ -86,11 +93,14 @@ class GamePlay extends React.Component {
 
   render() {
     const { loading } = this.props;
+    const { index, visible } = this.state;
+    const numberThree = 3;
     return (
       <>
         <Header />
         <main>
           { loading ? 'Loading' : this.renderQuestions() }
+          { index > numberThree && visible === true ? this.showFeedback() : '' }
         </main>
       </>
     );
