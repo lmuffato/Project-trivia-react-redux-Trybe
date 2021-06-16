@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { getTokenThunk } from '../actions/actionUser';
 import { getQuestionsThunk } from '../actions/actionQuestions';
 import Question from '../components/Question';
+import Header from '../components/Header';
 
 class Game extends Component {
   async componentDidMount() {
@@ -24,6 +25,7 @@ class Game extends Component {
     if (isLoadingQuestion || isLoadingUser) return 'Carregando...';
     return (
       <div>
+        <Header />
         <div>
           { Object.values(questions).length
             ? <Question idQuestion={ 0 } />
