@@ -3,12 +3,19 @@ import React, { Component } from 'react';
 import Question from '../components/Question';
 import getTriviaQuestions from '../utils/triviaApi';
 import Header from '../components/Header';
+import { updateLocalStorage, updateUserScore } from '../utils/functions';
 
 class Game extends Component {
   constructor() {
     super();
 
     this.state = {
+      player: {
+        name: '',
+        assertions: 0,
+        score: 0,
+        gravatarEmail: '',
+      },
       questions: [],
       currentQuestionId: 0,
       isLoading: false,
@@ -17,6 +24,7 @@ class Game extends Component {
 
     this.timer = 0;
 
+    this.handleClick = this.handleClick.bind(this);
     this.fetchApi = this.fetchApi.bind(this);
     this.countDown = this.countDown.bind(this);
     this.startTimer = this.startTimer.bind(this);
@@ -54,6 +62,21 @@ class Game extends Component {
     clearInterval(this.timer);
   }
 
+  componentDidUpdate() {
+    const { player } = this.state;
+    updateLocalStorage('state', { player });
+  }
+
+  handleClick(difficulty) {
+    const { timeLeft } = this.state;
+    this.setState(({ player }) => ({
+      player: {
+        ...player,
+        score: player.score + updateUserScore(timeLeft, difficulty),
+      },
+    }));
+  }
+
   fetchApi() {
     this.setState(
       { isLoading: true },
@@ -69,19 +92,27 @@ class Game extends Component {
   }
 
   render() {
-    const { questions, currentQuestionId, isLoading, timeLeft } = this.state;
+    const {
+      questions,
+      currentQuestionId,
+      isLoading,
+      timeLeft,
+      player: { score },
+    } = this.state;
     const currentQuestion = questions[currentQuestionId];
 
     if (isLoading) return (<p>Loading...</p>);
 
     return (
       <>
+        <Header score={ score } />
         <p>Questão:</p>
         {(currentQuestion)
           && <Question
             stopTimer={ this.stopTimer }
             currQuestion={ currentQuestion }
             timeLeft={ timeLeft }
+            handleClick={ this.handleClick }
           />}
 
         <Header />

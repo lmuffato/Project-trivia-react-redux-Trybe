@@ -3,7 +3,7 @@ import { Redirect, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { func } from 'prop-types';
 
-import userValidation from '../utils/functions';
+import { userValidation } from '../utils/functions';
 import retrieveData from '../utils/api';
 import { userGamer } from '../redux/actions';
 
