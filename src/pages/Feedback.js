@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
 
@@ -26,6 +27,14 @@ class FeedBack extends React.Component {
         <p data-testid="feedback-text">{this.mensageScore()}</p>
         <p data-testid="feedback-total-question">{correct}</p>
         <p data-testid="feedback-total-score">{score}</p>
+        <Link to="/">
+          <button
+            type="button"
+            data-testid="btn-play-again"
+          >
+            Jogar novamente
+          </button>
+        </Link>
       </div>
     );
   }
