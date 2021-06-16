@@ -7,7 +7,7 @@ class Header extends Component {
   render() {
     const { playerName, score } = this.props;
     const hashEmail = md5('teste@gmail.com').toString();
-    const gravatarURL = `https://www.gravatar.com/avatar/${hashEmail}`;
+    const gravatarURL = `https://www.gravatar.com/avatar/${hashEmail}`; // Armazenar no state
 
     return (
       <div>

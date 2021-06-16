@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Settings from '../components/Settings';
 import { connect } from 'react-redux';
 import { string, func } from 'prop-types';
 import { getToken, getName } from '../actions/index';
+import Settings from '../components/Settings';
 
 class Login extends Component {
   constructor() {
