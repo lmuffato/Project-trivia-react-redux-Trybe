@@ -7,12 +7,11 @@ import Play from './pages/Play';
 import Feedback from './pages/Feedback';
 import Config from './pages/Config';
 import Ranking from './pages/Ranking';
-// import { Login, NotFound, Play, Feedback, Config, Ranking } from './pages/';
 
 export default function App() {
   return (
     <Switch>
-      <Route exact path="/"><Login /></Route>
+      <Route exact path="/" component={ Login } />
       <Route path="/play" component={ Play } />
       <Route path="/config" component={ Config } />
       <Route path="/feedback" component={ Feedback } />
