@@ -1,11 +1,11 @@
-#headerTrivia {
+.headerTrivia {
+  align-items: center;
+  background-color: cornflowerblue;
+  border-radius: 10px;
+  color: white;
   display: flex; 
   justify-content: space-around; 
-  align-items: center;
   margin: 15px;
-  background-color: cornflowerblue;
-  color: white;
-  border-radius: 10px;
 }
 
 h1 { 
