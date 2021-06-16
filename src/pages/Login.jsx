@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router';
 import { login } from '../actions';
-import getToken from '../services/api';
+import { getToken } from '../services/api';
 
 // Link do código do regex: https://regexr.com/2ri2c
 
