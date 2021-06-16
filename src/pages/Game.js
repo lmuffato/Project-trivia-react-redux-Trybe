@@ -1,3 +1,4 @@
+/* eslint-disable max-statements */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Proptypes from 'prop-types';
@@ -9,18 +10,50 @@ class Game extends Component {
     super();
     this.state = {
       questionNumber: 0,
+      time: 30,
+      score: 0,
+      arrAnswers: [],
     };
     this.renderQuestion = this.renderQuestion.bind(this);
+    this.timer = this.timer.bind(this);
   }
 
   componentDidMount() {
+    const ONE_SECOND = 1000;
+    setTimeout(() => this.timer(), ONE_SECOND);
+  }
+
+  sortArr(arr) {
+    const outPut = arr;
+    for (let index = outPut.length; index > 0; index -= 1) {
+      const index2 = Math.floor(Math.random() * (index));
+      const temp = outPut[index];
+      outPut[index] = outPut[index2];
+      outPut[index2] = temp;
+    }
+    return outPut;
+  }
+
+  async timer() {
+    const { time } = this.state;
     const { fetchAPI } = this.props;
-    fetchAPI();
+    const ONE_SECOND = 1000;
+    const THIRTY_SECONDS = 30;
+
+    setInterval(() => {
+      this.setState((previousState) => ({ time: previousState.time - 1 }));
+    }, ONE_SECOND);
+    const stopTimer = time === 0;
+    await !stopTimer;
+    // if (time === 0) clearInterval(interval);
+    if (time === THIRTY_SECONDS) {
+      fetchAPI();
+    }
   }
 
   renderQuestion() {
     const { apiResult } = this.props;
-    const { questionNumber } = this.state;
+    const { questionNumber, time } = this.state;
     const { results } = apiResult;
     if (results === undefined) return;
     const currQuestion = results[questionNumber];
@@ -40,30 +73,42 @@ class Game extends Component {
       ));
 
     const arrayAllAnswers = arrayInCorretAnswers.concat(correctQuestion);
-    for (let index = arrayAllAnswers.length; index > 0; index -= 1) {
-      const index2 = Math.floor(Math.random() * (index));
-      const temp = arrayAllAnswers[index];
-      arrayAllAnswers[index] = arrayAllAnswers[index2];
-      arrayAllAnswers[index2] = temp;
-    }
+    const THIRTY_SECONDS = 30;
+    const arrsort = this.sortArr(arrayAllAnswers);
 
-    return (
-      <div>
-        <p data-testid="question-category">{currQuestion.category}</p>
-        <h2 data-testid="question-text">{currQuestion.question}</h2>
-        { arrayAllAnswers }
-      </div>
-    );
-  }
+
+    // console.log(this.state);
+    // if (time > THIRTY_SECONDS - 1) {
+    //   this.setState(({ arrAnswers: arrsort }));
+    //   const { arrAnswers } = this.state;
+      return (
+        <div>
+          <p data-testid="question-category">{currQuestion.category}</p>
+          <h2 data-testid="question-text">{currQuestion.question}</h2>
+          { arrsort }
+        </div>
+      );
+    }
+    // const { arrAnswers } = this.state;
+    // return (
+    //   <div>
+    //     <p data-testid="question-category">{currQuestion.category}</p>
+    //     <h2 data-testid="question-text">{currQuestion.question}</h2>
+    //     { arrAnswers }
+    //   </div>
+    // );
+  // }
 
   // categorry, question
   render() {
     const { isLoading } = this.props;
+    const { time } = this.state;
     if (isLoading) return <h2>Loading...</h2>;
 
     return (
       <div>
         <Header />
+        <p>{`Tempo: ${time} segundos`}</p>
         <div>
           {this.renderQuestion()}
         </div>
