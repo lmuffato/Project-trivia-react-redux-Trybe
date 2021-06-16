@@ -71,14 +71,14 @@ body {
   display: flex;
 }
 
-.btn-content input,button {
+.btn-content input, button {
   align-items: center;
   display: flex;
   font-size: medium;
   height: 50px;
   justify-content: center;
-  width: 120px;
   margin: 0 20px;
+  width: 120px;
 }
 
 .btnPlay {
