@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from "react-router-dom";
+import { Redirect } from 'react-router-dom';
 
 const second = 1000;
 
@@ -46,8 +46,8 @@ class Questions extends Component {
   handleClick() {
     this.setState(
       { displayBtn: true,
-      showAsnwer:true }
-      );
+        showAsnwer: true },
+    );
   }
 
   nextButton() {
@@ -69,25 +69,24 @@ class Questions extends Component {
   handleNext() {
     const { questionNumber } = this.state;
     const maxQuestion = 4;
-    if ( questionNumber <= maxQuestion) {
+    if (questionNumber <= maxQuestion) {
       this.setState({
         currentTime: 30,
-        disableButton:false,
+        disableButton: false,
         displayBtn: false,
         showAsnwer: false,
         questionNumber: questionNumber + 1,
-      })
+      });
     }
   }
 
-
   render() {
-    const {questions, questionNumber, currentTime, disableButton, showAsnwer } = this.state;
-    let question = questions[questionNumber];
-    if (questionNumber === 5) return <Redirect to="/feedback"/>
-    return !question ? (
-      <p>Loading!</p>
-    ) : (
+    const {
+      questions, questionNumber, currentTime, disableButton, showAsnwer } = this.state;
+    const quantyQuestions = 5;
+    const question = questions[questionNumber];
+    if (questionNumber === quantyQuestions) return <Redirect to="/feedback" />;
+    return !question ? (<p>Loading!</p>) : (
       <div>
         <div>
           { currentTime }
@@ -105,7 +104,7 @@ class Questions extends Component {
           </p>
           <button
             type="button"
-            className={ showAsnwer ? "button-green" : "button-uncolor" }
+            className={ showAsnwer ? 'button-green' : 'button-uncolor' }
             data-testid="correct-answer"
             disabled={ disableButton }
             id="correct-answer"
@@ -117,7 +116,7 @@ class Questions extends Component {
             <button
               key={ index }
               type="button"
-              className={ showAsnwer ? "button-red" : "button-uncolor" }
+              className={ showAsnwer ? 'button-red' : 'button-uncolor' }
               data-testid={ `wrong-answer-${index}` }
               disabled={ disableButton }
               onClick={ () => this.handleClick() }
