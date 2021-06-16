@@ -12,7 +12,7 @@ import Ranking from './pages/Ranking';
 export default function App() {
   return (
     <Switch>
-      <Route exact path="/"><Login /></Route>
+      <Route exact path="/" component={ Login } />
       <Route path="/play" component={ Play } />
       <Route path="/config" component={ Config } />
       <Route path="/feedback" component={ Feedback } />

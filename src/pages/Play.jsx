@@ -17,36 +17,36 @@ class Play extends Component {
   }
 
   async componentDidMount() {
-    const { callApiToQuestions } = this.props;
-    await callApiToQuestions();
+    const { callApiToQuestions, questions, token } = this.props;
+    if (questions.length === 0) await callApiToQuestions(token);
     this.mountRound();
   }
 
-  async mountRound() {
+  mountRound() {
     const { questions } = this.props;
     const { questionNumber } = this.state;
     const { category, question, incorrect_answers: incorrectAnswers,
       correct_answer: correctAnswer } = questions[questionNumber];
     let answersOfRound = incorrectAnswers.map((answer, index) => (
-      <label htmlFor={ index } key={ index }>
+      <label htmlFor={ index } key={ index } data-testid={ `wrong-answer-${index}` }>
         <input
           id={ index }
-          type="radio"
+          type="button"
           name="answer"
-          data-testid={ `wrong-answer-${index}` }
+          value={ answer }
         />
-        {answer}
+        {/* {answer} */}
       </label>
     ));
     answersOfRound.push(
-      <label htmlFor="correct-answer" key="correct-answer">
+      <label htmlFor="correct-answer" key="correct-answer" data-testid="correct-answer">
         <input
           id="correct-answer"
-          type="radio"
+          type="button"
           name="answer"
-          data-testid="correct-answer"
+          value={ correctAnswer }
         />
-        {correctAnswer}
+        {/* {correctAnswer} */}
       </label>,
     );
     const probToChangePosition = 0.5;
@@ -84,15 +84,17 @@ class Play extends Component {
 
 Play.propTypes = {
   callApiToQuestions: PropTypes.func,
+  token: PropTypes.string,
   questions: PropTypes.arrayOf(PropTypes.object),
 }.isRequired;
 
 const mapStateToProps = (state) => ({
   questions: state.player.questions,
+  token: state.player.token,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  callApiToQuestions: () => dispatch(fetchQuestion()),
+  callApiToQuestions: (token) => dispatch(fetchQuestion(token)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Play);

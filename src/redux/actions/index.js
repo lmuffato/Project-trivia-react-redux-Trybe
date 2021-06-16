@@ -14,46 +14,54 @@ export const getQuestion = (returnOfAPI) => ({
 
 export const addToken = (saveToken) => {
   localStorage.setItem('token', saveToken);
+  console.log(saveToken, 'novo token');
   return {
     type: GET_TOKEN,
     payload: saveToken,
   };
 };
 
-const fetchApiToken = async () => {
-  const response = await fetch('https://opentdb.com/api_token.php?command=request');
-  const date = await response.json();
-  return date;
-};
-
-export const getToken = () => (dispatch) => {
-  dispatch(requestAPI());
-  fetchApiToken()
-    .then((res) => {
-      dispatch(addToken(res.token));
-    });
-};
+function updateToken() {
+  return async (dispatch) => {
+    dispatch(requestAPI());
+    return fetch('https://opentdb.com/api_token.php?command=request')
+      .then((response) => response.json())
+      .then((response) => {
+        addToken(response.token);
+        return response.token;
+      });
+  };
+}
 
 const endpointBase = 'https://opentdb.com/api.php?amount=5&token=';
-export function fetchQuestion() {
-  console.log('função de requisição de questões acionada');
-  const token = localStorage.getItem('token');
-  return (dispatch) => {
-    dispatch(requestAPI);
+export function fetchQuestion(token) {
+  return async (dispatch) => {
+    dispatch(requestAPI());
     return fetch(`${endpointBase}${token}`)
       .then((response) => response.json())
       .then((response) => {
         const codeError = 3;
         const codeSucess = 0;
+        console.log(response, 'resposta da api');
         if (response.response_code === codeError) {
-          getToken();
-          fetchQuestion();
-          console.log('erro na requisição das questões');
+          fetchQuestion(updateToken());
         } else if (response.response_code === codeSucess) {
           dispatch(getQuestion(response));
-          console.log('dispatch das questões realizado');
         }
       });
+  };
+}
+
+export function fetchToken() {
+  return async (dispatch) => {
+    dispatch(requestAPI());
+    return fetch('https://opentdb.com/api_token.php?command=request')
+      .then((response) => response.json())
+      .then((response) => {
+        addToken(response.token);
+        return response.token;
+      })
+      .then((token) => fetchQuestion(token));
   };
 }
 // Actions Relacionadas ao gravatar

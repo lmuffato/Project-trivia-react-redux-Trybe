@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { addLogin, getToken } from '../redux/actions';
+import { addLogin, fetchToken } from '../redux/actions';
 import logo from '../trivia.png';
 
 class Login extends React.Component {
@@ -19,9 +19,10 @@ class Login extends React.Component {
     };
   }
 
-  handleApi() {
-    const { token } = this.props;
-    token();
+  async handleApi() {
+    const { token, history } = this.props;
+    await token();
+    history.push('/play');
   }
 
   handleChanges({ target: { name, value } }) {
@@ -73,10 +74,9 @@ class Login extends React.Component {
             data-testid="btn-play"
             onClick={ () => login({ name, email }) }
           >
-            <Link to="/play" onClick={ this.handleApi }>
+            <button type="button" onClick={ this.handleApi }>
               Jogar
-            </Link>
-
+            </button>
           </button>
         </form>
         <button
@@ -92,11 +92,13 @@ class Login extends React.Component {
 
 const mapDispatchToProps = (dispatch) => ({
   login: (userInfo) => dispatch(addLogin(userInfo)),
-  token: (saveToken) => dispatch(getToken(saveToken)),
+  token: () => dispatch(fetchToken()),
 });
 
 Login.propTypes = {
   login: PropTypes.func,
+  token: PropTypes.func,
+  callApiToQuestions: PropTypes.func,
 }.isRequired;
 
 export default connect(null, mapDispatchToProps)(Login);
