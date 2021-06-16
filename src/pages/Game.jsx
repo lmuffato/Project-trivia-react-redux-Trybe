@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bool, object } from 'prop-types';
 import Questions from '../components/Questions';
 import { getQuestion } from '../actions';
+import '../styles/header.css';
 
 class Game extends Component {
   constructor() {
@@ -33,17 +34,21 @@ class Game extends Component {
   render() {
     const { isLoading, player: { name, score, picture } } = this.props;
     return (
-      <div>
-        <header>
+      <div className="main-content">
+        <header className="header-content">
           <img
             src={ picture }
             alt="gravatar-img"
             data-testid="header-profile-picture"
           />
-          <p data-testid="header-player-name">{ name }</p>
-          <p data-testid="header-score">{ score }</p>
+          <div className="player-content">
+            <p data-testid="header-player-name"><strong>{ `Player: ${name}` }</strong></p>
+            <p data-testid="header-score"><strong>{ `Score: ${score}` }</strong></p>
+          </div>
         </header>
-        {!isLoading ? <Questions /> : 'carregando....'}
+        <div className="question-main-content">
+          {!isLoading ? <Questions /> : 'carregando....'}
+        </div>
       </div>
     );
   }
