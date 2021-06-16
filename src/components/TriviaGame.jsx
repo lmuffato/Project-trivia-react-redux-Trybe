@@ -72,10 +72,16 @@ class TriviaGame extends Component {
     }
   }
 
+  showNextButton() {
+    const nextButton = document.getElementsByClassName('next-question')[0];
+    nextButton.hidden = false;
+  }
+
   handleClick(difficulty) {
     return ({ target }) => {
       this.colorButtonsBorder();
       this.updateScore(difficulty, target);
+      this.showNextButton();
     };
   }
 
@@ -99,6 +105,14 @@ class TriviaGame extends Component {
             {answer}
           </button>
         ))}
+        <button
+          type="button"
+          data-testid="btn-next"
+          className="next-question"
+          hidden
+        >
+          Próxima
+        </button>
         <Timer />
       </div>
     );
