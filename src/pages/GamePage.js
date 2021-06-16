@@ -55,7 +55,7 @@ class GamePage extends React.Component {
       }
       return btn.classList.add('red');
     });
-    this.setState({ isButtonDisabled: true })
+    this.setState({ isButtonDisabled: true });
     const element = document.querySelector('.hide-button');
     return element.setAttribute('class', 'flex');
   }
