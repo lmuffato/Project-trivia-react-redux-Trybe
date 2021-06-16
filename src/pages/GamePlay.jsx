@@ -30,12 +30,12 @@ class GamePlay extends React.Component {
       },
       correctClass: 'answer',
       wrongClass: 'answer',
-      player: {
-        name: '',
-        assertions: 0,
-        score: 0,
-        gravatarEmail: '',
-      },
+      // player: {
+      //   name: '',
+      //   assertions: 0,
+      //   score: 0,
+      //   gravatarEmail: '',
+      // },
     };
     this.renderQuestions = this.renderQuestions.bind(this);
     this.showNextQuestionBtn = this.showNextQuestionBtn.bind(this);
@@ -116,6 +116,7 @@ class GamePlay extends React.Component {
     const { difficulty, correct_answer: correctAnswer,
       incorrect_answers: incorrectAnswers } = question;
     const { correctClass, wrongClass, disable } = this.state;
+    const isDisabled = disable;
     return (
       <div>
         <p data-testid="question-category">{question.category}</p>
@@ -123,7 +124,7 @@ class GamePlay extends React.Component {
         <button
           type="button"
           data-testid="correct-answer"
-          disabled={ disable }
+          disabled={ isDisabled }
           onClick={ () => this.handleAlternativeClick(difficulty) }
           className={ correctClass }
         >
@@ -134,7 +135,7 @@ class GamePlay extends React.Component {
             <button
               key={ index }
               type="button"
-              disabled={ disable }
+              disabled={ isDisabled }
               data-testid={ `wrong-answer-${index}` }
               onClick={ () => this.handleAlternativeClick() }
               className={ wrongClass }

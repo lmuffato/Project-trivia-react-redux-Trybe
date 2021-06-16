@@ -7,7 +7,7 @@ class Timer extends Component {
   constructor() {
     super();
     this.state = {
-      seconds: 10,
+      seconds: 5,
     };
 
     this.setTime = this.setTime.bind(this);
@@ -15,35 +15,33 @@ class Timer extends Component {
   }
 
   componentDidMount() {
-    const { setTime } = this;
-
-    setTime();
-  }
-
-  componentWillUnmount() {
-    const { setTime } = this;
-    clearInterval(setTime());
+    console.log('Did Mount');
+    this.setTime();
   }
 
   setTime() {
     const UM_SEGUNDO = 1000;
-    const { seconds } = this.state;
-    setInterval(() => {
+
+    this.timer = setInterval(() => {
+      const { seconds } = this.state;
+      const { timeCondition } = this.props;
       if (seconds > 0) {
         this.setState((prevState) => ({
           seconds: prevState.seconds - 1,
         }));
       }
+
+      if (seconds === 1) {
+        timeCondition();
+        clearInterval(this.timer);
+      }
     }, UM_SEGUNDO);
   }
 
   disableBtn() {
-    const { timeCondition } = this.props;
+    // const { timeCondition } = this.props;
     return (
-      <>
-        <h1>Fim</h1>
-        {timeCondition()}
-      </>
+      <h1>Fim</h1>
     );
   }
 
