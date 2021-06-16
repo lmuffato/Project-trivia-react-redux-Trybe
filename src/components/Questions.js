@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import setAttribute from '../services/setAttribute';
 import shuffle from '../services/shuffle';
+import changeColors from '../services/changeColors';
 
 class Question extends React.Component {
   constructor(props) {
@@ -18,6 +19,10 @@ class Question extends React.Component {
   handleClick() {
     const { index } = this.state;
     this.setState({ index: index + 1 });
+  }
+
+  checkAnswer() {
+    changeColors();
   }
 
   renderQuestion(results, index) {
@@ -43,6 +48,8 @@ class Question extends React.Component {
             key={ elem.answer }
             type="button"
             data-testid={ elem.attribute }
+            onClick={ this.checkAnswer }
+            className="answer"
           >
             {elem.answer}
           </button>))}
