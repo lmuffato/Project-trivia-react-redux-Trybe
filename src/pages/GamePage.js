@@ -15,7 +15,7 @@ class GamePage extends React.Component {
       incorrectAnswers: [],
       question: '',
       loading: true,
-      isButtonDisabled: false,
+      isButtonDisabled: false, // vamos precisar disso para o req.8
     };
 
     this.fetchApi = this.fetchApi.bind(this);
