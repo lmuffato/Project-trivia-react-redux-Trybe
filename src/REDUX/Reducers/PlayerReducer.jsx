@@ -6,6 +6,13 @@ const INITIAL_STATE = {
   user: {},
 };
 
+const player = {
+  name: '',
+  assertions: '',
+  score: 0,
+  gravatarEmail: '',
+};
+
 export default function PlayerReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
   case LOGIN:
@@ -14,6 +21,7 @@ export default function PlayerReducer(state = INITIAL_STATE, action) {
     };
   case 'SUCCESS_REQUEST':
     localStorage.setItem('token', JSON.stringify(action.data.token));
+    localStorage.setItem('state', JSON.stringify(player));
     return {
       ...state, user: action.data,
     };
