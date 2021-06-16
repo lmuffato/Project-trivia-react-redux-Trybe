@@ -4,6 +4,7 @@ import { bool, object } from 'prop-types';
 import Questions from '../components/Questions';
 import { getQuestion } from '../actions';
 import '../styles/header.css';
+import Header from '../components/Header';
 
 class Game extends Component {
   constructor() {
@@ -32,22 +33,12 @@ class Game extends Component {
   }
 
   render() {
-    const { isLoading, player: { name, score, picture } } = this.props;
+    const { isLoading, history } = this.props;
     return (
       <div className="main-content">
-        <header className="header-content">
-          <img
-            src={ picture }
-            alt="gravatar-img"
-            data-testid="header-profile-picture"
-          />
-          <div className="player-content">
-            <p data-testid="header-player-name"><strong>{ `Player: ${name}` }</strong></p>
-            <p data-testid="header-score"><strong>{ `Score: ${score}` }</strong></p>
-          </div>
-        </header>
+        <Header />
         <div className="question-main-content">
-          {!isLoading ? <Questions /> : 'carregando....'}
+          {!isLoading ? <Questions history={ history } /> : 'carregando....'}
         </div>
       </div>
     );

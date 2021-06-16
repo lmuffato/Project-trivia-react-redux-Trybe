@@ -19,6 +19,7 @@ body {
   background-color: #3a2d88;
   border: none;
   border-radius: 10px;
+  box-shadow: 2px 3px 30px black;
   color: white;
   padding: 40px;
   width: 40%;

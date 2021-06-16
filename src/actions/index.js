@@ -20,7 +20,6 @@ export function addPlayer(payload) {
 }
 
 export function rightAnswer(payload) {
-  console.log(payload);
   return {
     type: RIGHT_ANSWER,
     payload,
