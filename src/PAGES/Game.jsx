@@ -31,45 +31,54 @@ class Game extends React.Component {
 
   playTime() {
     const { time } = this.state;
+    console.log('time');
+    console.log(time);
     const segundo = 1000;
     const maxTime = 30;
 
     if (time <= maxTime && time > 0) {
+      console.log('playtime');
       this.timeout = setInterval(this.HandleTime, segundo);
     }
   }
 
-  handleindex() {
-    const { index } = this.state;
+  HandleTime() {
+    const { time } = this.state;
+    this.setState({ time: time - 1 });
+  }
 
-    this.setState({
-      index: index + 1,
+  handleindex() {
+    // const { index } = this.state;
+    this.setState((prevState) => ({
+      index: prevState.index + 1,
       time: 30,
       nextBtnVisible: 'none',
       selectedStyle: false,
-    });
-    this.playTime();
+    }), this.playTime);
   }
 
-  handleClickAnswer(type) {
+  handleClickAnswer(type, difficulty) {
     clearInterval(this.timeout);
     this.setState({ selectedStyle: true, nextBtnVisible: '' });
     if (type === true) {
       console.log(type);
+      const { time } = this.state;
+      // level: easy: 1, medium: 2, hard: 3
+      // score = 10 + (time * level[difficulty])
     }
   }
 
   handleAnswers(answers) {
     const { time, selectedStyle } = this.state;
     let answerDisabled = false;
-    let corectBorder = 'none';
-    let wrongBorder = 'none';
+    let corectborder = 'none';
+    let wrongborder = 'none';
     if (time === 0) {
       answerDisabled = true;
     }
     if (selectedStyle === true) {
-      corectBorder = '3px solid rgb(6, 240, 15)';
-      wrongBorder = '3px solid rgb(255, 0, 0)';
+      corectborder = '3px solid rgb(6, 240, 15)';
+      wrongborder = '3px solid rgb(255, 0, 0)';
     }
 
     return answers.map((answer, index) => {
@@ -81,7 +90,7 @@ class Game extends React.Component {
             key={ index }
             onClick={ () => this.handleClickAnswer('correct') }
             disabled={ answerDisabled }
-            style={ { border: [corectBorder] } }
+            style={ { border: [corectborder] } }
           >
             { answer.text }
           </button>
@@ -94,7 +103,7 @@ class Game extends React.Component {
           key={ index }
           onClick={ () => this.handleClickAnswer('wrong') }
           disabled={ answerDisabled }
-          style={ { border: [wrongBorder] } }
+          style={ { border: [wrongborder] } }
         >
           {answer.text}
         </button>
@@ -102,20 +111,14 @@ class Game extends React.Component {
     });
   }
 
-  HandleTime() {
-    const { time } = this.state;
-
-    this.setState({ time: time - 1 });
-  }
-
   render() {
     const { index, time, nextBtnVisible } = this.state;
     const { questions, isLoading } = this.props;
 
-    let nextBtnVisible2 = nextBtnVisible;
+    let nextbtnvisible2 = nextBtnVisible;
 
     if (time === 0) {
-      nextBtnVisible2 = '';
+      nextbtnvisible2 = '';
     }
 
     if (isLoading === false) {
@@ -134,7 +137,7 @@ class Game extends React.Component {
             type="button"
             data-testid="btn-next"
             onClick={ () => this.handleindex() }
-            style={ { display: [nextBtnVisible2] } }
+            style={ { display: [nextbtnvisible2] } }
           >
             Próxima Pergunta
           </button>
