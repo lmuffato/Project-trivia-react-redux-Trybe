@@ -1,4 +1,4 @@
-import { LOGIN, GET_TOKEN } from './actionsTypes';
+import { LOGIN, GET_TOKEN, ADD_GRAVATAR } from './actionsTypes';
 
 export const addLogin = (userInfo) => ({
   type: LOGIN,
@@ -27,3 +27,7 @@ export const getToken = () => (dispatch) => {
 };
 
 // Actions Relacionadas ao gravatar
+export const addGravatar = (url) => ({
+  type: ADD_GRAVATAR,
+  payload: url,
+});
