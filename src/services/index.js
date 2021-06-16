@@ -25,8 +25,24 @@ export function permutate(...things) {
   const permutation = [];
   while (items.length > 0) {
     const randomNumber = Math.floor(Math.random() * items.length);
-    permutation.push(items[randomNumber]);
-    items.splice(randomNumber, 1);
+    permutation.push(items.splice(randomNumber, 1)[0]);
   }
   return permutation;
+}
+/**
+ * Para usar forneça um objeto com as chaves que você quer modificar
+ * por exemplo: { user: Xablau }
+ * @param {object} obj
+ */
+export function setLocalStorage(obj) {
+  const previousState = JSON.parse(localStorage.getItem('state'));
+  localStorage.setItem('state', JSON.stringify({ ...previousState, player: { ...obj } }));
+}
+/**
+ * Forneça a chave que vocẽ quer acessar
+ * @param {string} key
+ * @returns
+ */
+export function getLocalStorage(key) {
+  return JSON.parse(localStorage.getItem('state')).player[key];
 }

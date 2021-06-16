@@ -1,19 +1,27 @@
 import { MD5 } from 'crypto-js';
-import { LOGIN, GET_QUESTIONS,
-  API_GRAVATAR, GET_GRAVATAR, API_TRIVIA_QUESTIONS, GAME_TIMEOUT } from '../constants';
+import { LOGIN, SET_QUESTIONS,
+  API_GRAVATAR, SET_GRAVATAR, API_TRIVIA_QUESTIONS, GAME_TIMEOUT,
+  SET_CURRENT_QUESTION_TIME, REQUEST_QUESTIONS, UPDATE_SCORE } from '../constants';
 
 export const login = (payload) => ({ type: LOGIN, payload });
 
 export const getGravatarImage = (email) => ({
-  type: GET_GRAVATAR,
+  type: SET_GRAVATAR,
   payload: API_GRAVATAR(MD5(email).toString()),
 });
 
 export const gameTimeout = () => ({ type: GAME_TIMEOUT });
-const getQuestions = (payload) => ({ type: GET_QUESTIONS, payload });
+export const currentQuestionTime = (payload) => (
+  { type: SET_CURRENT_QUESTION_TIME, payload });
+
+const setQuestions = (payload) => ({ type: SET_QUESTIONS, payload });
+const requestAPIQuestions = () => ({ type: REQUEST_QUESTIONS });
 
 export const startNewGame = (amount, token) => (dispatch) => {
+  dispatch(requestAPIQuestions());
   fetch(API_TRIVIA_QUESTIONS(amount, token))
     .then((response) => response.json())
-    .then((data) => dispatch(getQuestions(data)));
+    .then((data) => dispatch(setQuestions(data)));
 };
+
+export const updateScore = (payload) => ({ type: UPDATE_SCORE, payload });

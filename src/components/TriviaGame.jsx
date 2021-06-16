@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { startNewGame } from '../actions/action';
-import { permutate } from '../services';
-import { QUESTIONS_AMOUNT } from '../constants';
+import { startNewGame, updateScore } from '../actions/action';
+import { getLocalStorage, permutate, setLocalStorage } from '../services';
+import { BASE_SCORE, QUESTIONS_AMOUNT } from '../constants';
 import './TriviaGame.css';
 import Timer from './Timer';
 
@@ -11,11 +11,16 @@ class TriviaGame extends Component {
   constructor() {
     super();
     this.handleClick = this.handleClick.bind(this);
+    this.state = {
+      permutatedAswers: [],
+    };
+    this.setPermutatedAnswers = this.setPermutatedAnswers.bind(this);
   }
 
   componentDidMount() {
     const { fetchQuestions } = this.props;
     fetchQuestions(localStorage.getItem('token'));
+    setLocalStorage({ score: 0 });
   }
 
   componentDidUpdate() {
@@ -25,6 +30,14 @@ class TriviaGame extends Component {
       const btnArr = document.getElementsByClassName('btn');
       [...btnArr].forEach((btn) => { btn.disabled = true; });
     }
+    const { permutatedAswers } = this.state;
+    if (!permutatedAswers.length) this.setPermutatedAnswers();
+  }
+
+  setPermutatedAnswers() {
+    const { questions } = this.props;
+    const answers = [questions[0].correct_answer, ...questions[0].incorrect_answers];
+    this.setState({ permutatedAswers: permutate(...answers) });
   }
 
   getID(answer) {
@@ -44,24 +57,42 @@ class TriviaGame extends Component {
     });
   }
 
-  handleClick() {
-    this.colorButtonsBorder();
+  updateScore(difficulty, button) {
+    const { time, newScore } = this.props;
+    const levels = { easy: 1, medium: 2, hard: 3 };
+    if (button.classList.contains('correct')) {
+      const previousScore = getLocalStorage('score');
+      const currentScore = Number(
+        previousScore,
+      ) + BASE_SCORE + (time * levels[difficulty]);
+      setLocalStorage({
+        score: currentScore,
+      });
+      newScore(currentScore);
+    }
+  }
+
+  handleClick(difficulty) {
+    return ({ target }) => {
+      this.colorButtonsBorder();
+      this.updateScore(difficulty, target);
+    };
   }
 
   render() {
-    const { questions } = this.props;
-    if (questions.length === 0) return <div>Loading</div>;
-    const { category, question } = questions[0];
-    const answers = [questions[0].correct_answer, ...questions[0].incorrect_answers];
+    const { questions, isLoading } = this.props;
+    if (isLoading) return <div>Loading</div>;
+    const { permutatedAswers } = this.state;
+    const { category, question, difficulty } = questions[0];
     return (
       <div>
         <h3 data-testid="question-category">{category}</h3>
         <h2 data-testid="question-text">{question}</h2>
-        {permutate(...answers).map((answer, i) => (
+        {permutatedAswers.map((answer, i) => (
           <button
             type="button"
             className="btn"
-            onClick={ this.handleClick }
+            onClick={ this.handleClick(difficulty) }
             data-testid={ this.getID(answer) }
             key={ i }
           >
@@ -81,6 +112,7 @@ TriviaGame.propTypes = {
 function mapDispatchToProps(dispatch) {
   return {
     fetchQuestions: (token) => dispatch(startNewGame(QUESTIONS_AMOUNT, token)),
+    newScore: (newScore) => dispatch(updateScore(newScore)),
   };
 }
 
@@ -88,6 +120,8 @@ function mapStateToProps(state) {
   return {
     questions: state.trivia.questions,
     timeExpired: state.trivia.timeExpired,
+    time: state.trivia.currentQuestionTime,
+    isLoading: state.trivia.isLoading,
   };
 }
 
