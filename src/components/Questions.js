@@ -47,10 +47,12 @@ class Question extends React.Component {
       this.setState({ assertions: assertions + 1 });
     }
     const player = {
-      name,
-      assertions,
-      score: points,
-      gravatarEmail: email,
+      player: {
+        name,
+        assertions,
+        score: points,
+        gravatarEmail: email,
+      },
     };
     localStorage.setItem('state', JSON.stringify(player));
   }
