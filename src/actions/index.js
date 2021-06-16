@@ -1,9 +1,9 @@
 import getApiToken from '../services/api';
 
-export const setNameAction = (nome) => ({
+export const setNameAction = (name) => ({
   type: 'SET_NAME',
   payload: {
-    nome,
+    name,
   },
 });
 
