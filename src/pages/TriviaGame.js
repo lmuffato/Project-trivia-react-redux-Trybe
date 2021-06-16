@@ -75,7 +75,10 @@ class TriviaGame extends Component {
           {/* <Timer /> */}
         </div>
         <div>
-          {questions.length && <Answer answers={ questionsRandom } changeBorder={ this.changeBorder } />}
+          {questions.length && <Answer
+            answers={ questionsRandom }
+            changeBorder={ this.changeBorder }
+          />}
           <ButtonNext onClick={ this.handleIndexIncrementOnClick } />
         </div>
       </div>
