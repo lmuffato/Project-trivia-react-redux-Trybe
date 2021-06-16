@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { func } from 'prop-types';
 
-import userValidation from '../utils/functions';
+import { userValidation } from '../utils/functions';
 import retrieveData from '../utils/api';
 import { userGamer } from '../redux/actions';
 
@@ -71,6 +71,14 @@ class Login extends Component {
           </button>
         </form>
         { toRedirect ? <Redirect to="/Game" /> : null }
+        <Link to="/settings">
+          <button
+            type="button"
+            data-testid="btn-settings"
+          >
+            Configurações
+          </button>
+        </Link>
       </section>
     );
   }

@@ -5,7 +5,6 @@ import {
 const INITIAL_STATE = {
   name: '',
   email: '',
-  point: 0,
 };
 
 function userReducer(state = INITIAL_STATE, { payload, type }) {
