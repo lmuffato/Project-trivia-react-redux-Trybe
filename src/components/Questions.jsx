@@ -33,24 +33,22 @@ class Questions extends Component {
 
   runGame() {
     const oneSecond = 1000;
-    const thritySeconds = 30000;
     const timer = setInterval(() => {
       this.setState((prevState) => {
-        if (prevState.time > 0 && prevState.gameOn) {
+        if (prevState.time >= 0 && prevState.gameOn) {
           return { time: prevState.time - 1 };
         }
+        clearInterval(timer);
+        this.saveAtLocalStorage();
       });
     }, oneSecond);
-    setTimeout(() => {
-      clearInterval(timer);
-      this.setState({ gameOn: false });
-    }, thritySeconds);
   }
 
   saveAtLocalStorage() {
     const { player } = this.props;
     delete player.picture;
-    localStorage.setItem('state', JSON.stringify({ player }));
+    const data = { player };
+    localStorage.setItem('state', JSON.stringify(data));
   }
 
   async selectAnswer({ target }) {
@@ -65,7 +63,6 @@ class Questions extends Component {
     const rightAnswerScore = 10;
     const score = rightAnswerScore + (time * scoreMultiplicators[difficulty]);
     console.log(score);
-    this.saveAtLocalStorage(score);
     if (correctAnswer === target.innerText) {
       console.log('acertou');
       await incrementScore(score);
