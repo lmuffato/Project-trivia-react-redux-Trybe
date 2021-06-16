@@ -5,11 +5,26 @@ import { startNewGame } from '../actions/action';
 import { permutate } from '../services';
 import { QUESTIONS_AMOUNT } from '../constants';
 import './TriviaGame.css';
+import Timer from './Timer';
 
 class TriviaGame extends Component {
+  constructor() {
+    super();
+    this.handleClick = this.handleClick.bind(this);
+  }
+
   componentDidMount() {
     const { fetchQuestions } = this.props;
     fetchQuestions(localStorage.getItem('token'));
+  }
+
+  componentDidUpdate() {
+    const { timeExpired } = this.props;
+    if (timeExpired) {
+      this.colorButtonsBorder();
+      const btnArr = document.getElementsByClassName('btn');
+      [...btnArr].forEach((btn) => { btn.disabled = true; });
+    }
   }
 
   getID(answer) {
@@ -18,14 +33,19 @@ class TriviaGame extends Component {
     return `wrong-answer-${questions[0].incorrect_answers.indexOf(answer)}`;
   }
 
-  handleClick() {
+  colorButtonsBorder() {
     const btnArr = document.getElementsByClassName('btn');
-    [...btnArr].map((btn) => {
+    [...btnArr].forEach((btn) => {
       if (btn.getAttribute('data-testid') === 'correct-answer') {
-        return btn.classList.add('correct');
+        btn.classList.add('correct');
+      } else {
+        btn.classList.add('wrong');
       }
-      return btn.classList.add('wrong');
     });
+  }
+
+  handleClick() {
+    this.colorButtonsBorder();
   }
 
   render() {
@@ -35,7 +55,6 @@ class TriviaGame extends Component {
     const answers = [questions[0].correct_answer, ...questions[0].incorrect_answers];
     return (
       <div>
-        <h1>Trivia Game</h1>
         <h3 data-testid="question-category">{category}</h3>
         <h2 data-testid="question-text">{question}</h2>
         {permutate(...answers).map((answer, i) => (
@@ -49,6 +68,7 @@ class TriviaGame extends Component {
             {answer}
           </button>
         ))}
+        <Timer />
       </div>
     );
   }
@@ -67,6 +87,7 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
   return {
     questions: state.trivia.questions,
+    timeExpired: state.trivia.timeExpired,
   };
 }
 
