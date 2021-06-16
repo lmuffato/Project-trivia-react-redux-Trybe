@@ -60,11 +60,25 @@ class Game extends React.Component {
   handleClickAnswer(type, difficulty) {
     clearInterval(this.timeout);
     this.setState({ selectedStyle: true, nextBtnVisible: '' });
+    let level = 0;
+    const levelhard = 3;
+    switch (difficulty) {
+    case easy: (level = 1);
+      break;
+    case medium: (level = 2);
+      break;
+    case hard: (level = levelhard);
+      break;
+    default: (level = 1);
+      break;
+    }
     if (type === true) {
       console.log(type);
+      const tenPoints = 10;
       const { time } = this.state;
-      // level: easy: 1, medium: 2, hard: 3
-      // score = 10 + (time * level[difficulty])
+      const score = tenPoints + (time * level);
+      localStorage.setItem('score', score);
+      };
     }
   }
 
@@ -88,7 +102,7 @@ class Game extends React.Component {
             type="button"
             data-testid="correct-answer"
             key={ index }
-            onClick={ () => this.handleClickAnswer('correct') }
+            onClick={ () => this.handleClickAnswer('correct', answer.difficulty) }
             disabled={ answerDisabled }
             style={ { border: [corectborder] } }
           >
@@ -101,7 +115,7 @@ class Game extends React.Component {
           type="button"
           data-testid={ `wrong-answer-${index}` }
           key={ index }
-          onClick={ () => this.handleClickAnswer('wrong') }
+          onClick={ () => this.handleClickAnswer('wrong', answer.difficulty) }
           disabled={ answerDisabled }
           style={ { border: [wrongborder] } }
         >
