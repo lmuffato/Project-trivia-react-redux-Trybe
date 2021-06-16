@@ -41,11 +41,9 @@ class TriviaGame extends Component {
         dataTestId: `wrong-answer-${i}`,
       }));
 
-      const answers = [...questions[index].incorrect_answers,
-        questions[index].correct_answer];
-      const answers2 = [...incorrect,
+      const answers = [...incorrect,
         correct];
-      return shuffle(answers2);
+      return shuffle(answers);
     }
   }
 

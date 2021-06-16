@@ -2,15 +2,26 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function Answer(props) {
-  const { answers, onClick } = props;
+  const { answers } = props;
+
+  const changeBorder = (ev) => {
+    // const btnAnswers = document.getElementsByName('answer');
+    if (ev.target.getAttribute('data-testid') === 'correct-answer') {
+      ev.target.style = 'border: 3px solid rgb(6, 240, 15)';
+    } else {
+      ev.target.style = 'border: 3px solid rgb(255, 0, 0)';
+    }
+  };
+
   return (
     <div>
       {answers.map((answer, index) => (
         <button
           key={ index }
           type="button"
-          onClick={ onClick }
+          onClick={ changeBorder }
           data-testid={ answer.dataTestId }
+          name="answer"
         >
           {answer.answer}
         </button>
@@ -21,7 +32,6 @@ function Answer(props) {
 
 Answer.propTypes = {
   answers: PropTypes.arrayOf(PropTypes.string).isRequired,
-  onClick: PropTypes.func.isRequired,
 };
 
 export default Answer;
