@@ -36,7 +36,7 @@ class Game extends Component {
     const { props: { questions, loading }, createAlternativesButtons } = this;
     return (
       <div>
-        {loading ? <p>loading...</p> : (
+        {(loading && !questions.length) ? <p>loading...</p> : (
           <div>
             <p data-testid="question-category">{questions[0].category}</p>
             <p data-testid="question-text">{questions[0].question}</p>
