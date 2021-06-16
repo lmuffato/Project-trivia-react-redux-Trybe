@@ -19,8 +19,7 @@ class GamePage extends React.Component {
     };
 
     this.fetchApi = this.fetchApi.bind(this);
-    this.handleClickCorrectAnswer = this.handleClickCorrectAnswer.bind(this);
-    this.handleClickIncorrectAnswer = this.handleClickIncorrectAnswer.bind(this);
+    this.handleStyle = this.handleStyle.bind(this);
     this.shuffleArr = this.shuffleArr.bind(this);
   }
 
@@ -48,16 +47,15 @@ class GamePage extends React.Component {
     }
   }
 
-  handleClickCorrectAnswer() {
-    console.log('correct answer click');
-    this.setState({ isButtonDisabled: true });
-    const element = document.querySelector('.hide-button');
-    return element.setAttribute('class', 'flex');
-  }
-
-  handleClickIncorrectAnswer() {
-    console.log('incorrect answer click');
-    this.setState({ isButtonDisabled: true });
+  handleStyle() {
+    const btnAnswers = document.getElementsByTagName('button');
+    [...btnAnswers].map((btn) => {
+      if (btn.getAttribute('data-testid') === 'correct-answer') {
+        return btn.classList.add('green');
+      }
+      return btn.classList.add('red');
+    });
+    this.setState({ isButtonDisabled: true })
     const element = document.querySelector('.hide-button');
     return element.setAttribute('class', 'flex');
   }
@@ -95,7 +93,7 @@ class GamePage extends React.Component {
               key={ answer }
               type="button"
               data-testid="correct-answer"
-              onClick={ this.handleClickCorrectAnswer }
+              onClick={ this.handleStyle }
               disabled={ isButtonDisabled }
             >
               { answer }
@@ -105,7 +103,7 @@ class GamePage extends React.Component {
               type="button"
               key={ answer }
               data-testid={ `wrong-answer-${index}` }
-              onClick={ this.handleClickIncorrectAnswer }
+              onClick={ this.handleStyle }
               disabled={ isButtonDisabled }
             >
               { answer }
