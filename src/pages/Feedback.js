@@ -1,13 +1,14 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 // import { connect } from 'react-redux';
 import Header from '../components/Header';
 
 class Feedback extends React.Component {
-  constructor() {
-    super();
-    this.scoreMenssage = this.scoreMenssage.bind(this);
-    this.totalQuestions = this.totalQuestions.bind(this);
-  }
+  // constructor() {
+  //   super();
+  //   this.scoreMenssage = this.scoreMenssage.bind(this);
+  //   this.totalQuestions = this.totalQuestions.bind(this);
+  // }
 
   // scoreMenssage() {
   //   const { score } = this.props;
@@ -42,6 +43,16 @@ class Feedback extends React.Component {
           { score }
           pontos
         </h2> */}
+        <Link to="/">
+          <button type="button" data-testid="btn-play-again">
+            Jogar novamente
+          </button>
+        </Link>
+        <Link to="/ranking">
+          <button type="button" data-testid="btn-ranking" onClick={ this.func }>
+            Ver Ranking
+          </button>
+        </Link>
       </section>
     );
   }
