@@ -24,7 +24,7 @@ export default function App() {
         <Route path="/settings">
           <Settings />
         </Route>
-        <Route exact path="/ranking">
+        <Route path="/ranking">
           <Ranking />
         </Route>
       </Switch>
