@@ -1,29 +1,61 @@
 import React from 'react';
-import { getApiQuestions } from '../services/api';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { getApiQuestionsThunk } from '../actions';
+import Header from './Header';
 
 class Game extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      questions: '',
-    };
-  }
-
   componentDidMount() {
-    getApiQuestions()
-      .then((questions) => this.setState({ questions }));
+    const { getThunk } = this.props;
+    getThunk();
   }
 
   render() {
-    const { questions } = this.state;
-    const { results } = questions;
+    const { results } = this.props;
     console.log(results);
     return (
-      <div>
-
-        <h1>pagina game</h1>
-      </div>
+      <>
+        <Header />
+        <div>
+          <h1>Answer the right question: </h1>
+          <ul>
+            {results.map((result, index) => (
+              <li
+                data-testid="question-category"
+                key={ index }
+              >
+                {result.category}
+              </li>
+            ))}
+          </ul>
+          <ul>
+            {results.map((result, index) => (
+              <li
+                key={ index }
+                data-testid="question-text"
+              >
+                { result.question }
+              </li>
+            ))}
+          </ul>
+        </div>
+      </>
     );
   }
 }
-export default Game;
+
+const mapDispatchToProps = (dispatch) => ({
+  getThunk: (state) => dispatch(getApiQuestionsThunk(state)),
+});
+
+const mapStateToProps = (state) => ({
+  results: state.game.questions,
+  isLoading: state.game.isLoading,
+});
+
+Game.propTypes = {
+  results: PropTypes.string.isRequired,
+  getThunk: PropTypes.func.isRequired,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Game);

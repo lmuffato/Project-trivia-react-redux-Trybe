@@ -9,6 +9,8 @@ export async function getApiToken() {
   }
 }
 
+// Exercicio 2:
+
 export async function getApiQuestions() {
   const codeError = 3;
   const token = JSON.parse(localStorage.getItem('token')) || [];
