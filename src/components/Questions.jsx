@@ -35,7 +35,7 @@ class Questions extends Component {
     const oneSecond = 1000;
     const timer = setInterval(() => {
       this.setState((prevState) => {
-        if (prevState.time >= 0 && prevState.gameOn) {
+        if (prevState.time > 0 && prevState.gameOn) {
           return { time: prevState.time - 1 };
         }
         clearInterval(timer);
