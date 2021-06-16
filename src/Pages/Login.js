@@ -1,7 +1,10 @@
 import React from 'react';
 import { Redirect } from 'react-router';
+import { createBrowserHistory } from 'history';
 import requestToken from '../Api';
 import './login.css';
+
+const history = createBrowserHistory();
 
 class Login extends React.Component {
   constructor() {
@@ -16,7 +19,7 @@ class Login extends React.Component {
     };
     // bind da função handleChange
     this.handleChange = this.handleChange.bind(this);
-    this.isDisabled = this.isDisabled.bind(this);
+    this.setIsDisabled = this.setIsDisabled.bind(this);
     this.handleClickPlay = this.handleClickPlay.bind(this);
     this.setTokenLocalStorage = this.setTokenLocalStorage.bind(this);
     this.createInputs = this.createInputs.bind(this);
@@ -32,18 +35,9 @@ class Login extends React.Component {
   }
 
   // captura as informações do jogador atraves do input e atribui ao estado local
-  handleChange(event) {
-  // captura o name e o value dos inputs
-    const { name, value } = event.target;
-    this.setState({
-      [name]: value,
-    }, () => {
-      this.isDisabled();
-    });
-  }
 
   // defini se o botão estará habilitado ou não
-  isDisabled() {
+  setIsDisabled() {
     const { email, name } = this.state;
     if (email !== '' && name !== '') {
       this.setState({
@@ -54,6 +48,16 @@ class Login extends React.Component {
         isDisabled: true,
       });
     }
+  }
+
+  handleChange(event) {
+    // captura o name e o value dos inputs
+    const { name, value } = event.target;
+    this.setState({
+      [name]: value,
+    }, () => {
+      this.setIsDisabled();
+    });
   }
 
   handleClickSettings() {
@@ -93,9 +97,11 @@ class Login extends React.Component {
   render() {
     const { name, email, isDisabled, redirect, settings } = this.state;
     if (redirect) {
-      return <Redirect to="/game" />;
+      history.push('/game');
+      return (<Redirect to="/game" />);
     }
     if (settings) {
+      history.push('/settings');
       return <Redirect to="/settings" />;
     }
     return (

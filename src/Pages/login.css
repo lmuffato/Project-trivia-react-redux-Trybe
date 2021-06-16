@@ -11,7 +11,7 @@ body {
   border-radius: 20px;
   display: flex;
   flex-direction: column;
-  height: 150px;
+  height: 170px;
   padding: 25px;
   width: 400px;
 }
@@ -34,5 +34,12 @@ label {
 }
 
 .btn-play {
+  margin: 3px;
   width: 80px;
 }
+
+.btn-settings {
+  margin: 3px;
+  width: 80px;
+}
+
