@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { arrayOf, object } from 'prop-types';
 import { disableAnswer as disableAnswerAction } from '../actions';
 import decoder from '../service/decoder';
+import permutate from '../service/permutate';
 
 
 // Requisito realizado com a lógica e ajuda de RAFAEL MEDEIROS Turma 10A
@@ -62,6 +63,7 @@ class Questions extends React.Component {
                   id={ this.getID(answer) }
                   key={ index }
                   onClick={ this.checkAnswer }
+                  disabled={ timesUp }
                 >
                   {answerDecoded}
                 </button>
