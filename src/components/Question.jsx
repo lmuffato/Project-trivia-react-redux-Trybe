@@ -11,7 +11,14 @@ class Question extends Component {
       displayButton: false,
     };
     this.changeColorAnswer = this.changeColorAnswer.bind(this);
-    this.Question = this.Question.bind(this);
+    this.handleSelectAnswer = this.handleSelectAnswer.bind(this);
+  }
+
+  handleSelectAnswer(isRightAnswer = false, difficulty = null) {
+    const { handleClick, stopTimer } = this.props;
+    if (isRightAnswer) handleClick(difficulty);
+    stopTimer();
+    this.changeColorAnswer();
   }
 
   changeColorAnswer() {
@@ -38,8 +45,9 @@ class Question extends Component {
   }
 
   render() {
+    const { currQuestion, timeLeft } = this.props;
     const { color } = this.state;
-    const { currQuestion, handleClick } = this.props;
+    const isTimeUp = timeLeft === 0;
     const {
       category,
       question,
@@ -60,10 +68,8 @@ class Question extends Component {
         <button
           type="button"
           data-testid="correct-answer"
-          onClick={ () => {
-            handleClick(difficulty);
-            this.changeColorAnswer();
-          } }
+          disabled={ isTimeUp }
+          onClick={ () => this.handleSelectAnswer(true, difficulty) }
           className={ color ? 'correct-selected' : 'no-color' }
         >
           { correctAnswer }
@@ -73,7 +79,8 @@ class Question extends Component {
             key={ index }
             data-testid={ `wrong-answer-${index}` }
             type="button"
-            onClick={ this.changeColorAnswer }
+            disabled={ isTimeUp }
+            onClick={ () => this.handleSelectAnswer(false) }
             className={ color ? 'wrong-selected' : 'no-color' }
           >
             { quest }
@@ -93,6 +100,8 @@ Question.propTypes = {
     correct_answer: PropTypes.string,
     difficulty: PropTypes.string,
   }).isRequired,
+  stopTimer: PropTypes.func.isRequired,
+  timeLeft: PropTypes.number.isRequired,
   handleClick: PropTypes.func.isRequired,
 };
 
