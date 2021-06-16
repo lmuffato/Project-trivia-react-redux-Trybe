@@ -60,7 +60,6 @@ class Login extends Component {
         <form onSubmit={ this.submit }>
           <input
             onChange={ this.handleChange }
-            s
             aria-label="name"
             data-testid="input-player-name"
             type="text"

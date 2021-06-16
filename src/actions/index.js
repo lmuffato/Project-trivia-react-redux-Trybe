@@ -10,8 +10,6 @@ const login = (name, email, assertions = 0, score = 0) => ({
   },
 });
 
-//  { name, gravatarEmail, assertions, score }
-
 export {
   PLAYER,
   login,
