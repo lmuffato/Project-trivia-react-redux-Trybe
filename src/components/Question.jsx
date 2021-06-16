@@ -10,6 +10,14 @@ class Question extends Component {
       color: false,
     };
     this.changeColorAnswer = this.changeColorAnswer.bind(this);
+    this.handleSelectAnswer = this.handleSelectAnswer.bind(this);
+  }
+
+  handleSelectAnswer(isRightAnswer = false, difficulty = null) {
+    const { handleClick, stopTimer } = this.props;
+    if (isRightAnswer) handleClick(difficulty);
+    stopTimer();
+    this.changeColorAnswer();
   }
 
   changeColorAnswer() {
@@ -19,7 +27,7 @@ class Question extends Component {
   }
 
   render() {
-    const { currQuestion, stopTimer, timeLeft, handleClick } = this.props;
+    const { currQuestion, timeLeft } = this.props;
     const { color } = this.state;
     const isTimeUp = timeLeft === 0;
     const {
@@ -43,11 +51,7 @@ class Question extends Component {
           type="button"
           data-testid="correct-answer"
           disabled={ isTimeUp }
-          onClick={ () => {
-            stopTimer
-            handleClick(difficulty);
-            this.changeColorAnswer();
-          } }
+          onClick={ () => this.handleSelectAnswer(true, difficulty) }
           className={ color ? 'correct-selected' : 'no-color' }
         >
           { correctAnswer }
@@ -58,10 +62,7 @@ class Question extends Component {
             data-testid={ `wrong-answer-${index}` }
             type="button"
             disabled={ isTimeUp }
-            onClick={ () => {
-              this.changeColorAnswer
-              stopTimer
-            } }
+            onClick={ () => this.handleSelectAnswer(false) }
             className={ color ? 'wrong-selected' : 'no-color' }
           >
             { quest }

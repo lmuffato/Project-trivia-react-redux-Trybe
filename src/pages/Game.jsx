@@ -35,6 +35,11 @@ class Game extends Component {
     this.fetchApi();
   }
 
+  componentDidUpdate() {
+    const { player } = this.state;
+    updateLocalStorage('state', { player });
+  }
+
   startTimer() {
     const oneSecond = 1000;
     if (this.timer === 0) {
@@ -60,11 +65,6 @@ class Game extends Component {
 
   stopTimer() {
     clearInterval(this.timer);
-  }
-
-  componentDidUpdate() {
-    const { player } = this.state;
-    updateLocalStorage('state', { player });
   }
 
   handleClick(difficulty) {
