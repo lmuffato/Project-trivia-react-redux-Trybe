@@ -1,10 +1,24 @@
 import { LOGIN, GET_QUESTIONS, GET_TOKEN,
-  REQUEST_API, ADD_GRAVATAR } from './actionsTypes';
+  REQUEST_API, ADD_GRAVATAR, UPDATE_SCORE } from './actionsTypes';
 
-export const addLogin = (userInfo) => ({
-  type: LOGIN,
-  payload: { ...userInfo },
-});
+export const updateScore = (newScore) => {
+  const { assertation, score } = newScore;
+  const playerUpdate = { ...localStorage.getItem('player'), assertation, score };
+  localStorage.setItem('player', playerUpdate);
+  return ({
+    type: UPDATE_SCORE,
+    payload: { ...newScore },
+  });
+};
+
+export const addLogin = (userInfo) => {
+  const loginInfos = { ...userInfo };
+  localStorage.setItem('player', loginInfos);
+  return ({
+    type: LOGIN,
+    payload: { ...userInfo },
+  });
+};
 
 export const requestAPI = () => ({ type: REQUEST_API });
 

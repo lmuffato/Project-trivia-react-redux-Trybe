@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchQuestion } from '../redux/actions';
+import { fetchQuestion, updateScore } from '../redux/actions';
 import Header from '../components/Header';
 
 class Play extends Component {
@@ -17,12 +17,24 @@ class Play extends Component {
 
     this.mountRound = this.mountRound.bind(this);
     this.countdown = this.countdown.bind(this);
+    this.calcScore = this.calcScore.bind(this);
   }
 
   async componentDidMount() {
     const { callApiToQuestions, questions, token } = this.props;
     if (questions.length === 0) await callApiToQuestions(token);
     this.mountRound();
+  }
+
+  calcScore() {
+    const { time, questionNumber } = this.state;
+    const { questions, assertation, score, callUpdateScore } = this.props;
+    const difficultyOfQuestion = questions[questionNumber].difficulty;
+    const weigth = { easy: 1, medium: 2, hard: 3 };
+    const baseScoreAssertation = 10;
+    const roundScore = baseScoreAssertation + time * weigth[difficultyOfQuestion];
+    const newScore = { assertation: assertation + 1, score: score + roundScore };
+    callUpdateScore(newScore);
   }
 
   mountRound() {
@@ -104,15 +116,21 @@ Play.propTypes = {
   callApiToQuestions: PropTypes.func,
   token: PropTypes.string,
   questions: PropTypes.arrayOf(PropTypes.object),
+  score: PropTypes.number,
+  assertation: PropTypes.number,
+  callUpdateScore: PropTypes.func,
 }.isRequired;
 
 const mapStateToProps = (state) => ({
   questions: state.player.questions,
   token: state.player.token,
+  score: state.player.score,
+  assertation: state.player.assertation,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   callApiToQuestions: (token) => dispatch(fetchQuestion(token)),
+  callUpdateScore: (newScore) => dispatch(updateScore(newScore)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Play);

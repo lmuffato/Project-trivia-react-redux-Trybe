@@ -15,7 +15,7 @@ class Login extends React.Component {
 
     this.state = {
       name: '',
-      email: '',
+      gravatarEmail: '',
     };
   }
 
@@ -32,17 +32,17 @@ class Login extends React.Component {
   }
 
   validateLogin() {
-    const { name, email } = this.state;
+    const { name, gravatarEmail } = this.state;
     const minNameLength = 1;
     const validateRegex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i;
-    if (validateRegex.test(email) && name.length >= minNameLength) {
+    if (validateRegex.test(gravatarEmail) && name.length >= minNameLength) {
       return false;
     }
     return true;
   }
 
   render() {
-    const { name, email } = this.state;
+    const { name, gravatarEmail } = this.state;
     const { login } = this.props;
     return (
       <header className="App-header">
@@ -62,8 +62,8 @@ class Login extends React.Component {
             Email
             <input
               type="email"
-              name="email"
-              value={ email }
+              name="gravatarEmail"
+              value={ gravatarEmail }
               data-testid="input-gravatar-email"
               onChange={ this.handleChanges }
             />
@@ -72,7 +72,7 @@ class Login extends React.Component {
             disabled={ this.validateLogin() }
             type="button"
             data-testid="btn-play"
-            onClick={ () => login({ name, email }) }
+            onClick={ () => login({ name, gravatarEmail }) }
           >
             <button type="button" onClick={ this.handleApi }>
               Jogar
