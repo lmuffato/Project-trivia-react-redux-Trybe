@@ -1,57 +1,55 @@
-.App {
-  text-align: center;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500&display=swap') ;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+html {
+  font-family: Poppins , sans-serif;
+  font-size: 62.5%;
 }
 
-.red-border {
-  border: 1px solid red;
+body {
+  font-size: 1.6rem;
 }
 
-.green-border {
-  border: 1px solid green;
-}
-
-@media ( prefers-reduced-motion : no-preference ) {
-
-  .App-logo {
-    animation: shake infinite 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
-  }
-}
-
-.App-header {
+.game-container {
   align-items: center;
-  background-color: #282c34;
-  color: white;
+  background-color: #d9d9d9;
   display: flex;
   flex-direction: column;
-  font-size: calc(10px + 2vmin);
-  justify-content: center;
-  min-height: 100vh;
+  height: 400px;
+  justify-content: space-evenly;
+  width: 500px;
 }
 
-.App-link {
-  color: #61dafb;
+.answers-container {
+  display: flex;
+  flex-direction: column;
+  height: 130px;
 }
 
-@keyframes shake {
+.answers-container .answer {
+  background-color: #f26e11;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.8rem;
+  margin: 2px 0;
+  padding: 6px 10px;
+  transition: opacity 0.1s;
+}
 
-  10%, 90% {
-    transform: translate3d(-1px, 0, 0);
-  }
+.answers-container .answer:hover {
+  opacity: 0.8;
+}
 
-  20%, 80% {
-    transform: translate3d(2px, 0, 0);
-  }
+.answers-container .answer.correct {
+  border: 3px solid rgb(6, 240, 15);
+}
 
-  30%, 50%, 70% {
-    transform: translate3d(-4px, 0, 0);
-  }
-
-  40%, 60% {
-    transform: translate3d(4px, 0, 0);
-  }
+.answers-container .answer.wrong {
+  border: 3px solid red;
 }
