@@ -82,7 +82,7 @@ body {
 }
 
 .btn-content :last-child:hover {
-  box-shadow: 2px 4px 10px rgb(255, 255, 255);
+  box-shadow: 2px 4px 10px white;
 }
 
 .btnPlay {
@@ -94,7 +94,7 @@ body {
 }
 
 .btnPlay:hover {
-  box-shadow: 2px 4px 10px rgb(255, 255, 255);
+  box-shadow: 2px 4px 10px white;
 }
 
 .btnConfig {
