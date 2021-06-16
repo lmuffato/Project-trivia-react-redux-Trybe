@@ -10,16 +10,31 @@ class PlayGame extends React.Component {
     this.state = {
       questions: '',
       loading: true,
+      colorBtn: '',
     };
 
     this.fetchApiTrivia = this.fetchApiTrivia.bind(this);
     this.renderQuestions = this.renderQuestions.bind(this);
     this.renderLoading = this.renderLoading.bind(this);
+    // this.getButtonClicked = this.getButtonClicked.bind(this);
   }
 
   componentDidMount() {
     this.fetchApiTrivia();
   }
+
+  // getButtonClicked(answer) {
+  //   this.setState({
+  //     colorButton: answer,
+  //   });
+  // }
+
+  // getButtonClicked(e) {
+  //   const { name, value } = e.target;
+  //   this.setState({
+  //     [name]: value,
+  //   });
+  // }
 
   async fetchApiTrivia() {
     const token = localStorage.getItem('token');
@@ -34,12 +49,12 @@ class PlayGame extends React.Component {
     }
   }
 
-  renderAnswers(correct, incorrect) {
-    return [...correct, ...incorrect];
-  }
+  // renderAnswers(correct, incorrect) {
+  //   return [...correct, ...incorrect];
+  // }
 
   renderQuestions() {
-    const { questions } = this.state;
+    const { questions, colorBtn } = this.state;
     return (
       <>
         <div>
@@ -55,6 +70,10 @@ class PlayGame extends React.Component {
                 <button
                   data-testid="correct-answer"
                   type="button"
+                  // Req 7: Evento de clique que atualiza o state com o valor da resposta
+                  onClick={ () => this.setState({ colorBtn: question.correct_answer }) }
+                  // Req 7: Valida se o valor do state é igual ao valor do botão e define o nome da class
+                  className={ colorBtn === question.correct_answer ? 'green' : 'red' }
                 >
                   {question.correct_answer}
                 </button>
@@ -63,6 +82,10 @@ class PlayGame extends React.Component {
                     data-testid={ `wrong-answer-${index}` }
                     type="button"
                     key={ index }
+                    // Req 7: Evento de clique que atualiza o state com o valor da resposta
+                    onClick={ () => this.setState({ colorBtn: incorrect }) }
+                    // Req 7: Valida se o valor do state é igual ao valor do botão e define o nome da class
+                    className={ colorBtn === incorrect ? 'green' : 'red' }
                   >
                     {incorrect}
                   </button>
@@ -75,25 +98,12 @@ class PlayGame extends React.Component {
     );
   }
 
-  // category: "Entertainment: Music"
-  // correct_answer: "Syd Barrett"
-  // difficulty: "medium"
-  // incorrect_answers: Array(3)
-  // 0: "John Lennon"
-  // 1: "David Gilmour"
-  // 2: "Floyd"
-  // length: 3
-  // __proto__: Array(0)
-  // question: "Who is the Pink Floyd song &quot;Shine On You Crazy Diamond&quot; written about?"
-  // type: "multiple"
-
   renderLoading() {
     return <h3>Loading...</h3>;
   }
 
   render() {
-    const { loading, questions } = this.state;
-    console.log(questions);
+    const { loading } = this.state;
     return (
       <div>
         { loading ? this.renderLoading() : this.renderQuestions() }
