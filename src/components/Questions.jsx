@@ -13,6 +13,8 @@ class Questions extends Component {
     this.runGame = this.runGame.bind(this);
     this.saveAtLocalStorage = this.saveAtLocalStorage.bind(this);
 
+    this.timer = null;
+
     this.state = {
       questions,
       question: '',
@@ -29,29 +31,32 @@ class Questions extends Component {
   componentDidMount() {
     this.sortQuestions();
     this.runGame();
-    this.saveAtLocalStorage();
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer);
   }
 
   runGame() {
     const oneSecond = 1000;
-    const timer = setInterval(() => {
+    this.timer = setInterval(() => {
       this.setState((prevState) => {
         if (prevState.time > 0 && prevState.gameOn) {
           return { time: prevState.time - 1 };
         }
-        clearInterval(timer);
+        clearInterval(this.timer);
         this.saveAtLocalStorage();
+
         return { gameOn: false };
       });
     }, oneSecond);
   }
 
   saveAtLocalStorage() {
-    const { player } = this.props;
-    const storagePlayer = { ...player };
-    delete storagePlayer.picture;
-    const data = { storagePlayer };
-    localStorage.setItem('state', JSON.stringify(data));
+    const { player: redux } = this.props;
+    const player = { ...redux };
+    delete player.picture;
+    localStorage.setItem('state', JSON.stringify({ player }));
   }
 
   async selectAnswer({ target }) {
