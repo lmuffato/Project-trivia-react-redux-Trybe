@@ -1,12 +1,15 @@
 import {
   NEW_EMAIL,
   NEW_TOKEN,
+  CORRET_ANSWER,
 } from '../actions';
 
 const INITIAL_STATE = {
   email: '',
   name: '',
   token: '',
+  score: '',
+  assertions: '',
 };
 
 function userReducer(state = INITIAL_STATE, action) {
@@ -22,7 +25,12 @@ function userReducer(state = INITIAL_STATE, action) {
       ...state,
       token: action.payload.token,
     };
-
+  case CORRET_ANSWER:
+    return {
+      ...state,
+      score: action.score,
+      assertions: action.score,
+    };
   default:
     return state;
   }
