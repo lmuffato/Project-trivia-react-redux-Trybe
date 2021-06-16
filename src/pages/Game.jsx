@@ -15,11 +15,23 @@ class Game extends Component {
     };
 
     this.fetchApi = this.fetchApi.bind(this);
+    //   this.nextButton = this.nextButton.bind(this);
   }
 
   componentDidMount() {
     this.fetchApi();
   }
+
+  // nextButton() {
+  //   let { currentQuestionId } = this.state;
+  //   const questionLimit = 4;
+  //   if (currentQuestionId < questionLimit) {
+  //     currentQuestionId += 1;
+  //     this.setState(() => ({
+  //       currentQuestionId,
+  //     }));
+  //   }
+  // }
 
   fetchApi() {
     this.setState(

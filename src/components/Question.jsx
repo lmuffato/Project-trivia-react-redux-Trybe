@@ -8,6 +8,7 @@ class Question extends Component {
     super(props);
     this.state = {
       color: false,
+      displayButton: false,
     };
     this.changeColorAnswer = this.changeColorAnswer.bind(this);
   }
@@ -15,7 +16,25 @@ class Question extends Component {
   changeColorAnswer() {
     this.setState({
       color: true,
+      displayButton: true,
     });
+  }
+
+  nextButton() {
+    const { displayButton } = this.state;
+    if (displayButton) {
+      return (
+        <button
+          type="button"
+          data-testid="btn-next"
+          id="btn-next"
+        //  onClick={ this.handleClick }
+        >
+          Próxima
+        </button>
+      );
+    }
+    return <div />;
   }
 
   render() {
@@ -56,6 +75,7 @@ class Question extends Component {
             { quest }
           </button>
         )) }
+        {this.nextButton()}
       </section>
     );
   }
