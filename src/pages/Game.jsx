@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Header from '../components/Header';
 import updateQuestion from '../redux/actions/updateQuestion.action';
 import { fetchQuestion } from '../services/api';
+import GamePlay from '../components/GamePlay';
 
 export default function Game() {
   const token = localStorage.getItem('token');
@@ -22,7 +23,7 @@ export default function Game() {
   return (
     <div>
       <Header />
-      { questions.length > 0 && <p>{ questions[0].category }</p>}
+      { questions.length > 0 && <GamePlay />}
     </div>
   );
 }
