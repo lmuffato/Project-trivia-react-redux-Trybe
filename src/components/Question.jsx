@@ -11,6 +11,7 @@ class Question extends Component {
       displayButton: false,
     };
     this.changeColorAnswer = this.changeColorAnswer.bind(this);
+    this.Question = this.Question.bind(this);
   }
 
   changeColorAnswer() {
@@ -28,23 +29,23 @@ class Question extends Component {
           type="button"
           data-testid="btn-next"
           id="btn-next"
-        //  onClick={ this.handleClick }
+        //  onClick={ }
         >
           Próxima
         </button>
       );
     }
-    return <div />;
   }
 
   render() {
     const { color } = this.state;
-    const { currQuestion } = this.props;
+    const { currQuestion, handleClick } = this.props;
     const {
       category,
       question,
       incorrect_answers: incorrectAnswer,
       correct_answer: correctAnswer,
+      difficulty,
     } = currQuestion;
     return (
       <section className="question-card">
@@ -59,7 +60,10 @@ class Question extends Component {
         <button
           type="button"
           data-testid="correct-answer"
-          onClick={ this.changeColorAnswer }
+          onClick={ () => {
+            handleClick(difficulty);
+            this.changeColorAnswer();
+          } }
           className={ color ? 'correct-selected' : 'no-color' }
         >
           { correctAnswer }
@@ -87,7 +91,9 @@ Question.propTypes = {
     question: PropTypes.string,
     incorrect_answers: PropTypes.arrayOf(PropTypes.string),
     correct_answer: PropTypes.string,
+    difficulty: PropTypes.string,
   }).isRequired,
+  handleClick: PropTypes.func.isRequired,
 };
 
 export default Question;
