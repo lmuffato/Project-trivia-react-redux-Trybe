@@ -155,10 +155,9 @@ class Question extends React.Component {
 
   render() {
     const { index, nextBtn } = this.state;
-    const { results, score } = this.props;
+    const { results } = this.props;
     return (
       <div>
-        <p data-testid="header-score">{ score }</p>
         {results.length !== 0
         && this.renderQuestion(results, index)}
         <br />
@@ -173,7 +172,6 @@ const mapStateToProps = (state) => ({
   results: state.game.perguntas,
   name: state.login.user,
   email: state.login.email,
-  score: state.game.placar,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -185,7 +183,6 @@ Question.propTypes = {
   setPointsRedux: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
-  score: PropTypes.number.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Question);
