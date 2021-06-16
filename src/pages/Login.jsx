@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router';
 import { login } from '../actions';
 import getToken from '../services/api';
-import { Redirect } from 'react-router';
 
 // Link do código do regex: https://regexr.com/2ri2c
 
@@ -50,16 +50,17 @@ class Login extends Component {
 
   render() {
     const { redirect } = this.state;
-    
+
     if (redirect) {
-      return <Redirect to="/questions" />
+      return <Redirect to="/questions" />;
     }
 
     return (
       <>
-        <form onSubmit={this.submit}>
+        <form onSubmit={ this.submit }>
           <input
-            onChange={this.handleChange}s
+            onChange={ this.handleChange }
+            s
             aria-label="name"
             data-testid="input-player-name"
             type="text"
@@ -68,7 +69,7 @@ class Login extends Component {
             required
           />
           <input
-            onChange={this.handleChange}
+            onChange={ this.handleChange }
             aria-label="email"
             data-testid="input-gravatar-email"
             type="email"
@@ -77,7 +78,7 @@ class Login extends Component {
             required
           />
           <button
-            disabled={this.validation()}
+            disabled={ this.validation() }
             type="submit"
             data-testid="btn-play"
           >
