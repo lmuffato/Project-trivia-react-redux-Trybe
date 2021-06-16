@@ -28,12 +28,12 @@ class Play extends Component {
 
   calcScore() {
     const { time, questionNumber } = this.state;
-    const { questions, assertation, score, callUpdateScore } = this.props;
+    const { questions, assertations, score, callUpdateScore } = this.props;
     const difficultyOfQuestion = questions[questionNumber].difficulty;
     const weigth = { easy: 1, medium: 2, hard: 3 };
     const baseScoreAssertation = 10;
     const roundScore = baseScoreAssertation + time * weigth[difficultyOfQuestion];
-    const newScore = { assertation: assertation + 1, score: score + roundScore };
+    const newScore = { assertations: assertations + 1, score: score + roundScore };
     callUpdateScore(newScore);
   }
 
@@ -107,6 +107,7 @@ class Play extends Component {
         </aside>
 
         <button type="button" onClick={ () => this.nextQuestion() }>testar</button>
+        <button type="button" onClick={ () => this.calcScore() }>Acertei!</button>
       </main>
     );
   }
@@ -125,7 +126,7 @@ const mapStateToProps = (state) => ({
   questions: state.player.questions,
   token: state.player.token,
   score: state.player.score,
-  assertation: state.player.assertation,
+  assertations: state.player.assertations,
 });
 
 const mapDispatchToProps = (dispatch) => ({

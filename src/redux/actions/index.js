@@ -2,8 +2,10 @@ import { LOGIN, GET_QUESTIONS, GET_TOKEN,
   REQUEST_API, ADD_GRAVATAR, UPDATE_SCORE } from './actionsTypes';
 
 export const updateScore = (newScore) => {
-  const { assertation, score } = newScore;
-  const playerUpdate = { ...localStorage.getItem('player'), assertation, score };
+  const { assertations, score } = newScore;
+  console.log(localStorage.getItem('player'));
+  const playerUpdate = { ...localStorage.getItem('player'), assertations, score };
+  console.log(playerUpdate);
   localStorage.setItem('player', playerUpdate);
   return ({
     type: UPDATE_SCORE,
@@ -12,8 +14,11 @@ export const updateScore = (newScore) => {
 };
 
 export const addLogin = (userInfo) => {
-  const loginInfos = { ...userInfo };
-  localStorage.setItem('player', loginInfos);
+  localStorage.setItem('player', {});
+  const { gravatarEmail, name } = userInfo;
+  const newPlayer = { gravatarEmail, name };
+  console.log(newPlayer);
+  localStorage.setItem('player', newPlayer);
   return ({
     type: LOGIN,
     payload: { ...userInfo },
@@ -42,7 +47,7 @@ function updateToken() {
     return fetch('https://opentdb.com/api_token.php?command=request')
       .then((response) => response.json())
       .then((response) => {
-        addToken(response.token);
+        dispatch(addToken(response.token));
         return response.token;
       });
   };
@@ -73,7 +78,7 @@ export function fetchToken() {
     return fetch('https://opentdb.com/api_token.php?command=request')
       .then((response) => response.json())
       .then((response) => {
-        addToken(response.token);
+        dispatch(addToken(response.token));
         return response.token;
       })
       .then((token) => fetchQuestion(token));
