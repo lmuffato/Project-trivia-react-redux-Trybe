@@ -8,6 +8,9 @@ function Question(props) {
   return (
     <div className="question">
       <div><p data-testid="question-category">{ questions[index].category }</p></div>
+      <div>
+        <p data-testid="question-text">{ questions[index].question }</p>
+      </div>
     </div>
   );
 }

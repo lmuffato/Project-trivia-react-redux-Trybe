@@ -6,7 +6,14 @@ function Answer(props) {
   return (
     <div>
       {answers.map((answer, index) => (
-        <button key={ index } type="button" onClick={ onClick }>{answer}</button>
+        <button
+          key={ index }
+          type="button"
+          onClick={ onClick }
+          data-testid={ answer.dataTestId }
+        >
+          {answer.answer}
+        </button>
       ))}
     </div>
   );

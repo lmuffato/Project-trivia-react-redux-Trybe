@@ -31,9 +31,21 @@ class TriviaGame extends Component {
   answersRandom(index) {
     const { questions } = this.props;
     if (questions.length) {
+      const correct = {
+        answer: questions[index].correct_answer,
+        dataTestId: 'correct-answer',
+      };
+
+      const incorrect = questions[index].incorrect_answers.map((incorrectAnswer, i) => ({
+        answer: incorrectAnswer,
+        dataTestId: `wrong-answer-${i}`,
+      }));
+
       const answers = [...questions[index].incorrect_answers,
         questions[index].correct_answer];
-      return shuffle(answers);
+      const answers2 = [...incorrect,
+        correct];
+      return shuffle(answers2);
     }
   }
 
