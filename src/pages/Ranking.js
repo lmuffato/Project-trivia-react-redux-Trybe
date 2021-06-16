@@ -1,17 +1,34 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import * as api from '../services/Api';
 
 class Ranking extends React.Component {
-//   constructor() {
-//     super();
-//     this.ranking = this.ranking.bind(this);
-//   }
+  constructor() {
+    super();
+    this.ranking = this.ranking.bind(this);
+    this.state = {
+      gravatar: '',
+    };
+  }
 
-  // const gravatar = localStorage.getItem('token');
+  componentDidMount() {
+    const { email } = this.props;
+    api.fetchGravatar(email).then((gravatar) => this.setState({ gravatar }));
+  }
 
   render() {
+    const { name } = this.props;
+    const { gravatar } = this.state;
     return (
       <div>
+        <h1>Ranking</h1>
+        <img
+          src={ gravatar }
+          alt="User"
+          data-testid="ranking-profile-picture"
+        />
+        <p data-testid={`player-name-${0}`}>{ name }</p>
+        <p data-testid={ `player-score-${0}` }>0</p>
         <Link to="/">
           <button
             data-testid="btn-go-home"
@@ -20,7 +37,6 @@ class Ranking extends React.Component {
             Voltar para tela inicial
           </button>
         </Link>
-        Ranking
       </div>
     );
   }
