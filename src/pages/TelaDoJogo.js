@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { getQuestions } from '../services/api';
 import { setQuestions } from '../actions';
@@ -12,12 +13,21 @@ class TelaDojogo extends React.Component {
     this.fetchQuestions = this.fetchQuestions.bind(this);
     this.createQuestion = this.createQuestion.bind(this);
     this.randomOptions = this.randomOptions.bind(this);
+    this.nextQuestion = this.nextQuestion.bind(this);
     this.state = { index: 0 };
   }
 
   componentDidMount() {
     const { category, difficulty, type } = this.props;
     this.fetchQuestions(category, difficulty, type);
+  }
+
+  nextQuestion() {
+    const { index } = this.state;
+    const { questions } = this.props;
+    if (index < questions.length) {
+      this.setState({ index: index + 1 });
+    }
   }
 
   async fetchQuestions(category, difficulty, type) {
@@ -32,6 +42,7 @@ class TelaDojogo extends React.Component {
       return (
         <Question
           question={ this.randomOptions() }
+          nextQuestion={ this.nextQuestion }
         />);
     }
   }
@@ -53,6 +64,11 @@ class TelaDojogo extends React.Component {
   }
 
   render() {
+    const { questions } = this.props;
+    const { index } = this.state;
+    if (questions.length > 0 && index === questions.length) {
+      return <Redirect to="/feedback" />;
+    }
     return (
       <div>
         <Header />
