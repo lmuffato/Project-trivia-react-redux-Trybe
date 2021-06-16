@@ -12,7 +12,7 @@ class Header extends Component {
     const URL_GRAVATAR = `https://www.gravatar.com/avatar/${CONVERTED_EMAIL}`;
 
     return (
-      <div id="headerTrivia">
+      <div className="headerTrivia">
         <img
           src={ URL_GRAVATAR }
           alt="Profile Thumbnail"
@@ -34,7 +34,7 @@ class Header extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  getName: state.user.nome,
+  getName: state.user.name,
   getEmail: state.user.email,
   getScore: state.user.score,
 });
