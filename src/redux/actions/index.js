@@ -15,7 +15,6 @@ export const getQuestion = (returnOfAPI) => ({
 
 export const addToken = (saveToken) => {
   localStorage.setItem('token', saveToken);
-  console.log(saveToken, 'novo token');
   return {
     type: GET_TOKEN,
     payload: saveToken,
@@ -43,7 +42,6 @@ export function fetchQuestion(token) {
       .then((response) => {
         const codeError = 3;
         const codeSucess = 0;
-        console.log(response, 'resposta da api');
         if (response.response_code === codeError) {
           fetchQuestion(updateToken());
         } else if (response.response_code === codeSucess) {

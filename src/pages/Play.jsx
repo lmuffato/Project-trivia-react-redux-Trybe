@@ -13,10 +13,13 @@ class Play extends Component {
       questionOfRound: [],
       time: 30,
       answered: false,
+      isLoading: true,
     };
 
     this.mountRound = this.mountRound.bind(this);
     this.countdown = this.countdown.bind(this);
+    this.changeColor = this.changeColor.bind(this);
+    this.createOptions = this.createOptions.bind(this);
   }
 
   async componentDidMount() {
@@ -27,45 +30,40 @@ class Play extends Component {
 
   mountRound() {
     const { questions } = this.props;
-    const { questionNumber, answered } = this.state;
-    const { category, question, incorrect_answers: incorrectAnswers,
-      correct_answer: correctAnswer } = questions[questionNumber];
-    let answersOfRound = incorrectAnswers.map((answer, index) => (
-      <label htmlFor={ index } key={ index } data-testid={ `wrong-answer-${index}` }>
-        <input
-          id={ index }
-          type="button"
-          name="answer"
-          disabled={ answered }
-          value={ answer }
-        />
-      </label>
-    ));
-    answersOfRound.push(
-      <label htmlFor="correct-answer" key="correct-answer" data-testid="correct-answer">
-        <input
-          id="correct-answer"
-          type="button"
-          name="answer"
-          value={ correctAnswer }
-          disabled={ answered }
-        />
-      </label>,
-    );
-    const probToChangePosition = 0.5;
-    answersOfRound = answersOfRound.sort(() => Math.random() - probToChangePosition);
+    const { questionNumber } = this.state;
+    const {
+      category,
+      question,
+      incorrect_answers: incorrectAnswers,
+      correct_answer: correctAnswer,
+    } = questions[questionNumber];
+    // const probToChangePosition = 0.5;
+    // answersOfRound = answersOfRound.sort(() => Math.random() - probToChangePosition);
     const questionOfRound = (
       <aside key="question_field">
         <h3 key="category" data-testid="question-category">{`Categoria: ${category}`}</h3>
         <h3 key="question" data-testid="question-text">{question}</h3>
       </aside>
     );
-    this.setState({ answersOfRound, questionOfRound });
+    this.setState((old) => ({
+      ...old,
+      answersOfRound: [incorrectAnswers, correctAnswer],
+      questionOfRound,
+      isLoading: false,
+    }));
+  }
+
+  changeColor() {
+    this.setState(({
+      answered: true,
+    }));
+    this.mountRound();
   }
 
   nextQuestion() {
     this.setState((previusState) => ({
       questionNumber: previusState.questionNumber + 1,
+      answered: false,
     }), () => this.mountRound());
   }
 
@@ -84,14 +82,50 @@ class Play extends Component {
     }
   }
 
+  createOptions() {
+    const { answersOfRound, answered } = this.state;
+    const options = answersOfRound[0].map((answer, index) => (
+      <label htmlFor={ index } key={ index }>
+        <input
+          id={ index }
+          className="wrong-answer"
+          type="button"
+          name="answer"
+          disabled={ answered }
+          value={ answer }
+          onClick={ () => this.changeColor() }
+          style={ { border: answered ? '3px solid rgb(255, 0, 0)' : '' } }
+          data-testid={ `wrong-answer-${index}` }
+        />
+      </label>
+    ));
+
+    options.push(
+      <label htmlFor="correct-answer" key="correct-answer">
+        <input
+          data-testid="correct-answer"
+          id="correct-answer"
+          type="button"
+          name="answer"
+          className="correct-answer"
+          value={ answersOfRound[1] }
+          disabled={ answered }
+          onClick={ this.changeColor }
+          style={ { border: answered ? '3px solid rgb(6, 240, 15)' : '' } }
+        />
+      </label>,
+    );
+    return options;
+  }
+
   render() {
-    const { answersOfRound, questionOfRound } = this.state;
+    const { questionOfRound, isLoading } = this.state;
     return (
       <main>
         <Header />
         {questionOfRound}
         <aside>
-          {answersOfRound}
+          {isLoading ? <div>Carregando...</div> : this.createOptions()}
         </aside>
 
         <button type="button" onClick={ () => this.nextQuestion() }>testar</button>
