@@ -11,9 +11,8 @@ export const emailHash = (usuario, email) => {
   localStorage.setItem('usuario', usuario);
 };
 
-
 export const questionAPI = async () => {
-  const fetchApiToken = await fetch('https://opentdb.com/api_token.php?command=request')
+  const fetchApiToken = await fetch('https://opentdb.com/api_token.php?command=request');
   const dataToken = await fetchApiToken.json();
   const token = await dataToken.token;
   const fetchApi = await fetch(`https://opentdb.com/api.php?amount=5&type=multiple&token=${token}`);
