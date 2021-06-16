@@ -124,7 +124,7 @@ class Questions extends Component {
           })}
         </div>
         { this.timer() }
-        <button type="button">Next Question</button>
+        <button type="button" data-testid="btn-next" disabled>Next Question</button>
       </div>
     );
   }

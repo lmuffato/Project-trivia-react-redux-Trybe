@@ -18,6 +18,7 @@ body {
 .elements-content {
   background-color: #3a2d88;
   border: none;
+  box-shadow: 2px 3px 30px black;
   border-radius: 10px;
   color: white;
   padding: 40px;
@@ -71,14 +72,18 @@ body {
   display: flex;
 }
 
-.btn-content input,button {
+.btn-content :first-child {
   align-items: center;
   display: flex;
   font-size: medium;
   height: 50px;
   justify-content: center;
-  width: 120px;
   margin: 0 20px;
+  width: 120px;
+}
+
+.btn-content :last-child:hover {
+  box-shadow: 2px 4px 10px white;
 }
 
 .btnPlay {
@@ -87,4 +92,23 @@ body {
   border-radius: 5px;
   box-shadow: 1px 3px 10px black;
   color: white;
+}
+
+.btnPlay:hover {
+  box-shadow: 2px 4px 10px white;
+}
+
+.btnConfig {
+  align-items: center;
+  background-color: #467c96;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 1px 3px 10px black;
+  color: white;
+  display: flex;
+  font-size: medium;
+  height: 50px;
+  justify-content: center;
+  margin: 0 20px;
+  width: 120px;
 }
