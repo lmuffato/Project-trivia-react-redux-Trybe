@@ -1,7 +1,7 @@
 import { FETCH_QUESTIONS } from '../../common/def';
 
 const INITIAL_STATE = {
-  questions: { results: [] },
+  questions: [],
 };
 
 export default function loginReducer(state = INITIAL_STATE, action) {
@@ -9,7 +9,7 @@ export default function loginReducer(state = INITIAL_STATE, action) {
   case FETCH_QUESTIONS:
     return {
       ...state,
-      questions: { ...action.payload },
+      questions: [...action.payload],
     };
   default:
     return state;

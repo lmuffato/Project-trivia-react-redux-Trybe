@@ -10,7 +10,7 @@ export async function fetchQuestion(token) {
   try {
     const fetchGetQuestion = await fetch(`${BASE_URL}&token=${token}`);
     const jsonQuestion = await fetchGetQuestion.json();
-    return jsonQuestion;
+    return jsonQuestion.results;
   } catch (error) {
     return console.log(`Token expirado, efetue novo Login - ${error}`);
   }

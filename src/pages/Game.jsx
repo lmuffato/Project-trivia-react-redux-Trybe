@@ -6,25 +6,23 @@ import { fetchQuestion } from '../services/api';
 
 export default function Game() {
   const token = localStorage.getItem('token');
-
   const dispatch = useDispatch();
+  const { questions } = useSelector((state) => state.gameReducer);
+
+  console.log(questions);
+
   useEffect(() => {
     async function update() {
-      const questions = await fetchQuestion(token);
-      dispatch(updateQuestion(questions));
-      // console.log(questions.results[0].category);
+      const quest = await fetchQuestion(token);
+      dispatch(updateQuestion(quest));
     }
     update();
   }, []);
 
-  const { results } = useSelector((state) => state.gameReducer.questions);
-
-  console.log(results[0]);
-
   return (
     <div>
       <Header />
-      <p data-testid="question-category">Category</p>
+      { questions.length > 0 && <p>{ questions[0].category }</p>}
     </div>
   );
 }
