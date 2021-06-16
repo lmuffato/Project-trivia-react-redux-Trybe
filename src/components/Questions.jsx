@@ -29,6 +29,7 @@ class Questions extends Component {
   componentDidMount() {
     this.sortQuestions();
     this.runGame();
+    this.saveAtLocalStorage();
   }
 
   runGame() {
@@ -46,8 +47,9 @@ class Questions extends Component {
 
   saveAtLocalStorage() {
     const { player } = this.props;
-    delete player.picture;
-    const data = { player };
+    const storagePlayer = { ...player };
+    delete storagePlayer.picture;
+    const data = { storagePlayer };
     localStorage.setItem('state', JSON.stringify(data));
   }
 
