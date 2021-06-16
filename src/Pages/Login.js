@@ -3,7 +3,7 @@ import { Redirect } from 'react-router';
 import { createBrowserHistory } from 'history';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import requestToken from '../Api';
+import { requestToken } from '../Api';
 import { login } from '../actions';
 import './login.css';
 
