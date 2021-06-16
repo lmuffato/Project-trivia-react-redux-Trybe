@@ -9,13 +9,21 @@ class Game extends Component {
     super();
     this.state = {
       questionNumber: 0,
+      questionAnswered: true,
     };
     this.renderQuestion = this.renderQuestion.bind(this);
+    this.nextQuestion = this.nextQuestion.bind(this);
   }
 
   componentDidMount() {
     const { fetchAPI } = this.props;
     fetchAPI();
+  }
+
+  nextQuestion() {
+    this.setState(({ questionNumber }) => ({
+      questionNumber: questionNumber + 1,
+    }));
   }
 
   renderQuestion() {
@@ -56,18 +64,25 @@ class Game extends Component {
     );
   }
 
-  // categorry, question
   render() {
     const { isLoading } = this.props;
+    const { questionAnswered } = this.state;
     if (isLoading) return <h2>Loading...</h2>;
-
     return (
       <div>
         <Header />
         <div>
           {this.renderQuestion()}
         </div>
-        <button type="button">PRÓXIMA</button>
+        {questionAnswered
+          ? (
+            <button
+              type="button"
+              data-testid="btn-next"
+              onClick={ this.nextQuestion }
+            >
+              PRÓXIMA
+            </button>) : ''}
       </div>
     );
   }
