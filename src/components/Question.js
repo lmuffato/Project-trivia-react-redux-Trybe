@@ -12,6 +12,7 @@ class Question extends React.Component {
 
     this.state = {
       addClass: false,
+      isVisible: false,
     };
   }
 
@@ -48,8 +49,11 @@ class Question extends React.Component {
     setInterval(() => {
       const { time, dispatchTimer } = this.props;
       const remainTime = time - 1;
-      if (remainTime >= 0) {
+      if (remainTime > 0) {
         dispatchTimer(remainTime);
+      } else if (remainTime === 0) {
+        dispatchTimer(remainTime);
+        this.setState({ isVisible: true });
       }
     }, INTERVAL);
   }
@@ -63,13 +67,26 @@ class Question extends React.Component {
   handleScore({ target }) {
     this.setState({
       addClass: true,
+      isVisible: true,
     });
     if (target.name === 'correct-answer') this.getScore();
   }
 
+  buttonNext() {
+    return (
+      <button
+        type="button"
+        data-testid="btn-next"
+        className="invisible-btn"
+      >
+        Próxima
+      </button>
+    );
+  }
+
   render() {
     const { question, time } = this.props;
-    const { addClass } = this.state;
+    const { addClass, isVisible } = this.state;
     return (
       <section>
         { time > 0 ? <span>{time}</span> : <span>Terminou</span>}
@@ -102,6 +119,7 @@ class Question extends React.Component {
               { this.decodeHtml(answer.incorrect) }
             </button>);
         })}
+        { isVisible && this.buttonNext() }
       </section>
     );
   }
