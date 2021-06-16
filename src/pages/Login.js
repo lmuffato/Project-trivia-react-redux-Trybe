@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { requestQuestionThunk } from '../actions';
-import { getTokenFromAPIAndSaveToLS } from '../services/api';
 
 class Login extends Component {
   constructor() {
     super();
-    this.requestToken = this.requestToken.bind(this);
     this.redirectToConfigsNow = this.redirectToConfigsNow.bind(this);
-    // this.redirectToGameNow = this.redirectToGameNow.bind(this);
+    this.redirectToGameNow = this.redirectToGameNow.bind(this);
+    this.requestToken = this.requestToken.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.isEnabled = this.isEnabled.bind(this);
     this.state = {
@@ -22,21 +18,16 @@ class Login extends Component {
     };
   }
 
-  requestToken() {
-    const { props: { requestQuestions },
-      state: { name, email } } = this;
-    getTokenFromAPIAndSaveToLS();
-    requestQuestions();
+  LocalCreate() {
     const state = {
       player: {
-        name,
+        name: '',
         assertions: 0,
         score: 0,
-        email,
+        email: '',
       },
     };
     localStorage.setItem('state', JSON.stringify(state));
-    return this.redirectToGameNow();
   }
 
   redirectToConfigsNow() {
@@ -51,6 +42,24 @@ class Login extends Component {
       ...prev,
       redirectToGame: true,
     }));
+  }
+
+  async requestToken() {
+    const { name, email } = this.state;
+    const request = await fetch('https://opentdb.com/api_token.php?command=request');
+    const responseInJSON = await request.json();
+    const { token } = responseInJSON;
+    localStorage.setItem('token', token);
+    const state = {
+      player: {
+        name,
+        assertions: 0,
+        score: 0,
+        email,
+      },
+    };
+    localStorage.setItem('state', JSON.stringify(state));
+    return this.redirectToGameNow();
   }
 
   isEnabled() {
@@ -122,12 +131,4 @@ class Login extends Component {
   }
 }
 
-const mapDispatchToProps = () => (dispatch) => ({
-  requestQuestions: () => dispatch(requestQuestionThunk()),
-});
-
-Login.propTypes = {
-  requestQuestions: PropTypes.func,
-}.isRequired;
-
-export default connect(null, mapDispatchToProps)(Login);
+export default Login;
