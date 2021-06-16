@@ -1,4 +1,3 @@
-import md5 from 'crypto-js/md5';
 import fetchQuestion from '../services/fetchQuestion';
 import fetchToken from '../services/fetchToken';
 
@@ -41,16 +40,11 @@ export function getQuestion(token) {
   };
 }
 
-export function getToken({ name, gravataEmail }) {
+export function getToken() {
   return async (dispatch) => {
     dispatch(startFetch());
     const token = await fetchToken();
-    // documentacao para converter email para gravatar
-    const cryptoEmail = md5(gravataEmail).toString();
-    const picture = `https://www.gravatar.com/avatar/${cryptoEmail}`;
-
     dispatch(fetchTokenSuccess(token));
-    dispatch(addPlayer({ name, gravataEmail, picture }));
     localStorage.setItem('token', token);
   };
 }

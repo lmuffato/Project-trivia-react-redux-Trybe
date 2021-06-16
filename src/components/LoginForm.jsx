@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { string, func } from 'prop-types';
 import { connect } from 'react-redux';
-import { getToken } from '../actions';
+import md5 from 'crypto-js/md5';
+import { getToken, addPlayer } from '../actions';
 import BtnConfig from './ButtonConfig';
 
 class LoginForm extends Component {
@@ -10,11 +11,18 @@ class LoginForm extends Component {
 
     this.handleInput = this.handleInput.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.getGravatarPicture = this.getGravatarPicture.bind(this);
 
     this.state = {
       gravatarEmail: '',
       name: '',
     };
+  }
+
+  getGravatarPicture(gravatarEmail) {
+    const cryptoEmail = md5(gravatarEmail).toString();
+    const picture = `https://www.gravatar.com/avatar/${cryptoEmail}`;
+    return picture;
   }
 
   handleInput({ target }) {
@@ -24,10 +32,12 @@ class LoginForm extends Component {
 
   async handleSubmit(event) {
     event.preventDefault();
-    const { requestToken, history } = this.props;
+    const { gravatarEmail, name } = this.state;
+    const { requestToken, history, storePlayerInfo } = this.props;
     await requestToken(this.state);
+    const picture = this.getGravatarPicture();
+    storePlayerInfo({ gravatarEmail, name, picture });
     history.push('/game');
-    // playerData(;
   }
 
   render() {
@@ -81,6 +91,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   requestToken: (data) => dispatch(getToken(data)),
+  storePlayerInfo: (data) => dispatch(addPlayer(data)),
 });
 
 LoginForm.propTypes = {
