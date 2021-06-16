@@ -8,7 +8,9 @@ import Header from '../../components/Header';
 class DisplayGame extends React.Component {
   constructor(props) {
     super(props);
-
+    this.state = {
+      questionIndex: 0,
+    };
     this.fetchTrivia = this.fetchTrivia.bind(this);
   }
 
@@ -17,16 +19,16 @@ class DisplayGame extends React.Component {
   }
 
   async fetchTrivia() {
+    console.log('Chegou aqui?');
     const { triviaQuestions, token } = this.props;
-
     const questions = await triviaAPI(token);
     triviaQuestions(questions);
   }
 
   createAnswers(question) {
+    console.log('Estou na function');
     const answers = question.incorrect_answers
       .concat(question.correct_answer);
-
     return answers.map((answer, indexAnswer) => (
       <button
         type="button"
@@ -41,23 +43,25 @@ class DisplayGame extends React.Component {
   }
 
   render() {
+    const { questionIndex } = this.state;
     const { questionsApiGames } = this.props;
+    console.log(questionsApiGames);
 
     if (questionsApiGames === undefined) {
       return <div>Loading...</div>;
     }
+    const { question, category } = questionsApiGames[questionIndex];
+    console.log('eh tu mesmo!', questionsApiGames[questionIndex]);
     return (
       <>
         <Header />
-        { questionsApiGames.map((question, index) => (
-          <div key={ index }>
-            <span data-testid="question-category">{ question.category }</span>
-            <h2 data-testid="question-text">{ question.question }</h2>
-            <div>
-              { this.createAnswers(question) }
-            </div>
+        <div>
+          <span data-testid="question-category">{ category }</span>
+          <h2 data-testid="question-text">{ question }</h2>
+          <div>
+            { this.createAnswers(questionsApiGames[questionIndex]) }
           </div>
-        )) }
+        </div>
       </>
     );
   }
