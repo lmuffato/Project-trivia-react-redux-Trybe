@@ -13,6 +13,7 @@ class Question extends React.Component {
     this.state = {
       addClass: false,
       isVisible: false,
+      disabled: false,
     };
   }
 
@@ -53,7 +54,10 @@ class Question extends React.Component {
         dispatchTimer(remainTime);
       } else if (remainTime === 0) {
         dispatchTimer(remainTime);
-        this.setState({ isVisible: true });
+        this.setState({
+          isVisible: true,
+          disabled: true,
+        });
       }
     }, INTERVAL);
   }
@@ -68,6 +72,7 @@ class Question extends React.Component {
     this.setState({
       addClass: true,
       isVisible: true,
+      disabled: true,
     });
     if (target.name === 'correct-answer') this.getScore();
   }
@@ -86,7 +91,7 @@ class Question extends React.Component {
 
   render() {
     const { question, time } = this.props;
-    const { addClass, isVisible } = this.state;
+    const { addClass, isVisible, disabled } = this.state;
     return (
       <section>
         { time > 0 ? <span>{time}</span> : <span>Terminou</span>}
@@ -100,7 +105,7 @@ class Question extends React.Component {
                 name="correct-answer"
                 type="button"
                 className={ addClass ? 'correct-answer' : 'qualquer-classe' }
-                disabled={ time <= 0 }
+                disabled={ disabled }
                 onClick={ this.handleScore }
               >
                 { this.decodeHtml(answer.correct) }
@@ -113,7 +118,7 @@ class Question extends React.Component {
               type="button"
               key={ `wrong-answer-${index}` }
               onClick={ this.handleScore }
-              disabled={ time <= 0 }
+              disabled={ disabled }
               className={ addClass ? 'wrong-answer' : 'qualquer-classe' }
             >
               { this.decodeHtml(answer.incorrect) }
