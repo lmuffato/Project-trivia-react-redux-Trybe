@@ -1,9 +1,18 @@
 const PLAYER = 'PLAYER';
-const login = (payload) => ({
+
+const login = (name, email, assertions = 0, score = 0) => ({
   type: PLAYER,
-  payload,
+  payload: {
+    name,
+    gravatarEmail: email,
+    assertions,
+    score,
+  },
 });
 
 //  { name, gravatarEmail, assertions, score }
 
-export default { PLAYER, login };
+export {
+  PLAYER,
+  login,
+};
