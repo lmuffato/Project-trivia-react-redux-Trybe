@@ -24,6 +24,8 @@ class Question extends Component {
     return randomizedArray;
   }
 
+  // Tive que alterar aqui, pois estava mudando a cor da borda do botão de próxima pergunta,
+  // toda vez que mudava a pergunta do array
   handleStyle() {
     const btnAnswers = document.getElementsByTagName('button');
     [...btnAnswers].map((btn) => {
