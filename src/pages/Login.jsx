@@ -6,7 +6,7 @@ class Login extends Component {
   render() {
     const { history } = this.props;
     return (
-      <div>
+      <div className="main-content">
         <LoginForm history={ history } />
       </div>
     );
