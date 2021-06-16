@@ -1,3 +1,4 @@
+// Requisito 5 - Requisição da Api das perguntas e renderixação na tela
 import React from 'react';
 import { requestTrivia } from '../Api';
 
