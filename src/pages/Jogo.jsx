@@ -2,16 +2,41 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
+
 import Questions from '../components/Questions';
-// import { getQuestions } from '../services/triviaAPI';
 import { getAPIThunk } from '../redux/actions/actions';
 
 import './Jogo.css';
+import Timer from '../components/Timer';
 
 class Jogo extends Component {
+  constructor(props) {
+    super(props);
+
+    this.setTimer = this.setTimer.bind(this);
+    this.setRevelaBorda = this.setRevelaBorda.bind(this);
+
+    this.state = {
+      time: 30,
+      revelaBorda: '',
+    };
+  }
+
   componentDidMount() {
     const { dispatchAPI } = this.props;
     dispatchAPI();
+  }
+
+  setTimer(timeObj) {
+    if (timeObj.time === 0) {
+      this.setState({ revelaBorda: 'show' });
+    }
+
+    this.setState(timeObj);
+  }
+
+  setRevelaBorda(string) {
+    this.setState({ revelaBorda: string });
   }
 
   renderGravatarImage() {
@@ -27,8 +52,7 @@ class Jogo extends Component {
 
   render() {
     const { nome, questions } = this.props;
-
-    console.log(questions);
+    const { time, revelaBorda } = this.state;
 
     return (
       <div>
@@ -40,8 +64,13 @@ class Jogo extends Component {
         </header>
         <h1>Página do Jogo</h1>
 
-        {questions && questions.length && <Questions questions={ questions } />}
+        <Timer time={ time } setTimer={ this.setTimer } />
 
+        {questions && questions.length && (<Questions
+          questions={ questions }
+          revelaBorda={ revelaBorda }
+          setRevelaBorda={ this.setRevelaBorda }
+        />)}
       </div>
     );
   }

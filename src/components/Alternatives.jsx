@@ -6,16 +6,9 @@ const CORRECT = 'correct-answer';
 const INCORRECT = 'wrong-answer';
 
 class Alternatives extends Component {
-  constructor() {
-    super();
-    this.state = {
-      revelaBorda: '',
-    };
-  }
-
   render() {
-    const { question, aleatoryAnswers, correctAnswer } = this.props;
-    const { revelaBorda } = this.state;
+    const { question, aleatoryAnswers, correctAnswer, revelaBorda } = this.props;
+    const { setRevelaBorda } = this.props;
     const questionReplaced = question.question
       .replace(/&quot;/gi, '"')
       .replace(/&#039;/gi, '\'');
@@ -31,7 +24,8 @@ class Alternatives extends Component {
               className={ revelaBorda }
               type="button"
               data-testid={ answer === correctAnswer ? CORRECT : INCORRECT }
-              onClick={ () => { this.setState({ revelaBorda: 'show' }); } }
+              onClick={ () => { setRevelaBorda('show'); } }
+              disabled={ !!revelaBorda }
             >
               { answer.replace(/&quot;/gi, '"').replace(/&#039;/gi, '\'') }
             </button>
@@ -49,6 +43,8 @@ Alternatives.propTypes = {
   }).isRequired,
   aleatoryAnswers: PropTypes.arrayOf(PropTypes.string).isRequired,
   correctAnswer: PropTypes.string.isRequired,
+  revelaBorda: PropTypes.string.isRequired,
+  setRevelaBorda: PropTypes.func.isRequired,
 };
 
 export default Alternatives;
