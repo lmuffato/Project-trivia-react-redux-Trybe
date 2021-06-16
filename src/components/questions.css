@@ -5,3 +5,11 @@
 .question__alternatives__incorrect {
   border: 3px solid red;
 }
+
+.question__button__true {
+  display: block;
+}
+
+.question__button__false {
+  display: none;
+}
