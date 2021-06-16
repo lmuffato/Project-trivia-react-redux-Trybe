@@ -19,7 +19,7 @@ class BtnConfig extends Component {
         type="button"
         data-testid="btn-settings"
         onClick={ this.handleClick }
-        className="btnPlay"
+        className="btnConfig"
       >
         Configurações
       </button>

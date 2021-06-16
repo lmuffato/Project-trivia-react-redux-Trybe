@@ -21,8 +21,8 @@
 
 .player-content {
   align-items: center;
-  font-size: x-large;
   display: flex;
+  font-size: x-large;
   justify-content: space-around;
   width: 20%;
 }
