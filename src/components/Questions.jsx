@@ -41,6 +41,7 @@ class Questions extends Component {
         }
         clearInterval(timer);
         this.saveAtLocalStorage();
+        return { gameOn: false };
       });
     }, oneSecond);
   }
