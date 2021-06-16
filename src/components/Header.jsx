@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { picture as pictureAction } from '../actions';
 import * as api from '../services/Api';
 
 class Header extends React.Component {
@@ -12,8 +13,11 @@ class Header extends React.Component {
   }
 
   componentDidMount() {
-    const { email } = this.props;
-    api.fetchGravatar(email).then((gravatar) => this.setState({ gravatar }));
+    const { email, picture } = this.props;
+    api.fetchGravatar(email).then((gravatar) => {
+      picture(gravatar);
+      this.setState({ gravatar });
+    });
   }
 
   render() {
@@ -33,6 +37,10 @@ class Header extends React.Component {
   }
 }
 
+const mapDispatchToProps = (dispatch) => ({
+  picture: (e) => dispatch(pictureAction(e)),
+});
+
 const mapStateToProps = (state) => ({
   name: state.tokenReducer.name,
 });
@@ -43,4 +51,4 @@ Header.propTypes = {
   score: PropTypes.number,
 }.isRequired;
 
-export default connect(mapStateToProps, null)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

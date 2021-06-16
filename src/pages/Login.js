@@ -43,16 +43,31 @@ class Login extends React.Component {
     const key = await fetch('https://opentdb.com/api_token.php?command=request');
     const token = await key.json();
     localStorage.setItem('token', token.token);
-    localStorage.setItem('state', JSON.stringify(
-      {
-        player: {
-          name,
-          assertions: 0,
-          gravatarEmail: email,
-          score: 0,
-        } },
-    ));
-    login(name);
+    const ranking = JSON.parse(localStorage.getItem('state'));
+    if (ranking === null) {
+      localStorage.setItem('state', JSON.stringify(
+        {
+          player: {
+            index: 0,
+            name,
+            assertions: 0,
+            gravatarEmail: email,
+            score: 0,
+          } },
+      ));
+    } else {
+      const { index } = JSON.parse(localStorage.getItem('state')).player;
+      localStorage.setItem('state', JSON.stringify(
+        {
+          player: {
+            index: index + 1,
+            name,
+            assertions: 0,
+            gravatarEmail: email,
+            score: 0,
+          } },
+      ));
+    } login(name);
     history.push('/trivia');
   }
 

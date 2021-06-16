@@ -10,8 +10,15 @@ class Feedback extends React.Component {
   }
 
   handleClick() {
+    const { index } = JSON.parse(localStorage.getItem('state')).player;
     const { history } = this.props;
     history.push('/');
+    localStorage.setItem('state', JSON.stringify(
+      {
+        player: {
+          index,
+        } },
+    ));
   }
 
   render() {

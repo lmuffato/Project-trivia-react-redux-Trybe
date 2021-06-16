@@ -1,37 +1,32 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import * as api from '../services/Api';
+import { connect } from 'react-redux';
 
 class Ranking extends React.Component {
-  constructor() {
-    super();
-    this.ranking = this.ranking.bind(this);
-    this.state = {
-      gravatar: '',
-    };
-  }
-
-  componentDidMount() {
-    const { email } = this.props;
-    api.fetchGravatar(email).then((gravatar) => this.setState({ gravatar }));
-  }
-
   render() {
-    const { name } = this.props;
-    const { gravatar } = this.state;
+    const { picture } = this.props;
+    const { name, score, index } = JSON.parse(localStorage.getItem('state')).player;
+    localStorage.setItem('ranking', JSON.stringify(
+      {
+        name,
+        score,
+        picture,
+      },
+    ));
     return (
       <div>
         <h1 data-testid="ranking-title">Ranking</h1>
-<<<<<<< HEAD
-        <img
-          src={ gravatar }
-          alt="User"
-          data-testid="ranking-profile-picture"
-        />
-        <p data-testid={`player-name-${0}`}>{ name }</p>
-        <p data-testid={ `player-score-${0}` }>0</p>
-=======
->>>>>>> 2b88e82d9894841d059d8a06a69f664a142fb1c4
+        <ul>
+          <li>
+            <img
+              src={ picture }
+              alt="User"
+              data-testid="ranking-profile-picture"
+            />
+            <p data-testid={ `player-name-${index}` }>{ name }</p>
+            <p data-testid={ `player-score-${index}` }>{ score }</p>
+          </li>
+        </ul>
         <Link to="/">
           <button
             data-testid="btn-go-home"
@@ -45,4 +40,8 @@ class Ranking extends React.Component {
   }
 }
 
-export default Ranking;
+const mapStateToProps = (state) => ({
+  picture: state.tokenReducer.picture,
+});
+
+export default connect(mapStateToProps, null)(Ranking);
