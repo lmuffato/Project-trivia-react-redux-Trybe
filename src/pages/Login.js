@@ -7,8 +7,9 @@ import { getTokenFromAPIAndSaveToLS } from '../services/api';
 class Login extends Component {
   constructor() {
     super();
+    this.requestToken = this.requestToken.bind(this);
     this.redirectToConfigsNow = this.redirectToConfigsNow.bind(this);
-    this.redirectToGameNow = this.redirectToGameNow.bind(this);
+    // this.redirectToGameNow = this.redirectToGameNow.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.isEnabled = this.isEnabled.bind(this);
     this.state = {
@@ -20,19 +21,21 @@ class Login extends Component {
     };
   }
 
-  componentDidMount() {
-    const { requestQuestions } = this.props;
+  requestToken() {
+    const { props: { requestQuestions },
+      state: { name, email } } = this;
     getTokenFromAPIAndSaveToLS();
     requestQuestions();
     const state = {
       player: {
-        name: '',
+        name,
         assertions: 0,
         score: 0,
-        email: '',
+        email,
       },
     };
     localStorage.setItem('state', JSON.stringify(state));
+    return this.redirectToGameNow();
   }
 
   redirectToConfigsNow() {
@@ -72,7 +75,9 @@ class Login extends Component {
 
   render() {
     const { state: { disabled, redirectToGame, redirectToConfigs },
-      handleChange, redirectToGameNow, redirectToConfigsNow } = this;
+      handleChange, requestToken, redirectToConfigsNow,
+      props: { questions } } = this;
+      console.log(questions);
     return (
       <div>
         <form>
@@ -95,7 +100,7 @@ class Login extends Component {
             />
           </label>
           <button
-            onClick={ redirectToGameNow }
+            onClick={ requestToken }
             disabled={ disabled }
             data-testid="btn-play"
             type="button"

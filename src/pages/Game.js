@@ -7,6 +7,7 @@ import Header from '../components/Header';
 class Game extends Component {
   constructor() {
     super();
+    this.mockAlternatives = this.mockAlternatives.bind(this);
     this.createAlternativesButtons = this.createAlternativesButtons.bind(this);
   }
 
@@ -33,19 +34,30 @@ class Game extends Component {
     });
   }
 
+  mockAlternatives() {
+    return (
+      <>
+        <button type="button" data-testid="correct-answer">Loading...</button>
+        <button type="button" data-testid="wrong-answer">Loading...</button>
+      </>
+    );
+  }
+
   render() {
-    const { props: { questions, loading }, createAlternativesButtons } = this;
+    const { props: { questions }, createAlternativesButtons, mockAlternatives } = this;
+    const validQuestions = questions.length > 0;
     return (
       <div>
         <Header />
-        {questions.length === 0 ? <p>loading...</p> : (
-          <div>
-            <p data-testid="question-category">{questions[0].category}</p>
-            <p data-testid="question-text">{questions[0].question}</p>
-            {createAlternativesButtons(questions[0])}
-
-          </div>
-        )}
+        <div>
+          <p data-testid="question-category">
+            {validQuestions ? questions[0].category : 'carregando...'}
+          </p>
+          <p data-testid="question-text">
+            {validQuestions ? questions[0].question : 'carrengando...'}
+          </p>
+          {validQuestions ? createAlternativesButtons(questions[0]) : mockAlternatives()}
+        </div>
       </div>
     );
   }
