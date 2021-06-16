@@ -12,6 +12,7 @@ body {
   display: flex;
   flex-direction: column;
   height: 170px;
+  margin-top: 200px;
   padding: 25px;
   width: 400px;
 }
@@ -42,3 +43,4 @@ label {
   margin: 3px;
   width: 80px;
 }
+
