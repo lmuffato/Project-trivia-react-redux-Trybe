@@ -41,16 +41,16 @@ export function getQuestion(token) {
   };
 }
 
-export function getToken({ name, gravataEmail }) {
+export function getToken({ name, gravatarEmail }) {
   return async (dispatch) => {
     dispatch(startFetch());
     const token = await fetchToken();
     // documentacao para converter email para gravatar
-    const cryptoEmail = md5(gravataEmail).toString();
+    const cryptoEmail = md5(gravatarEmail).toString();
     const picture = `https://www.gravatar.com/avatar/${cryptoEmail}`;
 
     dispatch(fetchTokenSuccess(token));
-    dispatch(addPlayer({ name, gravataEmail, picture }));
+    dispatch(addPlayer({ name, gravatarEmail, picture }));
     localStorage.setItem('token', token);
   };
 }
