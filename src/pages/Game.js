@@ -3,41 +3,49 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getApiQuestionsThunk } from '../actions';
 import Header from './Header';
+import Categoria from './Categoria';
+import Pergunta from './Pergunta';
 
 class Game extends React.Component {
-  componentDidMount() {
+  async componentDidMount() {
     const { getThunk } = this.props;
-    getThunk();
+    await getThunk();
   }
 
   render() {
-    const { results } = this.props;
-    console.log(results);
+    const { results, questionNumber } = this.props;
     return (
       <>
         <Header />
+        <Categoria />
+        <Pergunta />
         <div>
-          <h1>Answer the right question: </h1>
-          <ul>
+          <br />
+          <br />
+          <div>
             {results.map((result, index) => (
-              <li
-                data-testid="question-category"
-                key={ index }
-              >
-                {result.category}
-              </li>
+              <div key={ index }>
+                {
+                  (index === questionNumber)
+                    ? <>
+                      <button type="submit" data-testid="correct-answer">
+                        { result.correct_answer }
+                      </button>
+
+                      { result.incorrect_answers.map((wrongAnswers) => (
+                        <button
+                          type="submit"
+                          key={ index }
+                          data-testid={ `wrong-answer-${index}` }
+                        >
+                          { wrongAnswers }
+                        </button>
+                      ))}
+                    </>
+                    : '' }
+              </div>
             ))}
-          </ul>
-          <ul>
-            {results.map((result, index) => (
-              <li
-                key={ index }
-                data-testid="question-text"
-              >
-                { result.question }
-              </li>
-            ))}
-          </ul>
+          </div>
         </div>
       </>
     );
@@ -51,10 +59,12 @@ const mapDispatchToProps = (dispatch) => ({
 const mapStateToProps = (state) => ({
   results: state.game.questions,
   isLoading: state.game.isLoading,
+  questionNumber: state.game.questionNumber,
 });
 
 Game.propTypes = {
   results: PropTypes.string.isRequired,
+  questionNumber: PropTypes.number.isRequired,
   getThunk: PropTypes.func.isRequired,
 };
 
