@@ -38,11 +38,20 @@ class Login extends React.Component {
   }
 
   async handleClick() {
-    const { name } = this.state;
+    const { name, email } = this.state;
     const { history, login } = this.props;
     const key = await fetch('https://opentdb.com/api_token.php?command=request');
     const token = await key.json();
     localStorage.setItem('token', token.token);
+    localStorage.setItem('state', JSON.stringify(
+      {
+        player: {
+          name,
+          assertions: 0,
+          gravatarEmail: email,
+          score: 0,
+        } },
+    ));
     login(name);
     history.push('/trivia');
   }
