@@ -44,7 +44,7 @@
   min-width: calc(300px + 12px);
   opacity: 0;
   position: absolute;
-  top: 50% ;
+  top: 50%;
   transition: all 0.3s ease-in-out 0s;
 }
 
