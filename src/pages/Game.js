@@ -24,7 +24,7 @@ class Game extends React.Component {
     this.requestApi();
     this.handleTime();
   }
-
+// teste commit
   requestApi() {
     const token = JSON.parse(localStorage.getItem('token'));
     api.fetchQuest(token).then((res) => {
