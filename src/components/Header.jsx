@@ -10,11 +10,12 @@ class Header extends Component {
   }
 
   render() {
-    const { urLink, user: { username } } = this.props;
+    const { urLink, user: { username }, score } = this.props;
+    // const score = getLocalStorage('score');
     return (
       <div>
         <h1 data-testid="header-player-name">{ username }</h1>
-        <h3 data-testid="header-score">0</h3>
+        <h3 data-testid="header-score">{ score }</h3>
         <img
           data-testid="header-profile-picture"
           src={ urLink }
@@ -30,16 +31,17 @@ Header.propTypes = {
   urLink: PropTypes.string,
 }.isRequired;
 
-function mapDispatchToProps(dispatch) {
-  return {
-    gravatarImage: (email) => dispatch(getGravatarImage(email)),
-  };
-}
-
 function mapStateToProps(state) {
   return {
     urLink: state.gravatar.url,
     user: state.user,
+    score: state.trivia.score,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    gravatarImage: (email) => dispatch(getGravatarImage(email)),
   };
 }
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { ONE_SECOND } from '../constants';
-import { gameTimeout } from '../actions/action';
+import { currentQuestionTime, gameTimeout } from '../actions/action';
 
 class Timer extends Component {
   constructor() {
@@ -19,9 +19,10 @@ class Timer extends Component {
 
   componentDidUpdate() {
     const { timer } = this.state;
-    const { timeout } = this.props;
+    const { timeout, remainingTime } = this.props;
     if (timer > 0) {
       setTimeout(() => this.setState({ timer: timer - 1 }), ONE_SECOND);
+      remainingTime(timer);
     } else {
       timeout();
     }
@@ -45,6 +46,7 @@ class Timer extends Component {
 function mapDispatchToProps(dispatch) {
   return {
     timeout: () => dispatch(gameTimeout()),
+    remainingTime: (time) => dispatch(currentQuestionTime(time)),
   };
 }
 
