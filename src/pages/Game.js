@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getQuestions } from '../services/dataApi';
 import '../styles/Game.css';
+import Timer from '../components/Timer';
 
 class Game extends Component {
   constructor(props) {
@@ -59,13 +60,14 @@ class Game extends Component {
   }
 
   createButton(answer, i) {
+    const { disable } = this.props;
     const { questions, index } = this.state;
-    console.log(questions[index].correct_answer);
     if (answer === questions[index].correct_answer) {
       return (
         <button
           key={ i }
           type="button"
+          disabled={ disable }
           name="correct-answer"
           className="button"
           data-testid="correct-answer"
@@ -80,6 +82,7 @@ class Game extends Component {
       <button
         key={ i }
         type="button"
+        disabled={ disable }
         name="wrong-answer"
         className="button"
         data-testid={ `wrong-answer-${this.wrongIndex}` }
@@ -120,6 +123,7 @@ class Game extends Component {
           <p data-testid="header-score">0</p>
         </header>
         <main>
+          <Timer />
           <h2 data-testid="question-category">
             {questions[index].category}
           </h2>
@@ -140,10 +144,13 @@ class Game extends Component {
   }
 }
 
-const mapStateToProps = ({ player: { email, name, token } }) => ({
+const mapStateToProps = ({
+  player: { email, name, token },
+  gameReducer: { disable } }) => ({
   emailDoUsuario: email,
   nomeDoUsuario: name,
   token,
+  disable,
 });
 
 export default connect(mapStateToProps, null)(Game);
