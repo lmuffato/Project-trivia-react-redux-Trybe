@@ -45,9 +45,9 @@ class DisplayGame extends React.Component {
     const { questionsApiGames } = this.props;
     console.log(questionsApiGames);
 
-    if (questionsApiGames === null) {
-      return <div>Loading...</div>;
-    }
+    // if (questionsApiGames === undefined) {
+    //   return <div>Loading...</div>;
+    // }
     return (
       <>
         <Header />

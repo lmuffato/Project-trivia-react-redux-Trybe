@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { user, questionsApi, getToken } from '../../actions';
+import { user, questionsApi, token } from '../../actions';
 import { tokenAPI } from '../../services/api';
 import logo from '../../images/trivia.png';
 import './styles.css';
@@ -27,10 +27,11 @@ class Login extends Component {
 
   async fetchToken() {
     const { userToken } = this.props;
-    const token = await tokenAPI();
-    localStorage.setItem('token', token);
+    const tokenValue = await tokenAPI();
+    localStorage.setItem('token', tokenValue);
 
-    userToken(token);
+    console.log(tokenValue);
+    userToken(tokenValue);
 
     // const questions = await triviaAPI(token);
     // triviaQuestions(questions);
@@ -43,7 +44,7 @@ class Login extends Component {
 
     login({ name, email });
     await this.fetchToken();
-    history.push('/game');
+    setTimeout(() => { history.push('/game'); }, 5000);
   }
 
   render() {
@@ -99,7 +100,7 @@ class Login extends Component {
 const mapDispatchToProps = (dispatch) => ({
   login: (payload) => dispatch(user(payload)),
   triviaQuestions: (payload) => dispatch(questionsApi(payload)),
-  userToken: (payload) => dispatch(getToken(payload)),
+  userToken: (payload) => dispatch(token(payload)),
 });
 
 Login.propTypes = {
@@ -107,6 +108,7 @@ Login.propTypes = {
     push: PropTypes.func,
   }).isRequired,
   login: PropTypes.func.isRequired,
+  userToken: PropTypes.func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Login);

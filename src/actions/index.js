@@ -18,7 +18,7 @@ export const questionsApi = (payload) => ({
   payload,
 });
 
-export const getToken = (payload) => ({
+export const token = (payload) => ({
   type: 'TOKEN',
   payload,
 });
