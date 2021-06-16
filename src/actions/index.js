@@ -1,4 +1,5 @@
-import getQuestionsFromAPI from '../services/api';
+import { getQuestionsFromAPI } from '../services/api';
+
 export const REQUEST_API_GAME = 'REQUEST_API_GAME';
 export const GET_QUESTIONS = 'GET_QUESTIONS';
 

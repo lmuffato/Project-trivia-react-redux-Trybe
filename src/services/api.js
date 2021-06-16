@@ -1,8 +1,13 @@
 const API_URL = 'https://opentdb.com/api.php?';
 
-const getQuestionsFromAPI = async (amount, token) => {
+export const getQuestionsFromAPI = async (amount, token) => {
   const response = await fetch(`${API_URL}amount=${amount}&token=${token}`);
   return response.json();
 };
 
-export default getQuestionsFromAPI;
+export const getTokenFromAPIAndSaveToLS = async () => {
+  const response = await fetch('https://opentdb.com/api_token.php?command=request');
+  const { token } = await response.json();
+  console.log(token);
+  localStorage.setItem('token', token);
+};

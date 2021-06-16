@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { requestQuestionThunk } from '../actions';
+import { getTokenFromAPIAndSaveToLS } from '../services/api';
 
 class Login extends Component {
   constructor() {
     super();
     this.redirectToConfigsNow = this.redirectToConfigsNow.bind(this);
     this.redirectToGameNow = this.redirectToGameNow.bind(this);
-    this.requestToken = this.requestToken.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.isEnabled = this.isEnabled.bind(this);
     this.state = {
@@ -18,7 +20,10 @@ class Login extends Component {
     };
   }
 
-  LocalCreate() {
+  componentDidMount() {
+    const { requestQuestions } = this.props;
+    getTokenFromAPIAndSaveToLS();
+    requestQuestions();
     const state = {
       player: {
         name: '',
@@ -44,24 +49,6 @@ class Login extends Component {
     }));
   }
 
-  async requestToken() {
-    const { name, email } = this.state;
-    const request = await fetch('https://opentdb.com/api_token.php?command=request');
-    const responseInJSON = await request.json();
-    const { token } = responseInJSON;
-    localStorage.setItem('token', token);
-    const state = {
-      player: {
-        name,
-        assertions: 0,
-        score: 0,
-        email,
-      },
-    };
-    localStorage.setItem('state', JSON.stringify(state));
-    return this.redirectToGameNow();
-  }
-
   isEnabled() {
     const { state: { name, email } } = this;
     if (name.length > 0 && email.length > 0) {
@@ -85,7 +72,7 @@ class Login extends Component {
 
   render() {
     const { state: { disabled, redirectToGame, redirectToConfigs },
-      handleChange, requestToken, redirectToConfigsNow } = this;
+      handleChange, redirectToGameNow, redirectToConfigsNow } = this;
     return (
       <div>
         <form>
@@ -108,7 +95,7 @@ class Login extends Component {
             />
           </label>
           <button
-            onClick={ requestToken }
+            onClick={ redirectToGameNow }
             disabled={ disabled }
             data-testid="btn-play"
             type="button"
@@ -131,4 +118,12 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapSatateToProps = (state) => ({
+  questions: state.questions.results,
+});
+
+const mapDispatchToProps = () => (dispatch) => ({
+  requestQuestions: () => dispatch(requestQuestionThunk()),
+});
+
+export default connect(mapSatateToProps, mapDispatchToProps)(Login);

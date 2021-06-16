@@ -10,10 +10,10 @@ class Game extends Component {
     this.createAlternativesButtons = this.createAlternativesButtons.bind(this);
   }
 
-  componentDidMount() {
-    const { props: { requestQuestions } } = this;
-    requestQuestions();
-  }
+  // componentDidMount() {
+  //   const { props: { requestQuestions } } = this;
+  //   requestQuestions();
+  // }
 
   createAlternativesButtons(question) {
     const altArray = [...question.incorrect_answers, question.correct_answer];
@@ -38,7 +38,7 @@ class Game extends Component {
     return (
       <div>
         <Header />
-        {(loading && !questions.length) ? <p>loading...</p> : (
+        {questions.length === 0 ? <p>loading...</p> : (
           <div>
             <p data-testid="question-category">{questions[0].category}</p>
             <p data-testid="question-text">{questions[0].question}</p>
