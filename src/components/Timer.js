@@ -1,53 +1,49 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { setTimerAction } from '../actions/actionTimer';
 
 class Timer extends React.Component {
-  componentDidMount() {
-    const { setTimer } = this.props;
-    // const time = 1000;
-    // for (let index = 30; index > 0; index -= 1) {
-    //   setTimeout(() => {
-    //     setTimer();
-    //   }, time);
-    // }
-    let counter = 30;
-const timerInterval = setInterval(function() {
-if( counter === 0 ) {
-clearInterval( timerInterval );
-}
+  constructor() {
+    super();
 
-setTimer( counter-- );
-}, 1000); 
+    this.state = {
+      tempo: 30,
+    };
+
+    this.setTimer = this.setTimer.bind(this);
+  }
+
+  componentDidMount() {
+    const { tempo } = this.state;
+    let t = tempo;
+    const interval = 1000;
+    const myTime = setInterval(() => {
+      t -= 1;
+      if (t === 0) {
+        clearInterval(myTime);
+      }
+      this.setTimer();
+    }, interval);
   }
 
   componentDidUpdate() {
-    const { timer } = this.props;
-    if (timer === 0) {
-      const selected = document.querySelectorAll('button');
-      selected[0].click();
+    const { tempo } = this.state;
+    if (tempo === 0) {
+      const buttons = document.querySelectorAll('button');
+      buttons.forEach((button) => { button.disabled = true; });
     }
   }
 
+  setTimer() {
+    this.setState((prevState) => ({
+      tempo: prevState.tempo - 1,
+    }));
+  }
+
   render() {
-    const { timer } = this.props;
+    const { tempo } = this.state;
     return (
-      <h4>{ timer }</h4>
+      <h4>{ tempo }</h4>
     );
   }
 }
-const mapStateToProps = (state) => ({
-  timer: state.timer.timer,
-});
 
-const mapDispatchToProps = (dispatch) => ({
-  setTimer: () => dispatch(setTimerAction()),
-});
-
-Timer.propTypes = {
-  setTimer: PropTypes.func.isRequired,
-  timer: PropTypes.oneOfType([PropTypes.object]).isRequired,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Timer);
+export default Timer;
