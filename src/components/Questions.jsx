@@ -12,9 +12,14 @@ class Questions extends Component {
       currentIndex: 0,
     };
     this.setScore = this.setScore.bind(this);
+    this.saveInStorage = this.saveInStorage.bind(this);
   }
 
-  setScore(shouldCalc) {
+  componentDidMount() {
+    this.saveInStorage();
+  }
+
+  async setScore(shouldCalc) {
     const { currentIndex } = this.state;
     const { questions, timer, time, saveScore } = this.props;
     const currentQuestion = questions[currentIndex];
@@ -39,10 +44,22 @@ class Questions extends Component {
 
     if (shouldCalc === true) {
       const score = SCORE_PARAM + (time * difficultyConditional());
-      saveScore(score);
-      console.log(score);
-      localStorage.setItem('score', score);
+      await saveScore(score);
     }
+
+    this.saveInStorage();
+  }
+
+  saveInStorage() {
+    const { assertions, score, nome, email } = this.props;
+
+    const player = { assertions, score };
+    player.name = nome;
+    player.gravatarEmail = email;
+
+    const json = JSON.stringify({ player });
+
+    localStorage.setItem('state', json);
   }
 
   render() {
@@ -80,6 +97,10 @@ Questions.propTypes = {
 
 const mapStateToProps = (state) => ({
   timer: state.jogoReducer.time,
+  assertions: state.jogoReducer.player.assertions,
+  score: state.jogoReducer.player.score,
+  nome: state.loginReducer.user.nome,
+  email: state.loginReducer.user.email,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -8,10 +8,8 @@ import {
 
 const INITIAL_STATE = {
   player: {
-    name: '',
     assertions: 0,
     score: 0,
-    gravatarEmail: '',
   },
   loading: false,
   results: [],
@@ -41,12 +39,10 @@ const jogoReducer = (state = INITIAL_STATE, action) => {
     };
 
   case UPDATE_SCORE:
-    return {
-      ...state,
+    return { ...state,
       player: { ...state.player,
         score: state.player.score + action.payload,
-        assertions: state.player.assertions + 1 },
-    };
+        assertions: state.player.assertions + 1 } };
 
   case SAVE_TIME:
     return {

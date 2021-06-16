@@ -12,8 +12,10 @@ const loginReducer = (state = INITIAL_STATE, action) => {
   case GET_LOGIN:
     return {
       ...state,
-      nome: action.payload.state.nome,
-      email: action.payload.state.email,
+      user: {
+        nome: action.payload.state.nome,
+        email: action.payload.state.email,
+      },
     };
 
   default:

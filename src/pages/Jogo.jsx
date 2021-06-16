@@ -24,8 +24,8 @@ class Jogo extends Component {
   }
 
   componentDidMount() {
-    const { dispatchAPI, score } = this.props;
-    localStorage.setItem('score', score);
+    const { dispatchAPI } = this.props;
+
     dispatchAPI();
   }
 
