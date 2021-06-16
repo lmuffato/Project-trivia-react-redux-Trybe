@@ -16,7 +16,7 @@ class Questions extends React.Component {
   }
 
   render() {
-    const { questions } = this.props;
+    const { questions, timesUp } = this.props;
     if (questions.length === 0) return <div>Loading...</div>;
     const { category, question } = questions[0];
     const answers = [
@@ -34,6 +34,7 @@ class Questions extends React.Component {
             type="button"
             data-testid={ this.getID(answer) }
             key={ index }
+            disabled={ timesUp }
           >
             {answer}
           </button>
@@ -55,6 +56,7 @@ Questions.propTypes = {
 
 const mapStateToProps = (state) => ({
   questions: state.game.questions,
+  timesUp: state.gameMatch.timesUp,
 });
 
 export default connect(mapStateToProps, null)(Questions);

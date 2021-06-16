@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Questions from '../components/Questions';
 import Header from '../components/Header';
+import Timer from '../components/Timer';
 
 class Game extends React.Component {
   // constructor() {
@@ -14,6 +15,7 @@ class Game extends React.Component {
         <Link to="/feedback">Teste</Link>
         <Header />
         <Questions />
+        <Timer />
       </section>
     );
   }
