@@ -16,16 +16,32 @@ class TriviaGame extends Component {
       index: 0,
     };
     this.handleIndexIncrementOnClick = this.handleIndexIncrementOnClick.bind(this);
+    this.changeBorder = this.changeBorder.bind(this);
   }
 
-  componentDidMount() {
+  changeBorder() {
+    const btnAnswers = document.getElementsByName('answer');
+    btnAnswers.forEach((btn) => {
+      if (btn.getAttribute('data-testid') === 'correct-answer') {
+        btn.style = 'border: 3px solid rgb(6, 240, 15)';
+      } else {
+        btn.style = 'border: 3px solid rgb(255, 0, 0)';
+      }
+    });
+  }
 
+  resetBorder() {
+    const btnAnswers = document.getElementsByName('answer');
+    btnAnswers.forEach((btn) => {
+      btn.style = '';
+    });
   }
 
   handleIndexIncrementOnClick() {
     this.setState((oldState) => ({
       index: oldState.index + 1,
     }));
+    this.resetBorder();
   }
 
   answersRandom(index) {
@@ -59,7 +75,7 @@ class TriviaGame extends Component {
           {/* <Timer /> */}
         </div>
         <div>
-          {questions.length && <Answer answers={ questionsRandom } />}
+          {questions.length && <Answer answers={ questionsRandom } changeBorder={ this.changeBorder } />}
           <ButtonNext onClick={ this.handleIndexIncrementOnClick } />
         </div>
       </div>
