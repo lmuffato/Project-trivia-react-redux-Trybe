@@ -1,7 +1,10 @@
 import React from 'react';
 import { Redirect } from 'react-router';
 import { createBrowserHistory } from 'history';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import requestToken from '../Api';
+import { login } from '../actions';
 import './login.css';
 
 const history = createBrowserHistory();
@@ -68,6 +71,9 @@ class Login extends React.Component {
 
   // Requisito 2 - Redirenciona para pagina de games e faz a requisição do token na api;
   async handleClickPlay() {
+    const { name: userName, email } = this.state;
+    const { getLogin } = this.props;
+    getLogin({ userName, email });
     const getToken = await requestToken();
     // https://pt.stackoverflow.com/questions/369892/como-redirecionar-para-uma-rota-usando-onclick-e-react-router
     this.setState({
@@ -96,7 +102,7 @@ class Login extends React.Component {
   // Requisito 1 - Implementação da página de login
   render() {
     const { name, email, isDisabled, redirect, settings } = this.state;
-    if (redirect) {
+    if (redirect && email !== '') {
       history.push('/game');
       return (<Redirect to="/game" />);
     }
@@ -131,4 +137,13 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+// salva no state global o nome e email do jogador
+  getLogin: (state) => dispatch(login(state)),
+});
+
+Login.propTypes = {
+  getLogin: PropTypes.func,
+}.isRequired;
+
+export default connect(null, mapDispatchToProps)(Login);
