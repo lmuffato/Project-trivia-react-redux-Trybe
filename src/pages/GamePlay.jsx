@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Timer from '../components/Timer';
 import { fetchQuestions } from '../actions';
 import Header from '../components/Header';
 
@@ -76,6 +77,7 @@ class GamePlay extends React.Component {
     return (
       <>
         <Header />
+        <Timer />
         <main>
           { loading ? 'Loading' : this.renderQuestions() }
         </main>
