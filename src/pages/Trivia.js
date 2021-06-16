@@ -1,4 +1,5 @@
 import React from 'react';
+import Header from '../components/Header';
 
 class Trivia extends React.Component {
   constructor() {
@@ -57,6 +58,7 @@ class Trivia extends React.Component {
     const { category, question } = questions[questionNum];
     return (
       <div>
+        <Header />
         <p data-testid="question-category">
           {category}
         </p>
