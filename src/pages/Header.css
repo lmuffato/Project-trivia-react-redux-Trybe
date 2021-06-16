@@ -1,20 +1,22 @@
-#headerTrivia {
-  display: flex; 
-  justify-content: space-around; 
+.headerTrivia {
   align-items: center;
-  margin: 15px;
   background-color: cornflowerblue;
-  color: white;
   border-radius: 10px;
+  color: white;
+  display: flex;
+  justify-content: space-around;
+  margin: 15px;
+
 }
 
-h1 { 
+h1 {
   margin: 20px;
 }
 
 img {
   border-radius: 10px;
   opacity: 0.8;
+
 }
 
 img:hover {

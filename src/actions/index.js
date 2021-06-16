@@ -1,3 +1,5 @@
+import getApiToken from '../services/api';
+
 export const setNameAction = (nome) => ({
   type: 'SET_NAME',
   payload: {
@@ -29,6 +31,7 @@ export const getApiQuestionsError = (payload) => ({
 // ----------- thunk --------------
 
 export const getApiQuestionsThunk = () => async (dispatch) => {
+  getApiToken();
   const codeError = 3;
   const token = JSON.parse(localStorage.getItem('token')) || [];
   const resolve = await fetch(`https://opentdb.com/api.php?amount=5&token=${token.token}`);
