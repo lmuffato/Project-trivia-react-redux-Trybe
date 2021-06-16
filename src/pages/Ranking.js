@@ -61,6 +61,7 @@ class Ranking extends Component {
 
     return (
       <div>
+        <h1 data-testid="ranking-title">Ranking</h1>
         <ul>
           {!rankingBuilt ? <span>Nenhum jogador rankeado!</span>
             : rankingList.map((player, index) => (
