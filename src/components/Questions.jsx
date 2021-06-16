@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
+const second = 1000;
 
 class Questions extends Component {
   constructor() {
@@ -9,11 +10,26 @@ class Questions extends Component {
       questions: [],
       questionNumber: 0,
       displayBtn: false,
+      currentTime: 30,
+      disableButton: false,
     };
+    this.setTime = this.setTime.bind(this);
   }
 
   componentDidMount() {
     this.getQuestions();
+    setInterval(() => this.setTime(), second);
+  }
+
+  setTime() {
+    const { currentTime, disableButton } = this.state;
+    if (currentTime >= 1) {
+      this.setState({ currentTime: currentTime - 1 });
+    } if (currentTime === 0 && disableButton === false) {
+      this.setState({ disableButton: true });
+    } else {
+      return null;
+    }
   }
 
   async getQuestions() {
@@ -55,13 +71,15 @@ class Questions extends Component {
   }
 
   render() {
-    const { questions, questionNumber } = this.state;
+    const { questions, questionNumber, currentTime, disableButton } = this.state;
     const question = questions[questionNumber];
-    const { disableButton } = this.props;
     return !question ? (
       <p>Loading!</p>
     ) : (
       <div>
+        <div>
+          { currentTime }
+        </div>
         <div>
           <h4
             data-testid="question-category"
@@ -101,12 +119,4 @@ class Questions extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  disableButton: state.disableButton.disableByTime,
-});
-
-Questions.propTypes = {
-  disableButton: PropTypes.bool,
-}.isRequired;
-
-export default connect(mapStateToProps, null)(Questions);
+export default connect(null, null)(Questions);
