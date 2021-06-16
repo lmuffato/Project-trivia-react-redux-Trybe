@@ -7,7 +7,7 @@ class Timer extends Component {
   constructor() {
     super();
     this.state = {
-      seconds: 5,
+      seconds: 30,
     };
 
     this.setTime = this.setTime.bind(this);
@@ -19,21 +19,26 @@ class Timer extends Component {
     this.setTime();
   }
 
+  // componentDidUpdate() {
+  //   console.log('Chamando');
+  // }
+
   setTime() {
     const UM_SEGUNDO = 1000;
 
     this.timer = setInterval(() => {
       const { seconds } = this.state;
-      const { timeCondition } = this.props;
-      if (seconds > 0) {
+      const { timeCondition, stop, getSeconds } = this.props;
+
+      if (seconds === 0 || stop) {
+        timeCondition();
+        getSeconds(seconds);
+        console.log(seconds);
+        clearInterval(this.timer);
+      } else if (seconds > 0) {
         this.setState((prevState) => ({
           seconds: prevState.seconds - 1,
         }));
-      }
-
-      if (seconds === 1) {
-        timeCondition();
-        clearInterval(this.timer);
       }
     }, UM_SEGUNDO);
   }
@@ -68,6 +73,7 @@ class Timer extends Component {
 
 Timer.propTypes = {
   timeCondition: PropTypes.func,
+  getSeconds: PropTypes.func,
 }.isRequired;
 
 export default Timer;

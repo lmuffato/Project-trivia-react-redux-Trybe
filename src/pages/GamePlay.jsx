@@ -13,6 +13,8 @@ class GamePlay extends React.Component {
       index: 0,
       disable: false,
       visible: false,
+      lastTime: 0,
+      stop: false,
       dificuldade: {
         hard: {
           value: 3,
@@ -43,6 +45,7 @@ class GamePlay extends React.Component {
     this.showNextQuestionBtn = this.showNextQuestionBtn.bind(this);
     this.handleAlternativeClick = this.handleAlternativeClick.bind(this);
     this.timeCondition = this.timeCondition.bind(this);
+    this.getSeconds = this.getSeconds.bind(this);
   }
 
   componentDidMount() {
@@ -50,9 +53,16 @@ class GamePlay extends React.Component {
     fecthQuestionsAction(token);
   }
 
+  getSeconds(seconds) {
+    this.setState({
+      lastTime: seconds,
+    });
+  }
+
   timeCondition() {
     this.setState({
       disable: true,
+      visible: true,
     });
   }
 
@@ -61,7 +71,6 @@ class GamePlay extends React.Component {
     const { history } = this.props;
     this.setState({
       index: value,
-      visible: false,
       correctClass: 'answer',
       wrongClass: 'answer',
     });
@@ -72,23 +81,25 @@ class GamePlay extends React.Component {
   }
 
   score(difficulty) {
-    const { dificuldade } = this.state;
+    const { dificuldade, lastTime } = this.state;
     const { hard, medium, easy } = dificuldade;
     const number = 10;
-    const time = 17;
     let score;
+
+    console.log(difficulty);
+    console.log('tempo', lastTime);
 
     switch (difficulty) {
     case (hard.name):
-      score = number + (time * hard.value);
+      score = number + (lastTime * hard.value);
       console.log(score);
       break;
     case (medium.name):
-      score = number + (time * medium.value);
+      score = number + (lastTime * medium.value);
       console.log(score);
       break;
     case (easy.name):
-      score = number + (time * easy.value);
+      score = number + (lastTime * easy.value);
       console.log(score);
       break;
     default:
@@ -101,12 +112,24 @@ class GamePlay extends React.Component {
     this.score(difficulty);
   }
 
+  timerComponent() {
+    const { stop } = this.state;
+    return (
+      <Timer
+        timeCondition={ this.timeCondition }
+        getSeconds={ this.getSeconds }
+        stop={ stop }
+      />
+    );
+  }
+
   handleAlternativeClick(difficulty) {
     // Adição de classe em React baseada em pesquisa no StackOverflow no link:
     // https://stackoverflow.com/questions/28732253/how-to-add-or-remove-a-classname-on-event-in-reactjs
     this.setState((prevState) => ({
       correctClass: `${prevState.correctClass} correct`,
       wrongClass: `${prevState.wrongClass} wrong`,
+      stop: true,
     }));
     this.showNextQuestionBtn(difficulty);
   }
@@ -168,10 +191,12 @@ class GamePlay extends React.Component {
 
   render() {
     const { loading } = this.props;
+
     return (
       <>
         <Header />
-        <Timer timeCondition={ this.timeCondition } />
+        { loading ? ''
+          : this.timerComponent() }
         <main>
           { loading ? 'Loading' : this.renderQuestions() }
         </main>
