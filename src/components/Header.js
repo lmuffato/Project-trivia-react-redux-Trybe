@@ -31,7 +31,7 @@ class Header extends Component {
 
   render() {
     const { img, name } = this.state;
-
+    console.log(name);
     return (
       <div>
         <img src={ `https://www.gravatar.com/avatar/${img} ` } alt="avatar" data-testid="header-profile-picture" />

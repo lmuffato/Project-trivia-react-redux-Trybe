@@ -1,7 +1,7 @@
 import dataTestid from '../utils/dataTestid';
 import shuffleArray from '../utils/shuffleArray';
 
-const ApiGetQuestions = async (token = '') => {
+const ApiGetQuestions = async (token) => {
   const url = `https://opentdb.com/api.php?amount=5${token}`;
   const response = await fetch(url);
   const { results } = await response.json();

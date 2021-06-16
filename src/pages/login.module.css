@@ -21,6 +21,11 @@
   max-width: 50px;
 }
 
+.login_header__nav a button {
+  background: transparent;
+  border: none;
+}
+
 .login_title {
   color: var(--purple-800);
   font-size: 2em;

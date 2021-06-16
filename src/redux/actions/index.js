@@ -16,9 +16,16 @@ export const getQuestionsError = (payload) => (
   { type: GET_QUESTIONS_ERROR, payload }
 );
 
-export const getQuestionsThunk = () => (dispatch) => {
+export const getQuestionsThunk = (token) => (dispatch) => {
   dispatch(getQuestions());
-  ApiGetQuestions()
+  ApiGetQuestions(token)
     .then((data) => dispatch(getQuestionsSuccess(data)))
     .catch((error) => dispatch(getQuestionsError(error.message)));
 };
+
+// export const getTokenThunk = () => (dispatch) => {
+//   dispatch(getToken());
+//   requestToken()
+//     .then((data) => dispatch(getTokenSuccess(data)))
+//     .then((data) => dispatch(getTokenError(data)));
+// };

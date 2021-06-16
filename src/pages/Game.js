@@ -8,8 +8,10 @@ import { getQuestionsThunk } from '../redux/actions';
 
 class Game extends Component {
   componentDidMount() {
+    const token = localStorage.getItem('token');
+    console.log(typeof token);
     const { getQuestions } = this.props;
-    getQuestions();
+    getQuestions(token);
   }
 
   render() {
@@ -25,7 +27,7 @@ class Game extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  getQuestions: () => dispatch(getQuestionsThunk()),
+  getQuestions: (token) => dispatch(getQuestionsThunk(token)),
 });
 
 export default connect(null, mapDispatchToProps)(Game);

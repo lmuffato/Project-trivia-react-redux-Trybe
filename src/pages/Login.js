@@ -42,8 +42,8 @@ class Login extends Component {
     this.checkInputs();
   }
 
-  handleClick() {
-    requestToken();
+  async handleClick() {
+    await requestToken();
     const { state: { name, email }, props: { loginProps, history } } = this;
     loginProps({ name, email });
     history.push('/game');

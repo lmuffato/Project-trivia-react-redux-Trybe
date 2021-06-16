@@ -13,8 +13,10 @@ export default function Header() {
         </Link>
       </div>
       <nav className={ styles.login_header__nav }>
-        <Link to="/Settings" data-testid="btn-settings">
-          <img src={ gear } alt="settings" />
+        <Link to="/Settings">
+          <button type="button" data-testid="btn-settings">
+            <img src={ gear } alt="settings" />
+          </button>
         </Link>
       </nav>
     </header>
