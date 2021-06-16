@@ -10,7 +10,7 @@ class Questions extends Component {
       questions: [],
       questionNumber: 0,
       displayBtn: false,
-      currentTime: 30,
+      currentTime: 5,
       disableButton: false,
     };
     this.setTime = this.setTime.bind(this);
@@ -27,6 +27,7 @@ class Questions extends Component {
       this.setState({ currentTime: currentTime - 1 });
     } if (currentTime === 0 && disableButton === false) {
       this.setState({ disableButton: true });
+      this.handleClick();
     } else {
       return null;
     }
@@ -62,12 +63,21 @@ class Questions extends Component {
           type="button"
           data-testid="btn-next"
           id="btn-next"
+          onClick={ () => this.handleNext() }
         >
           Próxima
         </button>
       );
     }
     return <div />;
+  }
+
+  handleNext() {
+    const { questionNumber } = this.state;
+    this.setState({
+      questionNumber: questionNumber + 1,
+      currentTime: 5,
+    });
   }
 
   render() {
