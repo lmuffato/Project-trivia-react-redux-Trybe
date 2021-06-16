@@ -1,9 +1,14 @@
-// Requisito 2 - Requisição a api para pegar o Token
+// Requisito 2 - Requisição a Api para pegar o Token
 const urlToken = 'https://opentdb.com/api_token.php?command=request';
-const requestToken = async () => {
+export const requestToken = async () => {
   const response = await fetch(urlToken);
   const dataToken = await response.json();
   return dataToken;
 };
 
-export default requestToken;
+// Requisito 5 - Requisição da Api para a Trivia
+export const requestTrivia = async (quant, token) => {
+  const response = await fetch(`https://opentdb.com/api.php?amount=${quant}&token=${token}`);
+  const dataTrivia = await response.json();
+  return dataTrivia;
+};

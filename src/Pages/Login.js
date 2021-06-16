@@ -1,7 +1,13 @@
 import React from 'react';
 import { Redirect } from 'react-router';
-import requestToken from '../Api';
+import { createBrowserHistory } from 'history';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { requestToken } from '../Api';
+import { login } from '../actions';
 import './login.css';
+
+const history = createBrowserHistory();
 
 class Login extends React.Component {
   constructor() {
@@ -16,7 +22,7 @@ class Login extends React.Component {
     };
     // bind da função handleChange
     this.handleChange = this.handleChange.bind(this);
-    this.isDisabled = this.isDisabled.bind(this);
+    this.setIsDisabled = this.setIsDisabled.bind(this);
     this.handleClickPlay = this.handleClickPlay.bind(this);
     this.setTokenLocalStorage = this.setTokenLocalStorage.bind(this);
     this.createInputs = this.createInputs.bind(this);
@@ -32,18 +38,9 @@ class Login extends React.Component {
   }
 
   // captura as informações do jogador atraves do input e atribui ao estado local
-  handleChange(event) {
-  // captura o name e o value dos inputs
-    const { name, value } = event.target;
-    this.setState({
-      [name]: value,
-    }, () => {
-      this.isDisabled();
-    });
-  }
 
   // defini se o botão estará habilitado ou não
-  isDisabled() {
+  setIsDisabled() {
     const { email, name } = this.state;
     if (email !== '' && name !== '') {
       this.setState({
@@ -56,6 +53,16 @@ class Login extends React.Component {
     }
   }
 
+  handleChange(event) {
+    // captura o name e o value dos inputs
+    const { name, value } = event.target;
+    this.setState({
+      [name]: value,
+    }, () => {
+      this.setIsDisabled();
+    });
+  }
+
   handleClickSettings() {
     this.setState({
       settings: true,
@@ -64,6 +71,9 @@ class Login extends React.Component {
 
   // Requisito 2 - Redirenciona para pagina de games e faz a requisição do token na api;
   async handleClickPlay() {
+    const { name: userName, email } = this.state;
+    const { getLogin } = this.props;
+    getLogin({ userName, email });
     const getToken = await requestToken();
     // https://pt.stackoverflow.com/questions/369892/como-redirecionar-para-uma-rota-usando-onclick-e-react-router
     this.setState({
@@ -92,10 +102,12 @@ class Login extends React.Component {
   // Requisito 1 - Implementação da página de login
   render() {
     const { name, email, isDisabled, redirect, settings } = this.state;
-    if (redirect) {
-      return <Redirect to="/game" />;
+    if (redirect && email !== '') {
+      history.push('/game');
+      return (<Redirect to="/game" />);
     }
     if (settings) {
+      history.push('/settings');
       return <Redirect to="/settings" />;
     }
     return (
@@ -125,4 +137,13 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+// salva no state global o nome e email do jogador
+  getLogin: (state) => dispatch(login(state)),
+});
+
+Login.propTypes = {
+  getLogin: PropTypes.func,
+}.isRequired;
+
+export default connect(null, mapDispatchToProps)(Login);

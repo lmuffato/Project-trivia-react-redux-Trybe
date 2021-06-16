@@ -1,24 +1,41 @@
+// Requeisito 4 - Criar um componente Header com imagem, nome da pessoa jogadora e placar.
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import PropTypes from 'prop-types';
+import './header.css';
+import PropTypes from 'prop-types';
+import md5 from 'crypto-js/md5';
 
 class Header extends Component {
+  constructor() {
+    super();
+    this.state = {
+      scoreState: 0,
+    };
+    this.getAvatar = this.getAvatar.bind(this);
+  }
+
+  // Faz requisção a api do gravatar para gerar o avatar
+  getAvatar() {
+    const { email } = this.props;
+    const hash = md5(email).toString();
+    const avatarGravatar = `https://www.gravatar.com/avatar/${hash}`;
+    return avatarGravatar;
+  }
+
   render() {
-    // const { nameState, scoreState, imgGravatarState } = this.props;
-    const imgGravatarState = 'https://cdn.pixabay.com/photo/2016/04/23/05/58/cat-1347176_960_720.jpg';
-    const nameState = 'Gatinho Fofinho';
-    const scoreState = 10;
+    const { userName } = this.props;
+    const { scoreState } = this.state;
     return (
-      <header>
+      <header className="header">
         <img
           data-testid="header-profile-picture"
-          src={ imgGravatarState }
-          alt={ nameState }
+          src={ this.getAvatar() }
+          alt="avatar do jogador"
           height="70"
           width="80"
         />
         <p data-testid="header-player-name">
-          { nameState }
+          { userName }
         </p>
         <p data-testid="header-score">
           Score:
@@ -29,18 +46,15 @@ class Header extends Component {
   }
 }
 
-// Header.propTypes = {
-//   nameState: PropTypes.string.isRequired,
-//   scoreState: PropTypes.number.isRequired,
-//   imgGravatarState: PropTypes.string.isRequired,
-// };
+Header.propTypes = {
+  userName: PropTypes.string,
+  emial: PropTypes.string,
+}.isRequired;
 
-// const mapStateProps = (state) => ({
-//   imgGravatarState: state.ranking.picture,
-//   nameState: state.ranking.name,
-//   scoreState: state.ranking.score,
-// });
+// Recupera as informções do estado global para utilizar no componente Header
+const mapStateToProps = (state) => ({
+  email: state.userReducer.email,
+  userName: state.userReducer.userName,
+});
 
-// Fique em dúvida se as informações do state vão vir do player ou da chave ranking
-
-export default connect(null, null)(Header);
+export default connect(mapStateToProps)(Header);

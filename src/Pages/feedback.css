@@ -1,0 +1,22 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.feedback-mensage {
+  align-content: flex-end;
+  align-items: center;
+  display: flex;
+  font-size: large;
+  margin: 100px;
+}
+
+.feedback-section {
+  margin-bottom: 50px;
+}
+
+.feedback-buttons {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-around;
+}
