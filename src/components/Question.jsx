@@ -8,6 +8,7 @@ class Question extends Component {
     super(props);
     this.state = {
       color: false,
+      displayButton: false,
     };
     this.changeColorAnswer = this.changeColorAnswer.bind(this);
     this.handleSelectAnswer = this.handleSelectAnswer.bind(this);
@@ -23,7 +24,24 @@ class Question extends Component {
   changeColorAnswer() {
     this.setState({
       color: true,
+      displayButton: true,
     });
+  }
+
+  nextButton() {
+    const { displayButton } = this.state;
+    if (displayButton) {
+      return (
+        <button
+          type="button"
+          data-testid="btn-next"
+          id="btn-next"
+        //  onClick={ }
+        >
+          Próxima
+        </button>
+      );
+    }
   }
 
   render() {
@@ -68,6 +86,13 @@ class Question extends Component {
             { quest }
           </button>
         )) }
+        displayButton && ( <button
+          type="button"
+          data-testid="btn-next"
+          id="btn-next"
+        >
+          Próxima
+        </button> )
       </section>
     );
   }
