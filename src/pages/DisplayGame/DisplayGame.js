@@ -17,7 +17,6 @@ class DisplayGame extends React.Component {
   }
 
   async fetchTrivia() {
-    console.log('Chegou aqui?');
     const { triviaQuestions, token } = this.props;
 
     const questions = await triviaAPI(token);
@@ -25,7 +24,6 @@ class DisplayGame extends React.Component {
   }
 
   createAnswers(question) {
-    console.log('Estou na function');
     const answers = question.incorrect_answers
       .concat(question.correct_answer);
 
@@ -44,7 +42,6 @@ class DisplayGame extends React.Component {
 
   render() {
     const { questionsApiGames } = this.props;
-    console.log(questionsApiGames);
 
     if (questionsApiGames === undefined) {
       return <div>Loading...</div>;
