@@ -1,4 +1,4 @@
-import { GET_NAME } from '../actions';
+import { GET_PLAYER } from '../actions';
 
 const INITIAL_STATE = {
   playerName: '',
@@ -8,11 +8,13 @@ const INITIAL_STATE = {
 };
 
 const player = (state = INITIAL_STATE, action) => {
+  const { payload } = action;
   switch (action.type) {
-  case GET_NAME:
+  case GET_PLAYER:
     return ({
       ...state,
-      playerName: action.payload,
+      playerName: payload.name,
+      gravatarEmail: payload.email,
     });
 
   default:

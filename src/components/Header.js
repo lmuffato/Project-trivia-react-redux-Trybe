@@ -5,8 +5,8 @@ import { string, number } from 'prop-types';
 
 class Header extends Component {
   render() {
-    const { playerName, score } = this.props;
-    const hashEmail = md5('teste@gmail.com').toString();
+    const { playerName, gravatarEmail, score } = this.props;
+    const hashEmail = md5(gravatarEmail).toString();
     const gravatarURL = `https://www.gravatar.com/avatar/${hashEmail}`;
 
     return (
@@ -30,6 +30,7 @@ Header.propTypes = {
 
 const mapStateToProps = (state) => ({
   playerName: state.player.playerName,
+  gravatarEmail: state.player.gravatarEmail,
   score: state.player.score,
 });
 
