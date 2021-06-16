@@ -1,15 +1,28 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import styles from '../pages/game.module.css';
+import Loading from './Loading';
 import './questions.css';
 
-export default class Questions extends Component {
+class Questions extends Component {
   constructor(props) {
     super(props);
     this.state = {
       borderColor: [],
+      questionsIndex: 0,
+      isVisible: 'false',
     };
     this.handleClickAnswer = this.handleClickAnswer.bind(this);
+    this.nextQuestion = this.nextQuestion.bind(this);
+  }
+
+  nextQuestion(NumberOfQuestions) {
+    this.setState((prevState) => ({
+      questionsIndex: (prevState.questionsIndex + 1) % NumberOfQuestions,
+      borderColor: [],
+      isVisible: 'false',
+    }));
   }
 
   handleClickAnswer() {
@@ -28,11 +41,18 @@ export default class Questions extends Component {
         }));
       }
     });
+    this.setState({ isVisible: 'true' });
   }
 
   render() {
-    const { borderColor } = this.state;
-    const { questionsFiltered } = this.props;
+    const { borderColor, isVisible, questionsIndex } = this.state;
+    const { loading, questions } = this.props;
+    const questionsFiltered = questions[questionsIndex];
+
+    if (loading) {
+      return <Loading />;
+    }
+
     return (
       <div>
         <div>
@@ -57,15 +77,39 @@ export default class Questions extends Component {
             ))}
           </ul>
         </div>
+        <button
+          type="button"
+          data-testid="btn-next"
+          onClick={ () => this.nextQuestion(questions.length) }
+          className={
+            [styles.question__button, `question__button__${isVisible}`]
+              .join(' ')
+          }
+
+        >
+          Próxima
+        </button>
       </div>
     );
   }
 }
 
+const mapStateToProps = (state) => ({
+  questions: state.questionsReducer.data,
+  loading: state.questionsReducer.loading,
+});
+
+export default connect(mapStateToProps)(Questions);
+
 Questions.propTypes = {
-  questionsFiltered: PropTypes.shape({
+  questions: PropTypes.arrayOf(PropTypes.shape({
     category: PropTypes.string.isRequired,
     question: PropTypes.string.isRequired,
     alternatives: PropTypes.arrayOf(PropTypes.object),
-  }).isRequired,
+  })).isRequired,
+  loading: PropTypes.bool,
+};
+
+Questions.defaultProps = {
+  loading: true,
 };
