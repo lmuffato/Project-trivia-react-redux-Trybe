@@ -6,7 +6,8 @@
 
 .form-container {
   align-self: center;
-  background-color: rgb(231, 230, 230);
+  background-color: #ee4d38;
+  border-radius: 20px;
   display: flex;
   height: 360px;
   justify-content: center;
@@ -55,4 +56,22 @@
 .form button:disabled {
   background-color: rgb(175, 175, 175);
   cursor: not-allowed;
+}
+
+.config {
+  color: white;
+  font-size: 30px;
+  margin-top: 20px;
+}
+
+.config:hover {
+  color: rgb(70, 173, 115);
+}
+
+.music {
+  margin-top: 200px;
+}
+
+.logo {
+  width: 160px;
 }

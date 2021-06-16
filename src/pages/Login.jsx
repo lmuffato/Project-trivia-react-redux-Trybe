@@ -2,8 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import './Login.css';
-// import { getQuestions } from '../services/triviaAPI';
 import PropTypes from 'prop-types';
+import ReactAudioPlayer from 'react-audio-player';
+import { BsGearFill } from 'react-icons/bs';
+import showDoMilhao from '../assets/showDoMilhao.ogg';
+import showLogo from '../assets/showLogo.png';
 import { user } from '../redux/actions/actions';
 
 class Login extends React.Component {
@@ -42,7 +45,7 @@ class Login extends React.Component {
     return (
       <div className="form-container">
         <form className="form">
-          <img src="https://www.portsmouthgaslight.com/wp-content/uploads/2016/07/Trivia-Example.png" width="160px" alt="logo" />
+          <img src={ showLogo } width="160px" alt="logo" className="logo" />
           <input
             type="text"
             data-testid="input-player-name"
@@ -66,14 +69,16 @@ class Login extends React.Component {
             </button>
           </Link>
           <Link to="/configuracoes">
-            <button
+            <BsGearFill
+              className="config"
               type="button"
               data-testid="btn-settings"
             >
               Configurações
-            </button>
+            </BsGearFill>
           </Link>
         </form>
+        <ReactAudioPlayer src={ showDoMilhao } autoPlay controls className="music" />
       </div>
     );
   }

@@ -11,39 +11,21 @@ export default class Questions extends Component {
     };
   }
 
-  // link: https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
-  shuffle(array) {
-    let currentIndex = array.length; let randomIndex;
-
-    while (currentIndex !== 0) {
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
-
-      [array[currentIndex], array[randomIndex]] = [
-        array[randomIndex], array[currentIndex]];
-    }
-
-    return array;
-  }
-
   render() {
     const { currentIndex } = this.state;
-    const { questions } = this.props;
+    const { questions, revelaBorda, setRevelaBorda } = this.props;
 
     const currentQuestion = questions[currentIndex];
-    console.log(currentQuestion);
 
-    const answers = [
-      currentQuestion.correct_answer,
-      ...currentQuestion.incorrect_answers];
-
-    const aleatoryAnswers = this.shuffle(answers);
+    const aleatoryAnswers = currentQuestion.aleatory_answers;
 
     return (
       <Alternatives
         question={ currentQuestion }
         aleatoryAnswers={ aleatoryAnswers }
         correctAnswer={ currentQuestion.correct_answer }
+        revelaBorda={ revelaBorda }
+        setRevelaBorda={ setRevelaBorda }
       />);
   }
 }
@@ -52,8 +34,10 @@ Questions.propTypes = {
   questions: PropTypes.arrayOf(
     PropTypes.shape({
       correct_answer: PropTypes.string,
-      incorrect_answers: PropTypes.arrayOf(PropTypes.string) }),
+      incorrect_answers: PropTypes.arrayOf(PropTypes.string),
+      aleatory_answers: PropTypes.arrayOf(PropTypes.string),
+    }),
   ).isRequired,
+  revelaBorda: PropTypes.string.isRequired,
+  setRevelaBorda: PropTypes.func.isRequired,
 };
-
-// to commit

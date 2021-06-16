@@ -1,3 +1,7 @@
+* {
+  overflow-x: hidden;
+}
+
 .answers button {
   background-color: #c71b04;
   border-radius: 3px;
@@ -16,9 +20,63 @@
 }
 
 .show[ data-testid = 'correct-answer' ] {
+  background-color: rgb(6, 240, 15);
   border: 3px solid rgb(6, 240, 15);
 }
 
 .show[ data-testid = 'wrong-answer' ] {
+  background-color: red;
   border: 3px solid red;
+}
+
+.music {
+  margin-top: 200px;
+}
+
+.toasty {
+  animation-duration: 2s;
+  animation-name: slidein;
+  bottom: 20px;
+  position: absolute;
+  right: -250px;
+  width: 200px;
+}
+
+@keyframes slidein {
+
+  25% {
+    right: 140px;
+  }
+
+  50% {
+    right: 140px;
+  }
+
+  100% {
+    right: -250px;
+  }
+}
+
+.errou {
+  animation-duration: 3s;
+  animation-name: slideind;
+  bottom: 20px;
+  left: -300px;
+  position: absolute;
+  width: 300px;
+}
+
+@keyframes slideind {
+
+  25% {
+    left: 140px;
+  }
+
+  50% {
+    left: 140px;
+  }
+
+  100% {
+    left: -300px;
+  }
 }

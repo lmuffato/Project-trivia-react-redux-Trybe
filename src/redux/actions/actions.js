@@ -1,4 +1,5 @@
 import { getQuestions } from '../../services/triviaAPI';
+import shuffle from '../../helpers/shuffle';
 
 export const GET_LOGIN = 'GET_LOGIN';
 export const GET_API_SUCCESS = 'GET_API_SUCCESS';
@@ -30,7 +31,12 @@ export const getAPIThunk = () => async (dispatch) => {
   try {
     const fetch = await getQuestions();
 
-    dispatch(getAPISuccess(fetch));
+    const questions = fetch.map((question) => ({ ...question,
+      aleatory_answers: shuffle([
+        ...question.incorrect_answers,
+        question.correct_answer]) }));
+
+    dispatch(getAPISuccess(questions));
   } catch (error) {
     dispatch(getAPIError(error));
   }
