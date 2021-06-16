@@ -6,7 +6,6 @@ import md5 from 'crypto-js/md5';
 
 class Feedback extends Component {
   render() {
-    console.log('Header');
     const { user } = this.props;
     const { name, email } = user;
     const hash = md5(email).toString();
