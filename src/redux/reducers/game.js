@@ -10,7 +10,7 @@ const gamePage = (state = INITIAL_STATE, { type, payload }) => {
   case GET_PLACAR:
     return {
       ...state,
-      placar: state.placar + payload,
+      placar: state.placar + +(payload.placar),
     };
   case GET_QUESTION:
     return state;

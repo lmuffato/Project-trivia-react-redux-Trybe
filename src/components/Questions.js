@@ -5,6 +5,8 @@ import setAttribute from '../services/setAttribute';
 import shuffle from '../services/shuffle';
 import changeColors from '../services/changeColors';
 import disableBtns from '../services/disableBtns';
+import setPoints from '../services/setPoints';
+import { getPlacar } from '../redux/actions';
 
 class Question extends React.Component {
   constructor(props) {
@@ -13,6 +15,7 @@ class Question extends React.Component {
       index: 0,
       nextBtn: false,
       timer: 30,
+      assertions: 0,
     };
 
     this.renderQuestion = this.renderQuestion.bind(this);
@@ -29,11 +32,27 @@ class Question extends React.Component {
   handleClick() {
     const { index } = this.state;
     this.setState({ index: index + 1 });
+    this.updateTimerFunc();
+    this.setState({ nextBtn: false });
   }
 
-  checkAnswer() {
+  checkAnswer(e, timer, difficulty) {
+    const { setPointsRedux, name, email } = this.props;
+    const { assertions } = this.state;
     changeColors();
     this.setState({ nextBtn: true });
+    const points = setPoints(e, timer, difficulty);
+    if (points !== 0) {
+      setPointsRedux({ placar: points });
+      this.setState({ assertions: assertions + 1 });
+    }
+    const player = {
+      name,
+      assertions,
+      score: points,
+      gravatarEmail: email,
+    };
+    localStorage.setItem('state', JSON.stringify(player));
   }
 
   showNextBtn() {
@@ -87,15 +106,21 @@ class Question extends React.Component {
         </p>
         <p>
           tempo
+          :
           { timer }
         </p>
-        <div>Respostas ;</div>
+        <p>
+          dificuldade
+          :
+          {results[index].difficulty}
+        </p>
+        <div>Respostas</div>
         {randomAnswers.map((elem) => (
           <button
             key={ elem.answer }
             type="button"
             data-testid={ elem.attribute }
-            onClick={ this.checkAnswer }
+            onClick={ (e) => this.checkAnswer(e, timer, results[index].difficulty) }
             className="answer"
           >
             {elem.answer}
@@ -121,10 +146,19 @@ class Question extends React.Component {
 
 const mapStateToProps = (state) => ({
   results: state.game.perguntas,
+  name: state.login.user,
+  email: state.login.email,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  setPointsRedux: (points) => dispatch(getPlacar(points)),
 });
 
 Question.propTypes = {
   results: PropTypes.shape.isRequired,
+  setPointsRedux: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
 };
 
-export default connect(mapStateToProps)(Question);
+export default connect(mapStateToProps, mapDispatchToProps)(Question);
