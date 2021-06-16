@@ -1,8 +1,8 @@
 // Requisito 5 - Requisição da Api das perguntas e renderixação na tela
 import React from 'react';
-// import Timer from '../Componentes/Timer';
 import { requestTrivia } from '../Api';
 import Timer from './Timer';
+import './playGames.css';
 
 class PlayGame extends React.Component {
   constructor() {
@@ -10,11 +10,14 @@ class PlayGame extends React.Component {
     this.state = {
       questions: '',
       loading: true,
+      index: 0,
     };
 
     this.fetchApiTrivia = this.fetchApiTrivia.bind(this);
     this.renderQuestions = this.renderQuestions.bind(this);
     this.renderLoading = this.renderLoading.bind(this);
+    this.nextQuestion = this.nextQuestion.bind(this);
+    // this.fetchFilterQuestion = this.fetchFilterQuestion.bind(this);
   }
 
   componentDidMount() {
@@ -34,12 +37,18 @@ class PlayGame extends React.Component {
     }
   }
 
-  renderAnswers(correct, incorrect) {
-    return [...correct, ...incorrect];
+  // Requisito 10 - Renderiza uma pergunta por vez
+  nextQuestion() {
+    const { questions, index } = this.state;
+    this.setState((prevState) => ({
+      index: (prevState.index + 1) % questions.length,
+    }));
+    console.log(questions[index].category);
   }
 
   renderQuestions() {
-    const { questions } = this.state;
+    const { questions, index } = this.state;
+    const question = questions[index];
     return (
       <>
         <div>
@@ -47,29 +56,34 @@ class PlayGame extends React.Component {
           <Timer />
         </div>
         <div>
-          {
-            questions.map((question, indexKey) => (
-              <div key={ indexKey }>
-                <p data-testid="question-category">{question.category}</p>
-                <h3 data-testid="question-text">{question.question}</h3>
-                <button
-                  data-testid="correct-answer"
-                  type="button"
-                >
-                  {question.correct_answer}
-                </button>
-                {question.incorrect_answers.map((incorrect, index) => (
-                  <button
-                    data-testid={ `wrong-answer-${index}` }
-                    type="button"
-                    key={ index }
-                  >
-                    {incorrect}
-                  </button>
-                ))}
-              </div>
-            ))
-          }
+          <div key={ index }>
+            <p data-testid="question-category">{question.category}</p>
+            <h4 data-testid="question-text">{question.question}</h4>
+            <button
+              data-testid="correct-answer"
+              type="button"
+            >
+              {question.correct_answer}
+            </button>
+            {question.incorrect_answers.map((incorrect, indexKey) => (
+              <button
+                data-testid={ `wrong-answer-${indexKey}` }
+                type="button"
+                key={ indexKey }
+              >
+                {incorrect}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div>
+          <button
+            data-testid="btn-next"
+            type="button"
+            onClick={ () => this.nextQuestion() }
+          >
+            Próxima
+          </button>
         </div>
       </>
     );
@@ -92,8 +106,7 @@ class PlayGame extends React.Component {
   }
 
   render() {
-    const { loading, questions } = this.state;
-    console.log(questions);
+    const { loading } = this.state;
     return (
       <div>
         { loading ? this.renderLoading() : this.renderQuestions() }
