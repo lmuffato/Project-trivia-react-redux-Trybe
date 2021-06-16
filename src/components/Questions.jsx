@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { arrayOf, object } from 'prop-types';
 import { connect } from 'react-redux';
+import '../styles/question.css';
 
 class Questions extends Component {
   constructor(props) {
@@ -64,17 +65,30 @@ class Questions extends Component {
     this.setState({ shuffleAnswers, correctAnswer, question, category });
   }
 
+  timer() {
+    const { gameOn } = this.state;
+    const { time } = this.state;
+    return (
+      <p
+        className={ (time === 0) || (gameOn === false)
+          ? 'timerPaused'
+          : 'timer' }
+      >
+        {time}
+      </p>
+    );
+  }
+
   render() {
     const { question, category, gameOn, shuffleAnswers, correctAnswer } = this.state;
-    const { time } = this.state;
 
     return (
-      <div>
+      <div className="question-content">
         <div>
           <h3 data-testid="question-category">{category}</h3>
           <p data-testid="question-text">{question}</p>
         </div>
-        <div>
+        <div className="options-content">
           {shuffleAnswers.map((query, index) => {
             if (query === correctAnswer) {
               return (
@@ -109,7 +123,8 @@ class Questions extends Component {
             );
           })}
         </div>
-        <p>{time}</p>
+        { this.timer() }
+        <button type="button">Next Question</button>
       </div>
     );
   }

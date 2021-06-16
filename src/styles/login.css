@@ -1,0 +1,90 @@
+body {
+  background-image: url('https://www.savannahstate.edu/content/mediakitfiles/game-show-lights-stage-stock-small.jpeg');
+  background-size: cover;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+.img-content {
+  display: flex;
+  justify-content: center;
+}
+
+.img-content img {
+  width: 80%;
+}
+
+.elements-content {
+  background-color: #3a2d88;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  padding: 40px;
+  width: 40%;
+}
+
+.main-content {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+}
+
+.form-content {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.inputs-content {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.inputs-content label {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+}
+
+.inputs-content input {
+  font-family: sans-serif;
+  font-size: large;
+  height: 25px;
+  width: 230px;
+}
+
+.inputs-content input:focus {
+  box-shadow: 1px 3px 10px black;
+}
+
+.inputs-content span {
+  font-family: sans-serif;
+  font-size: x-large;
+}
+
+.btn-content {
+  display: flex;
+}
+
+.btn-content input,button {
+  align-items: center;
+  display: flex;
+  font-size: medium;
+  height: 50px;
+  justify-content: center;
+  width: 120px;
+  margin: 0 20px;
+}
+
+.btnPlay {
+  background-color: #467c96;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 1px 3px 10px black;
+  color: white;
+}
