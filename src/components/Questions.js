@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { arrayOf, object } from 'prop-types';
 import permutate from '../service/permutate';
+import decoder from '../service/decoder';
+
 // Requisito realizado com a lógica e ajuda de RAFAEL MEDEIROS Turma 10A
 class Questions extends React.Component {
   constructor() {
@@ -23,21 +25,20 @@ class Questions extends React.Component {
       questions[0].correct_answer,
       ...questions[0].incorrect_answers,
     ];
-    console.log(answers);
+    const questionDecoded = decoder(question);
     return (
       <section>
         <h1>Trivia Game!</h1>
-        <h3 data-testid="question-category">{ category }</h3>
-        <h4 data-testid="question-text">{ question }</h4>
-        {permutate(...answers).map((answer, index) => (
-          <button
-            type="button"
-            data-testid={ this.getID(answer) }
-            key={ index }
-          >
-            {answer}
-          </button>
-        ))}
+        <h3 data-testid="question-category">{category}</h3>
+        <h4 data-testid="question-text">{questionDecoded}</h4>
+        {permutate(...answers).map((answer, index) => {
+          const answerDecoded = decoder(answer);
+          return (
+            <button type="button" data-testid={ this.getID(answer) } key={ index }>
+              {answerDecoded}
+            </button>
+          );
+        })}
       </section>
     );
   }
