@@ -1,4 +1,4 @@
-import { LOG_IN, REQUEST_TOKEN } from '../actions';
+import { LOG_IN, REQUEST_TOKEN, SAVE_AVATAR } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
@@ -6,6 +6,7 @@ const INITIAL_STATE = {
   score: 0,
   playerEmail: '',
   token: '',
+  avatar: '',
 };
 
 const player = (state = INITIAL_STATE, action) => {
@@ -20,6 +21,11 @@ const player = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       token: action.payload,
+    };
+  case SAVE_AVATAR:
+    return {
+      ...state,
+      avatar: action.payload,
     };
   default:
     return state;

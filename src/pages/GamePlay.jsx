@@ -11,7 +11,6 @@ class GamePlay extends React.Component {
     super(props);
     this.state = {
       index: 0,
-      nextQuestionBtn: true,
       visible: false,
       correctClass: 'answer',
       wrongClass: 'answer',
@@ -27,11 +26,11 @@ class GamePlay extends React.Component {
   }
 
   handleClick(value) {
-    const three = 3;
+    const { history } = this.props;
+    const four = 4;
     this.setState({ index: value, visible: false });
-    const { index } = this.state;
-    if (index === three) {
-      this.setState({ nextQuestionBtn: false });
+    if (value > four) {
+      history.push('/feedback');
     }
   }
 
@@ -84,13 +83,13 @@ class GamePlay extends React.Component {
 
   renderQuestions() {
     const { questions } = this.props;
-    const { index, nextQuestionBtn, visible } = this.state;
+    const { index, visible } = this.state;
     return (
       <section>
         { this.renderQuestion(questions[index]) }
         <button
           type="button"
-          disabled={ !nextQuestionBtn }
+          // disabled={ !nextQuestionBtn }
           className={ visible ? 'show-btn' : 'hide-btn' }
           data-testid="btn-next"
           onClick={ () => this.handleClick(index + 1) }
