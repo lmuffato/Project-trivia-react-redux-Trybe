@@ -12,9 +12,24 @@ class GamePlay extends React.Component {
       index: 0,
       nextQuestionBtn: true,
       visible: false,
+      dificuldade: {
+        hard: {
+          value: 3,
+          name: 'hard',
+        },
+        medium: {
+          value: 2,
+          name: 'medium',
+        },
+        easy: {
+          value: 1,
+          name: 'easy',
+        },
+      },
     };
     this.renderQuestions = this.renderQuestions.bind(this);
     this.showNextQuestionBtn = this.showNextQuestionBtn.bind(this);
+    this.score = this.score.bind(this);
   }
 
   componentDidMount() {
@@ -28,6 +43,30 @@ class GamePlay extends React.Component {
     const { index } = this.state;
     if (index === three) {
       this.setState({ nextQuestionBtn: false });
+    }
+  }
+
+  score({ difficulty }) {
+    const { dificuldade } = this.state;
+    const { hard, medium, easy } = dificuldade;
+    const number = 10;
+    let score;
+
+    switch (difficulty) {
+    case (difficulty === hard.name):
+      score = number + hard.value;
+      console.log(score);
+      break;
+    case (difficulty === medium.name):
+      score = number + medium.value;
+      console.log(score);
+      break;
+    case (difficulty === easy.name):
+      score = number + easy.value;
+      console.log(score);
+      break;
+    default:
+      return 'Deu ruim !';
     }
   }
 
@@ -45,7 +84,10 @@ class GamePlay extends React.Component {
         <button
           type="button"
           data-testid="correct-answer"
-          onClick={ this.showNextQuestionBtn }
+          onClick={ () => {
+            this.showNextQuestionBtn();
+            this.score(question);
+          } }
         >
           { correctAnswer }
         </button>
@@ -55,7 +97,7 @@ class GamePlay extends React.Component {
               key={ index }
               type="button"
               data-testid={ `wrong-answer-${index}` }
-              onClick={ this.showNextQuestionBtn }
+              onClick={ this.showNextQuestionBtn() }
             >
               {e}
             </button>
