@@ -11,12 +11,13 @@ class Play extends Component {
       answersOfRound: [],
       questionNumber: 0,
       questionOfRound: [],
-      time: 30,
       answered: false,
+      time: 30,
     };
 
     this.mountRound = this.mountRound.bind(this);
     this.countdown = this.countdown.bind(this);
+    this.answer = this.answer.bind(this);
   }
 
   async componentDidMount() {
@@ -25,11 +26,20 @@ class Play extends Component {
     this.mountRound();
   }
 
+  answer() {
+    this.setState({ answered: true });
+  }
+
   mountRound() {
     const { questions } = this.props;
     const { questionNumber, answered } = this.state;
-    const { category, question, incorrect_answers: incorrectAnswers,
-      correct_answer: correctAnswer } = questions[questionNumber];
+    const {
+      category,
+      question,
+      incorrect_answers: incorrectAnswers,
+      correct_answer: correctAnswer,
+    } = questions[questionNumber];
+
     let answersOfRound = incorrectAnswers.map((answer, index) => (
       <label htmlFor={ index } key={ index } data-testid={ `wrong-answer-${index}` }>
         <input
@@ -38,9 +48,12 @@ class Play extends Component {
           name="answer"
           disabled={ answered }
           value={ answer }
+          style={ { border: answered ? '3px solid rgb(255, 0, 0)' : '' } }
+          onClick={ () => this.answer() }
         />
       </label>
     ));
+
     answersOfRound.push(
       <label htmlFor="correct-answer" key="correct-answer" data-testid="correct-answer">
         <input
@@ -49,9 +62,12 @@ class Play extends Component {
           name="answer"
           value={ correctAnswer }
           disabled={ answered }
+          style={ { border: answered ? '3px solid rgb(6, 240, 15)' : '' } }
+          onClick={ () => this.answer() }
         />
       </label>,
     );
+
     const probToChangePosition = 0.5;
     answersOfRound = answersOfRound.sort(() => Math.random() - probToChangePosition);
     const questionOfRound = (
@@ -64,8 +80,8 @@ class Play extends Component {
   }
 
   nextQuestion() {
-    this.setState((previusState) => ({
-      questionNumber: previusState.questionNumber + 1,
+    this.setState((previousState) => ({
+      questionNumber: previousState.questionNumber + 1,
     }), () => this.mountRound());
   }
 
@@ -73,23 +89,26 @@ class Play extends Component {
     const second = 1000;
     const minTime = 0;
     const { time } = this.state;
-    if (time > minTime) {
-      setInterval(this.setState(
-        (old) => ({
-          time: old.time - 1,
-        }),
-      ), second);
-    } else {
+
+    const timer = setInterval(this.setState(
+      (old) => ({
+        time: old.time - 1,
+      }),
+    ), second);
+
+    if (time === minTime) {
       this.setState({ answered: true });
+      clearInterval(timer);
     }
   }
 
   render() {
-    const { answersOfRound, questionOfRound } = this.state;
+    const { answersOfRound, questionOfRound, time } = this.state;
     return (
       <main>
         <Header />
         {questionOfRound}
+        <span>{ time }</span>
         <aside>
           {answersOfRound}
         </aside>
