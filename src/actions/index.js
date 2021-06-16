@@ -6,6 +6,7 @@ export const REQUEST_TOKEN = 'REQUEST_TOKEN';
 export const REQUEST_QUESTION_SUCESS = 'REQUEST_QUESTION_SUCESS';
 export const REQUEST_QUESTION_FAIL = 'REQUEST_QUESTION_FAIL';
 export const GET_PLAYER = 'GET_PLAYER';
+export const DISABLE_ANS = 'DISABLE_ANS';
 
 export function requestApi() {
   return {
@@ -68,5 +69,12 @@ export function getPlayer(player) {
   return {
     type: GET_PLAYER,
     payload: player,
+  };
+}
+
+export function disableAnswer(payload) {
+  return {
+    type: DISABLE_ANS,
+    payload,
   };
 }

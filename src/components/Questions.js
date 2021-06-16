@@ -2,17 +2,25 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { arrayOf, object } from 'prop-types';
 import permutate from '../service/permutate';
+import { disableAnswer as disableAnswerAction } from '../actions';
+
 // Requisito realizado com a lógica e ajuda de RAFAEL MEDEIROS Turma 10A
 class Questions extends React.Component {
   constructor() {
     super();
     this.getID = this.getID.bind(this);
+    this.handleClickNext = this.handleClickNext.bind(this);
   }
 
   getID(answer) {
     const { questions } = this.props;
     if (answer === questions[0].correct_answer) return 'correct-answer';
     return `wrong-answer-${questions[0].incorrect_answers.indexOf(answer)}`;
+  }
+
+  handleClickNext() {
+    const { disableAnswer } = this.props;
+    disableAnswer(false);
   }
 
   render() {
@@ -42,6 +50,7 @@ class Questions extends React.Component {
         <button
           type="button"
           data-testid="btn-next"
+          onClick={ this.handleClickNext }
         >
           Next
         </button>
@@ -59,4 +68,8 @@ const mapStateToProps = (state) => ({
   timesUp: state.gameMatch.timesUp,
 });
 
-export default connect(mapStateToProps, null)(Questions);
+const mapDispatchToProps = (dispatch) => ({
+  disableAnswer: () => dispatch(disableAnswerAction()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Questions);

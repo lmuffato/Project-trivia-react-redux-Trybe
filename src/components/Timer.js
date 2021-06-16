@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { bool } from 'prop-types';
+import { connect } from 'react-redux';
+import { disableAnswer as disableAnswerAction } from '../actions';
 
 class Timer extends Component {
   constructor() {
@@ -16,10 +19,6 @@ class Timer extends Component {
     }, UM_SEGUNDO);
   }
 
-  componentWillUnmount() {
-    clearInterval(this.time);
-  }
-
   getTimeOut() {
     const { timeLeft } = this.state;
     if (timeLeft > 0) {
@@ -27,7 +26,9 @@ class Timer extends Component {
         timeLeft: oldTime.timeLeft - 1,
       }));
     } else {
-      // ALTERAR O ESTADO GLOBAL (TIMESUP)
+      const { disableAnswer } = this.props;
+      disableAnswer(true); // Altera o estado global para desabilitar o botão;
+      // this.setState({ timeLeft: 10 });
     }
   }
 
@@ -41,4 +42,12 @@ class Timer extends Component {
   }
 }
 
-export default Timer;
+Timer.propTypes = {
+  disableAnswer: bool,
+}.isRequired;
+
+const mapDispatchToProps = (dispatch) => ({
+  disableAnswer: (disable) => dispatch(disableAnswerAction(disable)),
+});
+
+export default connect(null, mapDispatchToProps)(Timer);
