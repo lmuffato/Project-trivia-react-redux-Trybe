@@ -10,7 +10,12 @@ const player = (state = INITIAL_STATE, action) => {
 
   switch (type) {
   case 'PLAYER':
-    return { payload };
+    return {
+      name: payload.name,
+      gravatarEmail: payload.gravatarEmail,
+      assertions: payload.assertions,
+      score: payload.score,
+    };
   default:
     return state;
   }

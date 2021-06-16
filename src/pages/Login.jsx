@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import login from '../actions';
+import { Redirect } from 'react-router';
+import { login } from '../actions';
+import getToken from '../services/api';
 
 // Link do código do regex: https://regexr.com/2ri2c
 
@@ -11,6 +13,7 @@ class Login extends Component {
     this.state = {
       name: '',
       email: '',
+      redirect: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.submit = this.submit.bind(this);
@@ -26,8 +29,15 @@ class Login extends Component {
     event.preventDefault();
     const { name, email } = this.state;
     const { toLogin } = this.props;
-    const payload = { name, email };
-    toLogin(payload);
+    toLogin(name, email);
+    this.setState({ redirect: true });
+    this.saveToken();
+  }
+
+  saveToken() {
+    getToken().then((response) => {
+      localStorage.setItem('token', response.token);
+    });
   }
 
   validation() {
@@ -39,11 +49,18 @@ class Login extends Component {
   }
 
   render() {
+    const { redirect } = this.state;
+
+    if (redirect) {
+      return <Redirect to="/questions" />;
+    }
+
     return (
       <>
         <form onSubmit={ this.submit }>
           <input
             onChange={ this.handleChange }
+            s
             aria-label="name"
             data-testid="input-player-name"
             type="text"
@@ -82,7 +99,7 @@ class Login extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  toLogin: (payload) => dispatch(login(payload)),
+  toLogin: (name, email) => dispatch(login(name, email)),
 });
 
 Login.propTypes = {
@@ -90,8 +107,3 @@ Login.propTypes = {
 };
 
 export default connect(null, mapDispatchToProps)(Login);
-
-/* const mapDispatchToProps = (dispatch) => ({
-  login: (e) => dispatch(loginAction(e)),
-});
-export default connect(null, mapDispatchToProps)(Login); */
