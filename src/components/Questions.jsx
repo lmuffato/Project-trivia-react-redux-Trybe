@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { arrayOf, object } from 'prop-types';
 import { connect } from 'react-redux';
+import parse from 'html-react-parser';
 import { rightAnswer } from '../actions';
 import '../styles/question.css';
 
@@ -112,7 +113,7 @@ class Questions extends Component {
       <div className="question-content">
         <div>
           <h3 data-testid="question-category">{category}</h3>
-          <p data-testid="question-text">{question}</p>
+          <p data-testid="question-text">{ parse(question)}</p>
         </div>
         <div className="options-content">
           {shuffleAnswers.map((query, index) => {
@@ -128,7 +129,7 @@ class Questions extends Component {
                     style={ gameOn ? null : { border: '3px solid rgb(6, 240, 15)' } }
                     disabled={ !gameOn }
                   >
-                    { query }
+                    { parse(query) }
                   </button>
                 </p>);
             }
@@ -143,7 +144,7 @@ class Questions extends Component {
                   type="button"
                   disabled={ !gameOn }
                 >
-                  { query }
+                  { parse(query) }
                 </button>
               </p>
             );
