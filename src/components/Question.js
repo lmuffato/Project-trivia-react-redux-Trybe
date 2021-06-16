@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import setLocalStorage from '../services/setLocalStorage';
 
 class Question extends Component {
   constructor(props) {
@@ -10,6 +11,12 @@ class Question extends Component {
     };
     this.setNextButton = this.setNextButton.bind(this);
     this.setBorderColor = this.setBorderColor.bind(this);
+  }
+
+  componentDidMount() {
+    const { token } = this.props;
+
+    setLocalStorage(token.token);
   }
 
   setBorderColor() {
@@ -34,6 +41,7 @@ class Question extends Component {
   render() {
     const { idQuestion, questions } = this.props;
     const { buttonnext } = this.state;
+
     let alternatives = [];
     alternatives = [
       ...questions[idQuestion].incorrect_answers,
@@ -80,11 +88,16 @@ class Question extends Component {
 
 const mapStateToProps = (state) => ({
   questions: state.questions.questions.results,
+  token: state.user.token,
 });
 
 Question.propTypes = {
   idQuestion: PropTypes.number.isRequired,
   questions: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
+
+Question.propTypes = {
+  token: PropTypes.string.isRequired,
 };
 
 export default connect(mapStateToProps)(Question);
