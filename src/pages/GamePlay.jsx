@@ -12,6 +12,7 @@ class GamePlay extends React.Component {
     this.state = {
       index: 0,
       nextQuestionBtn: true,
+      disable: false,
       visible: false,
       dificuldade: {
         hard: {
@@ -42,11 +43,18 @@ class GamePlay extends React.Component {
     this.renderQuestions = this.renderQuestions.bind(this);
     this.showNextQuestionBtn = this.showNextQuestionBtn.bind(this);
     this.handleAlternativeClick = this.handleAlternativeClick.bind(this);
+    this.timeCondition = this.timeCondition.bind(this);
   }
 
   componentDidMount() {
     const { token, fecthQuestionsAction } = this.props;
     fecthQuestionsAction(token);
+  }
+
+  timeCondition() {
+    this.setState({
+      disable: true,
+    });
   }
 
   handleClick(value) {
@@ -107,7 +115,7 @@ class GamePlay extends React.Component {
   renderQuestion(question) {
     const { difficulty, correct_answer: correctAnswer,
       incorrect_answers: incorrectAnswers } = question;
-    const { correctClass, wrongClass } = this.state;
+    const { correctClass, wrongClass, disable } = this.state;
     return (
       <div>
         <p data-testid="question-category">{question.category}</p>
@@ -115,6 +123,7 @@ class GamePlay extends React.Component {
         <button
           type="button"
           data-testid="correct-answer"
+          disabled={ disable }
           onClick={ () => this.handleAlternativeClick(difficulty) }
           className={ correctClass }
         >
@@ -125,6 +134,7 @@ class GamePlay extends React.Component {
             <button
               key={ index }
               type="button"
+              disabled={ disable }
               data-testid={ `wrong-answer-${index}` }
               onClick={ () => this.handleAlternativeClick() }
               className={ wrongClass }
@@ -161,7 +171,7 @@ class GamePlay extends React.Component {
     return (
       <>
         <Header />
-        <Timer />
+        <Timer timeCondition={ this.timeCondition } />
         <main>
           { loading ? 'Loading' : this.renderQuestions() }
         </main>
