@@ -28,15 +28,15 @@ class FeedBack extends Component {
     const { player: { assertions, score } } = this.props;
     return (
       <div>
-        <p
-          data-testid="feedback-total-score"
-        >
-          {`Você acertou ${assertions} questões!`}
+        <p>
+          Você acertou um total de &nbsp;
+          <span data-testid="feedback-total-question">{assertions}</span>
+          &nbsp; perguntas!
         </p>
-        <p
-          data-testid="feedback-total-question"
-        >
-          {`Um total de ${score} pontos`}
+        <p>
+          Você obteve &nbsp;
+          <span data-testid="feedback-total-score">{score}</span>
+          &nbsp; pontos!
         </p>
       </div>
     );
