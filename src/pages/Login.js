@@ -1,10 +1,11 @@
+/* eslint-disable max-lines-per-function */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-
 import { loginAction } from '../redux/actions';
 import requestToken from '../services/requestToken';
+import styles from './login.module.css';
+import Header from '../components/Login/Header';
 
 class Login extends Component {
   constructor(props) {
@@ -19,6 +20,10 @@ class Login extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.checkInputs = this.checkInputs.bind(this);
     this.handleClick = this.handleClick.bind(this);
+  }
+
+  componentDidMount() {
+    document.title = 'Login';
   }
 
   checkInputs() {
@@ -48,9 +53,15 @@ class Login extends Component {
     const { email, name, buttonEnable } = this.state;
     const { handleClick, handleChange } = this;
     return (
-      <>
-        <form>
-          <label htmlFor="name">
+      <main className={ styles.login_container }>
+        <Header />
+        <div className={ styles.login_title }>
+          <h1>Trivia Online</h1>
+          <p>Autentique-se utilizando um e-mail do gravatar e jogue agora mesmo!</p>
+        </div>
+
+        <div className={ styles.login__form__container }>
+          <form className={ styles.login__form }>
             <input
               type="text"
               id="name"
@@ -58,9 +69,9 @@ class Login extends Component {
               data-testid="input-player-name"
               onChange={ handleChange }
               value={ name }
+              placeholder="Nome"
+              required
             />
-          </label>
-          <label htmlFor="email">
             <input
               type="email"
               id="email"
@@ -68,19 +79,20 @@ class Login extends Component {
               data-testid="input-gravatar-email"
               onChange={ handleChange }
               value={ email }
+              placeholder="Email do gravatar"
+              required
             />
-          </label>
-          <button
-            type="button"
-            data-testid="btn-play"
-            disabled={ buttonEnable }
-            onClick={ handleClick }
-          >
-            Jogar
-          </button>
-        </form>
-        <Link to="/Settings" data-testid="btn-settings">Settings</Link>
-      </>
+            <button
+              type="button"
+              data-testid="btn-play"
+              disabled={ buttonEnable }
+              onClick={ handleClick }
+            >
+              Jogar
+            </button>
+          </form>
+        </div>
+      </main>
     );
   }
 }
