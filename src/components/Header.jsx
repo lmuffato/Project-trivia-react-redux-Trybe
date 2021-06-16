@@ -14,7 +14,12 @@ class Header extends Component {
         />
         <div className="player-content">
           <p data-testid="header-player-name"><strong>{ `Player: ${name}` }</strong></p>
-          <p data-testid="header-score"><strong>{ `Score: ${score}` }</strong></p>
+          <p>
+            Score:
+            <strong>
+              <span data-testid="header-score">{ score }</span>
+            </strong>
+          </p>
         </div>
       </header>
     );
