@@ -13,9 +13,11 @@ class Game extends React.Component {
       selectedStyle: false,
       index: 0,
       time: 30,
+      globalScore: 0,
     };
     this.handleindex = this.handleindex.bind(this);
     this.HandleTime = this.HandleTime.bind(this);
+    this.updateScore = this.updateScore.bind(this);
   }
 
   componentDidMount() {
@@ -57,32 +59,47 @@ class Game extends React.Component {
     }), this.playTime);
   }
 
+  updateScore(score) {
+    const myLocalStorage = localStorage.getItem('score');
+    const mlsNumber = Number(myLocalStorage);
+    localStorage.setItem('score', score + mlsNumber);
+    // pegar o valor do score no local storage
+    // enviar para estado para pasar como props
+    this.setState({
+      globalScore: score + mlsNumber,
+    });
+  }
+
   handleClickAnswer(type, difficulty) {
     clearInterval(this.timeout);
     this.setState({ selectedStyle: true, nextBtnVisible: '' });
     let level = 0;
     const levelhard = 3;
     switch (difficulty) {
-    case easy: (level = 1);
+    case 'easy': (level = 1);
       break;
-    case medium: (level = 2);
+    case 'medium': (level = 2);
       break;
-    case hard: (level = levelhard);
+    case 'hard': (level = levelhard);
       break;
     default: (level = 1);
       break;
     }
-    if (type === true) {
-      console.log(type);
+    console.log(difficulty);
+    console.log('antes do if');
+    if (type === 'correct') {
+      console.log('resposta certa');
       const tenPoints = 10;
       const { time } = this.state;
       const score = tenPoints + (time * level);
-      localStorage.setItem('score', score);
-      };
-    }
+      console.log(time);
+      this.updateScore(score);
+      // localStorage.setItem('score', score);
+      console.log(score);
+    } else console.log('resposta errada');
   }
 
-  handleAnswers(answers) {
+  handleAnswers(answers, difficulty) {
     const { time, selectedStyle } = this.state;
     let answerDisabled = false;
     let corectborder = 'none';
@@ -102,7 +119,7 @@ class Game extends React.Component {
             type="button"
             data-testid="correct-answer"
             key={ index }
-            onClick={ () => this.handleClickAnswer('correct', answer.difficulty) }
+            onClick={ () => this.handleClickAnswer('correct', difficulty) }
             disabled={ answerDisabled }
             style={ { border: [corectborder] } }
           >
@@ -115,7 +132,7 @@ class Game extends React.Component {
           type="button"
           data-testid={ `wrong-answer-${index}` }
           key={ index }
-          onClick={ () => this.handleClickAnswer('wrong', answer.difficulty) }
+          onClick={ () => this.handleClickAnswer('wrong', difficulty) }
           disabled={ answerDisabled }
           style={ { border: [wrongborder] } }
         >
@@ -126,7 +143,7 @@ class Game extends React.Component {
   }
 
   render() {
-    const { index, time, nextBtnVisible } = this.state;
+    const { index, time, nextBtnVisible, globalScore } = this.state;
     const { questions, isLoading } = this.props;
 
     let nextbtnvisible2 = nextBtnVisible;
@@ -138,7 +155,7 @@ class Game extends React.Component {
     if (isLoading === false) {
       return (
         <section>
-          <Header />
+          <Header score={ globalScore } />
           <p data-testid="question-category">
             Categoria:
             {questions[index].category}
@@ -146,7 +163,7 @@ class Game extends React.Component {
           <p data-testid="question-text">
             {questions[index].question}
           </p>
-          { this.handleAnswers(questions[index].answers)}
+          { this.handleAnswers(questions[index].answers, questions[index].difficulty)}
           <button
             type="button"
             data-testid="btn-next"
