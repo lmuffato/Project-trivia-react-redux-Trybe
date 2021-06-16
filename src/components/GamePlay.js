@@ -1,20 +1,17 @@
 import React, { useState } from 'react';
-import { useSelector,
-  // useDispatch
-} from 'react-redux';
-// import { userScore } from '../redux/actions/userScore.action'
+import { useSelector, useDispatch } from 'react-redux';
+import { userScore } from '../redux/actions/userScore.action';
 
-export default function GamePlay() {
+export default function GamePlay(disabledOptions) {
   const { questions } = useSelector((state) => state.gameReducer);
-  // const dispatch = useDispatch();
-  // const [indexQuestions, setIndexQuestions] = useState(0);
+  const dispatch = useDispatch();
+  const [indexQuestions, setIndexQuestions] = useState(0);
   const [afterClicked, seTafterClicked] = useState(false);
-
   function clickOnOption(event) {
+    console.log(disabledOptions); // Pode ser removido
     seTafterClicked(true);
     if (event.target.id === 'correct-answer') {
       return console.log('correto');
-      // dispatch()
     } console.log('falso');
   }
 
@@ -33,6 +30,7 @@ export default function GamePlay() {
         type="button"
         data-testid="correct-answer"
         className={ afterClicked ? 'green-border' : '' }
+        disabled={ estado }
       >
         {
           questions[0].correct_answer
@@ -47,6 +45,7 @@ export default function GamePlay() {
             className={ afterClicked ? 'red-border' : '' }
             data-testid={ `wrong-answer-${index}` }
             key={ index }
+            disabled={ estado }
           >
             { incorretAnsewr }
           </button>))}
