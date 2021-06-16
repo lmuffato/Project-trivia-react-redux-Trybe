@@ -4,7 +4,13 @@ import PropTypes from 'prop-types';
 import './MultipleTypeQuest.css';
 
 class MultipleTypeQuest extends Component {
-  handleClick() {
+  constructor() {
+    super();
+    this.addAnswerBorder = this.addAnswerBorder.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  addAnswerBorder() {
     const btnAlternative = document.querySelectorAll('button');
     btnAlternative[0].classList.add('correct-answer');
 
@@ -13,11 +19,20 @@ class MultipleTypeQuest extends Component {
     }
   }
 
+  handleClick(e) {
+    const { getAnswer } = this.props;
+    this.addAnswerBorder();
+    getAnswer({
+      validation: e.target.className,
+      Questiondifficulty: e.target.parentNode.className,
+    });
+  }
+
   render() {
     const { alternatives } = this.props;
     return (
-      <section>
-        { alternatives
+      <section className={ alternatives.difficulty }>
+        { alternatives.alt
           .map((alternative, index) => (
             <button
               type="button"
@@ -33,7 +48,11 @@ class MultipleTypeQuest extends Component {
 }
 
 MultipleTypeQuest.propTypes = {
-  alternatives: PropTypes.arrayOf(PropTypes.object).isRequired,
+  alternatives: PropTypes.shape({
+    difficulty: PropTypes.string,
+    alt: PropTypes.arrayOf(PropTypes.object),
+  }).isRequired,
+  getAnswer: PropTypes.func.isRequired,
 };
 
 export default MultipleTypeQuest;
