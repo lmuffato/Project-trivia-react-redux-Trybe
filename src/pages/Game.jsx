@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { string, shape } from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -125,13 +124,7 @@ class Game extends Component {
             timeLeft={ timeLeft }
             handleClick={ this.handleClick }
           />}
-
         <p>Jogo</p>
-        <button type="button">
-          <Link to="/feedback">
-            Click
-          </Link>
-        </button>
       </>
     );
   }
