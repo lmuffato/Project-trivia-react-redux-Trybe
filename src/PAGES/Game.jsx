@@ -19,19 +19,23 @@ class Game extends React.Component {
   }
 
   componentDidMount() {
-    const { time } = this.state;
-    const segundo = 1000;
-    const maxTime = 30;
-
-    if (time <= maxTime && time > 0) {
-      this.timeout = setInterval(this.HandleTime, segundo);
-    }
+    this.playTime();
   }
 
   componentDidUpdate() {
     const { time } = this.state;
     if (time === 0) {
       clearInterval(this.timeout);
+    }
+  }
+
+  playTime() {
+    const { time } = this.state;
+    const segundo = 1000;
+    const maxTime = 30;
+
+    if (time <= maxTime && time > 0) {
+      this.timeout = setInterval(this.HandleTime, segundo);
     }
   }
 
@@ -43,6 +47,7 @@ class Game extends React.Component {
       time: 30,
       nextBtnVisible: 'none',
       selectedStyle: false });
+    this.playTime();
   }
 
   handleClickAnswer(type) {
