@@ -11,9 +11,12 @@ class Play extends Component {
       answersOfRound: [],
       questionNumber: 0,
       questionOfRound: [],
+      time: 30,
+      answered: false,
     };
 
     this.mountRound = this.mountRound.bind(this);
+    this.countdown = this.countdown.bind(this);
   }
 
   async componentDidMount() {
@@ -24,7 +27,7 @@ class Play extends Component {
 
   mountRound() {
     const { questions } = this.props;
-    const { questionNumber } = this.state;
+    const { questionNumber, answered } = this.state;
     const { category, question, incorrect_answers: incorrectAnswers,
       correct_answer: correctAnswer } = questions[questionNumber];
     let answersOfRound = incorrectAnswers.map((answer, index) => (
@@ -33,9 +36,9 @@ class Play extends Component {
           id={ index }
           type="button"
           name="answer"
+          disabled={ answered }
           value={ answer }
         />
-        {/* {answer} */}
       </label>
     ));
     answersOfRound.push(
@@ -45,8 +48,8 @@ class Play extends Component {
           type="button"
           name="answer"
           value={ correctAnswer }
+          disabled={ answered }
         />
-        {/* {correctAnswer} */}
       </label>,
     );
     const probToChangePosition = 0.5;
@@ -64,6 +67,21 @@ class Play extends Component {
     this.setState((previusState) => ({
       questionNumber: previusState.questionNumber + 1,
     }), () => this.mountRound());
+  }
+
+  countdown() {
+    const second = 1000;
+    const minTime = 0;
+    const { time } = this.state;
+    if (time > minTime) {
+      setInterval(this.setState(
+        (old) => ({
+          time: old.time - 1,
+        }),
+      ), second);
+    } else {
+      this.setState({ answered: true });
+    }
   }
 
   render() {

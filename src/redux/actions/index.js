@@ -1,4 +1,5 @@
-import { LOGIN, GET_QUESTIONS, GET_TOKEN, REQUEST_API } from './actionsTypes';
+import { LOGIN, GET_QUESTIONS, GET_TOKEN,
+  REQUEST_API, ADD_GRAVATAR } from './actionsTypes';
 
 export const addLogin = (userInfo) => ({
   type: LOGIN,
@@ -65,3 +66,7 @@ export function fetchToken() {
   };
 }
 // Actions Relacionadas ao gravatar
+export const addGravatar = (url) => ({
+  type: ADD_GRAVATAR,
+  payload: url,
+});

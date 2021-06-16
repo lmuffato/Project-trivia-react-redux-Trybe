@@ -1,18 +1,27 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import Header from '../components/Header';
 
 class Ranking extends Component {
   render() {
     return (
       <div>
-        Ranking
+        <Header />
       </div>
     );
   }
 }
 
-// Ranking.propTypes = {
+const mapStateToProps = (state) => ({
+  points: state.player.score,
+  gravatar: state.player.gravatar,
+  name: state.player.name,
+});
 
-// };
+Ranking.propTypes = {
+  points: PropTypes.number,
+  gravatar: PropTypes.string,
+}.isRequired;
 
-export default Ranking;
+export default connect(mapStateToProps, null)(Ranking);

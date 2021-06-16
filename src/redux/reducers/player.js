@@ -1,4 +1,5 @@
-import { LOGIN, GET_QUESTIONS, GET_TOKEN, REQUEST_API } from '../actions/actionsTypes';
+import { LOGIN, GET_QUESTIONS, GET_TOKEN, REQUEST_API,
+  ADD_GRAVATAR } from '../actions/actionsTypes';
 
 const INNITAL_STATE = {
   email: '',
@@ -7,6 +8,7 @@ const INNITAL_STATE = {
   score: 0,
   isLoalding: false,
   questions: [],
+  gravatar: '',
 };
 
 const player = (state = INNITAL_STATE, action) => {
@@ -33,6 +35,8 @@ const player = (state = INNITAL_STATE, action) => {
       questions: action.payload,
       isLoalding: false,
     };
+  case ADD_GRAVATAR:
+    return { ...state, gravatar: action.payload };
   default:
     return state;
   }
