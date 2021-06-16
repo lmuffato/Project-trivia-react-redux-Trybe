@@ -11,7 +11,6 @@ class Header extends Component {
 
   render() {
     const { urLink, user: { username }, score } = this.props;
-    // const score = getLocalStorage('score');
     return (
       <div>
         <h1 data-testid="header-player-name">{ username }</h1>

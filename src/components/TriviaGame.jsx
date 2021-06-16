@@ -58,15 +58,17 @@ class TriviaGame extends Component {
   }
 
   updateScore(difficulty, button) {
-    const { time, updateS } = this.props;
+    const { time, newScore } = this.props;
     const levels = { easy: 1, medium: 2, hard: 3 };
     if (button.classList.contains('correct')) {
       const previousScore = getLocalStorage('score');
-      const newScore = Number(previousScore) + BASE_SCORE + (time * levels[difficulty]);
+      const currentScore = Number(
+        previousScore,
+      ) + BASE_SCORE + (time * levels[difficulty]);
       setLocalStorage({
-        score: newScore,
+        score: currentScore,
       });
-      updateS(newScore);
+      newScore(currentScore);
     }
   }
 
@@ -110,7 +112,7 @@ TriviaGame.propTypes = {
 function mapDispatchToProps(dispatch) {
   return {
     fetchQuestions: (token) => dispatch(startNewGame(QUESTIONS_AMOUNT, token)),
-    updateS: (newScore) => dispatch(updateScore(newScore)),
+    newScore: (newScore) => dispatch(updateScore(newScore)),
   };
 }
 
