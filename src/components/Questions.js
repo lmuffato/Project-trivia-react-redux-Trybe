@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import setAttribute from '../services/setAttribute';
+import shuffle from '../services/shuffle';
 
 class Question extends React.Component {
   constructor(props) {
@@ -10,6 +12,15 @@ class Question extends React.Component {
   }
 
   renderQuestion(results, index) {
+    const correctAnswer = [{
+      answer: results[index].correct_answer,
+      attribute: 'correct-answer',
+    }];
+    const incorrectAnswers = [...results[index].incorrect_answers];
+    const incorrectWAtt = setAttribute(incorrectAnswers);
+    const answers = [...correctAnswer, ...incorrectWAtt];
+    const randomAnswers = shuffle(answers);
+    console.log(randomAnswers);
     return (
       <>
         <h3>{results[index].question}</h3>
@@ -17,9 +28,15 @@ class Question extends React.Component {
           Category:
           { results[index].category }
         </p>
-        <button type="button">{ results[index].correct_answer }</button>
-        {results[index].incorrect_answers.map((elem) => (
-          <button type="button" key={ elem }>{elem}</button>))}
+        <div>Respostas ;</div>
+        {randomAnswers.map((elem) => (
+          <button
+            key={ elem.answer }
+            type="button"
+            data-testid={ elem.attribute }
+          >
+            {elem.answer}
+          </button>))}
       </>
     );
   }
