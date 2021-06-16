@@ -46,6 +46,7 @@ class Game extends Component {
   render() {
     const { props: { questions }, createAlternativesButtons, mockAlternatives } = this;
     const validQuestions = questions.length > 0;
+    console.log(questions);
     return (
       <div>
         <Header />

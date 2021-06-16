@@ -22,11 +22,9 @@ class Login extends Component {
     };
   }
 
-  requestToken() {
+  async requestToken() {
     const { props: { requestQuestions },
       state: { name, email } } = this;
-    getTokenFromAPIAndSaveToLS();
-    requestQuestions();
     const state = {
       player: {
         name,
@@ -35,6 +33,8 @@ class Login extends Component {
         email,
       },
     };
+    await getTokenFromAPIAndSaveToLS();
+    await requestQuestions();
     localStorage.setItem('state', JSON.stringify(state));
     return this.redirectToGameNow();
   }

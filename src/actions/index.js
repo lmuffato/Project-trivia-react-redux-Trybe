@@ -8,9 +8,8 @@ export const requestApiGame = (questionsArray) => ({
   results: questionsArray,
 });
 
-const tokenUser = localStorage.getItem('token');
-
 export const requestQuestionThunk = () => async (dispatch) => {
+  const tokenUser = localStorage.getItem('token');
   const amountOfQuestions = 5;
   const questions = await getQuestionsFromAPI(amountOfQuestions, tokenUser);
   const questionsArray = questions.results;
