@@ -4,27 +4,41 @@
 // Requisição API
 
 import React from 'react';
+import { Redirect } from 'react-router';
 import Header from '../components/Header';
+import Button from '../components/Button';
+import Question from '../components/Question';
+import Loading from '../components/Loading';
 
 class GamePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      category: '',
-      correctAnswer: '',
-      incorrectAnswers: [],
-      question: '',
+      questions: [],
       loading: true,
-      isButtonDisabled: false, // vamos precisar disso para o req.8
+      index: 0,
+      shouldRedirect: false,
     };
 
     this.fetchApi = this.fetchApi.bind(this);
-    this.handleStyle = this.handleStyle.bind(this);
-    this.shuffleArr = this.shuffleArr.bind(this);
+    this.getNextQuestion = this.getNextQuestion.bind(this);
   }
 
   componentDidMount() {
     this.fetchApi();
+  }
+
+  // renderiza uma pergunta por vez do array de perguntas
+  // controla o index do array de perguntas
+  getNextQuestion() {
+    const four = 4;
+    const { index } = this.state;
+    if (index < four) {
+      this.setState({ index: index + 1 });
+    }
+    if (index === four) {
+      this.setState({ shouldRedirect: true });
+    }
   }
 
   async fetchApi() {
@@ -34,89 +48,40 @@ class GamePage extends React.Component {
       const request = await fetch(endpoint);
       const data = await request.json();
       console.log(data);
-      const trivia = data.results[0];
+      const trivia = data.results;
       this.setState({
         loading: false,
-        category: trivia.category,
-        correctAnswer: trivia.correct_answer,
-        incorrectAnswers: trivia.incorrect_answers,
-        question: trivia.question,
+        questions: trivia,
       });
     } catch (error) {
       console.log(error);
     }
   }
 
-  handleStyle() {
-    const btnAnswers = document.getElementsByTagName('button');
-    [...btnAnswers].map((btn) => {
-      if (btn.getAttribute('data-testid') === 'correct-answer') {
-        return btn.classList.add('green');
-      }
-      return btn.classList.add('red');
-    });
-    this.setState({ isButtonDisabled: true });
-    const element = document.querySelector('.hide-button');
-    return element.setAttribute('class', 'flex');
-  }
-
-  shuffleArr(answersArray) {
-    const answers = answersArray;
-    const randomizedArray = [];
-    while (answers.length > 0) {
-      const randomIndex = Math.floor(Math.random() * answers.length);
-      randomizedArray.push(answers[randomIndex]);
-      answers.splice(randomIndex, 1);
-    }
-    return randomizedArray;
-  }
-
   render() {
-    const { category,
-      correctAnswer, incorrectAnswers, question, loading, isButtonDisabled } = this.state;
-    const answers = [...incorrectAnswers, correctAnswer];
-    const shuffledAnswers = this.shuffleArr(answers);
+    const { loading, index, questions, shouldRedirect } = this.state;
 
     if (loading) {
-      return 'Carregando...'; // solução provisória --> podemos componentizar isto depois
+      return <Loading />;
     }
+
+    if (shouldRedirect) {
+      return <Redirect to="/feedback" />;
+    }
+
     return (
       <>
         <Header />
         <div>
-          <h4 data-testid="question-category">
-            { category }
-          </h4>
-          <p data-testid="question-text">{ question }</p>
-          { shuffledAnswers.map((answer, index) => (answer === correctAnswer ? (
-            <button
-              key={ answer }
-              type="button"
-              data-testid="correct-answer"
-              onClick={ this.handleStyle }
-              disabled={ isButtonDisabled }
-            >
-              { answer }
-            </button>
-          ) : (
-            <button
-              type="button"
-              key={ answer }
-              data-testid={ `wrong-answer-${index}` }
-              onClick={ this.handleStyle }
-              disabled={ isButtonDisabled }
-            >
-              { answer }
-            </button>
-          )))}
+          <Question quiz={ questions[index] } />
         </div>
-        <button
-          type="button"
-          data-testid="btn-next"
-          className="hide-button"
+        <Button
+          dataTestid="btn-next"
+          className="hide-button btnNext"
+          onClick={ this.getNextQuestion }
         >
           Próxima
-        </button>
+        </Button>
       </>
     );
   }
@@ -127,3 +92,4 @@ export default GamePage;
 // Referências:
 // função shuffleArr adaptada de: https://stackoverflow.com/questions/56501078/randomizing-quiz-answers-fetched-from-a-rest-api
 // sobre splice: https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/splice
+// função getNextQuestion adaptada de: https://www.freecodecamp.org/news/how-to-build-a-quiz-app-using-react/
