@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { saveTime } from '../redux/actions/actions'
+import { saveTime } from '../redux/actions/actions';
 
 const TIMER_TIME = 1000;
 
@@ -10,10 +10,6 @@ class Timer extends Component {
     super(props);
 
     this.inicializeTimer = this.inicializeTimer.bind(this);
-
-    this.state = {
-      timer: 0,
-    };
   }
 
   componentDidMount() {
@@ -53,6 +49,8 @@ class Timer extends Component {
 Timer.propTypes = {
   setTimer: PropTypes.func.isRequired,
   time: PropTypes.number.isRequired,
+  saveTimer: PropTypes.func.isRequired,
+  timer: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => ({
