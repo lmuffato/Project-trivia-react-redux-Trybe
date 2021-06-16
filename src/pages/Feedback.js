@@ -12,11 +12,20 @@ class FeedBack extends React.Component {
     return 'Podia ser melhor...';
   }
 
+  /*  numberMatchers() {
+    const { correct } = this.props;
+    if (correct === 0) return 'Não acertou nenhuma pergunta';
+    return `Acertou ${correct} perguntas`;
+  } */
+
   render() {
+    const { correct, score } = this.props;
     return (
       <div>
         <Header />
         <p data-testid="feedback-text">{this.mensageScore()}</p>
+        <p data-testid="feedback-total-question">{correct}</p>
+        <p data-testid="feedback-total-score">{score}</p>
       </div>
     );
   }
@@ -24,6 +33,7 @@ class FeedBack extends React.Component {
 
 FeedBack.propTypes = {
   correct: PropTypes.number.isRequired,
+  score: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = ({ login: { score, correct } }) => ({
