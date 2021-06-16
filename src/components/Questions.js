@@ -10,10 +10,12 @@ class Question extends React.Component {
     super(props);
     this.state = {
       index: 0,
+      nextBtn: false,
     };
 
     this.renderQuestion = this.renderQuestion.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.checkAnswer = this.checkAnswer.bind(this);
   }
 
   handleClick() {
@@ -23,9 +25,23 @@ class Question extends React.Component {
 
   checkAnswer() {
     changeColors();
+    this.setState({ nextBtn: true });
+  }
+
+  showNextBtn() {
+    return (
+      <button
+        type="button"
+        onClick={ this.handleClick }
+        data-testid="btn-next"
+      >
+        Proxima
+      </button>
+    );
   }
 
   renderQuestion(results, index) {
+    const { level } = this.state;
     const correctAnswer = [{
       answer: results[index].correct_answer,
       attribute: 'correct-answer',
@@ -41,6 +57,10 @@ class Question extends React.Component {
         <p data-testid="question-category">
           Category:
           { results[index].category }
+        </p>
+        <p>
+          dificuldade
+          { level }
         </p>
         <div>Respostas ;</div>
         {randomAnswers.map((elem) => (
@@ -58,13 +78,15 @@ class Question extends React.Component {
   }
 
   render() {
-    const { index } = this.state;
+    const { index, nextBtn } = this.state;
     const { results } = this.props;
     return (
       <div>
         {results.length !== 0
         && this.renderQuestion(results, index)}
-        <button type="button" onClick={ this.handleClick }>Proxima</button>
+        <br />
+        {nextBtn
+        && this.showNextBtn()}
       </div>
     );
   }
