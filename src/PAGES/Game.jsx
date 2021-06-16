@@ -38,7 +38,11 @@ class Game extends React.Component {
   handleindex() {
     const { index } = this.state;
 
-    this.setState({ index: index + 1, time: 30 });
+    this.setState({
+      index: index + 1,
+      time: 30,
+      nextBtnVisible: 'none',
+      selectedStyle: false });
   }
 
   handleClickAnswer(type) {
