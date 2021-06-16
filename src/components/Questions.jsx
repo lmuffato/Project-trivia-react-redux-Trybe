@@ -74,9 +74,8 @@ class Questions extends Component {
     const rightAnswerScore = 10;
     const score = rightAnswerScore + (time * scoreMultiplicators[difficulty]);
     if (correctAnswer === target.innerText) {
-      console.log('acertou');
       await incrementScore(score);
-    } else console.log('errou');
+    }
     this.saveAtLocalStorage(score);
   }
 
@@ -109,10 +108,15 @@ class Questions extends Component {
   }
 
   async nextQuestion() {
+    const { history } = this.props;
     await this.setState(({ count }) => ({ count: count + 1, time: 30, gameOn: true }));
-    this.saveAtLocalStorage();
-    this.runGame();
-    this.sortQuestions();
+    const { count, questions } = this.state;
+    if (count >= questions.length) history.push('/feedback');
+    else {
+      this.saveAtLocalStorage();
+      this.runGame();
+      this.sortQuestions();
+    }
   }
 
   render() {

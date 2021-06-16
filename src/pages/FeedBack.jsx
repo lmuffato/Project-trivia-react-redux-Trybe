@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { objectOf, string, number, oneOfType } from 'prop-types';
 import Header from '../components/Header';
 
 class FeedBack extends Component {
@@ -14,27 +16,27 @@ class FeedBack extends Component {
   }
 
   result() {
-    const correctAnswer = 3;
+    const { player: { assertions } } = this.props;
     const { questionsCount } = this.state;
-    if (questionsCount < correctAnswer) {
+    if (assertions < questionsCount) {
       return <p data-testid="feedback-text">Podia ser melhor...</p>;
     }
     return <p data-testid="feedback-text">Mandou bem!</p>;
   }
 
   performance() {
-    const { questionsCount } = this.state;
+    const { player: { assertions, score } } = this.props;
     return (
       <div>
         <p
           data-testid="feedback-total-score"
         >
-          {`Você acertou ${questionsCount} questões!`}
+          {`Você acertou ${assertions} questões!`}
         </p>
         <p
           data-testid="feedback-total-question"
         >
-          {`Um total de ${questionsCount} pontos`}
+          {`Um total de ${score} pontos`}
         </p>
       </div>
     );
@@ -51,4 +53,12 @@ class FeedBack extends Component {
   }
 }
 
-export default FeedBack;
+const mapStateToProps = (state) => ({
+  player: state.player,
+});
+
+FeedBack.propTypes = {
+  player: objectOf(oneOfType([string, number])),
+}.isRequired;
+
+export default connect(mapStateToProps)(FeedBack);

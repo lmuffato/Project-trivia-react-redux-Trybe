@@ -33,12 +33,12 @@ class Game extends Component {
   }
 
   render() {
-    const { isLoading } = this.props;
+    const { isLoading, history } = this.props;
     return (
       <div className="main-content">
         <Header />
         <div className="question-main-content">
-          {!isLoading ? <Questions /> : 'carregando....'}
+          {!isLoading ? <Questions history={ history } /> : 'carregando....'}
         </div>
       </div>
     );
@@ -47,6 +47,7 @@ class Game extends Component {
 
 const mapStateToProps = (state) => ({
   isLoading: state.gameData.isLoading,
+  player: state.player,
 });
 
 const mapDispatchToProps = (dispatch) => ({

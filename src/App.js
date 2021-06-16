@@ -9,7 +9,7 @@ import FeedBack from './pages/FeedBack';
 export default function App() {
   return (
     <Switch>
-      <Route path="/feedBack" component={ FeedBack } />
+      <Route path="/feedback" component={ FeedBack } />
       <Route path="/settings" component={ Settings } />
       <Route path="/game" component={ Game } />
       <Route exact path="/" component={ Login } />
