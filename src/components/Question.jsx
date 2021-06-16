@@ -86,7 +86,13 @@ class Question extends Component {
             { quest }
           </button>
         )) }
-        {this.nextButton()}
+        displayButton && ( <button
+          type="button"
+          data-testid="btn-next"
+          id="btn-next"
+        >
+          Próxima
+        </button> )
       </section>
     );
   }
