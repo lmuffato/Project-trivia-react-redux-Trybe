@@ -21,8 +21,8 @@ const mapStateToProps = (state) => ({
   questions: state.user.questions,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  
-});
+// const mapDispatchToProps = (dispatch) => ({
 
-export default connect(mapStateToProps, mapDispatchToProps)(Question);
+// });
+
+export default connect(mapStateToProps, null)(Question);

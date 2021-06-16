@@ -1,25 +1,21 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import React from 'react';
+// import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-export const Ranking = (props) => {
-  return (
-    <div>
-      
-    </div>
-  )
-}
+export const Ranking = () => (
+  <div />
+);
 
 Ranking.propTypes = {
-  props: PropTypes
-}
+  // props: PropTypes,
+};
 
-const mapStateToProps = (state) => ({
-  
-})
+const mapStateToProps = () => ({
 
-const mapDispatchToProps = (dispatch) => ({
-  
-})
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Ranking)
+const mapDispatchToProps = () => ({
+
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Ranking);
