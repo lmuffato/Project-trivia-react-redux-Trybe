@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
-
+import ReactAudioPlayer from 'react-audio-player';
 import Questions from '../components/Questions';
 import { getAPIThunk } from '../redux/actions/actions';
 
@@ -56,21 +57,30 @@ class Jogo extends Component {
 
     return (
       <div>
-        <header>
-          {this.renderGravatarImage()}
-          <span data-testid="header-player-name">{ nome }</span>
-          <span data-testid="header-score">0</span>
-
-        </header>
+        <div>
+          <header className="header">
+            <Link to="/">
+              {this.renderGravatarImage()}
+            </Link>
+            <span data-testid="header-player-name">{ nome }</span>
+            <span data-testid="header-score" className="score">{`Score: ${0}`}</span>
+          </header>
+          <div className="timer">
+            <Timer time={ time } setTimer={ this.setTimer } />
+          </div>
+        </div>
         <h1>Página do Jogo</h1>
-
-        <Timer time={ time } setTimer={ this.setTimer } />
-
         {questions && questions.length && (<Questions
           questions={ questions }
           revelaBorda={ revelaBorda }
           setRevelaBorda={ this.setRevelaBorda }
         />)}
+        <ReactAudioPlayer
+          src="https://www.myinstants.com/media/sounds/perguntashowdomilhao.mp3"
+          autoPlay
+          controls
+          className="music"
+        />
       </div>
     );
   }
