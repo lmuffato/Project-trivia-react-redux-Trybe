@@ -36,7 +36,6 @@ export default class Game extends Component {
   render() {
     // const token = localStorage.getItem('token');
     const { questions, questionsIndex, loading } = this.state;
-    console.log(questions);
     const questionsFiltered = questions[questionsIndex];
     if (loading) {
       return <Loading />;

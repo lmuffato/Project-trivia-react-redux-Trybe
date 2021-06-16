@@ -9,11 +9,12 @@ export default class Questions extends Component {
     this.handleClickAnswer = this.handleClickAnswer.bind(this);
   }
 
-  changeColorBorder(alternatives, dataTestId, className) {
-    const regex = new RegExp(dataTestId);
+  changeColorBorder(alternatives, dataTestId, classNameCorrect, ClassNameIncorrect) {
     alternatives.forEach((alternative) => {
-      if (regex.test(alternative.getAttribute('data-testid'))) {
-        alternative.classList.add(className);
+      if (dataTestId.test(alternative.getAttribute('data-testid'))) {
+        alternative.classList.add(classNameCorrect);
+      } else {
+        alternative.classList.add(ClassNameIncorrect);
       }
     });
   }
@@ -21,26 +22,25 @@ export default class Questions extends Component {
   handleClickAnswer({ target }) {
     const classNameAnswerIncorrect = 'question__alternatives__incorrect';
     const classNameAnswerCorrect = 'question__alternatives__correct';
+    const dataTestId = 'data-testid';
+
     const alternatives = Array.from(
       document.getElementsByClassName(
         styles.question__alternatives,
       ),
     );
-    const dataTestid = target.getAttribute('data-testid');
 
-    if (dataTestid === 'correct-answer') {
-      this.changeColorBorder(alternatives,
-        /wrong-answer/gi, classNameAnswerIncorrect);
-      target.classList.add(classNameAnswerCorrect);
-    }
-    if (/wrong-answer/gi.test(dataTestid)) {
-      this.changeColorBorder(alternatives,
-        /correct-answer/gi, classNameAnswerCorrect);
+    const dataTestid = target.getAttribute(dataTestId);
 
-      this.changeColorBorder(alternatives,
-        /wrong-answer/gi, classNameAnswerIncorrect);
+    if (/correct-answer/gi.test(dataTestid)) {
+      this.changeColorBorder(alternatives, /correct-answer/gi,
+        classNameAnswerCorrect, classNameAnswerIncorrect);
+    } else {
+      this.changeColorBorder(
+        alternatives, /correct-answer/gi,
+        classNameAnswerCorrect, classNameAnswerIncorrect,
+      );
     }
-    return '';
   }
 
   render() {
