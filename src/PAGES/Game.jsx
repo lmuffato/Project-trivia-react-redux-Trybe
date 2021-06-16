@@ -46,7 +46,8 @@ class Game extends React.Component {
       index: index + 1,
       time: 30,
       nextBtnVisible: 'none',
-      selectedStyle: false });
+      selectedStyle: false,
+    });
     this.playTime();
   }
 
@@ -111,6 +112,12 @@ class Game extends React.Component {
     const { index, time, nextBtnVisible } = this.state;
     const { questions, isLoading } = this.props;
 
+    let nextBtnVisible2 = nextBtnVisible;
+
+    if (time === 0) {
+      nextBtnVisible2 = '';
+    }
+
     if (isLoading === false) {
       return (
         <section>
@@ -127,7 +134,7 @@ class Game extends React.Component {
             type="button"
             data-testid="btn-next"
             onClick={ () => this.handleindex() }
-            style={ { display: [nextBtnVisible] } }
+            style={ { display: [nextBtnVisible2] } }
           >
             Próxima Pergunta
           </button>
