@@ -18,6 +18,7 @@ class DisplayGame extends React.Component {
 
   async componentDidMount() {
     await this.fetchTrivia();
+    this.timerAnswer();
   }
 
   async fetchTrivia() {
@@ -27,6 +28,11 @@ class DisplayGame extends React.Component {
     triviaQuestions(questions);
   }
 
+  timerAnswer() {
+    const time = 30000;
+    setTimeout(() => { this.checkAnswer(); }, time);
+  }
+
   checkAnswer() {
     const correctButton = document.querySelector('.correct-answer');
     const incorrectButtons = document.querySelectorAll('.wrong-answer');
@@ -34,7 +40,9 @@ class DisplayGame extends React.Component {
     correctButton.style.border = '3px solid rgb(6, 240, 15)';
     incorrectButtons.forEach((button) => {
       button.style.border = '3px solid rgb(255, 0, 0)';
+      button.setAttribute('disabled', 'disabled');
     });
+    correctButton.setAttribute('disabled', 'disabled');
   }
 
   createAnswers(question) {
