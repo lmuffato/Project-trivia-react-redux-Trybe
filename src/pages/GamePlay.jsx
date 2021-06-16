@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fetchQuestions } from '../actions';
 import Header from '../components/Header';
+import './GamePlay.css';
 
 class GamePlay extends React.Component {
   constructor(props) {
@@ -10,8 +11,10 @@ class GamePlay extends React.Component {
     this.state = {
       index: 0,
       nextQuestionBtn: true,
+      visible: false,
     };
     this.renderQuestions = this.renderQuestions.bind(this);
+    this.showNextQuestionBtn = this.showNextQuestionBtn.bind(this);
   }
 
   componentDidMount() {
@@ -21,11 +24,15 @@ class GamePlay extends React.Component {
 
   handleClick(value) {
     const three = 3;
+    this.setState({ index: value, visible: false });
     const { index } = this.state;
     if (index === three) {
       this.setState({ nextQuestionBtn: false });
     }
-    this.setState({ index: value });
+  }
+
+  showNextQuestionBtn() {
+    this.setState({ visible: true });
   }
 
   renderQuestion(question) {
@@ -35,7 +42,11 @@ class GamePlay extends React.Component {
       <div>
         <p data-testid="question-category">{question.category}</p>
         <p data-testid="question-text">{question.question}</p>
-        <button type="button" data-testid="correct-answer">
+        <button
+          type="button"
+          data-testid="correct-answer"
+          onClick={ this.showNextQuestionBtn }
+        >
           { correctAnswer }
         </button>
         {
@@ -44,6 +55,7 @@ class GamePlay extends React.Component {
               key={ index }
               type="button"
               data-testid={ `wrong-answer-${index}` }
+              onClick={ this.showNextQuestionBtn }
             >
               {e}
             </button>
@@ -55,13 +67,14 @@ class GamePlay extends React.Component {
 
   renderQuestions() {
     const { questions } = this.props;
-    const { index, nextQuestionBtn } = this.state;
+    const { index, nextQuestionBtn, visible } = this.state;
     return (
       <section>
         { this.renderQuestion(questions[index]) }
         <button
           type="button"
           disabled={ !nextQuestionBtn }
+          className={ visible ? 'show-btn' : 'hide-btn' }
           data-testid="btn-next"
           onClick={ () => this.handleClick(index + 1) }
         >
