@@ -1,4 +1,3 @@
-import md5 from 'crypto-js/md5';
 import fetchQuestion from '../services/fetchQuestion';
 import fetchToken from '../services/fetchToken';
 
@@ -7,6 +6,7 @@ export const ADD_PLAYER = 'ADD_PLAYER';
 export const FETCH_TOKEN_SUCCESS = 'FETCH_TOKEN_SUCCESS';
 export const FETCH_QUESTIONS_SUCCESS = 'FETCH_QUESTIONS_SUCCESS';
 export const REQUEST_TOKEN = 'REQUEST_TOKEN';
+export const RIGHT_ANSWER = 'RIGHT_ANSWER';
 
 function startFetch() {
   return { type: START_FETCH };
@@ -15,6 +15,14 @@ function startFetch() {
 export function addPlayer(payload) {
   return {
     type: ADD_PLAYER,
+    payload,
+  };
+}
+
+export function rightAnswer(payload) {
+  console.log(payload);
+  return {
+    type: RIGHT_ANSWER,
     payload,
   };
 }

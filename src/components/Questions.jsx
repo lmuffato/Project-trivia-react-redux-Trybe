@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { arrayOf, object } from 'prop-types';
 import { connect } from 'react-redux';
+import parse from 'html-react-parser';
+import { rightAnswer } from '../actions';
 import '../styles/question.css';
+import NextQuestion from './NextQuestion/NextQuery';
 
 class Questions extends Component {
   constructor(props) {
@@ -11,11 +14,15 @@ class Questions extends Component {
     this.selectAnswer = this.selectAnswer.bind(this);
     this.sortQuestions = this.sortQuestions.bind(this);
     this.runGame = this.runGame.bind(this);
+    this.saveAtLocalStorage = this.saveAtLocalStorage.bind(this);
+    this.timeCounter = this.timeCounter.bind(this);
+    this.nextQuestion = this.nextQuestion.bind(this);
 
     this.state = {
       questions,
       question: '',
       category: '',
+      difficulty: '',
       count: 0,
       gameOn: true,
       shuffleAnswers: [],
@@ -29,32 +36,54 @@ class Questions extends Component {
     this.runGame();
   }
 
+  componentWillUnmount() {
+    clearInterval(this.timer);
+  }
+
   runGame() {
     const oneSecond = 1000;
-    const thritySeconds = 30000;
-    const timer = setInterval(() => {
+    this.timer = setInterval(() => {
       this.setState((prevState) => {
         if (prevState.time > 0 && prevState.gameOn) {
           return { time: prevState.time - 1 };
         }
+        clearInterval(this.timer);
+        this.saveAtLocalStorage();
+
+        return { gameOn: false };
       });
     }, oneSecond);
-    setTimeout(() => {
-      clearInterval(timer);
-      this.setState({ gameOn: false });
-    }, thritySeconds);
   }
 
-  selectAnswer({ target }) {
-    const { correctAnswer } = this.state;
-    if (correctAnswer === target.innerText) console.log('acertou');
-    else console.log('errou');
+  saveAtLocalStorage() {
+    const { player: redux } = this.props;
+    const player = { ...redux };
+    delete player.picture;
+    localStorage.setItem('state', JSON.stringify({ player }));
+  }
+
+  async selectAnswer({ target }) {
     this.setState({ gameOn: false });
+    const { correctAnswer, time, difficulty } = this.state;
+    const scoreMultiplicators = {
+      hard: 3,
+      medium: 2,
+      easy: 1,
+    };
+    const { incrementScore } = this.props;
+    const rightAnswerScore = 10;
+    const score = rightAnswerScore + (time * scoreMultiplicators[difficulty]);
+    if (correctAnswer === target.innerText) {
+      console.log('acertou');
+      await incrementScore(score);
+    } else console.log('errou');
+    this.saveAtLocalStorage(score);
   }
 
   sortQuestions() {
     const { questions, count } = this.state;
     const {
+      difficulty,
       question,
       category,
       correct_answer: correctAnswer,
@@ -62,10 +91,10 @@ class Questions extends Component {
     const sortValue = 0.5;
     const shuffleAnswers = [...incorrectAnswer, correctAnswer]
       .sort(() => Math.random() - sortValue);
-    this.setState({ shuffleAnswers, correctAnswer, question, category });
+    this.setState({ shuffleAnswers, correctAnswer, question, category, difficulty });
   }
 
-  timer() {
+  timeCounter() {
     const { gameOn } = this.state;
     const { time } = this.state;
     return (
@@ -79,14 +108,20 @@ class Questions extends Component {
     );
   }
 
+  async nextQuestion() {
+    await this.setState(({ count }) => ({ count: count + 1, time: 30, gameOn: true }));
+    this.saveAtLocalStorage();
+    this.runGame();
+    this.sortQuestions();
+  }
+
   render() {
     const { question, category, gameOn, shuffleAnswers, correctAnswer } = this.state;
-
     return (
       <div className="question-content">
         <div>
           <h3 data-testid="question-category">{category}</h3>
-          <p data-testid="question-text">{question}</p>
+          <p data-testid="question-text">{parse(question)}</p>
         </div>
         <div className="options-content">
           {shuffleAnswers.map((query, index) => {
@@ -102,14 +137,12 @@ class Questions extends Component {
                     style={ gameOn ? null : { border: '3px solid rgb(6, 240, 15)' } }
                     disabled={ !gameOn }
                   >
-                    { query }
+                    { parse(query) }
                   </button>
                 </p>);
             }
             return (
-              <p
-                key={ `answer-${index}` }
-              >
+              <p key={ `answer-${index}` }>
                 <button
                   style={ gameOn ? null : { border: '3px solid rgb(255, 0, 0)' } }
                   data-testid={ `wrong-answer-${index}` }
@@ -117,14 +150,14 @@ class Questions extends Component {
                   type="button"
                   disabled={ !gameOn }
                 >
-                  { query }
+                  { parse(query) }
                 </button>
               </p>
             );
           })}
         </div>
-        { this.timer() }
-        <button type="button" data-testid="btn-next" disabled>Next Question</button>
+        { this.timeCounter() }
+        <NextQuestion hidden={ gameOn } nextQuestion={ this.nextQuestion } />
       </div>
     );
   }
@@ -132,10 +165,15 @@ class Questions extends Component {
 
 const mapStateToProps = (state) => ({
   questions: state.gameData.questions,
+  player: state.player,
+});
+
+const dispatchStateToProps = (dispatch) => ({
+  incrementScore: (score) => dispatch(rightAnswer(score)),
 });
 
 Questions.propTypes = {
   questions: arrayOf(object),
 }.isRequired;
 
-export default connect(mapStateToProps, null)(Questions);
+export default connect(mapStateToProps, dispatchStateToProps)(Questions);
