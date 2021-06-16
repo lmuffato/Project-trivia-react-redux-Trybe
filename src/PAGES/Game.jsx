@@ -10,7 +10,7 @@ class Game extends React.Component {
 
     this.state = {
       // hashEmail: '',
-      questions: [],
+      selectedStyle: false,
       index: 0,
       time: 30,
     };
@@ -37,47 +37,59 @@ class Game extends React.Component {
 
   handleindex() {
     const { index } = this.state;
-    this.handleAnswers();
 
     this.setState({ index: index + 1, time: 30 });
   }
 
-  // Função retirada do site https://www.horadecodar.com.br/2021/05/10/como-embaralhar-um-array-em-javascript-shuffle/
-  shuffleArray(arr) {
-    // Loop em todos os elementos
-    for (let i = arr.length - 1; i > 0; i -= 1) {
-      // Escolhendo elemento aleatório
-      const j = Math.floor(Math.random() * (i + 1));
-      // Reposicionando elemento
-      [arr[i], arr[j]] = [arr[j], arr[i]];
+  handleClickAnswer(type) {
+    clearInterval(this.timeout);
+    this.setState({ selectedStyle: true });
+    if (type === true) {
+      console.log(type);
     }
-    // Retornando array com aleatoriedade
-    this.setState({ questions: arr });
   }
 
-  handleAnswers() {
-    const { questions } = this.props;
-    const { index: index2 } = this.state;
-    const { correct_answer: correctAnswer, incorrect_answers: incorrectAnswers } = questions[index2];
-    const array = incorrectAnswers.map((answer, index) => (
-      <button
-        type="button"
-        data-testid={ `wrong-answer-${index}` }
-        key={ index }
-      >
-        {answer}
-      </button>
-    ));
-    array.push(
-      <button
-        type="button"
-        data-testid="correct-answer"
-        key={ array.length }
-      >
-        { correctAnswer }
-      </button>,
-    );
-    return this.shuffleArray(array);
+  handleAnswers(answers) {
+    const { time, selectedStyle } = this.state;
+    let answerDisabled = false;
+    let corectBorder = 'none';
+    let wrongBorder = 'none';
+    if (time === 0) {
+      answerDisabled = true;
+    }
+    if (selectedStyle === true) {
+      corectBorder = '3px solid rgb(6, 240, 15)';
+      wrongBorder = '3px solid rgb(255, 0, 0)';
+    }
+
+    return answers.map((answer, index) => {
+      if (answer.correct === true) {
+        return (
+          <button
+            type="button"
+            data-testid="correct-answer"
+            key={ index }
+            onClick={ () => this.handleClickAnswer('correct') }
+            disabled={ answerDisabled }
+            style={ { border: [corectBorder] } }
+          >
+            { answer.text }
+          </button>
+        );
+      }
+      return (
+        <button
+          type="button"
+          data-testid={ `wrong-answer-${index}` }
+          key={ index }
+          onClick={ () => this.handleClickAnswer('wrong') }
+          disabled={ answerDisabled }
+          style={ { border: [wrongBorder] } }
+        >
+          {answer.text}
+        </button>
+      );
+    });
   }
 
   HandleTime() {
@@ -87,7 +99,7 @@ class Game extends React.Component {
   }
 
   render() {
-    const { index, time, questions: questions2 } = this.state;
+    const { index, time } = this.state;
     const { questions, isLoading } = this.props;
 
     if (isLoading === false) {
@@ -101,7 +113,7 @@ class Game extends React.Component {
           <p data-testid="question-text">
             {questions[index].question}
           </p>
-          {questions2}
+          { this.handleAnswers(questions[index].answers)}
           <button
             type="button"
             data-testid="btn-next"
@@ -121,7 +133,7 @@ class Game extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  questions: state.GameReducer.questions.results,
+  questions: state.GameReducer.questions,
   isLoading: state.GameReducer.isLoading,
 });
 
