@@ -6,6 +6,7 @@ export const REQUEST_TOKEN = 'REQUEST_TOKEN';
 export const REQUEST_QUESTION_SUCESS = 'REQUEST_QUESTION_SUCESS';
 export const REQUEST_QUESTION_FAIL = 'REQUEST_QUESTION_FAIL';
 export const GET_PLAYER = 'GET_PLAYER';
+export const UPDATE_SCORE = 'UPDATE_SCORE';
 
 export function requestApi() {
   return {
@@ -44,7 +45,6 @@ export function questionsFail(payload) {
 // };
 
 export const getQuestion = (token) => async (dispatch) => {
-  console.log(token);
   dispatch(requestApi());
   questionsFetch(token).then((questions) => dispatch(questionsSuccess(questions)));
 };
@@ -68,5 +68,12 @@ export function getPlayer(player) {
   return {
     type: GET_PLAYER,
     payload: player,
+  };
+}
+
+export function updateScore(score) {
+  return {
+    type: UPDATE_SCORE,
+    payload: score,
   };
 }

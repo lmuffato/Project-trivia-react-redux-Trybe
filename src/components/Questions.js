@@ -1,8 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { arrayOf, object } from 'prop-types';
+import { updateScore } from '../actions';
 import permutate from '../service/permutate';
 import decoder from '../service/decoder';
+
+const CORRECT_ANSWER = 'correct-answer';
 
 // Requisito realizado com a lógica e ajuda de RAFAEL MEDEIROS Turma 10A
 class Questions extends React.Component {
@@ -14,13 +17,20 @@ class Questions extends React.Component {
 
   getID(answer) {
     const { questions } = this.props;
-    if (answer === questions[0].correct_answer) return 'correct-answer';
+    if (answer === questions[0].correct_answer) return CORRECT_ANSWER;
     return `wrong-answer-${questions[0].incorrect_answers.indexOf(answer)}`;
   }
 
-  checkAnswer({ target: { parentElement } }) {
+  checkAnswer({ target }, difficulty) {
+    const { parentElement, id } = target;
+    const { dispatchScore } = this.props;
+    const pointsDifficulty = { hard: 3, medium: 2, easy: 1 };
+    if (id === CORRECT_ANSWER) {
+      const score = 10 + timer * pointsDifficulty[difficulty];
+      dispatchScore(score);
+    }
     Array.from(parentElement.children).forEach((child) => {
-      if (child.id === 'correct-answer') {
+      if (child.id === CORRECT_ANSWER) {
         child.className = 'answer correct';
       } else {
         child.className = 'answer wrong';
@@ -31,7 +41,8 @@ class Questions extends React.Component {
   render() {
     const { questions } = this.props;
     if (questions.length === 0) return <div>Loading...</div>;
-    const { category, question } = questions[0];
+    const { category, question, difficulty } = questions[0];
+    console.log(questions[0]);
     const answers = [
       questions[0].correct_answer,
       ...questions[0].incorrect_answers,
@@ -53,7 +64,7 @@ class Questions extends React.Component {
                   data-testid={ this.getID(answer) }
                   id={ this.getID(answer) }
                   key={ index }
-                  onClick={ this.checkAnswer }
+                  onClick={ (event) => this.checkAnswer(event, difficulty) }
                 >
                   {answerDecoded}
                 </button>
@@ -74,4 +85,8 @@ const mapStateToProps = (state) => ({
   questions: state.game.questions,
 });
 
-export default connect(mapStateToProps, null)(Questions);
+const mapDispatchToProps = (dispatch) => ({
+  dispatchScore: (score) => dispatch(updateScore(score)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Questions);
