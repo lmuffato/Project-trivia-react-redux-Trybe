@@ -10,7 +10,7 @@ export function actionLogin(name, email) {
 }
 
 export const loadingRequest = () => ({
-  type: 'LOADING_REQUEST',
+  type: 'IS_LOADING',
 });
 
 export const errorRequest = (error) => ({
@@ -28,13 +28,43 @@ export const successQuestions = (data) => ({
   data,
 });
 
-export const ThunkTrivia = (token) => (dispatch) => {
-  dispatch(loadingRequest());
-
-  return fetch(`https://opentdb.com/api.php?amount=5&token=${token}`)
-    .then((response) => (response.json()))
-    .then((data) => dispatch(successQuestions(data)));
+// Função retirada do site https://www.horadecodar.com.br/2021/05/10/como-embaralhar-um-array-em-javascript-shuffle/
+const shuffleArray = (arr) => {
+  // Loop em todos os elementos
+  for (let i = arr.length - 1; i > 0; i -= 1) {
+    // Escolhendo elemento aleatório
+    const j = Math.floor(Math.random() * (i + 1));
+    // Reposicionando elemento
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  // Retornando array com aleatoriedade
+  return arr;
 };
+
+const handleResponse = ({ results }) => {
+  const exportArray = results.map((receivedQuestion) => {
+    const { category, type, difficulty, question, correct_answer: correctAnswer,
+      incorrect_answers: incorrectAnswers } = receivedQuestion;
+    const answersOrd = incorrectAnswers.map((text) => (
+      { text,
+        correct: false,
+      }
+    ));
+    answersOrd.push(
+      {
+        text: correctAnswer,
+        correct: true,
+      },
+    );
+    const answers = shuffleArray(answersOrd);
+    return { category, type, difficulty, question, answers };
+  });
+  return exportArray;
+};
+
+export const ThunkTrivia = (token) => (dispatch) => (fetch(`https://opentdb.com/api.php?amount=5&token=${token}`)
+  .then((response) => (response.json()))
+  .then((data) => dispatch(successQuestions(handleResponse(data)))));
 
 export const ThunkAPI = (name, email) => async (dispatch) => {
   dispatch(loadingRequest());
