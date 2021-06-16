@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { string, func } from 'prop-types';
-import { getToken, getName } from '../actions/index';
 import Settings from '../components/Settings';
+import { getToken, getQuestion, getPlayer } from '../actions/index';
 
 class Login extends Component {
   constructor() {
@@ -20,12 +20,14 @@ class Login extends Component {
   }
 
   async handleClick() {
-    const { tokenRequest, history, getPlayerName } = this.props;
-    const { name } = this.state;
-    getPlayerName(name);
+    const { tokenRequest, history, dispatchPlayer } = this.props;
+    const { name, email } = this.state;
+    dispatchPlayer({ name, email });
     await tokenRequest(() => {
-      const { token } = this.props;
+      const { token, questionRequest } = this.props;
+      console.log(token);
       localStorage.setItem('token', token);
+      questionRequest(token);
       history.push('/game');
     });
   }
@@ -105,7 +107,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   tokenRequest: (callback) => dispatch(getToken(callback)),
-  getPlayerName: (playerName) => dispatch(getName(playerName)),
+  dispatchPlayer: (player) => dispatch(getPlayer(player)),
+  questionRequest: (token) => dispatch(getQuestion(token)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
