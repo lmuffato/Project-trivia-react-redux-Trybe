@@ -13,14 +13,18 @@ class Alternatives extends Component {
       mostraImg: false,
       showFaustao: false,
     };
+    this.toasty = this.toasty.bind(this);
   }
 
   toasty(e) {
+    const { setScore } = this.props;
     if (e.target.name === CORRECT) {
+      setScore(true);
       return (
         this.setState({ mostraImg: true })
       );
     }
+    setScore(false);
     return (this.setState({ showFaustao: true }));
   }
 
@@ -59,7 +63,8 @@ class Alternatives extends Component {
   }
 
   render() {
-    const { question, aleatoryAnswers, correctAnswer, revelaBorda } = this.props;
+    const {
+      question, aleatoryAnswers, correctAnswer, revelaBorda } = this.props;
     const { setRevelaBorda } = this.props;
     const questionReplaced = question.question
       .replace(/&quot;/gi, '"')
@@ -79,7 +84,9 @@ class Alternatives extends Component {
               type="button"
               name={ answer === correctAnswer ? CORRECT : INCORRECT }
               data-testid={ answer === correctAnswer ? CORRECT : INCORRECT }
-              onClick={ (e) => { setRevelaBorda('show'); this.toasty(e); } }
+              onClick={ (e) => {
+                setRevelaBorda('show'); this.toasty(e);
+              } }
               disabled={ !!revelaBorda }
             >
               { answer

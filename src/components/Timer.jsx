@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { saveTime } from '../redux/actions/actions'
 
 const TIMER_TIME = 1000;
 
@@ -19,7 +21,7 @@ class Timer extends Component {
   }
 
   inicializeTimer() {
-    const { setTimer } = this.props;
+    const { setTimer, saveTimer } = this.props;
 
     const timer = setInterval(() => {
       const { time } = this.props;
@@ -31,11 +33,11 @@ class Timer extends Component {
       setTimer({ time: time - 1 });
     }, TIMER_TIME);
 
-    this.setState({ timer });
+    saveTimer({ timer });
   }
 
   stopTimer() {
-    const { timer } = this.state;
+    const { timer } = this.props;
 
     clearInterval(timer);
   }
@@ -53,4 +55,12 @@ Timer.propTypes = {
   time: PropTypes.number.isRequired,
 };
 
-export default Timer;
+const mapStateToProps = (state) => ({
+  timer: state.jogoReducer.time,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  saveTimer: (payload) => dispatch(saveTime(payload)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Timer);
