@@ -7,8 +7,17 @@ import shuffle from '../services/shuffle';
 class Question extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      index: 0,
+    };
 
     this.renderQuestion = this.renderQuestion.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    const { index } = this.state;
+    this.setState({ index: index + 1 });
   }
 
   renderQuestion(results, index) {
@@ -23,7 +32,7 @@ class Question extends React.Component {
     console.log(randomAnswers);
     return (
       <>
-        <h3>{results[index].question}</h3>
+        <h3 data-testid="question-text">{results[index].question}</h3>
         <p data-testid="question-category">
           Category:
           { results[index].category }
@@ -42,12 +51,13 @@ class Question extends React.Component {
   }
 
   render() {
-    const index = 0;
+    const { index } = this.state;
     const { results } = this.props;
     return (
       <div>
         {results.length !== 0
         && this.renderQuestion(results, index)}
+        <button type="button" onClick={ this.handleClick }>Proxima</button>
       </div>
     );
   }
