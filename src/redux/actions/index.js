@@ -3,10 +3,9 @@ import { LOGIN, GET_QUESTIONS, GET_TOKEN,
 
 export const updateScore = (newScore) => {
   const { assertations, score } = newScore;
-  console.log(localStorage.getItem('player'));
-  const playerUpdate = { ...localStorage.getItem('player'), assertations, score };
-  console.log(playerUpdate);
-  localStorage.setItem('player', playerUpdate);
+  const previusPlayerInfo = JSON.parse(localStorage.getItem('player'));
+  const playerUpdate = { ...previusPlayerInfo, assertations, score };
+  localStorage.setItem('player', JSON.stringify(playerUpdate));
   return ({
     type: UPDATE_SCORE,
     payload: { ...newScore },
@@ -14,11 +13,8 @@ export const updateScore = (newScore) => {
 };
 
 export const addLogin = (userInfo) => {
-  localStorage.setItem('player', {});
-  const { gravatarEmail, name } = userInfo;
-  const newPlayer = { gravatarEmail, name };
-  console.log(newPlayer);
-  localStorage.setItem('player', newPlayer);
+  const newPlayer = { ...userInfo };
+  localStorage.setItem('player', JSON.stringify(newPlayer));
   return ({
     type: LOGIN,
     payload: { ...userInfo },
@@ -34,7 +30,6 @@ export const getQuestion = (returnOfAPI) => ({
 
 export const addToken = (saveToken) => {
   localStorage.setItem('token', saveToken);
-  console.log(saveToken, 'novo token');
   return {
     type: GET_TOKEN,
     payload: saveToken,
@@ -62,7 +57,6 @@ export function fetchQuestion(token) {
       .then((response) => {
         const codeError = 3;
         const codeSucess = 0;
-        console.log(response, 'resposta da api');
         if (response.response_code === codeError) {
           fetchQuestion(updateToken());
         } else if (response.response_code === codeSucess) {
