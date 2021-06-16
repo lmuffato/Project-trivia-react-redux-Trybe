@@ -8,6 +8,7 @@ class Login extends Component {
   render() {
     const { name, email, handleChange, getToken } = this.props;
     const { history } = this.props;
+
     return (
       <div>
         <form>
