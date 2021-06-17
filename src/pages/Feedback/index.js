@@ -1,55 +1,48 @@
 import React from 'react';
-// import md5 from 'crypto-js/md5';
-// import { connect } from 'react-redux';
-// import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Header from '../../components/Header';
 
 class Feedback extends React.Component {
+  constructor() {
+    super();
+    this.feedbackMessage = this.feedbackMessage.bind(this);
+  }
+
+  feedbackMessage() {
+    const { assertions } = this.props;
+    const three = 3;
+    if (assertions < three) {
+      return 'Podia ser melhor...';
+    }
+    return 'Mandou bem!';
+  }
+
   render() {
-    // const { userName, userEmail, score, assertions } = this.props;
-    // const hashEmail = md5(userEmail).toString();
-    // const state = JSON.stringify({
-    //   player: {
-    //     name: userName, assertions, score, gravatarEmail: userEmail,
-    //   } });
-    // localStorage.setItem('state', state);
+    const { assertions } = this.props;
     return (
       <>
         <Header />
-        {/* <header>
-          <img
-            src={ `https://www.gravatar.com/avatar/${hashEmail}` }
-            data-testid="header-profile-picture"
-            alt="Avatar"
-          />
-          <span data-testid="header-player-name">
-            Player name:
-            { userName }
+        <p>
+          Quantidade de acertos:
+          <span>
+            { assertions }
           </span>
-          <span data-testid="header-score">
-            Score:
-            { score }
-          </span>
-        </header> */}
-        <p data-testid="feedback-text"> Teste </p>
+        </p>
+        <p data-testid="feedback-text">
+          { this.feedbackMessage() }
+        </p>
       </>
     );
   }
 }
 
-// const mapStateToProps = (state) => ({
-//   userName: state.user.name,
-//   userEmail: state.user.gravatarEmail,
-//   score: state.user.score,
-//   assertions: state.user.assertions,
-// });
+Feedback.propTypes = {
+  assertions: PropTypes.number.isRequired,
+};
 
-// Feedback.propTypes = {
-//   userName: PropTypes.string.isRequired,
-//   userEmail: PropTypes.string.isRequired,
-//   score: PropTypes.number.isRequired,
-//   assertions: PropTypes.number.isRequired,
-// };
+const mapStateToProps = (state) => ({
+  assertions: state.user.assertions,
+});
 
-// export default connect(mapStateToProps)(Feedback);
-export default Feedback;
+export default connect(mapStateToProps)(Feedback);
