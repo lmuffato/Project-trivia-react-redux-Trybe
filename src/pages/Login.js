@@ -45,7 +45,7 @@ class Login extends Component {
     loginProps({ name, email });
 
     const player = { name, email, score: 0, assertions: 0 };
-    localStorage.setItem('player', JSON.stringify({ player }));
+    localStorage.setItem('state', JSON.stringify({ player }));
     history.push('/game');
   }
 

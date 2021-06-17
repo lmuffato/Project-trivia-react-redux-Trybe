@@ -57,6 +57,9 @@ export const getQuestionsThunk = (token) => (dispatch) => {
 export const SAVE_TIMER = 'SAVE_TIMER';
 export const saveTimerAction = (payload) => ({ type: SAVE_TIMER, payload });
 
+export const CALC_POINTS = 'CALC_POINTS';
+export const calcPointsAction = () => ({ type: CALC_POINTS });
+
 export const SET_DIFFICULTY = 'SET_DIFFICULTY';
 export const setDifficultyAction = (payload) => ({ type: SET_DIFFICULTY, payload });
 // middleware localStorage

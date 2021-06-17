@@ -5,7 +5,11 @@ import styles from '../pages/game.module.css';
 import Loading from './Loading';
 import Timer from './Timer';
 import './questions.css';
-import { setDifficultyAction, updateScoreAction } from '../redux/actions/index';
+import {
+  setDifficultyAction,
+  updateScoreAction,
+  calcPointsAction,
+} from '../redux/actions/index';
 
 class Questions extends Component {
   constructor(props) {
@@ -25,20 +29,17 @@ class Questions extends Component {
   }
 
   componentDidUpdate() {
-    this.addToLocalStorage();
+    const { calc } = this.props;
+    if (calc) {
+      this.addPoints();
+      this.addToLocalStorage();
+    }
   }
 
-  nextQuestion(NumberOfQuestions) {
+  addPoints() {
     const { updateScoreProps, timer, difficulty } = this.props;
-    this.setState((prevState) => ({
-      questionsIndex: (prevState.questionsIndex + 1) % NumberOfQuestions,
-      borderColor: [],
-      isVisible: 'false',
-      reset: true,
-      stop: false,
-      disabled: false,
-    }));
     let questionDif = 0;
+    const pointsForDifficultyHard = 3;
     if (difficulty) {
       switch (difficulty) {
       case 'easy':
@@ -48,7 +49,7 @@ class Questions extends Component {
         questionDif = 2;
         break;
       case 'hard':
-        questionDif = 3;
+        questionDif = pointsForDifficultyHard;
         break;
       default:
         questionDif = 0;
@@ -57,11 +58,23 @@ class Questions extends Component {
     let points = 0;
     let assertions = 0;
     if (timer !== 0 && questionDif !== 0) {
-      points = 10 + timer * questionDif;
+      const value = 10;
+      points = value + timer * questionDif;
       assertions = 1;
       updateScoreProps({ points, assertions });
     }
     this.resetDifficulty();
+  }
+
+  nextQuestion(NumberOfQuestions) {
+    this.setState((prevState) => ({
+      questionsIndex: (prevState.questionsIndex + 1) % NumberOfQuestions,
+      borderColor: [],
+      isVisible: 'false',
+      reset: true,
+      stop: false,
+      disabled: false,
+    }));
   }
 
   resetDifficulty() {
@@ -87,22 +100,17 @@ class Questions extends Component {
       }
     });
     this.setState({ isVisible: 'true', stop: true, reset: false, disabled: true });
-    const { updateScoreProps } = this.props;
     if (e && e.target.getAttribute('data-testid') === 'correct-answer') {
       const difficulty = e.target.getAttribute('difficulty');
       const { setDifficultyProps } = this.props;
       setDifficultyProps({ difficulty });
-    } else {
-      const points = '0';
-      const assertions = 0;
-      updateScoreProps({ points, assertions });
     }
   }
 
-  addToLocalStorage () {
+  addToLocalStorage() {
     const { name, email, score, assertions } = this.props;
     const player = { name, email, score, assertions };
-    localStorage.setItem('player', JSON.stringify(player));
+    localStorage.setItem('state', JSON.stringify({ player }));
   }
 
   handleZero() {
@@ -113,6 +121,7 @@ class Questions extends Component {
     const { borderColor, isVisible, questionsIndex, reset, stop, disabled } = this.state;
     const { loading, questions } = this.props;
     const questionsFiltered = questions[questionsIndex];
+    console.log(questionsFiltered);
     if (loading || questions.length < 1) {
       return <Loading />;
     }
@@ -163,6 +172,7 @@ const mapStateToProps = (state) => ({
   loading: state.questionsReducer.loading,
   timer: state.timerReducer.timer,
   difficulty: state.timerReducer.difficulty,
+  calc: state.timerReducer.calc,
   name: state.playerReducer.name,
   email: state.playerReducer.email,
   score: state.playerReducer.score,
@@ -172,6 +182,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   setDifficultyProps: (payload) => dispatch(setDifficultyAction(payload)),
   updateScoreProps: (payload) => dispatch(updateScoreAction(payload)),
+  calcPointsProps: () => dispatch(calcPointsAction()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Questions);
@@ -181,9 +192,18 @@ Questions.propTypes = {
     category: PropTypes.string.isRequired,
     question: PropTypes.string.isRequired,
     alternatives: PropTypes.arrayOf(PropTypes.object),
+    difficulty: PropTypes.string.isRequired,
   })).isRequired,
   loading: PropTypes.bool,
   setDifficultyProps: PropTypes.func.isRequired,
+  calc: PropTypes.bool.isRequired,
+  name: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
+  score: PropTypes.number.isRequired,
+  assertions: PropTypes.number.isRequired,
+  updateScoreProps: PropTypes.func.isRequired,
+  timer: PropTypes.number.isRequired,
+  difficulty: PropTypes.string.isRequired,
 };
 
 Questions.defaultProps = {
