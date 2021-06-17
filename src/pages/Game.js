@@ -7,7 +7,6 @@ import Questions from '../components/Questions';
 class Game extends Component {
   render() {
     const { props: { questions } } = this;
-    console.log(questions);
     return (
       <div>
         <Header />
