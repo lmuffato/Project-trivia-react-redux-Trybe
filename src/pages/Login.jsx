@@ -51,7 +51,6 @@ class Login extends React.Component {
     };
     setToLocalStorage('state', state);
     setToLocalStorage('token', token);
-    setToLocalStorage('ranking', []);
     this.setState({ redirect: true });
     const { userLogin } = this.props;
     userLogin({ email, name });
