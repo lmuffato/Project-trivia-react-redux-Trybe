@@ -37,9 +37,10 @@ export const saveAvatar = (payload) => ({
   payload,
 });
 
-
 export const filters = (payload) => ({
   type: FILTER,
+  payload,
+});
 
 export const getSeconds = (payload) => ({
   type: GET_SECONDS,

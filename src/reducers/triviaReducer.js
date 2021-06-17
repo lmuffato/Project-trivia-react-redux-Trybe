@@ -131,7 +131,6 @@ export default function triviaReducer(state = INITIAL_STATE, action) {
       ...state,
       filters: action.payload,
     };
-  
   case GET_SECONDS:
     return {
       ...state,
