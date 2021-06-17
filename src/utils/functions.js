@@ -17,3 +17,7 @@ export const updateUserScore = (timer, difficulty) => {
   };
   return POINT_BASE + (timer * pointDifficulty[difficulty]);
 };
+
+export const sortRankingArray = (array) => {
+  array.sort((a, b) => b.player.score - a.player.score);
+};
