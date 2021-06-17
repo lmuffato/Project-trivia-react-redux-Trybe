@@ -23,9 +23,7 @@ function Header({ email, user, score }) {
         data-testid="header-profile-picture"
       />
       <span data-testid="header-player-name">{ user }</span>
-      <span data-testid="header-score">
-        { score }
-      </span>
+      <span data-testid="header-score">{ score }</span>
     </div>
   );
 }
@@ -33,6 +31,7 @@ function Header({ email, user, score }) {
 Header.propTypes = {
   email: PropTypes.string.isRequired,
   user: PropTypes.string.isRequired,
+  score: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => ({
