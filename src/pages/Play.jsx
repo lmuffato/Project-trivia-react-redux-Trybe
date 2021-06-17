@@ -24,7 +24,6 @@ class Play extends Component {
     this.changeColor = this.changeColor.bind(this);
     this.createOptions = this.createOptions.bind(this);
     this.finishingRound = this.finishingRound.bind(this);
-    // this.changeStyle = this.changeStyle.bind(this);
   }
 
   async componentDidMount() {
@@ -127,7 +126,7 @@ class Play extends Component {
         this.countdown();
       });
     } else {
-      return history.push('/ranking');
+      return history.push('/feedback');
     }
   }
 
