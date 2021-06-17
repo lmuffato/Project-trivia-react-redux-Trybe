@@ -6,12 +6,28 @@ export const GET_QUESTIONS = 'GET_QUESTIONS';
 export const GET_TOKEN = 'GET_TOKEN';
 export const GET_TOKEN_SUCCESS = 'GET_TOKEN_SUCCESS';
 export const GET_QUESTIONS_SUCCESS = 'GET_QUESTIONS_SUCCESS';
+export const GET_SCORE = 'GET_SCORE';
+export const GET_ASSERTIONS = 'GET_ASSERTIONS';
 
 export const login = (name, gravatarEmail) => ({
   type: LOGIN,
   payload: {
     name,
     gravatarEmail,
+  },
+});
+
+export const getAssertions = (assertions) => ({
+  type: GET_ASSERTIONS,
+  payload: {
+    assertions,
+  },
+});
+
+export const getScore = (score) => ({
+  type: GET_SCORE,
+  payload: {
+    score,
   },
 });
 
