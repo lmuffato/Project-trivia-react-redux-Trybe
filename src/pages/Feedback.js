@@ -1,55 +1,45 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
+import { number } from 'prop-types';
 import Header from '../components/Header';
 
 class Feedback extends React.Component {
-  // constructor() {
-  //   super();
-  //   this.scoreMenssage = this.scoreMenssage.bind(this);
-  //   this.totalQuestions = this.totalQuestions.bind(this);
-  // }
+  constructor() {
+    super();
+    this.assertionsMenssage = this.assertionsMenssage.bind(this);
+  }
 
-  // scoreMenssage() {
-  //   const { score } = this.props;
-  //   const minimumScore = 30;
-  //   if (score < minimumScore) {
-  //     return 'Podia ser melhor...';
-  //   }
-  //   return 'Mandou bem!';
-  // }
-
-  // totalQuestions() {
-  //   const { score } = this.props;
-  //   const divider = 10;
-  //   return score / divider;
-  // }
+  assertionsMenssage() {
+    const { assertions } = this.props;
+    const minimumAssertions = 3;
+    if (assertions < minimumAssertions) {
+      return 'Podia ser melhor...';
+    }
+    return 'Mandou bem!';
+  }
 
   render() {
-    // const { score } = this.pros;
+    const { score, assertions } = this.props;
     return (
       <section>
         <Header />
-        {/* <h1 data-testid="feedback-text">
-          {this.scoreMenssage()}
+        <h1 data-testid="feedback-text">
+          {this.assertionsMenssage()}
         </h1>
         <h2 data-testid="feedback-total-question">
-          Você acertou
-          { this.totalQuestions }
-          questões!
+          {`Você acertou ${assertions} questões!`}
         </h2>
         <h2 data-testid="feedback-total-score">
-          Um total de
-          { score }
-          pontos
-        </h2> */}
+          {`Um total de ${score} pontos`}
+        </h2>
         <Link to="/">
           <button type="button" data-testid="btn-play-again">
             Jogar novamente
           </button>
         </Link>
         <Link to="/ranking">
-          <button type="button" data-testid="btn-ranking" onClick={ this.func }>
+          <button type="button" data-testid="btn-ranking">
             Ver Ranking
           </button>
         </Link>
@@ -58,11 +48,14 @@ class Feedback extends React.Component {
   }
 }
 
-// const mapStateToProps = (state) => ({
-//   name: state.playerFunction.player.name,
-//   score: state.playerFunction.player.score,
-// });
+const mapStateToProps = (state) => ({
+  score: state.player.score,
+  assertions: state.player.assertions,
+});
 
-// export default connect(mapStateToProps, null)(Feedback);
+Feedback.propTypes = {
+  assertions: number,
+  score: number,
+}.isRequired;
 
-export default Feedback;
+export default connect(mapStateToProps, null)(Feedback);

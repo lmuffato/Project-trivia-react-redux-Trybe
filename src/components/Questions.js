@@ -33,9 +33,12 @@ class Questions extends React.Component {
     const { timer, updateStorage } = this.props;
     const pointsDifficulty = { hard: 3, medium: 2, easy: 1 };
     if (id === CORRECT_ANSWER) {
+      const { player: { assertions } } = this.props;
       target.className = 'answer correct';
       const score = TEN + timer * pointsDifficulty[difficulty];
-      await updateStorage(score, () => {
+      const sumAssertions = assertions + 1;
+      const scoreAssertions = { score, sumAssertions };
+      await updateStorage(scoreAssertions, () => {
         const { player } = this.props;
         localStorage.setItem('state', JSON.stringify({ player }));
       });

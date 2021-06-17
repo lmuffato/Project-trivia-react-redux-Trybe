@@ -7,6 +7,7 @@ export const REQUEST_QUESTION_SUCESS = 'REQUEST_QUESTION_SUCESS';
 export const REQUEST_QUESTION_FAIL = 'REQUEST_QUESTION_FAIL';
 export const GET_PLAYER = 'GET_PLAYER';
 export const UPDATE_SCORE = 'UPDATE_SCORE';
+export const UPDATE_ASSERTIONS = 'UPDATE_ASSERTIONS';
 export const DISABLE_ANS = 'DISABLE_ANS';
 export const UPDATE_TIME = 'UPDATE_TIME';
 
@@ -59,15 +60,24 @@ export const getToken = (callback) => (dispatch) => {
     });
 };
 
-export function updateScore(score) {
+function updateScore(score) {
   return {
     type: UPDATE_SCORE,
     payload: score,
   };
 }
 
-export const updateStorageThunk = (score, callback) => async (dispatch) => {
+function updateAssertions(assertions) {
+  return {
+    type: UPDATE_ASSERTIONS,
+    payload: assertions,
+  };
+}
+
+export const updateStorageThunk = (scoreAssertions, callback) => async (dispatch) => {
+  const { score, sumAssertions } = scoreAssertions;
   await dispatch(updateScore(score));
+  await dispatch(updateAssertions(sumAssertions));
   callback();
 };
 
