@@ -18,7 +18,11 @@ class Feedback extends Component {
           <p data-testid="header-player-name">{`Jogador ${name}`}</p>
           <p data-testid="header-score">{ storage.player.score }</p>
         </header>
-        <p data-testid="feedback-text">{showFeedbackMessage(storage.player.score)}</p>
+        <p
+          data-testid="feedback-text"
+        >
+          {showFeedbackMessage(storage.player.assertions)}
+        </p>
       </>
     );
   }

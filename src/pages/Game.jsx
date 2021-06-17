@@ -80,6 +80,7 @@ class Game extends Component {
       player: {
         ...player,
         score: player.score + updateUserScore(timeLeft, difficulty),
+        assertions: player.assertions + 1,
       },
     }));
   }
