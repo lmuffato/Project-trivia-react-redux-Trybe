@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Timer from '../components/Timer';
-import { fetchQuestions } from '../actions';
+import { fetchQuestions, shouldTimerRestartAction } from '../actions';
 import { conditionScore } from '../services/score';
 import Header from '../components/Header';
 import './GamePlay.css';
@@ -62,7 +62,7 @@ class GamePlay extends React.Component {
 
   handleClick(value) {
     const four = 4;
-    const { history } = this.props;
+    const { history, makeTimerRestart } = this.props;
     this.setState({
       index: value,
       correctClass: 'answer',
@@ -70,8 +70,10 @@ class GamePlay extends React.Component {
     });
 
     if (value > four) {
-      history.push('/feedback');
+      return history.push('/feedback');
     }
+
+    makeTimerRestart(true);
   }
 
   sendLocalStorage(points, props) {
@@ -213,10 +215,12 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   fecthQuestionsAction: (token) => dispatch(fetchQuestions(token)),
+  makeTimerRestart: (bool) => dispatch(shouldTimerRestartAction(bool)),
 });
 
 GamePlay.propTypes = {
   loading: PropTypes.bool,
+  makeTimerRestart: PropTypes.func,
 }.isRequired;
 
 export default connect(mapStateToProps, mapDispatchToProps)(GamePlay);
