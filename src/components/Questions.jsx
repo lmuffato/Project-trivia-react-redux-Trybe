@@ -66,7 +66,7 @@ class Questions extends Component {
     const { setRevelaBorda, setTimer, questions } = this.props;
     const { currentIndex } = this.state;
     setRevelaBorda('');
-    setTimer({ time: 3 });
+    setTimer({ time: 30 });
     if (currentIndex === questions.length - 1) {
       this.setState({ redirect: true });
     } else {

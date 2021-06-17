@@ -18,7 +18,7 @@ class Jogo extends Component {
     this.setRevelaBorda = this.setRevelaBorda.bind(this);
 
     this.state = {
-      time: 3,
+      time: 30,
       revelaBorda: '',
     };
   }

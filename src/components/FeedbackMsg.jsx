@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { number } from 'prop-types';
 
+const MIN_ASSERTIONS = 3;
+
 class FeedbackMsg extends Component {
   renderMessage() {
     const { assertions } = this.props;
 
-    if (assertions < 3) {
+    if (assertions < MIN_ASSERTIONS) {
       return 'Podia ser melhor...';
     }
     return 'Mandou bem!';

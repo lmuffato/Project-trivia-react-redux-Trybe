@@ -1,30 +1,40 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { string, number } from 'prop-types';
+import { Link } from 'react-router-dom';
+import md5 from 'crypto-js/md5';
 
 class Header extends Component {
-  render() {
-    const { name, score, gravatarEmail } = this.props;
+  renderGravatarImage() {
+    const { email } = this.props;
+    const hashMD5 = md5(email).toString();
     return (
-      <header>
-        <img
-          src={ gravatarEmail }
-          alt=""
-          data-testid="header-profile-picture"
-        />
+      <img
+        src={ `https://www.gravatar.com/avatar/${hashMD5}` }
+        alt="avatar"
+        data-testid="header-profile-picture"
+      />);
+  }
 
-        <h2 data-testid="header-player-name">{ name }</h2>
-
-        <p data-testid="header-score">{ score }</p>
+  render() {
+    const { name, score } = this.props;
+    console.log(name, 'log do name');
+    return (
+      <header className="header">
+        <Link to="/">
+          {this.renderGravatarImage()}
+        </Link>
+        <span data-testid="header-player-name">{ name }</span>
+        <span data-testid="header-score" className="score">{ score }</span>
       </header>
     );
   }
 }
 
 const mapStateToProps = ({ jogoReducer, loginReducer }) => ({
-  name: loginReducer.user.name,
+  name: loginReducer.user.nome,
   score: jogoReducer.player.score,
-  gravatarEmail: loginReducer.user.email,
+  email: loginReducer.user.email,
 });
 
 Header.propTypes = {
