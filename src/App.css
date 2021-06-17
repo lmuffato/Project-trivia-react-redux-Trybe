@@ -1,5 +1,5 @@
 body {
-  background:linear-gradient(45deg, #000000, #36056e );
+  background: linear-gradient(45deg, black, #36056e);
   color: white;
   height: 100vh;
 }
@@ -12,9 +12,9 @@ body {
 }
 
 .App-logo {
+  max-width: 500px;
   pointer-events: none;
   width: 75vw;
-  max-width: 500px;
 }
 
 .red-border {
@@ -33,13 +33,13 @@ body {
 }
 
 .App-header {
-  position: absolute;
   align-items: center;
   display: flex;
   flex-direction: column;
   font-size: calc(10px + 2vmin);
-  top: 100px;
   justify-content: center;
+  position: absolute;
+  top: 100px;
 }
 
 .App-link {

@@ -1,4 +1,4 @@
-*{
+* {
   margin: 0;
   padding: 0;
 }
@@ -7,12 +7,11 @@ form {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-top: 40px;
+  max-width: 300px;
   position: absolute;
   top: 300px;
   width: 50%;
-  max-width: 300px;
-  margin-top: 40px;
-
 }
 
 form label {
@@ -47,20 +46,20 @@ button:disabled {
   text-decoration: none;
 }
 
-.config{
-  position: absolute;
-  width: 35px;
-  height: 35px;
-  top: 1%;
-  left: 90%;
+.config {
   background: transparent;
   border: none;
+  height: 35px;
+  left: 90%;
+  position: absolute;
+  top: 1%;
+  width: 35px;
 }
 
-.engrenagem{
-  position: absolute;
-  width: 30px;
+.engrenagem {
   height: 30px;
-  top: 3px;
   left: 3px;
+  position: absolute;
+  top: 3px;
+  width: 30px;
 }

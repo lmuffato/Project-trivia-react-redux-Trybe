@@ -182,8 +182,8 @@ class DisplayGame extends React.Component {
           <div className="respostas">
             { this.createAnswers(questionsApiGames[questionIndex]) }
           </div>
-             { questionIndex < indexCheck ? this.createQuestion() : '' }
-             { displayNextButton ? this.nextButton() : '' }
+          { questionIndex < indexCheck ? this.createQuestion() : '' }
+          { displayNextButton ? this.nextButton() : '' }
         </div>
         <Header />
       </>

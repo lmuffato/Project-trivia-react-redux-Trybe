@@ -1,27 +1,27 @@
-*{
+* {
   margin: 0;
   padding: 3px;
 }
 
-.root{
-  margin-top: 100px;
-  width: 75%;
-  max-width: 500px;
+.root {
   height: 75%;
+  left: 50%;
+  margin-top: 100px;
+  max-width: 500px;
   position: absolute;
   top: 50%;
-  left: 50%;
   transform: translate(-50%, -50%);
+  width: 75%;
 }
 
-.respostas{
+.respostas {
   margin-top: 0;
 }
 
-.categoria{
-  position: absolute;
-  top: -90px;
-  right: -10vw;
+.categoria {
+  font-family: Arial , Helvetica , sans-serif;
   font-size: 35px;
-  font-family: Arial, Helvetica, sans-serif;
+  position: absolute;
+  right: -10vw;
+  top: -90px;
 }
