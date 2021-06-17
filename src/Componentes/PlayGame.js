@@ -51,7 +51,7 @@ class PlayGame extends React.Component {
   }
 
   colorTheButtons(e) {
-    e.prentDefault();
+    // e.prentDefault();
     console.log(e);
   }
 
