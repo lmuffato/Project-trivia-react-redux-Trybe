@@ -10,6 +10,7 @@ class Question extends Component {
       color: false,
       displayButton: false,
     };
+    this.clickNextButton = this.clickNextButton.bind(this);
     this.changeColorAnswer = this.changeColorAnswer.bind(this);
     this.handleSelectAnswer = this.handleSelectAnswer.bind(this);
   }
@@ -21,6 +22,15 @@ class Question extends Component {
     this.changeColorAnswer();
   }
 
+  clickNextButton() {
+    const { clickNextButton } = this.props;
+    this.setState({
+      color: false,
+      displayButton: false,
+    });
+    clickNextButton();
+  }
+
   changeColorAnswer() {
     this.setState({
       color: true,
@@ -29,16 +39,20 @@ class Question extends Component {
   }
 
   nextButton() {
+    const { currQuestionId } = this.props;
     const { displayButton } = this.state;
+    const maxQuestions = 4;
     if (displayButton) {
       return (
         <button
           type="button"
           data-testid="btn-next"
           id="btn-next"
-        //  onClick={ }
+          onClick={ this.clickNextButton }
         >
-          Próxima
+          {(currQuestionId >= maxQuestions)
+            ? 'Ir para feedback'
+            : 'Próxima'}
         </button>
       );
     }
@@ -48,10 +62,7 @@ class Question extends Component {
     const { currQuestion, timeLeft } = this.props;
     const { color } = this.state;
     const isTimeUp = timeLeft === 0;
-    const {
-      category,
-      question,
-      incorrect_answers: incorrectAnswer,
+    const { category, question, incorrect_answers: incorrectAnswer,
       correct_answer: correctAnswer,
       difficulty,
     } = currQuestion;
@@ -100,9 +111,11 @@ Question.propTypes = {
     correct_answer: PropTypes.string,
     difficulty: PropTypes.string,
   }).isRequired,
+  currQuestionId: PropTypes.number.isRequired,
   stopTimer: PropTypes.func.isRequired,
   timeLeft: PropTypes.number.isRequired,
   handleClick: PropTypes.func.isRequired,
+  clickNextButton: PropTypes.func.isRequired,
 };
 
 export default Question;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 import Feedback from './pages/Feedback';
 import Game from './pages/Game';
@@ -10,15 +10,17 @@ import Ranking from './pages/Ranking';
 
 export default function App() {
   return (
-    <div>
-      <header>
-        <img src={ logo } width="200" alt="logo" />
-      </header>
-      <Route path="/game" component={ Game } />
-      <Route path="/feedback" component={ Feedback } />
-      <Route path="/settings" component={ Settings } />
-      <Route path="/ranking" component={ Ranking } />
-      <Route exact path="/" component={ Login } />
-    </div>
+    <Switch>
+      <div>
+        <header>
+          <img src={ logo } width="200" alt="logo" />
+        </header>
+        <Route path="/game" component={ Game } />
+        <Route path="/feedback" component={ Feedback } />
+        <Route path="/settings" component={ Settings } />
+        <Route path="/ranking" component={ Ranking } />
+        <Route exact path="/" component={ Login } />
+      </div>
+    </Switch>
   );
 }
