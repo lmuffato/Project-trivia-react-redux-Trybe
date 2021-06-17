@@ -10,24 +10,7 @@ class Game extends React.Component {
     this.handlePosition = this.handlePosition.bind(this);
     this.getUserRanking = this.getUserRanking.bind(this);
     this.updateLocalStorage = this.updateLocalStorage.bind(this);
-    this.setTimer = this.setTimer.bind(this);
     this.changeBorders = this.changeBorders.bind(this);
-  }
-
-  componentDidMount() {
-    this.setTimer();
-  }
-
-  setTimer() {
-    const time = {
-      seconds: 30,
-      milliseconds: 1000,
-    };
-    const countDown = setTimeout(() => {
-      time.seconds -= 1;
-      if (time.seconds === 0) clearInterval(countDown);
-    }, time.milliseconds);
-    return countDown;
   }
 
   getUserRanking(difficulty) {
@@ -111,7 +94,6 @@ class Game extends React.Component {
   }
 
   render() {
-    console.log(this.setTimer());
     return (
       <>
         <Header />
