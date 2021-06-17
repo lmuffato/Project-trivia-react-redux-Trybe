@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Button from './Button';
 import Timer from './Timer';
+import { scoreAction } from '../actions';
 
 class Question extends Component {
   constructor() {
     super();
     this.state = {
       isButtonDisabled: false,
+      score: 0,
+      assertions: 0,
     };
     this.shuffleArr = this.shuffleArr.bind(this);
     this.handleStyle = this.handleStyle.bind(this);
@@ -43,6 +47,38 @@ class Question extends Component {
       }
       return '';
     });
+  }
+
+  handleScore() {
+    const scoreStorage = localStorage.getItem('score');
+    const { quiz, setScore } = this.props;
+    const timer = 2; // provisório, só até termos a lógica do timer concluída
+    const ten = 10;
+    const three = 3;
+    let { score } = this.state;
+    if (!scoreStorage) {
+      localStorage.setItem('score', score);
+    }
+    let totalPts = 0;
+    switch (quiz.difficulty) {
+    case 'hard':
+      totalPts = ten + (timer * three);
+      this.setState({ score: score += totalPts });
+      setScore(score);
+      return localStorage.setItem('score', score);
+    case 'medium':
+      totalPts = ten + (timer * 2);
+      this.setState({ score: score += totalPts });
+      setScore(score);
+      return localStorage.setItem('score', score);
+    case 'easy':
+      totalPts = ten + (timer * 1);
+      this.setState({ score: score += totalPts });
+      setScore(score);
+      return localStorage.setItem('score', score);
+    default:
+      return score;
+    }
   }
 
   // handleCorrectAnswer() {
@@ -105,6 +141,11 @@ Question.defaultProps = {
 
 Question.propTypes = {
   quiz: PropTypes.shape(),
+  setScore: PropTypes.func.isRequired,
 };
 
-export default Question;
+const mapDispatchToProps = (dispatch) => ({
+  setScore: (score) => dispatch(scoreAction(score)),
+});
+
+export default connect(null, mapDispatchToProps)(Question);
