@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import userScore from '../redux/actions/userScore.action';
 import assertionsAction from '../redux/actions/assertions.action';
+import resetTimer from '../redux/actions/resetTimer.action';
 
 class GamePlay extends React.Component {
   constructor() {
@@ -59,12 +60,13 @@ class GamePlay extends React.Component {
 
   handleNext() {
     const { indexQuestions } = this.state;
-    const { questions } = this.props;
+    const { questions, dispatchReset } = this.props;
     if (indexQuestions < questions.length - 1) {
       this.setState((pastState) => ({
         indexQuestions: pastState.indexQuestions + 1,
       }));
       this.setState({ clicked: false });
+      dispatchReset();
     }
   }
 
@@ -137,6 +139,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   dispatchScore: (score) => dispatch(userScore(score)),
   dispatchAssertion: () => dispatch(assertionsAction()),
+  dispatchReset: () => dispatch(resetTimer()),
 });
 
 GamePlay.propTypes = {
@@ -144,6 +147,7 @@ GamePlay.propTypes = {
   questions: propTypes.arrayOf().isRequired,
   dispatchScore: propTypes.func.isRequired,
   dispatchAssertion: propTypes.func.isRequired,
+  dispatchReset: propTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(GamePlay);

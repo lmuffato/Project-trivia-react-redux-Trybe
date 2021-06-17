@@ -5,3 +5,4 @@ export const FETCH_QUESTIONS = 'FETCH_QUESTIONS';
 export const TIMER = 'TIMER';
 export const NAME = 'NAME';
 export const ASSERTION = 'ASSERTION';
+export const RESET_TIMER = 'RESET_TIMER';
