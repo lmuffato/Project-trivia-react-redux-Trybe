@@ -30,7 +30,7 @@ export default function loginReducer(state = INITIAL_STATE, action) {
       ...state,
       player: {
         ...state.player,
-        score: state.player.score + action.payload,
+        score: state.player.score + Number(action.payload),
       },
     };
   case ASSERTION:
