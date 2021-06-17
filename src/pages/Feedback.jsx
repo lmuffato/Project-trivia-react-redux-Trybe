@@ -4,7 +4,7 @@ class Feedback extends Component {
   render() {
     return (
       <div>
-        <h2>Feedback Page</h2>
+        <h2 data-testid="feedback-text">Feedback Page</h2>
       </div>
     );
   }

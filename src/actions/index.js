@@ -43,7 +43,7 @@ export const timeOut = () => ({
   type: TIMEOUT,
 });
 
-export const timein = () => ({
+export const timeIn = () => ({
   type: TIMEIN,
 });
 

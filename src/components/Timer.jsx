@@ -16,21 +16,27 @@ class Timer extends Component {
     const { time } = this.state;
     const ONE_SECOND = 1000;
     const currTime = setInterval(() => {
-      const { timesUp } = this.props;
+      // const { timesUp } = this.props;
       if (time > 1) {
         this.timer();
       }
-      if (time === 1 || timesUp) clearInterval(currTime);
+      // console.log(timesUp);
+      if (time === 0) clearInterval(currTime);
     }, ONE_SECOND);
   }
 
   timer() {
     const { time } = this.state;
-    const { currentTime } = this.props;
+    const { currentTime, timesUp, changedQuestion, resetChangedQuestion } = this.props;
     if (time === 0) {
       return currentTime();
     }
-    this.setState((previousState) => ({ time: previousState.time - 1 }));
+    if (!timesUp) this.setState((previousState) => ({ time: previousState.time - 1 }));
+
+    if (changedQuestion) {
+      this.setState({ time: 30 });
+      resetChangedQuestion();
+    }
   }
 
   render() {
