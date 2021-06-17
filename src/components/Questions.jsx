@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 const second = 1000;
 
@@ -12,6 +13,7 @@ class Questions extends Component {
       displayBtn: false,
       currentTime: 30,
       disableButton: false,
+      showAsnwer: false,
     };
     this.setTime = this.setTime.bind(this);
   }
@@ -27,6 +29,7 @@ class Questions extends Component {
       this.setState({ currentTime: currentTime - 1 });
     } if (currentTime === 0 && disableButton === false) {
       this.setState({ disableButton: true });
+      this.handleClick();
     } else {
       return null;
     }
@@ -41,17 +44,10 @@ class Questions extends Component {
   }
 
   handleClick() {
-    const green = '3px solid rgb(6, 240, 15)';
-    const red = '3px solid rgb(255, 0, 0)';
-    const right = document.getElementById('correct-answer');
-    right.style.border = green;
-    const wrong = document.getElementsByClassName('wrong-answer');
-    const array = Array.prototype.slice.call(wrong);
-    array.map((button) => {
-      button.style.border = red;
-      return button.style.border;
-    });
-    this.setState({ displayBtn: true });
+    this.setState(
+      { displayBtn: true,
+        showAsnwer: true },
+    );
   }
 
   nextButton() {
@@ -62,20 +58,35 @@ class Questions extends Component {
           type="button"
           data-testid="btn-next"
           id="btn-next"
+          onClick={ () => this.handleNext() }
         >
           Próxima
         </button>
       );
     }
-    return <div />;
+  }
+
+  handleNext() {
+    const { questionNumber } = this.state;
+    const maxQuestion = 4;
+    if (questionNumber <= maxQuestion) {
+      this.setState({
+        currentTime: 30,
+        disableButton: false,
+        displayBtn: false,
+        showAsnwer: false,
+        questionNumber: questionNumber + 1,
+      });
+    }
   }
 
   render() {
-    const { questions, questionNumber, currentTime, disableButton } = this.state;
+    const {
+      questions, questionNumber, currentTime, disableButton, showAsnwer } = this.state;
+    const quantyQuestions = 5;
     const question = questions[questionNumber];
-    return !question ? (
-      <p>Loading!</p>
-    ) : (
+    if (questionNumber === quantyQuestions) return <Redirect to="/feedback" />;
+    return !question ? (<p>Loading!</p>) : (
       <div>
         <div>
           { currentTime }
@@ -93,6 +104,7 @@ class Questions extends Component {
           </p>
           <button
             type="button"
+            className={ showAsnwer ? 'button-green' : 'button-uncolor' }
             data-testid="correct-answer"
             disabled={ disableButton }
             id="correct-answer"
@@ -104,9 +116,9 @@ class Questions extends Component {
             <button
               key={ index }
               type="button"
+              className={ showAsnwer ? 'button-red' : 'button-uncolor' }
               data-testid={ `wrong-answer-${index}` }
               disabled={ disableButton }
-              className="wrong-answer"
               onClick={ () => this.handleClick() }
             >
               {incorrect}
