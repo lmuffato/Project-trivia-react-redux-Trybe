@@ -6,7 +6,8 @@ class Settings extends React.Component {
   constructor() {
     super();
     this.state = {
-      category: '',
+      category: 9,
+      difficulty: 'easy',
     };
   }
 
@@ -36,6 +37,24 @@ class Settings extends React.Component {
     );
   }
 
+  renderSelectDifficulty() {
+    const { difficulty } = this.state;
+    return (
+      <label htmlFor="difficulty">
+        Dificuldade
+        <select
+          id="difficulty"
+          value={ difficulty }
+          onChange={ (e) => this.handleChange(e) }
+        >
+          <option value="easy">Fácil</option>
+          <option value="medium">Médio</option>
+          <option value="hard">Difícil</option>
+        </select>
+      </label>
+    );
+  }
+
   render() {
     return (
       <main>
@@ -45,6 +64,9 @@ class Settings extends React.Component {
         <section>
           <h3>
             {this.renderSelectCategory()}
+          </h3>
+          <h3>
+            {this.renderSelectDifficulty()}
           </h3>
         </section>
       </main>
