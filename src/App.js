@@ -6,6 +6,7 @@ import Game from './pages/Game';
 import Settings from './pages/Settings';
 import Login from './pages/Login';
 import logo from './trivia.png';
+import Ranking from './pages/Ranking';
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
           <img src={ logo } width="200" alt="logo" />
         </header>
         <Route path="/game" component={ Game } />
+        <Route path="/ranking" component={ Ranking } />
         <Route path="/feedback" component={ Feedback } />
         <Route path="/settings" component={ Settings } />
         <Route exact path="/" component={ Login } />
