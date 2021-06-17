@@ -1,17 +1,23 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { arrayOf, object } from 'prop-types';
-import { updateScore } from '../actions';
 import permutate from '../service/permutate';
+import {
+  disableAnswer as disableAnswerAction,
+  updateStorageThunk,
+} from '../actions';
+
 import decoder from '../service/decoder';
 
 const CORRECT_ANSWER = 'correct-answer';
 
 // Requisito realizado com a lógica e ajuda de RAFAEL MEDEIROS Turma 10A
 class Questions extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.state = {};
     this.getID = this.getID.bind(this);
+    this.handleClickNext = this.handleClickNext.bind(this);
     this.checkAnswer = this.checkAnswer.bind(this);
   }
 
@@ -21,13 +27,18 @@ class Questions extends React.Component {
     return `wrong-answer-${questions[0].incorrect_answers.indexOf(answer)}`;
   }
 
-  checkAnswer({ target }, difficulty) {
+  async checkAnswer({ target }, difficulty) {
     const { parentElement, id } = target;
-    const { dispatchScore } = this.props;
+    const TEN = 10;
+    const { timer, updateStorage } = this.props;
     const pointsDifficulty = { hard: 3, medium: 2, easy: 1 };
     if (id === CORRECT_ANSWER) {
-      const score = 10 + timer * pointsDifficulty[difficulty];
-      dispatchScore(score);
+      target.className = 'answer correct';
+      const score = TEN + timer * pointsDifficulty[difficulty];
+      await updateStorage(score, () => {
+        const { player } = this.props;
+        localStorage.setItem('state', JSON.stringify({ player }));
+      });
     }
     Array.from(parentElement.children).forEach((child) => {
       if (child.id === CORRECT_ANSWER) {
@@ -38,16 +49,23 @@ class Questions extends React.Component {
     });
   }
 
+  handleClickNext() {
+    const { disableAnswer } = this.props;
+    disableAnswer(false);
+  }
+
   render() {
-    const { questions } = this.props;
+    const { questions, timesUp, timer } = this.props;
     if (questions.length === 0) return <div>Loading...</div>;
     const { category, question, difficulty } = questions[0];
-    console.log(questions[0]);
     const answers = [
       questions[0].correct_answer,
       ...questions[0].incorrect_answers,
     ];
     const questionDecoded = decoder(question);
+    if (timer === Number('30')) {
+      this.randomAnswers = permutate(...answers);
+    }
     return (
       <section>
         <h1>Trivia Game!</h1>
@@ -55,7 +73,7 @@ class Questions extends React.Component {
           <h3 data-testid="question-category">{category}</h3>
           <h4 data-testid="question-text">{questionDecoded}</h4>
           <div className="answers-container">
-            {permutate(...answers).map((answer, index) => {
+            {this.randomAnswers.map((answer, index) => {
               const answerDecoded = decoder(answer);
               return (
                 <button
@@ -65,6 +83,7 @@ class Questions extends React.Component {
                   id={ this.getID(answer) }
                   key={ index }
                   onClick={ (event) => this.checkAnswer(event, difficulty) }
+                  disabled={ timesUp }
                 >
                   {answerDecoded}
                 </button>
@@ -72,6 +91,13 @@ class Questions extends React.Component {
             })}
           </div>
         </div>
+        <button
+          type="button"
+          data-testid="btn-next"
+          onClick={ this.handleClickNext }
+        >
+          Next
+        </button>
       </section>
     );
   }
@@ -83,10 +109,14 @@ Questions.propTypes = {
 
 const mapStateToProps = (state) => ({
   questions: state.game.questions,
+  timesUp: state.gameMatch.timesUp,
+  timer: state.gameMatch.timer,
+  player: state.player,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  dispatchScore: (score) => dispatch(updateScore(score)),
+  disableAnswer: () => dispatch(disableAnswerAction()),
+  updateStorage: (score, callback) => dispatch(updateStorageThunk(score, callback)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Questions);

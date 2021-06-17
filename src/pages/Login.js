@@ -22,11 +22,17 @@ class Login extends Component {
   async handleClick() {
     const { tokenRequest, history, dispatchPlayer } = this.props;
     const { name, email } = this.state;
+    const player = {
+      name,
+      gravatarEmail: email,
+      score: 0,
+      assertions: 0,
+    };
     dispatchPlayer({ name, email });
     await tokenRequest(() => {
       const { token, questionRequest } = this.props;
-      console.log(token);
       localStorage.setItem('token', token);
+      localStorage.setItem('state', JSON.stringify({ player }));
       questionRequest(token);
       history.push('/game');
     });

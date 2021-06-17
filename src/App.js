@@ -15,7 +15,6 @@ export default function App() {
         <Route exact path="/ranking" component={ Ranking } />
         <Route exact path="/" component={ Login } />
       </Switch>
-
     </div>
   );
 }

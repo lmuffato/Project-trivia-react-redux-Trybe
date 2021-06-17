@@ -7,6 +7,8 @@ export const REQUEST_QUESTION_SUCESS = 'REQUEST_QUESTION_SUCESS';
 export const REQUEST_QUESTION_FAIL = 'REQUEST_QUESTION_FAIL';
 export const GET_PLAYER = 'GET_PLAYER';
 export const UPDATE_SCORE = 'UPDATE_SCORE';
+export const DISABLE_ANS = 'DISABLE_ANS';
+export const UPDATE_TIME = 'UPDATE_TIME';
 
 export function requestApi() {
   return {
@@ -57,6 +59,18 @@ export const getToken = (callback) => (dispatch) => {
     });
 };
 
+export function updateScore(score) {
+  return {
+    type: UPDATE_SCORE,
+    payload: score,
+  };
+}
+
+export const updateStorageThunk = (score, callback) => async (dispatch) => {
+  await dispatch(updateScore(score));
+  callback();
+};
+
 // export function getName(namePlayer) {
 //   return {
 //     type: GET_NAME,
@@ -71,9 +85,13 @@ export function getPlayer(player) {
   };
 }
 
-export function updateScore(score) {
+export function disableAnswer(payload) {
   return {
-    type: UPDATE_SCORE,
-    payload: score,
+    type: DISABLE_ANS,
+    payload,
   };
+}
+
+export function updateTime(time) {
+  return { type: UPDATE_TIME, payload: time };
 }
