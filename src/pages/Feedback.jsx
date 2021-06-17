@@ -28,6 +28,9 @@ class Feedback extends Component {
             <span data-testid="feedback-total-question">{ assertions }</span>
           </p>
         </section>
+        <p data-testid="feedback-text">
+          Mandou bem
+        </p>
       </>
     );
   }
