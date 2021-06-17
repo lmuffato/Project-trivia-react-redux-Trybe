@@ -1,10 +1,11 @@
 // import { RECEIVE_TOKEN, RECEIVE_TRIVIA } from '../actions';
-import { TIME } from '../actions';
+import { TIME, TIMER } from '../actions';
 
 const INITIAL_STATE = {
   token: {},
   trivia: {},
   seconds: 0,
+  timer: true,
 };
 
 const triviaReducer = (state = INITIAL_STATE, action) => {
@@ -14,16 +15,11 @@ const triviaReducer = (state = INITIAL_STATE, action) => {
       ...state,
       seconds: action.payload,
     };
-    //   case RECEIVE_TOKEN:
-    //     return {
-    //       ...state, /* fiquei em dúvida se tem necessidade de chamar o state */
-    //       token: action.token,
-    //     };
-    //   case RECEIVE_TRIVIA:
-    //     return {
-    //       ...state, /* fiquei em dúvida se tem necessidade de chamar o state */
-    //       trivia: action.trivia,
-    //     };
+  case TIMER:
+    return {
+      ...state,
+      timer: action.payload,
+    };
   default:
     return { ...state };
   }

@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { requestTrivia } from '../Api';
 import Timer from './Timer';
+import './playGame.css';
+import { timerThunk } from '../actions';
 
 class PlayGame extends React.Component {
   constructor() {
@@ -11,14 +13,23 @@ class PlayGame extends React.Component {
     this.state = {
       questions: '',
       loading: true,
+      answer: '',
+      greenClass: 'gray',
+      redClass: 'gray',
+      redAnswer: 'gray',
+      greenAnswer: 'gray',
       index: 0,
     };
 
     this.fetchApiTrivia = this.fetchApiTrivia.bind(this);
     this.renderQuestions = this.renderQuestions.bind(this);
     this.renderLoading = this.renderLoading.bind(this);
+    this.nameTheClassBtnAnswer = this.nameTheClassBtnAnswer.bind(this);
+    this.colorSelectAnswer = this.colorSelectAnswer.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     // this.fetchFilterQuestion = this.fetchFilterQuestion.bind(this);
+    this.calcScore = this.calcScore.bind(this);
+    this.validScore = this.validScore.bind(this);
   }
 
   componentDidMount() {
@@ -36,6 +47,15 @@ class PlayGame extends React.Component {
         loading: false,
       });
     }
+  }
+
+  // Req 7: Valida se o valor do state é igual ao valor do botão e define o nome da class
+  nameTheClassBtnAnswer(answer) {
+    let nameTheClass = 'gray';
+    const { greenBtn, redBtn } = this.state;
+    if (greenBtn === answer) nameTheClass = 'green';
+    if (redBtn === answer) nameTheClass = 'red';
+    return nameTheClass;
   }
 
   // Requisito 9 - Faz a pontuação dinâmica por dificuldade e salva no localStorage
@@ -63,14 +83,51 @@ class PlayGame extends React.Component {
   // Requisito 10 - Renderiza uma pergunta por vez
   nextQuestion() {
     const { questions, index } = this.state;
+    const { handleTimer } = this.props;
     this.setState((prevState) => ({
       index: (prevState.index + 1) % questions.length,
+      answer: '',
+      greenClass: 'gray',
+      redClass: 'gray',
+      redAnswer: 'gray',
+      greenAnswer: 'gray',
     }));
     console.log(questions[index].category);
+    handleTimer(true);
+  }
+
+  colorSelectAnswer(e) {
+    const FIVE_SECONDS = 5000;
+    const { answer } = this.state;
+    const { handleTimer } = this.props;
+    this.setState({
+      redAnswer: 'pink',
+      greenAnswer: 'pink',
+      answer: e.target.innerText,
+    }, () => this.validScore(answer));
+    setTimeout(() => {
+      this.setState({
+        greenAnswer: 'green',
+        redAnswer: 'red',
+        redClass: 'red',
+        greenClass: 'green',
+      });
+    }, FIVE_SECONDS);
+    handleTimer(false);
+  }
+
+  validScore(answer) {
+    const { questions } = this.state;
+    questions.forEach((question) => {
+      if (answer === question.correct_answer) {
+        this.calcScore();
+      }
+    });
   }
 
   renderQuestions() {
-    const { questions, index } = this.state;
+    const { questions, greenClass, redClass, index,
+      redAnswer, answer, greenAnswer } = this.state;
     const question = questions[index];
     return (
       <>
@@ -85,7 +142,8 @@ class PlayGame extends React.Component {
             <button
               data-testid="correct-answer"
               type="button"
-              onClick={ () => this.calcScore() }
+              onClick={ (e) => this.colorSelectAnswer(e) }
+              className={ answer === question.correct_answer ? greenAnswer : greenClass }
             >
               {question.correct_answer}
             </button>
@@ -94,6 +152,8 @@ class PlayGame extends React.Component {
                 data-testid={ `wrong-answer-${indexKey}` }
                 type="button"
                 key={ indexKey }
+                onClick={ (e) => this.colorSelectAnswer(e) }
+                className={ answer === incorrect ? redAnswer : redClass }
               >
                 {incorrect}
               </button>
@@ -113,18 +173,6 @@ class PlayGame extends React.Component {
     );
   }
 
-  // category: "Entertainment: Music"
-  // correct_answer: "Syd Barrett"
-  // difficulty: "medium"
-  // incorrect_answers: Array(3)
-  // 0: "John Lennon"
-  // 1: "David Gilmour"
-  // 2: "Floyd"
-  // length: 3
-  // __proto__: Array(0)
-  // question: "Who is the Pink Floyd song &quot;Shine On You Crazy Diamond&quot; written about?"
-  // type: "multiple"
-
   renderLoading() {
     return <h3>Loading...</h3>;
   }
@@ -143,8 +191,13 @@ const mapStateToProps = (state) => ({
   timeGotten: state.triviaReducer.seconds,
 });
 
-PlayGame.propTypes = {
-  timeGotten: PropTypes.number.isRequired,
-};
+const mapDispatchToProps = (dispatch) => ({
+  handleTimer: (bool) => dispatch(timerThunk(bool)),
+});
 
-export default connect(mapStateToProps)(PlayGame);
+PlayGame.propTypes = {
+  timeGotten: PropTypes.number,
+  handleTimer: PropTypes.func,
+}.isRequired;
+
+export default connect(mapStateToProps, mapDispatchToProps)(PlayGame);

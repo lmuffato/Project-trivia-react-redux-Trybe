@@ -1,0 +1,15 @@
+button {
+  margin: 5px;
+}
+
+.red {
+  border: 3px solid red;
+}
+
+.green {
+  border: 3px solid rgb(6, 240, 15);
+}
+
+.pink {
+  background-color: pink;
+}
