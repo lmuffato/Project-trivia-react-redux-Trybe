@@ -13,12 +13,12 @@ function tokenReducer(state = INITIAL_STATE, action) {
     window.localStorage.setItem('token', JSON.stringify(action.token));
     return { ...state, token: action.token };
   case USER_DATA:
-    window.localStorage.setItem('player',
-      JSON.stringify({ name: action.name,
-        assertions: 0,
-        score: 0,
-        gravatarEmail: action.email,
-      }));
+    window.localStorage.setItem('state',
+      JSON.stringify({ player: { name:
+        '',
+      assertions: 0,
+      score: 0,
+      gravatarEmail: action.email } }));
     return { ...state, name: action.name, email: action.email };
   case RECEIVE_QUESTS:
     return { ...state, questions: action.questions.results };
