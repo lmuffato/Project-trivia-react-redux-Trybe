@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import Header from '../components/Header';
 // import { ThunkTrivia } from '../REDUX/Actions';
+// comentario
 
 class Game extends React.Component {
   constructor() {
@@ -31,10 +32,6 @@ class Game extends React.Component {
     if (time === 0) {
       clearInterval(this.timeout);
     }
-  }
-
-  componentWillUnmount() {
-    localStorage.clear();
   }
 
   playTime() {
