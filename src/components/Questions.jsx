@@ -1,26 +1,80 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { score } from '../redux/actions';
 
 const second = 1000;
 
 class Questions extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    const { name, gravatarEmail } = this.props;
     this.state = {
       questions: [],
       questionNumber: 0,
       displayBtn: false,
       currentTime: 30,
       disableButton: false,
+      assertions: 0,
       showAsnwer: false,
+      name,
+      gravatarEmail,
     };
     this.setTime = this.setTime.bind(this);
+    this.setStorage = this.setStorage.bind(this);
+    this.getDifficulty = this.getDifficulty.bind(this);
   }
 
   componentDidMount() {
+    const { name, gravatarEmail } = this.state;
+    const state = {
+      player: {
+        name,
+        assertions: 0,
+        score: 0,
+        gravatarEmail,
+      },
+    };
+    localStorage.setItem('state', JSON.stringify(state));
     this.getQuestions();
     setInterval(() => this.setTime(), second);
+  }
+
+  setStorage(mult) {
+    const { currentTime } = this.state;
+    const { getScore } = this.props;
+    const grade = 10;
+    const currentScore = grade + (currentTime * mult);
+    let state = JSON.parse(localStorage.getItem('state'));
+    state = {
+      player: {
+        ...state.player,
+        assertions: state.player.assertions + 1,
+        score: state.player.score + currentScore,
+      },
+    };
+    localStorage.setItem('state', JSON.stringify(state));
+    getScore(state.player.score);
+  }
+
+  getDifficulty(difficulty, condition) {
+    const { assertions } = this.state;
+    if (condition === 'correct') {
+      this.setState({ assertions: assertions + 1 });
+      let mult;
+      switch (difficulty) {
+      case 'easy':
+        mult = 1;
+        break;
+      case 'medium':
+        mult = 2;
+        break;
+      default:
+        mult = 2 + 1;
+      }
+      this.setStorage(mult);
+    }
   }
 
   setTime() {
@@ -43,7 +97,8 @@ class Questions extends Component {
     this.setState({ questions });
   }
 
-  handleClick() {
+  handleClick(difficulty, condition) {
+    this.getDifficulty(difficulty, condition);
     this.setState(
       { displayBtn: true,
         showAsnwer: true },
@@ -108,7 +163,7 @@ class Questions extends Component {
             data-testid="correct-answer"
             disabled={ disableButton }
             id="correct-answer"
-            onClick={ () => this.handleClick() }
+            onClick={ () => this.handleClick(question.difficulty, 'correct') }
           >
             {question.correct_answer}
           </button>
@@ -119,7 +174,7 @@ class Questions extends Component {
               className={ showAsnwer ? 'button-red' : 'button-uncolor' }
               data-testid={ `wrong-answer-${index}` }
               disabled={ disableButton }
-              onClick={ () => this.handleClick() }
+              onClick={ () => this.handleClick(question.difficulty, 'wrong') }
             >
               {incorrect}
             </button>
@@ -131,4 +186,18 @@ class Questions extends Component {
   }
 }
 
-export default connect(null, null)(Questions);
+const mapDispatchToProps = (dispatch) => ({
+  getScore: (payload) => dispatch(score(payload)),
+});
+
+const mapStateToProps = (state) => ({
+  gravatarEmail: state.player.gravatarEmail,
+  name: state.player.name,
+});
+
+Questions.propTypes = {
+  name: PropTypes.string,
+  gravatarEmail: PropTypes.string,
+}.isRequired;
+
+export default connect(mapStateToProps, mapDispatchToProps)(Questions);

@@ -1,11 +1,11 @@
-import { LOGIN } from '../actions';
+import { LOGIN } from '../actions/index';
 
 const INITIAL_STATE = {
   gravatarEmail: '',
   name: '',
 };
 
-function login(state = INITIAL_STATE, action) {
+function player(state = INITIAL_STATE, action) {
   switch (action.type) {
   case LOGIN:
     return action.payload;
@@ -14,4 +14,4 @@ function login(state = INITIAL_STATE, action) {
   }
 }
 
-export default login;
+export default player;

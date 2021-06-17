@@ -12,7 +12,7 @@ class Header extends React.Component {
   }
 
   render() {
-    const { name } = this.props;
+    const { name, score } = this.props;
     return (
       <>
         <img
@@ -21,15 +21,16 @@ class Header extends React.Component {
           data-testid="header-profile-picture"
         />
         <h3 data-testid="header-player-name">{name}</h3>
-        <h3 data-testid="header-score">Score: 0</h3>
+        <h3 data-testid="header-score">{` Score: ${score} `}</h3>
       </>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  gravatarEmail: state.login.gravatarEmail,
-  name: state.login.name,
+  gravatarEmail: state.player.gravatarEmail,
+  name: state.player.name,
+  score: state.score.score,
 });
 
 Header.propTypes = {
