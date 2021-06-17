@@ -7,8 +7,9 @@ import { score } from '../redux/actions';
 const second = 1000;
 
 class Questions extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    const { name, gravatarEmail } = this.props;
     this.state = {
       questions: [],
       questionNumber: 0,
@@ -17,6 +18,8 @@ class Questions extends Component {
       disableButton: false,
       assertions: 0,
       showAsnwer: false,
+      name,
+      gravatarEmail,
     };
     this.setTime = this.setTime.bind(this);
     this.setStorage = this.setStorage.bind(this);
@@ -24,26 +27,27 @@ class Questions extends Component {
   }
 
   componentDidMount() {
+    const { name, gravatarEmail} = this.state
+    console.log("ahh");
+    let state = {
+      player: {
+        name: name,
+        assertions: 0,
+        score: 0,
+        gravatarEmail: gravatarEmail,
+      },
+    }
+    localStorage.setItem('state', JSON.stringify(state));
     this.getQuestions();
     setInterval(() => this.setTime(), second);
   }
 
   setStorage(mult) {
-    const { currentTime, assertions } = this.state;
-    const { name, gravatarEmail, getScore } = this.props;
+    const { currentTime } = this.state;
+    const { getScore } = this.props;
     const grade = 10;
     const currentScore = grade + (currentTime * mult);
-    console.log(currentScore);
-    let state = {
-      player: {
-        name,
-        assertions: assertions + 1,
-        score: currentScore,
-        gravatarEmail,
-      },
-    };
-    if (localStorage.getItem('state') !== null) {
-      state = JSON.parse(localStorage.getItem('state'));
+      let state = JSON.parse(localStorage.getItem('state'));
       state = {
         player: {
           ...state.player,
@@ -53,29 +57,25 @@ class Questions extends Component {
       };
       localStorage.setItem('state', JSON.stringify(state));
       getScore(state.player.score);
-    } else {
-      localStorage.setItem('state', JSON.stringify(state));
-      getScore(state.player.score);
-    }
   }
 
   getDifficulty(difficulty, condition) {
     const { assertions } = this.state;
     if (condition === 'correct') {
       this.setState({ assertions: assertions + 1 });
+      let mult;
+      switch (difficulty) {
+      case 'easy':
+        mult = 1;
+        break;
+      case 'medium':
+        mult = 2;
+        break;
+      default:
+        mult = 2 + 1;
+      }
+      this.setStorage(mult);
     }
-    let mult;
-    switch (difficulty) {
-    case 'easy':
-      mult = 1;
-      break;
-    case 'medium':
-      mult = 2;
-      break;
-    default:
-      mult = 2 + 1;
-    }
-    this.setStorage(mult);
   }
 
   setTime() {
