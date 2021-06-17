@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router';
 import { login } from '../actions';
-import getToken from '../services/api';
+import { getToken } from '../services/api';
 
 // Link do código do regex: https://regexr.com/2ri2c
 
@@ -30,13 +30,13 @@ class Login extends Component {
     const { name, email } = this.state;
     const { toLogin } = this.props;
     toLogin(name, email);
-    this.setState({ redirect: true });
     this.saveToken();
   }
 
-  saveToken() {
-    getToken().then((response) => {
+  async saveToken() {
+    await getToken().then((response) => {
       localStorage.setItem('token', response.token);
+      this.setState({ redirect: true });
     });
   }
 
