@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { arrayOf, object } from 'prop-types';
 import Questions from '../components/Questions';
 import {
   disableAnswer as disableAnswerAction,
@@ -29,10 +30,10 @@ class Game extends React.Component {
   }
 
   setLoading() {
+    const timeOut = 3000;
     setTimeout(() => {
       const { questions } = this.props;
       if (questions.length) {
-        const { questionIndex } = this.state;
         const answers = questions.map((question) => [
           question.correct_answer,
           ...question.incorrect_answers,
@@ -43,7 +44,7 @@ class Game extends React.Component {
           answers,
         });
       }
-    }, 3000);
+    }, timeOut);
   }
 
   setAnswers() {
@@ -103,5 +104,9 @@ const mapDispatchToProps = (dispatch) => ({
   disableAnswer: () => dispatch(disableAnswerAction()),
   verifyAnswered: (bool) => dispatch(verifyAnsweredAction(bool)),
 });
+
+Game.propTypes = {
+  questions: arrayOf(object),
+}.isRequired;
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);
