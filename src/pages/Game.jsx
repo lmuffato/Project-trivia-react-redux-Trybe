@@ -9,15 +9,16 @@ import getTriviaQuestions from '../utils/triviaApi';
 import { updateLocalStorage, updateUserScore } from '../utils/functions';
 
 class Game extends Component {
-  constructor() {
-    super();
-
+  constructor(props) {
+    super(props);
+    const { user } = props;
+    const hash = md5(user.email).toString();
     this.state = {
       player: {
-        name: '',
+        name: user.name,
         assertions: 0,
         score: 0,
-        gravatarEmail: '',
+        gravatarEmail: `https://www.gravatar.com/avatar/${hash}.png`,
       },
       questions: [],
       currentQuestionId: 0,
@@ -94,10 +95,21 @@ class Game extends Component {
     );
   }
 
+  saveRanking() {
+    const { player } = this.state;
+    const newPlayer = {
+      name: player.name,
+      score: player.score,
+      picture: player.email,
+    };
+    const newRank = localStorage.getItem('ranking')
+      ? [...JSON.parse(localStorage.getItem('ranking')), newPlayer]
+      : [newPlayer];
+    localStorage.setItem('ranking', JSON.stringify(newRank));
+  }
+
   render() {
-    const { user } = this.props;
-    const { name, email } = user;
-    const hash = md5(email).toString();
+    const { player: { gravatarEmail, name } } = this.state;
     const {
       questions,
       currentQuestionId,
@@ -112,13 +124,18 @@ class Game extends Component {
     return (
       <>
         <header>
-          <img src={ `https://www.gravatar.com/avatar/${hash}.png` } alt="Gravatar" data-testid="header-profile-picture" />
+          <img
+            src={ gravatarEmail }
+            alt="Gravatar"
+            data-testid="header-profile-picture"
+          />
           <p data-testid="header-player-name">{`Jogador ${name}`}</p>
           <p data-testid="header-score">{ score }</p>
         </header>
         <p>Questão:</p>
         {(currentQuestion)
           && <Question
+            saveRanking={ this.saveRanking }
             stopTimer={ this.stopTimer }
             currQuestion={ currentQuestion }
             timeLeft={ timeLeft }
