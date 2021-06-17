@@ -11,18 +11,24 @@ class Feedback extends Component {
     const { name, email } = user;
     const hash = md5(email).toString();
     const storage = JSON.parse(localStorage.state);
+    const { score, assertions } = storage.player;
     return (
       <>
         <header>
           <img src={ `https://www.gravatar.com/avatar/${hash}.png` } alt="Gravatar" data-testid="header-profile-picture" />
           <p data-testid="header-player-name">{`Jogador ${name}`}</p>
-          <p data-testid="header-score">{ storage.player.score }</p>
+          <p data-testid="header-score">{ score }</p>
         </header>
-        <Link to="/ranking">
-          <button data-testid="btn-ranking" type="button">
-            Ver Ranking
-          </button>
-        </Link>
+        <section>
+          <p>
+            Placar
+            <span data-testid="feedback-total-score">{ score }</span>
+          </p>
+          <p>
+            Acertos
+            <span data-testid="feedback-total-question">{ assertions }</span>
+          </p>
+        </section>
         <p data-testid="feedback-text">
           Mandou bem
         </p>
