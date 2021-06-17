@@ -3,31 +3,30 @@ import Header from '../components/Header';
 
 class Feedback extends React.Component {
   render() {
-    /*     const { correctAnswers } = this.props;
-    const message = '';
-    if (correctAnswers < 3) {
-
+    const LocalStorage = JSON.parse(localStorage.getItem('state'));
+    const { score, assertions } = LocalStorage.player;
+    let message = '';
+    const number3 = 3;
+    if (assertions < number3) {
+      message = 'Podia ser melhor...';
     } else {
+      message = 'Mandou bem!';
+    }
 
-    } */
     return (
       <div>
-        <Header />
-        {/*         <p data-testid="feedback-text">{ message }</p>
+        <Header score={ score } />
+        <p data-testid="feedback-text">{ message }</p>
         <div>
           <p>Placar final</p>
           <p>Total de pontos: $</p>
-          <p data-testid="feedback-total-score">{totalScore}</p>
+          <p data-testid="feedback-total-score">{score}</p>
           <p>Total de acertos:</p>
-          <p data-testid="feedback-total-question">{correctAnswers}</p>
-        </div> */}
+          <p data-testid="feedback-total-question">{assertions}</p>
+        </div>
       </div>
     );
   }
 }
-
-/* const mapStateToProps = (state) => ({
-  // correctAnswers: state.Player.questions,
-}); */
 
 export default Feedback;
