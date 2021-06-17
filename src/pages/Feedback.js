@@ -1,12 +1,40 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Header from '../components/Header';
 
 class Feedback extends React.Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
+  }
+
+  componentDidMount() {
+    this.setRanking();
+  }
+
+  setRanking() {
+    const { picture } = this.props;
+    const { score, name } = JSON.parse(localStorage.getItem('state')).player;
+    console.log(localStorage.getItem('ranking'));
+    if (localStorage.getItem('ranking') === null) {
+      localStorage.setItem('ranking', JSON.stringify(
+        [
+          {
+            index: 0,
+            name,
+            score,
+            picture,
+          },
+        ],
+      ));
+    } else {
+      const oldRanking = JSON.parse(localStorage.getItem('ranking'));
+      const newIndex = Object.values(oldRanking).length;
+      const newRanking = oldRanking.concat({ index: newIndex, name, score, picture });
+      localStorage.setItem('ranking', JSON.stringify(newRanking));
+    }
   }
 
   handleClick() {
@@ -24,6 +52,7 @@ class Feedback extends React.Component {
   render() {
     const { assertions, score } = JSON.parse(localStorage.getItem('state')).player;
     const goodAssertions = 3;
+
     return (
       <div>
         <Header score={ score } />
@@ -60,8 +89,13 @@ class Feedback extends React.Component {
   }
 }
 
-Feedback.propTypes = {
-  history: PropTypes.objectOf(PropTypes.func).isRequired,
-};
+const mapStateToProps = (state) => ({
+  picture: state.tokenReducer.picture,
+});
 
-export default Feedback;
+Feedback.propTypes = {
+  history: PropTypes.objectOf(PropTypes.func),
+  picture: PropTypes.string,
+}.isRequired;
+
+export default connect(mapStateToProps, null)(Feedback);
