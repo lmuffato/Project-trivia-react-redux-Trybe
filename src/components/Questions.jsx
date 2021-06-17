@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getQuestionsSuccess, getTokenThunk } from '../redux/actions';
+import Timer from './Timer';
 
 class Questions extends React.Component {
   constructor() {
@@ -13,6 +14,9 @@ class Questions extends React.Component {
       showBtn: false,
       canUpdate: true,
       randomNumber: '',
+      timer: 30,
+      working: false,
+      disabledBtn: false,
     };
 
     this.onClick = this.onClick.bind(this);
@@ -21,10 +25,17 @@ class Questions extends React.Component {
     this.multiple = this.multiple.bind(this);
     this.btnStyle = this.btnStyle.bind(this);
     this.getRandom = this.getRandom.bind(this);
+    this.startTimer = this.startTimer.bind(this);
+    this.stopTimer = this.stopTimer.bind(this);
   }
 
   componentDidMount() {
     this.requisitions();
+  }
+
+  componentDidUpdate() {
+    this.stopTimer();
+    this.startTimer();
   }
 
   onClick() {
@@ -35,6 +46,8 @@ class Questions extends React.Component {
       questionsPosition: previous.questionsPosition + 1,
       showBtn: false,
       canUpdate: true,
+      working: false,
+      timer: 30,
     }));
 
     correctBtn.style.border = '';
@@ -75,10 +88,11 @@ class Questions extends React.Component {
     incorrectBtns.forEach((btn) => {
       btn.style.border = '3px solid rgb(255, 0, 0)';
     });
+    clearInterval(this.myInterval);
   }
 
   boolean() {
-    const { questions, questionsPosition } = this.state;
+    const { questions, questionsPosition, disabledBtn } = this.state;
     const dataTestIdCorrect = 'correct-answer';
     const dataTestIdIncorrect = 'incorrect-answer';
 
@@ -96,6 +110,7 @@ class Questions extends React.Component {
           {questions[questionsPosition].question}
         </h3>
         <button
+          disabled={ disabledBtn }
           type="button"
           data-testid={ dataTestId }
           className={
@@ -120,7 +135,7 @@ class Questions extends React.Component {
   }
 
   multiple() {
-    const { questions, questionsPosition, randomNumber } = this.state;
+    const { questions, questionsPosition, randomNumber, disabledBtn } = this.state;
     const dataTestIdCorrect = 'correct-answer';
     const dataTestIdIncorrect = 'incorrect-answer';
     const incorrectAnswers = [
@@ -146,6 +161,7 @@ class Questions extends React.Component {
             ? dataTestIdCorrect : `wrong-answer-${index}`;
           return (
             <button
+              disabled={ disabledBtn }
               data-testid={ dataTestId3 }
               key={ index }
               type="button"
@@ -163,14 +179,33 @@ class Questions extends React.Component {
     );
   }
 
+  startTimer() {
+    const ONE_SECOND = 1000;
+    const { working, loading } = this.state;
+    if (working === false && loading === false) {
+      this.setState({ working: true });
+      this.myInterval = setInterval(() => this.setState((previous) => (
+        { timer: previous.timer - 1 })), ONE_SECOND);
+    }
+  }
+
+  stopTimer() {
+    const { timer } = this.state;
+    if (timer === 0) {
+      clearInterval(this.myInterval);
+      this.setState({ timer: 'Acabou o tempo', showBtn: true, disabledBtn: true });
+      this.btnStyle();
+    }
+  }
+
   render() {
-    const { questions, loading, questionsPosition, showBtn } = this.state;
-    console.log(questions);
+    const { questions, loading, questionsPosition, showBtn, timer } = this.state;
     if (loading) {
       return 'Carregando...';
     }
     return (
       <div>
+        <Timer timer={ timer } />
         {questions[questionsPosition].type === 'multiple'
           ? this.multiple()
           : this.boolean()}
