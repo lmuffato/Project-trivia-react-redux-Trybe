@@ -15,7 +15,11 @@ const INNITAL_STATE = {
 const player = (state = INNITAL_STATE, action) => {
   switch (action.type) {
   case LOGIN:
-    return { ...state, ...action.payload };
+    return {
+      ...state,
+      gravatarEmail: action.payload.gravatarEmail,
+      name: action.payload.name,
+    };
   case REQUEST_API:
     return { ...state, isLoalding: true };
   case GET_TOKEN:
@@ -33,7 +37,11 @@ const player = (state = INNITAL_STATE, action) => {
   case ADD_GRAVATAR:
     return { ...state, gravatar: action.payload };
   case UPDATE_SCORE:
-    return { ...state, ...action.payload };
+    return {
+      ...state,
+      score: action.payload.score,
+      assertations: action.payload.assertations,
+    };
   default:
     return state;
   }
