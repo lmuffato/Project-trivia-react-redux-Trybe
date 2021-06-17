@@ -7,12 +7,33 @@ class Questions extends Component {
   constructor() {
     super();
 
-    // this.renderQuestions = this.renderQuestions.bind(this);
+    this.timer = this.timer.bind(this);
     this.answerClick = this.answerClick.bind(this);
     this.state = {
       index: 0,
-      chosedQuestion: false
+      chosedQuestion: false,
     };
+  }
+
+  timer() {
+    let timer = 30;
+    setTimeout(() =>(
+      timer -= 1
+      ), 1000);
+    return timer
+  }
+
+  componentDidUpdate() {
+    const { loading } = this.props;
+    if (loading === false) {
+      this.timer();
+      setTimeout(() =>
+        this.setState({
+          index: 1,
+          chosedQuestion: true,
+      }), 30000
+      )
+    }
   }
 
   answerClick(event) {
@@ -40,6 +61,7 @@ class Questions extends Component {
       <div>
         {loading === true ? <p>carregando...</p>
           : <div>
+            <h1>{ this.timer() }</h1>
             <p data-testid="question-category">{questions[index].category}</p>
             <p>{questions[index].difficulty}</p>
             <p data-testid="question-text">{questions[index].question}</p>
