@@ -18,8 +18,6 @@ const game = (state = INITIAL_STATE, action) => {
     });
 
   case REQUEST_TOKEN:
-    console.log('PASSOU O TOKEN');
-    console.log(action.payload);
     return ({
       ...state,
       token: action.payload,
