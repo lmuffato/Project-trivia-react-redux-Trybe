@@ -2,6 +2,7 @@ import React from 'react';
 import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+// import { gravatarRequest } from '../REDUX/Actions/index';
 
 class Header extends React.Component {
   constructor(props) {
@@ -20,6 +21,7 @@ class Header extends React.Component {
     const { getEmail: { email } } = this.props;
     const get = md5(email).toString();
     this.setState({ Gravatar: get });
+    // firstGravatarRequest(get);
   }
 
   render() {
@@ -48,8 +50,12 @@ const mapStateToProps = (state) => ({
   getEmail: state.PlayerReducer,
 });
 
+const mapDispatchToProps = () => ({
+  // firstGravatarRequest: (gravatar) => dispatch(gravatarRequest(gravatar)),
+});
+
 Header.propTypes = {
   getEmail: PropTypes.objectOf(PropTypes.string).isRequired,
   score: PropTypes.number.isRequired,
 };
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
