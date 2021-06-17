@@ -12,7 +12,6 @@ class Header extends React.Component {
         name: userName, assertions, score, gravatarEmail: userEmail,
       } });
     localStorage.setItem('state', state);
-    console.log(typeof (score));
     return (
       <header>
         <img

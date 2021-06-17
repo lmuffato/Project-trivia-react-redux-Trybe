@@ -23,7 +23,8 @@ const user = (state = USER_INITIAL_STATE, action) => {
   case SCORE:
     return {
       ...state,
-      score: action.payload,
+      score: action.payload.score,
+      assertions: action.payload.totalAssertions,
     };
   default:
     return state;

@@ -64,11 +64,12 @@ class DisplayGame extends React.Component {
 
   sumPoint() {
     const { timer } = this.state;
-    const { addScore, score: totalScore } = this.props;
+    const { addScore, score: totalScore, assertions } = this.props;
     const correctAnswerValue = 10;
     const difficultyValue = this.checkDifficulty();
     const score = totalScore + (correctAnswerValue + (timer * difficultyValue));
-    addScore(score);
+    const totalAssertions = assertions + 1;
+    addScore({ score, totalAssertions });
     localStorage.setItem('state', JSON.stringify({
       player: { score },
     }));
@@ -187,6 +188,7 @@ const mapStateToProps = (state) => ({
   questionsApiGames: state.questionsApi.questions.results,
   token: state.user.token,
   score: state.user.score,
+  assertions: state.user.assertions,
 });
 
 const mapDispatchToProps = (dispatch) => ({
