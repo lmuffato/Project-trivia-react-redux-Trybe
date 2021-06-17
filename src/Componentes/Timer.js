@@ -10,9 +10,15 @@ class Timer extends React.Component {
       seconds: 30,
     };
     this.tick = this.tick.bind(this);
+    this.constraintConditionOfTime = this.constraintConditionOfTime.bind(this);
   }
 
   componentDidMount() {
+    const { timerState } = this.props;
+    if (timerState === true) this.constraintConditionOfTime();
+  }
+
+  constraintConditionOfTime() {
     const { seconds } = this.state;
     const oneSec = 1000;
     if (seconds !== 0) {
@@ -44,12 +50,17 @@ class Timer extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  timerState: state.triviaReducer.timer,
+});
+
 const mapDispatchToProps = (dispatch) => ({
   getTime: (seconds) => dispatch(time(seconds)),
 });
 
 Timer.propTypes = {
-  getTime: PropTypes.number.isRequired,
-};
+  getTime: PropTypes.number,
+  timerState: PropTypes.bool,
+}.isRequired;
 
-export default connect(null, mapDispatchToProps)(Timer);
+export default connect(mapStateToProps, mapDispatchToProps)(Timer);

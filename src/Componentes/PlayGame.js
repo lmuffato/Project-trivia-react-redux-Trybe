@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { requestTrivia } from '../Api';
 import Timer from './Timer';
 import './playGame.css';
+import { timerThunk } from '../actions';
 
 class PlayGame extends React.Component {
   constructor() {
@@ -15,8 +16,8 @@ class PlayGame extends React.Component {
       answer: '',
       greenClass: 'gray',
       redClass: 'gray',
-      clikedClor: 'gray',
-      greenPink: 'gray',
+      redAnswer: 'gray',
+      greenAnswer: 'gray',
       index: 0,
     };
 
@@ -28,6 +29,7 @@ class PlayGame extends React.Component {
     this.nextQuestion = this.nextQuestion.bind(this);
     // this.fetchFilterQuestion = this.fetchFilterQuestion.bind(this);
     this.calcScore = this.calcScore.bind(this);
+    this.validScore = this.validScore.bind(this);
   }
 
   componentDidMount() {
@@ -81,56 +83,51 @@ class PlayGame extends React.Component {
   // Requisito 10 - Renderiza uma pergunta por vez
   nextQuestion() {
     const { questions, index } = this.state;
+    const { handleTimer } = this.props;
     this.setState((prevState) => ({
       index: (prevState.index + 1) % questions.length,
       answer: '',
       greenClass: 'gray',
       redClass: 'gray',
-      clikedClor: 'gray',
-      greenPink: 'gray',
+      redAnswer: 'gray',
+      greenAnswer: 'gray',
     }));
     console.log(questions[index].category);
+    handleTimer(true);
   }
 
   colorSelectAnswer(e) {
     const FIVE_SECONDS = 5000;
+    const { answer } = this.state;
+    const { handleTimer } = this.props;
     this.setState({
-      clikedClor: 'pink',
-      greenPink: 'pink',
+      redAnswer: 'pink',
+      greenAnswer: 'pink',
       answer: e.target.innerText,
-    });
+    }, () => this.validScore(answer));
     setTimeout(() => {
       this.setState({
-        greenPink: 'green',
-        clikedClor: 'red',
+        greenAnswer: 'green',
+        redAnswer: 'red',
         redClass: 'red',
         greenClass: 'green',
       });
     }, FIVE_SECONDS);
-
-    this.calcScore();
+    handleTimer(false);
   }
 
-  // changeTheColorClass(question) {
-  //   const { clikedClor, answer } = this.state;
-  //   if (clikedClor === 'pink') {
-  //     setTimeout(() => {
-  //       if (answer === question) {
-  //         this.setState({
-  //           clikedClor: 'green',
-  //         });
-  //       }
-  //     }, 5000);
-  //   }
-  // }
-
-  // renderAnswers(correct, incorrect) {
-  //   return [...correct, ...incorrect];
-  // }
+  validScore(answer) {
+    const { questions } = this.state;
+    questions.forEach((question) => {
+      if (answer === question.correct_answer) {
+        this.calcScore();
+      }
+    });
+  }
 
   renderQuestions() {
     const { questions, greenClass, redClass, index,
-      clikedClor, answer, greenPink } = this.state;
+      redAnswer, answer, greenAnswer } = this.state;
     const question = questions[index];
     return (
       <>
@@ -146,7 +143,7 @@ class PlayGame extends React.Component {
               data-testid="correct-answer"
               type="button"
               onClick={ (e) => this.colorSelectAnswer(e) }
-              className={ answer === question.correct_answer ? greenPink : greenClass }
+              className={ answer === question.correct_answer ? greenAnswer : greenClass }
             >
               {question.correct_answer}
             </button>
@@ -156,7 +153,7 @@ class PlayGame extends React.Component {
                 type="button"
                 key={ indexKey }
                 onClick={ (e) => this.colorSelectAnswer(e) }
-                className={ answer === incorrect ? clikedClor : redClass }
+                className={ answer === incorrect ? redAnswer : redClass }
               >
                 {incorrect}
               </button>
@@ -194,8 +191,13 @@ const mapStateToProps = (state) => ({
   timeGotten: state.triviaReducer.seconds,
 });
 
-PlayGame.propTypes = {
-  timeGotten: PropTypes.number.isRequired,
-};
+const mapDispatchToProps = (dispatch) => ({
+  handleTimer: (bool) => dispatch(timerThunk(bool)),
+});
 
-export default connect(mapStateToProps)(PlayGame);
+PlayGame.propTypes = {
+  timeGotten: PropTypes.number,
+  handleTimer: PropTypes.func,
+}.isRequired;
+
+export default connect(mapStateToProps, mapDispatchToProps)(PlayGame);
