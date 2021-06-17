@@ -14,6 +14,7 @@ class Play extends Component {
       answered: false,
       time: 30,
       isLoading: true,
+      numberOfHits: 0,
     };
 
     this.mountRound = this.mountRound.bind(this);
@@ -21,7 +22,6 @@ class Play extends Component {
     this.calcScore = this.calcScore.bind(this);
     this.changeColor = this.changeColor.bind(this);
     this.createOptions = this.createOptions.bind(this);
-    // this.changeStyle = this.changeStyle.bind(this);
   }
 
   async componentDidMount() {
@@ -40,6 +40,7 @@ class Play extends Component {
     const roundScore = baseScoreAssertation + time * weigth[difficultyOfQuestion];
     const newScore = { assertations: assertations + 1, score: score + roundScore };
     callUpdateScore(newScore);
+    this.setState((old) => ({ numberOfHits: old.numberOfHits + 1 }));
   }
 
   createOptions() {
@@ -117,7 +118,7 @@ class Play extends Component {
 
   nextQuestion() {
     const { questions, history } = this.props;
-    const { questionNumber } = this.state;
+    const { questionNumber, numberOfHits } = this.state;
 
     if (questionNumber + 1 < questions.length) {
       this.setState((previousState) => ({
@@ -129,7 +130,10 @@ class Play extends Component {
         this.countdown();
       });
     } else {
-      return history.push('/ranking');
+      return history.push({
+        pathname: '/feedback',
+        state: { hits: numberOfHits },
+      });
     }
   }
 
@@ -147,12 +151,6 @@ class Play extends Component {
       });
     }, second);
   }
-
-  // changeStyle() {
-  //   const { answersOfRound } = this.state;
-  //   answersOfRound[0].style.borderColor = '3px solid rgb(6, 240, 15)';
-  //   this.setState({ answersOfRound });
-  // }
 
   render() {
     const { questionOfRound, isLoading, time, answersOfRound, answered } = this.state;
@@ -175,7 +173,6 @@ class Play extends Component {
         >
           Próxima
         </button>
-        {/* <button type="button" onClick={ this.changeStyle }>teste</button> */}
       </main>
     );
   }
