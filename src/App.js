@@ -5,6 +5,7 @@ import { Switch, Route } from 'react-router-dom';
 import Login from './PAGES/Login';
 import Config from './PAGES/Config';
 import Game from './PAGES/Game';
+import Ranking from './PAGES/Ranking';
 
 export default function App() {
   return (
@@ -12,9 +13,8 @@ export default function App() {
       <Route exact path="/" component={ Login } />
       <Route path="/config" component={ Config } />
       <Route exact path="/game" component={ Game } />
-      {/*
-      <Route exact path="/feedback" component={ Feedback } />
-      <Route exatc path="/ranking" component={ Ranking } /> */}
+      {/* <Route exact path="/feedback" component={ Feedback } /> */}
+      <Route exatc path="/ranking" component={ Ranking } />
     </Switch>
   );
 }

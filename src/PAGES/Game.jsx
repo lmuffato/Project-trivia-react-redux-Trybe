@@ -76,6 +76,7 @@ class Game extends React.Component {
         },
       };
       localStorage.setItem('state', JSON.stringify(state));
+      localStorage.setItem('ranking', JSON.stringify(state));
       this.setState({
         globalScore: (points + mlsNumber),
       });
@@ -89,6 +90,7 @@ class Game extends React.Component {
         },
       };
       localStorage.setItem('state', JSON.stringify(state));
+      localStorage.setItem('ranking', JSON.stringify(state));
       this.setState({
         globalScore: points,
       });

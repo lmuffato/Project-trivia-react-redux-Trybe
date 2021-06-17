@@ -9,6 +9,11 @@ export function actionLogin(name, email) {
   });
 }
 
+export const gravatarRequest = (gravatar) => ({
+  type: 'GRAVATAR',
+  gravatar,
+});
+
 export const loadingRequest = () => ({
   type: 'IS_LOADING',
 });
