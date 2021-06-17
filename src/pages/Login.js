@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import '../App.css';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import trivia from '../trivia.png';
 import { login, fetchToken } from '../actions';
