@@ -55,3 +55,15 @@
     transform: translate3d(4px, 0, 0);
   }
 }
+
+.button-green {
+  border: 3px solid rgb(6, 240, 15);
+}
+
+.button-uncolor {
+  border: 2px solid rgb(118, 118, 118);
+}
+
+.button-red {
+  border: 3px solid red;
+}

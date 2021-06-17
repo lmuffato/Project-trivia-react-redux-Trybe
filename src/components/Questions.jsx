@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import { score } from '../redux/actions';
 
 const second = 1000;
 
@@ -13,6 +16,7 @@ class Questions extends Component {
       currentTime: 30,
       disableButton: false,
       assertions: 0,
+      showAsnwer: false,
     };
     this.setTime = this.setTime.bind(this);
     this.setStorage = this.setStorage.bind(this);
@@ -26,7 +30,7 @@ class Questions extends Component {
 
   setStorage(mult) {
     const { currentTime, assertions } = this.state;
-    const { name, gravatarEmail } = this.props;
+    const { name, gravatarEmail, getScore } = this.props;
     const grade = 10;
     const currentScore = grade + (currentTime * mult);
     console.log(currentScore);
@@ -48,8 +52,10 @@ class Questions extends Component {
         },
       };
       localStorage.setItem('state', JSON.stringify(state));
+      getScore(state.player.score);
     } else {
       localStorage.setItem('state', JSON.stringify(state));
+      getScore(state.player.score);
     }
   }
 
@@ -78,6 +84,7 @@ class Questions extends Component {
       this.setState({ currentTime: currentTime - 1 });
     } if (currentTime === 0 && disableButton === false) {
       this.setState({ disableButton: true });
+      this.handleClick();
     } else {
       return null;
     }
@@ -92,18 +99,11 @@ class Questions extends Component {
   }
 
   handleClick(difficulty, condition) {
-    const green = '3px solid rgb(6, 240, 15)';
-    const red = '3px solid rgb(255, 0, 0)';
-    const right = document.getElementById('correct-answer');
-    right.style.border = green;
-    const wrong = document.getElementsByClassName('wrong-answer');
-    const array = Array.prototype.slice.call(wrong);
-    array.map((button) => {
-      button.style.border = red;
-      return button.style.border;
-    });
-    this.setState({ displayBtn: true });
     this.getDifficulty(difficulty, condition);
+    this.setState(
+      { displayBtn: true,
+        showAsnwer: true },
+    );
   }
 
   nextButton() {
@@ -114,20 +114,35 @@ class Questions extends Component {
           type="button"
           data-testid="btn-next"
           id="btn-next"
+          onClick={ () => this.handleNext() }
         >
           Próxima
         </button>
       );
     }
-    return <div />;
+  }
+
+  handleNext() {
+    const { questionNumber } = this.state;
+    const maxQuestion = 4;
+    if (questionNumber <= maxQuestion) {
+      this.setState({
+        currentTime: 30,
+        disableButton: false,
+        displayBtn: false,
+        showAsnwer: false,
+        questionNumber: questionNumber + 1,
+      });
+    }
   }
 
   render() {
-    const { questions, questionNumber, currentTime, disableButton } = this.state;
+    const {
+      questions, questionNumber, currentTime, disableButton, showAsnwer } = this.state;
+    const quantyQuestions = 5;
     const question = questions[questionNumber];
-    return !question ? (
-      <p>Loading!</p>
-    ) : (
+    if (questionNumber === quantyQuestions) return <Redirect to="/feedback" />;
+    return !question ? (<p>Loading!</p>) : (
       <div>
         <div>
           { currentTime }
@@ -145,6 +160,7 @@ class Questions extends Component {
           </p>
           <button
             type="button"
+            className={ showAsnwer ? 'button-green' : 'button-uncolor' }
             data-testid="correct-answer"
             disabled={ disableButton }
             id="correct-answer"
@@ -156,9 +172,9 @@ class Questions extends Component {
             <button
               key={ index }
               type="button"
+              className={ showAsnwer ? 'button-red' : 'button-uncolor' }
               data-testid={ `wrong-answer-${index}` }
               disabled={ disableButton }
-              className="wrong-answer"
               onClick={ () => this.handleClick(question.difficulty, 'wrong') }
             >
               {incorrect}
@@ -171,9 +187,18 @@ class Questions extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  gravatarEmail: state.login.gravatarEmail,
-  name: state.login.name,
+const mapDispatchToProps = (dispatch) => ({
+  getScore: (payload) => dispatch(score(payload)),
 });
 
-export default connect(mapStateToProps, null)(Questions);
+const mapStateToProps = (state) => ({
+  gravatarEmail: state.player.gravatarEmail,
+  name: state.player.name,
+});
+
+Questions.propTypes = {
+  name: PropTypes.string,
+  gravatarEmail: PropTypes.string,
+}.isRequired;
+
+export default connect(mapStateToProps, mapDispatchToProps)(Questions);

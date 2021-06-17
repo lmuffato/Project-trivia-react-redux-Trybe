@@ -12,12 +12,7 @@ class Header extends React.Component {
   }
 
   render() {
-    const { name } = this.props;
-    let score = 0;
-    if (localStorage.getItem('state') !== null) {
-      score = JSON.parse(localStorage.getItem('state')).player.score;
-    }
-
+    const { name, score } = this.props;
     return (
       <>
         <img
@@ -33,8 +28,9 @@ class Header extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  gravatarEmail: state.login.gravatarEmail,
-  name: state.login.name,
+  gravatarEmail: state.player.gravatarEmail,
+  name: state.player.name,
+  score: state.score.score,
 });
 
 Header.propTypes = {
