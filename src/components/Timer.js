@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { func } from 'prop-types';
-import { disable } from '../actions';
+import { disable, hidden } from '../actions';
 
 class Timer extends Component {
   constructor() {
@@ -17,7 +17,7 @@ class Timer extends Component {
 
   tick() {
     const oneSecond = 1000;
-    const { editDisable } = this.props;
+    const { editDisable, editHidden } = this.props;
     const set = setInterval(() => {
       this.setState((prevState) => ({
         currentTime: prevState.currentTime - 1,
@@ -26,6 +26,7 @@ class Timer extends Component {
       if (currentTime === 0) {
         clearInterval(set);
         editDisable(true);
+        editHidden(false);
       }
     }, oneSecond);
   }
@@ -42,6 +43,7 @@ class Timer extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   editDisable: (payload) => dispatch(disable(payload)),
+  editHidden: (payload) => dispatch(hidden(payload)),
 });
 
 Timer.propTypes = {
