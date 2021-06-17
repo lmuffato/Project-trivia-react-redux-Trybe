@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Header from '../components/Header';
 
 class Feedback extends Component {
@@ -21,4 +22,8 @@ Feedback.propTypes = {
   hits: PropTypes.number,
 }.isRequired;
 
-export default Feedback;
+const mapStateToProps = (state) => ({
+  score: state.player.score,
+});
+
+export default connect(mapStateToProps, null)(Feedback);
