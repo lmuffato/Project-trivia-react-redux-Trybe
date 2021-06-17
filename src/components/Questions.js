@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styles from '../pages/game.module.css';
 import Loading from './Loading';
+import Timer from './Timer';
 import './questions.css';
 
 class Questions extends Component {
@@ -12,9 +13,24 @@ class Questions extends Component {
       questionsIndex: 0,
       isVisible: 'false',
       borderColor: [],
+      reset: false,
+      stop: false,
+      disabled: false,
     };
     this.handleClickAnswer = this.handleClickAnswer.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
+    this.handleZero = this.handleZero.bind(this);
+  }
+
+  nextQuestion(NumberOfQuestions) {
+    this.setState((prevState) => ({
+      questionsIndex: (prevState.questionsIndex + 1) % NumberOfQuestions,
+      borderColor: [],
+      isVisible: 'false',
+      reset: true,
+      stop: false,
+      disabled: false,
+    }));
   }
 
   handleClickAnswer() {
@@ -33,7 +49,11 @@ class Questions extends Component {
         }));
       }
     });
-    this.setState({ isVisible: 'true' });
+    this.setState({ isVisible: 'true', stop: true, reset: false, disabled: true });
+  }
+
+  handleZero() {
+    this.handleClickAnswer();
   }
 
   nextQuestion(NumberOfQuestions) {
@@ -57,7 +77,8 @@ class Questions extends Component {
   }
 
   render() {
-    const { isVisible, questionsIndex, borderColor } = this.state;
+
+    const { borderColor, isVisible, questionsIndex, reset, stop, disabled } = this.state;
     const { loading, questions } = this.props;
     const questionsFiltered = questions[questionsIndex];
     if (loading || questions.length < 1) {
@@ -83,6 +104,22 @@ class Questions extends Component {
               {Object.keys(question)}
             </button>
           ))}
+          <ul className={ styles.question__list }>
+            {questionsFiltered.alternatives.map((question, index) => (
+              <li key={ index }>
+                <button
+                  onClick={ this.handleClickAnswer }
+                  type="button"
+                  className={ [styles
+                    .question__alternatives, borderColor[index]].join(' ') }
+                  data-testid={ Object.values(question) }
+                  disabled={ disabled }
+                >
+                  {Object.keys(question)}
+                </button>
+              </li>
+            ))}
+          </ul>
         </div>
         <button
           type="button"
@@ -95,6 +132,7 @@ class Questions extends Component {
         >
           Próxima
         </button>
+        <Timer reset={ reset } stop={ stop } handleZero={ this.handleZero } />
       </div>
     );
   }
