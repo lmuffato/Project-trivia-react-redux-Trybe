@@ -19,3 +19,4 @@ export const setScore = (score) => ({
 export default login;
 
 export const setQuestions = (questions) => ({ type: 'SET_QUESTIONS', questions });
+export const clearUserData = () => ({ type: 'CLEAR_USER_DATA' });
