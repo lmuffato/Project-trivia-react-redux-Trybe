@@ -8,6 +8,14 @@ class Feedback extends React.Component {
         <h1 data-testid="feedback-text">
           Feedback
         </h1>
+        <Link to="/ranking">
+          <button
+            type="button"
+            data-testid="btn-ranking"
+          >
+            Ver Ranking
+          </button>
+        </Link>
         <Link to="/">
           <button
             type="button"
