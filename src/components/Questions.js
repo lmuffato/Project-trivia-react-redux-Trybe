@@ -56,28 +56,7 @@ class Questions extends Component {
     this.handleClickAnswer();
   }
 
-  nextQuestion(NumberOfQuestions) {
-    this.setState((prevState) => ({
-      questionsIndex: (prevState.questionsIndex + 1) % NumberOfQuestions,
-      isVisible: 'false',
-      borderColor: [],
-    }));
-
-    const alternatives = Array.from(
-      document.getElementsByClassName(
-        styles.question__alternatives,
-      ),
-    );
-    alternatives.forEach((alternative) => {
-      alternative.classList.remove(
-        'question__alternatives__incorrect',
-        'question__alternatives__correct',
-      );
-    });
-  }
-
   render() {
-
     const { borderColor, isVisible, questionsIndex, reset, stop, disabled } = this.state;
     const { loading, questions } = this.props;
     const questionsFiltered = questions[questionsIndex];
@@ -90,20 +69,7 @@ class Questions extends Component {
           <h2 data-testid="question-category">{questionsFiltered.category}</h2>
           <p data-testid="question-text">{questionsFiltered.question}</p>
         </div>
-
         <div className={ styles.question__card }>
-          {questionsFiltered.alternatives.map((question, index) => (
-            <button
-              key={ index }
-              onClick={ this.handleClickAnswer }
-              type="button"
-              className={ [styles
-                .question__alternatives, borderColor[index]].join(' ') }
-              data-testid={ Object.values(question) }
-            >
-              {Object.keys(question)}
-            </button>
-          ))}
           <ul className={ styles.question__list }>
             {questionsFiltered.alternatives.map((question, index) => (
               <li key={ index }>
