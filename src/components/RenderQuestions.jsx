@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Proptypes from 'prop-types';
+import '../css/Answers.css';
 
 class RenderQuestions extends Component {
   sortArr(arr) {
@@ -14,13 +15,29 @@ class RenderQuestions extends Component {
     return outPut;
   }
 
+  handleAnswerClick() {
+    const correct = document.getElementsByClassName('correct-answer');
+    correct[0].className = 'correct';
+    const incorrect = document.querySelectorAll('.wrong-answer');
+    for (let i = 0; i < incorrect.length; i += 1) {
+      incorrect[i].className = 'incorrect';
+    }
+  }
+
   renderQuestion() {
     const { apiResult, question, timeOut } = this.props;
     const { results } = apiResult;
     if (results === undefined) return;
     const currQuestion = results[question];
     const correctQuestion = (
-      <button disabled={ timeOut } key={ 5 } type="button" data-testid="correct-answer">
+      <button
+        disabled={ timeOut }
+        key={ 5 }
+        type="button"
+        data-testid="correct-answer"
+        onClick={ this.handleAnswerClick }
+        className="correct-answer"
+      >
         {currQuestion.correct_answer}
       </button>);
     const arrayInCorretAnswers = currQuestion.incorrect_answers
@@ -30,6 +47,8 @@ class RenderQuestions extends Component {
           key={ index }
           disabled={ timeOut }
           data-testid={ `wrong-answer-${index}` }
+          onClick={ this.handleAnswerClick }
+          className="wrong-answer"
         >
           { answer }
         </button>
