@@ -2,12 +2,20 @@ import { getQuestionsFromAPI } from '../services/api';
 
 export const REQUEST_API_GAME = 'REQUEST_API_GAME';
 export const GET_QUESTIONS = 'GET_QUESTIONS';
+export const SET_TIMER_ID = 'SET_TIMER_ID';
 
+// ACTIONS
 export const requestApiGame = (questionsArray) => ({
   type: REQUEST_API_GAME,
   results: questionsArray,
 });
 
+export const setTimerID = (timerID) => ({
+  type: SET_TIMER_ID,
+  timerID,
+});
+
+// THUNKS
 export const requestQuestionThunk = () => async (dispatch) => {
   const tokenUser = localStorage.getItem('token');
   const amountOfQuestions = 5;
