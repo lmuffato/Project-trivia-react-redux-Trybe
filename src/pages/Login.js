@@ -1,5 +1,8 @@
 import React from 'react';
-// import { login } from '../redux/actions/index';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import { getTokenThunk } from '../redux/actions';
 
 class Login extends React.Component {
   constructor() {
@@ -7,9 +10,13 @@ class Login extends React.Component {
     this.state = {
       user: '',
       email: '',
+      config: false,
+      login: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.verifyInputs = this.verifyInputs.bind(this);
+    this.openConfig = this.openConfig.bind(this);
+    this.gamePage = this.gamePage.bind(this);
   }
 
   handleChange(event) {
@@ -25,7 +32,28 @@ class Login extends React.Component {
     return false;
   }
 
+  openConfig() {
+    this.setState({ config: true });
+  }
+
+  gamePage() {
+    const { user, email } = this.state;
+    const { tokenFunc } = this.props;
+    this.setState({ login: true });
+    tokenFunc({ user, email });
+    const player = {
+      player: {
+        name: user,
+        assertions: 0,
+        score: 0,
+        gravatarEmail: email,
+      },
+    };
+    localStorage.setItem('state', JSON.stringify(player));
+  }
+
   render() {
+    const { config, login } = this.state;
     return (
       <div>
         <input
@@ -47,12 +75,30 @@ class Login extends React.Component {
           type="button"
           data-testid="btn-play"
           disabled={ this.verifyInputs() }
+          onClick={ this.gamePage }
         >
           Play!
         </button>
+        {login && <Redirect to="/jogo" />}
+        <button
+          type="button"
+          data-testid="btn-settings"
+          onClick={ this.openConfig }
+        >
+          Configuração
+        </button>
+        {config && <Redirect to="/configuracao" /> }
       </div>
     );
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  tokenFunc: (value) => dispatch(getTokenThunk(value)),
+});
+
+Login.propTypes = {
+  tokenFunc: PropTypes.func.isRequired,
+};
+
+export default connect(null, mapDispatchToProps)(Login);
