@@ -13,6 +13,7 @@ class Game extends React.Component {
       loading: true,
       userAnswer: false,
       timer: 30,
+      isVisible: true,
     };
     this.requestApi = this.requestApi.bind(this);
     this.renderQuestions = this.renderQuestions.bind(this);
@@ -48,7 +49,9 @@ class Game extends React.Component {
         if (prev.timer <= 0 || prev.userAnswer === true) {
           this.setState({
             timer: 30,
-            userAnswer: true });
+            userAnswer: true,
+            isVisible: false,
+          });
         }
         return { timer: prev.timer - 1 };
       });
@@ -65,11 +68,13 @@ class Game extends React.Component {
     this.setState(() => ({
       userAnswer: false,
       alternativeRandom: alternatives,
+      isVisible: true,
     }));
   }
 
   renderQuestions() {
-    const { quests, indice, userAnswer, alternativeRandom, timer } = this.state;
+    const { quests, indice, userAnswer, alternativeRandom } = this.state;
+    const { timer, isVisible } = this.state;
     const crrQuestion = quests[indice];
     return (
       <div>
@@ -100,6 +105,7 @@ class Game extends React.Component {
         ))}
         <button
           type="button"
+          hidden={ isVisible }
           data-testid="btn-next"
           onClick={
             () => this.setState((prevState) => (
