@@ -30,13 +30,13 @@ class Login extends Component {
     const { name, email } = this.state;
     const { toLogin } = this.props;
     toLogin(name, email);
-    this.setState({ redirect: true });
     this.saveToken();
   }
 
-  saveToken() {
-    getToken().then((response) => {
+  async saveToken() {
+    await getToken().then((response) => {
       localStorage.setItem('token', response.token);
+      this.setState({ redirect: true });
     });
   }
 
