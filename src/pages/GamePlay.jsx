@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Timer from '../components/Timer';
-import { fetchQuestions } from '../actions';
+import { fetchQuestions, getScore } from '../actions';
 import { conditionScore } from '../services/score';
 import Header from '../components/Header';
 import './GamePlay.css';
@@ -31,12 +31,12 @@ class GamePlay extends React.Component {
       },
       correctClass: 'answer',
       wrongClass: 'answer',
-      player: {
-        name: '',
-        assertions: 0,
-        score: 0,
-        gravatarEmail: '',
-      },
+      // player: {
+      //   name: '',
+      //   assertions: 0,
+      //   score: 0,
+      //   gravatarEmail: '',
+      // },
     };
     this.renderQuestions = this.renderQuestions.bind(this);
     this.showNextQuestionBtn = this.showNextQuestionBtn.bind(this);
@@ -45,7 +45,7 @@ class GamePlay extends React.Component {
     this.showNextQuestionBtn = this.showNextQuestionBtn.bind(this);
     this.handleAlternativeClick = this.handleAlternativeClick.bind(this);
     this.timeCondition = this.timeCondition.bind(this);
-    // this.sendLocalStorage = this.sendLocalStorage.bind(this);
+    this.sendLocalStorage = this.sendLocalStorage.bind(this);
   }
 
   componentDidMount() {
@@ -74,33 +74,35 @@ class GamePlay extends React.Component {
     }
   }
 
-  sendLocalStorage(points, props) {
-    const { nameStore, emailStore } = props;
-    const { player } = this.state;
+  sendLocalStorage() {
+    const { nameStore, emailStore, assertionsStore, scoreStore } = this.props;
+    console.log(nameStore);
+    console.log(emailStore);
+    console.log(assertionsStore);
+    console.log(scoreStore);
 
-    let correctAnswer;
-    correctAnswer = 0;
-    correctAnswer += 1;
-    points += points;
+    //   let correctAnswer;
+    //   correctAnswer = 0;
+    //   correctAnswer += 1;
+    //   points += points;
 
-    this.setState({
-      player: {
-        name: nameStore,
-        assertions: correctAnswer,
-        score: points,
-        gravatarEmail: emailStore,
-      },
-    });
-
-    console.log(player);
+    //   this.setState({
+    //     player: {
+    //       name: nameStore,
+    //       assertions: correctAnswer,
+    //       score: points,
+    //       gravatarEmail: emailStore,
+    //     },
+    //   });
   }
 
   score(difficulty) {
-    const { props, state } = this;
+    const { props, state, sendLocalStorage } = this;
     const { dificuldade } = state;
     const points = conditionScore(difficulty, dificuldade, props);
     console.log(points);
-    // sendLocalStorage(points, props);
+    props.sendScore(points);
+    sendLocalStorage();
   }
 
   showNextQuestionBtn(difficulty) {
@@ -206,6 +208,8 @@ const mapStateToProps = (state) => ({
   token: state.player.token,
   nameStore: state.player.name,
   emailStore: state.player.playerEmail,
+  assertionsStore: state.player.assertions,
+  scoreStore: state.player.score,
   questions: state.triviaReducer.questions,
   loading: state.triviaReducer.isLoading,
   secondsStore: state.triviaReducer.seconds,
@@ -213,10 +217,12 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   fecthQuestionsAction: (token) => dispatch(fetchQuestions(token)),
+  sendScore: (points) => dispatch(getScore(points)),
 });
 
 GamePlay.propTypes = {
   loading: PropTypes.bool,
+  nameStore: PropTypes.string,
 }.isRequired;
 
 export default connect(mapStateToProps, mapDispatchToProps)(GamePlay);

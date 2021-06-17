@@ -4,6 +4,7 @@ export const GET_QUESTIONS_SUCCESS = 'GET_QUESTIONS_SUCCESS';
 export const GET_QUESTIONS = 'GET_QUESTIONS';
 export const SAVE_AVATAR = 'SAVE_AVATAR';
 export const GET_SECONDS = 'GET_SECONDS';
+export const GET_SCORE = 'GET_SCORE';
 
 export const login = (payload) => ({
   type: LOG_IN,
@@ -31,6 +32,11 @@ export const saveAvatar = (payload) => ({
 
 export const getSeconds = (payload) => ({
   type: GET_SECONDS,
+  payload,
+});
+
+export const getScore = (payload) => ({
+  type: GET_SCORE,
   payload,
 });
 
