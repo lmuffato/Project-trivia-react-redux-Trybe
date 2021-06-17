@@ -14,13 +14,29 @@ class RenderQuestions extends Component {
     return outPut;
   }
 
+  handleAnswerClick() {
+    const correct = document.getElementsByClassName('correct-answer');
+    correct[0].style.border = '3px solid rgb(6, 240, 15)';
+    const incorrect = document.querySelectorAll('.wrong-answer');
+    for (let i = 0; i < incorrect.length; i += 1) {
+      incorrect[i].style.border = '3px solid rgb(255, 0, 0)';
+    }
+  }
+
   renderQuestion() {
     const { apiResult, question, timeOut } = this.props;
     const { results } = apiResult;
     if (results === undefined) return;
     const currQuestion = results[question];
     const correctQuestion = (
-      <button disabled={ timeOut } key={ 5 } type="button" data-testid="correct-answer">
+      <button
+        disabled={ timeOut }
+        key={ 5 }
+        type="button"
+        data-testid="correct-answer"
+        onClick={ this.handleAnswerClick }
+        className="correct-answer"
+      >
         {currQuestion.correct_answer}
       </button>);
     const arrayInCorretAnswers = currQuestion.incorrect_answers
@@ -30,6 +46,8 @@ class RenderQuestions extends Component {
           key={ index }
           disabled={ timeOut }
           data-testid={ `wrong-answer-${index}` }
+          onClick={ this.handleAnswerClick }
+          className="wrong-answer"
         >
           { answer }
         </button>
