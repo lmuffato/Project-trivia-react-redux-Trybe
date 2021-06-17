@@ -32,16 +32,16 @@ class Login extends Component {
     });
   }
 
-  validInput() {
+  async validInput() {
     const { email, name } = this.state;
     const re = /\b[\w.-]+@[\w.-]+\.\w{2,4}\b/gi;
-    this.setState({
+    await this.setState({
       validation: !(re.test(email) && name.length > 1),
     });
   }
 
-  handleChange({ target: { name, value } }) {
-    this.setState({
+  async handleChange({ target: { name, value } }) {
+    await this.setState({
       [name]: value,
     });
     this.validInput();
