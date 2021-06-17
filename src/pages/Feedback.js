@@ -47,6 +47,13 @@ class Feedback extends React.Component {
         >
           Jogar novamente
         </button>
+        <button
+          type="button"
+          data-testid="btn-ranking"
+          onClick={ () => history.push('/ranking') }
+        >
+          Ver Ranking
+        </button>
       </div>
     );
   }
