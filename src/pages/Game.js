@@ -12,10 +12,12 @@ class Game extends React.Component {
       indice: 0,
       loading: true,
       userAnswer: false,
+      timer: 30,
     };
     this.requestApi = this.requestApi.bind(this);
     this.renderQuestions = this.renderQuestions.bind(this);
     this.ramdomizeQuestions = this.ramdomizeQuestions.bind(this);
+    this.runTimer = this.runTimer.bind(this);
   }
 
   componentDidMount() {
@@ -30,12 +32,27 @@ class Game extends React.Component {
         loading: false,
       });
       this.ramdomizeQuestions();
+      this.runTimer();
     });
   }
 
   changeAnswer(alternative, crrQuestion) {
     return alternative === crrQuestion.correct_answer
       ? 'ok' : 'fail';
+  }
+
+  runTimer() {
+    const oneSec = 1000;
+    setInterval(() => {
+      this.setState((prev) => {
+        if (prev.timer <= 0 || prev.userAnswer === true) {
+          this.setState({
+            timer: 30,
+            userAnswer: true });
+        }
+        return { timer: prev.timer - 1 };
+      });
+    }, oneSec);
   }
 
   ramdomizeQuestions() {
@@ -52,11 +69,15 @@ class Game extends React.Component {
   }
 
   renderQuestions() {
-    const { quests, indice, userAnswer, alternativeRandom } = this.state;
+    const { quests, indice, userAnswer, alternativeRandom, timer } = this.state;
     const crrQuestion = quests[indice];
     return (
       <div>
         <Header />
+        <h3>
+          Tempo:
+          { timer }
+        </h3>
         <p data-testid="question-category">
           {crrQuestion.category}
         </p>
@@ -65,7 +86,7 @@ class Game extends React.Component {
         </p>
         {alternativeRandom.map((alternative, index) => (
           <button
-            disabled={ userAnswer }
+            disabled={ userAnswer || timer < 1 }
             type="button"
             value={ alternative }
             key={ Math.random() }
@@ -82,7 +103,7 @@ class Game extends React.Component {
           onClick={
             () => this.setState((prevState) => (
               { indice: prevState.indice + 1, userAnswer: false }
-            ))
+            ), () => this.runTimer())
           }
         >
           Próximo
