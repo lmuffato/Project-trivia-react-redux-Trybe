@@ -5,4 +5,9 @@ import rootReducer from '../reducer/index';
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
 
+store.subscribe(() => {
+  const json = JSON.stringify(store.getState().loginReducer);
+  localStorage.setItem('state', json);
+});
+
 export default store;

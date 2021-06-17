@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import Header from '../components/Header';
 import updateQuestion from '../redux/actions/updateQuestion.action';
 import { fetchQuestion } from '../services/api';
+import GamePlay from '../components/GamePlay';
+import Countdown from '../components/Countdown';
 
 export default function Game() {
   const token = localStorage.getItem('token');
   const dispatch = useDispatch();
   const { questions } = useSelector((state) => state.gameReducer);
-
-  console.log(questions);
 
   useEffect(() => {
     async function update() {
@@ -22,7 +22,8 @@ export default function Game() {
   return (
     <div>
       <Header />
-      { questions.length > 0 && <p>{ questions[0].category }</p>}
+      <Countdown />
+      { questions.length > 0 ? <GamePlay /> : null}
     </div>
   );
 }

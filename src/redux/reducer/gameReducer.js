@@ -4,7 +4,7 @@ const INITIAL_STATE = {
   questions: [],
 };
 
-export default function loginReducer(state = INITIAL_STATE, action) {
+export default function gameReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
   case FETCH_QUESTIONS:
     return {

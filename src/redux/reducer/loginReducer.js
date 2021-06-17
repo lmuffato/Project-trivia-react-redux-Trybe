@@ -1,27 +1,45 @@
-import { USER_EMAIL, USER_LOGIN, USER_SCORE } from '../../common/def';
+import { USER_EMAIL, USER_LOGIN, USER_SCORE, ASSERTION } from '../../common/def';
 
-const INITIAL_STATE = {
+const INITIAL_STATE = { player: {
   email: '',
-  user: '',
+  name: '',
   score: 0,
-};
+  assertions: 0,
+} };
 
 export default function loginReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
   case USER_EMAIL:
     return {
       ...state,
-      email: action.payload,
+      player: {
+        ...state.player,
+        email: action.payload,
+      },
     };
   case USER_LOGIN:
     return {
       ...state,
-      user: action.payload,
+      player: {
+        ...state.player,
+        name: action.payload,
+      },
     };
   case USER_SCORE:
     return {
       ...state,
-      score: action.payload,
+      player: {
+        ...state.player,
+        score: state.player.score + Number(action.payload),
+      },
+    };
+  case ASSERTION:
+    return {
+      ...state,
+      player: {
+        ...state.player,
+        assertions: state.player.assertions + 1,
+      },
     };
   default:
     return state;
