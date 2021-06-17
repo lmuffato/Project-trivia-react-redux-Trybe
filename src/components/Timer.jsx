@@ -22,9 +22,9 @@ class Timer extends Component {
     const timer = setInterval(() => {
       const { time } = this.props;
 
-      if (time === 1) {
-        this.stopTimer();
-      }
+      // if (time === 1) {
+      //   this.stopTimer();
+      // }
 
       setTimer({ time: time - 1 });
     }, TIMER_TIME);
@@ -32,11 +32,11 @@ class Timer extends Component {
     saveTimer({ timer });
   }
 
-  stopTimer() {
-    const { timer } = this.props;
+  // stopTimer() {
+  //   const { timer } = this.props;
 
-    clearInterval(timer);
-  }
+  //   clearInterval(timer);
+  // }
 
   render() {
     const { time } = this.props;
@@ -50,7 +50,6 @@ Timer.propTypes = {
   setTimer: PropTypes.func.isRequired,
   time: PropTypes.number.isRequired,
   saveTimer: PropTypes.func.isRequired,
-  timer: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => ({

@@ -12,8 +12,11 @@ class Alternatives extends Component {
     this.state = {
       mostraImg: false,
       showFaustao: false,
+      showButton: false,
     };
     this.toasty = this.toasty.bind(this);
+    this.renderNextButton = this.renderNextButton.bind(this);
+    this.nextButton = this.nextButton.bind(this);
   }
 
   toasty(e) {
@@ -21,11 +24,19 @@ class Alternatives extends Component {
     if (e.target.name === CORRECT) {
       setScore(true);
       return (
-        this.setState({ mostraImg: true })
+        this.setState({ mostraImg: true, showButton: true })
       );
     }
     setScore(false);
-    return (this.setState({ showFaustao: true }));
+    return (this.setState({ showFaustao: true, showButton: true }));
+  }
+
+  nextButton() {
+    return (
+      <button type="button" className="button-next" data-testid="btn-next">
+        Próxima Pergunta
+      </button>
+    );
   }
 
   imgToasty() {
@@ -62,6 +73,15 @@ class Alternatives extends Component {
     }
   }
 
+  renderNextButton() {
+    const { showButton } = this.state;
+    if (showButton) {
+      return (
+        this.nextButton()
+      );
+    }
+  }
+
   render() {
     const {
       question, aleatoryAnswers, correctAnswer, revelaBorda } = this.props;
@@ -80,7 +100,7 @@ class Alternatives extends Component {
           {aleatoryAnswers.map((answer, index) => (
             <button
               key={ index }
-              className={ revelaBorda }
+              className={ `${revelaBorda} btn-answer` }
               type="button"
               name={ answer === correctAnswer ? CORRECT : INCORRECT }
               data-testid={ answer === correctAnswer ? CORRECT : INCORRECT }
@@ -96,6 +116,9 @@ class Alternatives extends Component {
                 .replace(/&eacute;/gi, 'é')}
             </button>
           ))}
+          <div>
+            {this.renderNextButton()}
+          </div>
           {this.imgToasty()}
           {this.imgFaustao()}
         </div>
