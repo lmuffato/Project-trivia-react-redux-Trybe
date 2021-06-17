@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
+import resetTimer from '../redux/actions/resetTimer.action';
 import timeLeftAction from '../redux/actions/timer.action';
 
 class Countdown extends Component {
@@ -13,6 +14,13 @@ class Countdown extends Component {
 
   componentDidMount() {
     this.timerFuntion();
+  }
+
+  componentWillUnmount() {
+    const { intervalControlSate: intervalTimer } = this.state;
+    const { reset } = this.props;
+    clearInterval(intervalTimer);
+    reset();
   }
 
   timerFuntion() {
@@ -46,6 +54,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   timer: (timeLeft) => dispatch(timeLeftAction(timeLeft)),
+  reset: () => dispatch(resetTimer()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Countdown);
@@ -53,4 +62,5 @@ export default connect(mapStateToProps, mapDispatchToProps)(Countdown);
 Countdown.propTypes = {
   time: propTypes.number.isRequired,
   timer: propTypes.func.isRequired,
+  reset: propTypes.func.isRequired,
 };

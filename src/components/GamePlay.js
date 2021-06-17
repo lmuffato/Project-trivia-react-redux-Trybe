@@ -43,7 +43,7 @@ class GamePlay extends React.Component {
       console.log(assertions);
       const pointsRate = 10;
       const pointsPlayer = pointsRate
-      + (time * difficultyQuestions[questions[indexQuestions].difficulty]);
+      + (Number(time) * difficultyQuestions[questions[indexQuestions].difficulty]);
       console.log(pointsPlayer);
       dispatchScore(pointsPlayer);
       dispatchAssertion();
