@@ -33,10 +33,6 @@ class Game extends React.Component {
     }
   }
 
-  componentWillUnmount() {
-    localStorage.clear();
-  }
-
   playTime() {
     const { time } = this.state;
     console.log('time');
