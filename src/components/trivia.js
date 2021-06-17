@@ -14,31 +14,31 @@ class Trivia extends Component {
   }
 
   componentDidMount() {
-    console.log('Did mount');
+    // const { getTrivia } = this.props;
     this.fetchTrivia();
   }
 
-  componentDidUpdate() {
-    const { getTrivia } = this.props;
-    const { trivia } = this.state;
-    return trivia.length === 0 ? <span>Loading...</span>
-      : (getTrivia(trivia));
-  }
-
-  // async fetchTrivia() {
-  //   const { token } = this.props;
-  //   const questionsAmount = 5;
-  //   const endpoint = `https://opentdb.com/api.php?amount=${questionsAmount}&token=${token}`;
-  //   try {
-  //     const fetchQuestions = await fetch(endpoint);
-  //     const responseTrivia = await fetchQuestions.json();
-  //     console.log(responseTrivia.results[0].question);
-  //     this.setState({
-  //       trivia: responseTrivia,
-  //     });
-  //     return responseTrivia;
-  //   } catch (error) { console.log(error); }
+  // componentDidUpdate() {
+  //   const { getTrivia } = this.props;
+  //   const { trivia } = this.state;
+  //   return trivia.length === 0 ? <span>Loading...</span>
+  //     : (getTrivia(trivia));
   // }
+
+  async fetchTrivia() {
+    const { token } = this.props;
+    const questionsAmount = 5;
+    const endpoint = `https://opentdb.com/api.php?amount=${questionsAmount}&token=${token}`;
+    try {
+      const fetchQuestions = await fetch(endpoint);
+      const responseTrivia = await fetchQuestions.json();
+      console.log(responseTrivia);
+      this.setState({
+        trivia: responseTrivia.results,
+      });
+      return responseTrivia;
+    } catch (error) { console.log(error); }
+  }
 
   renderQuestions() {
     const { trivia } = this.state;
@@ -79,7 +79,7 @@ class Trivia extends Component {
     const { trivia } = this.state;
     // const { trivia } = this.props;
     console.log(trivia[0]);
-    return trivia === 0 ? <h1>Loading...</h1>
+    return trivia.length === 0 ? <h1>Loading...</h1>
       : (
         <div>
           <p>Olá mundo!</p>
@@ -100,9 +100,9 @@ const mapStateToProps = (state) => ({
   trivia: state.trivia.trivia,
 });
 
-// const mapDispatchToProps = (dispatch) => ({
-//   getTrivia: (trivia) => dispatch(getTriviaThunk(trivia.results)),
-// });
+const mapDispatchToProps = (dispatch) => ({
+  getTrivia: (trivia) => dispatch(getTriviaThunk(trivia.results)),
+});
 
 Trivia.propTypes = {
   token: PropTypes.string.isRequired,
