@@ -12,10 +12,6 @@ class Header extends Component {
           />
           <h3 data-testid="header-player-name">{ localStorage.usuario }</h3>
           <p data-testid="header-score">0</p>
-          <p>
-            sua sessão é
-            { localStorage.token }
-          </p>
         </header>
       </div>
     );

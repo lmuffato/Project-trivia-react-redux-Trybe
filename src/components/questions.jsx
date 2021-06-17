@@ -1,21 +1,39 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import '../styles.css';
 
 class Questions extends Component {
   constructor() {
     super();
 
     // this.renderQuestions = this.renderQuestions.bind(this);
-
+    this.answerClick = this.answerClick.bind(this);
     this.state = {
       index: 0,
+      chosedQuestion: false
     };
+  }
+
+  answerClick(event) {
+    const { index } = this.state
+    const { questions } = this.props;
+    if (event.target.value === questions[index].correct_answer) {
+      // Correct Event
+      console.log("você acerto");
+      this.setState({
+        index: 1,
+        chosedQuestion: true,
+      })
+      console.log(index);
+    } else {
+      console.log("Xablau");
+    }
   }
 
   render() {
     const { questions, loading } = this.props;
-    const { index } = this.state;
+    const { index, chosedQuestion } = this.state;
     // console.log(questions);
     return (
       <div>
@@ -27,6 +45,9 @@ class Questions extends Component {
             <button
               type="button"
               data-testid="correct-answer"
+              onClick={this.answerClick}
+              value={questions[index].correct_answer}
+              className={ chosedQuestion ? 'correct' : null }
             >
               {questions[index].correct_answer}
             </button>
@@ -36,6 +57,9 @@ class Questions extends Component {
                   type="button"
                   data-testid={ `wrong-answer-${i}` }
                   key={ i }
+                  onClick={this.answerClick}
+                  value={ia}
+                  className={ chosedQuestion ? 'incorrect' : null }
                 >
                   {ia}
                 </button>
