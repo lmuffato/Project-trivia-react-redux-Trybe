@@ -11,12 +11,12 @@ class MultipleTypeQuest extends Component {
   }
 
   addAnswerBorder() {
-    const btnAlternative = document.querySelectorAll('button');
-    btnAlternative[0].classList.add('correct-answer');
-
-    for (let index = 1; index < btnAlternative.length; index += 1) {
-      btnAlternative[index].classList.add('incorrect-answer');
+    const wrongButtons = document.getElementsByClassName('wrong');
+    const correctButton = document.getElementsByClassName('correct')[0];
+    for (let index = 0; index < wrongButtons.length; index += 1) {
+      wrongButtons[index].classList.add('incorrect-answer');
     }
+    correctButton.classList.add('correct-answer');
   }
 
   handleClick(e) {
@@ -36,6 +36,7 @@ class MultipleTypeQuest extends Component {
           .map((alternative, index) => (
             <button
               type="button"
+              className={ alternative.class }
               onClick={ this.handleClick }
               key={ index }
               data-testid={ alternative.dataTest }
