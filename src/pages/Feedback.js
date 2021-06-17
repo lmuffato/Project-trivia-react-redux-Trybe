@@ -7,6 +7,7 @@ import Header from '../components/Header';
 class Feedback extends React.Component {
   constructor() {
     super();
+
     this.assertionsMenssage = this.assertionsMenssage.bind(this);
   }
 

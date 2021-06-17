@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
 import { string, number } from 'prop-types';
+import getGravatarImg from './getGravatarImg';
 
 class Header extends Component {
   render() {
     const { playerName, gravatarEmail, score } = this.props;
-    const hashEmail = md5(gravatarEmail).toString();
-    const gravatarURL = `https://www.gravatar.com/avatar/${hashEmail}`;
+    const gravatarURL = getGravatarImg(gravatarEmail);
 
     return (
       <div>

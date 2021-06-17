@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { object } from 'prop-types';
+import getGravatarImg from '../components/getGravatarImg';
 
 class Ranking extends Component {
   constructor() {
@@ -26,38 +28,34 @@ class Ranking extends Component {
   }
 
   buildRanking() {
-    // const playerInfo = JSON.parse(localStorage.getItem('player'));
-    // const ranking = localStorage.getItem('ranking');
+    const playerInfo = JSON.parse(localStorage.getItem('state')).player;
+    let ranking = JSON.parse(localStorage.getItem('ranking'));
 
-    const playerInfo = { name: 'Rose', score: 90, gravatarEmail: 'URL3' }; // Info mockada
-    const ranking = [{ name: 'Bia', score: 20, gravatarEmail: 'URL' },
-      { name: 'Ruda', score: 30, gravatarEmail: 'URL2' }]; // Info mockada
-
-    if (ranking.length !== 0) {
-      ranking.push({
-        name: playerInfo.name,
-        score: playerInfo.score,
-        picture: playerInfo.gravatarEmail,
-      });
-
-      const UM = 1;
-
-      ranking.sort((a, b) => {
-        if (a.score > b.score) return -UM;
-        if (a.score < b.score) return UM;
-        return 0;
-      });
-
-      localStorage.setItem('ranking', JSON.stringify(ranking));
+    if (!Array.isArray(ranking)) {
+      ranking = [];
     }
+
+    ranking.push({
+      name: playerInfo.name,
+      score: playerInfo.score,
+      picture: getGravatarImg(playerInfo.gravatarEmail),
+    });
+
+    const UM = 1;
+    ranking.sort((a, b) => {
+      if (a.score > b.score) return -UM;
+      if (a.score < b.score) return UM;
+      return 0;
+    });
+
+    localStorage.setItem('ranking', JSON.stringify(ranking));
     this.setState({ rankingBuilt: true });
   }
 
   render() {
     const rankingList = JSON.parse(localStorage.getItem('ranking'));
     const { rankingBuilt } = this.state;
-
-    // console.log(rankingList);
+    const { history } = this.props;
 
     return (
       <div>
@@ -72,10 +70,21 @@ class Ranking extends Component {
               </li>
             ))}
         </ul>
+        <button
+          type="button"
+          data-testid="btn-go-home"
+          onClick={ () => history.push('/') }
+        >
+          Voltar ao início
+        </button>
       </div>
     );
   }
 }
+
+Ranking.propTypes = {
+  history: object,
+}.isRequired;
 
 /* const mapStateToProps() => ({
   name: state.player.playerName,
