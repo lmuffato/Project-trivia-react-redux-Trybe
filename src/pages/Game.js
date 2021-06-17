@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { arrayOf, object } from 'prop-types';
 import Questions from '../components/Questions';
@@ -72,6 +72,7 @@ class Game extends React.Component {
     const { isAnswered } = this.props;
 
     if (isLoading) return <Loading />;
+    if (questionIndex > Number('4')) return <Redirect to="/feedback" />;
     return (
       <section>
         <Link to="/feedback">Teste</Link>
