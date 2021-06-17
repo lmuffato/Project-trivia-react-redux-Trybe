@@ -8,10 +8,11 @@ class GamePlay extends React.Component {
     super();
     this.state = {
       clicked: false,
-      sorePlayer: 0,
+      indexQuestions: 0,
     };
     this.clickOnOption = this.clickOnOption.bind(this);
     this.scoreCount = this.scoreCount.bind(this);
+    this.handleNext = this.handleNext.bind(this);
   }
 
   clickOnOption() {
@@ -21,9 +22,9 @@ class GamePlay extends React.Component {
   }
 
   scoreCount(event) {
-    const { time, score, dispatchScore, questions } = this.props;
-    // console.log(event.target)
-    const id = event.target.id
+    const { indexQuestions } = this.state;
+    const { time, dispatchScore, questions } = this.props;
+    const { id } = event.target;
     console.log(id);
     const difficultyQuestions = {
       easy: 1,
@@ -33,9 +34,10 @@ class GamePlay extends React.Component {
     if (id === 'correct-answer') {
       const pointsRate = 10;
       const pointsPlayer = pointsRate
-      + (time * difficultyQuestions[questions[0].difficulty]);
+      + (time * difficultyQuestions[questions[indexQuestions].difficulty]);
       console.log(pointsPlayer);
       dispatchScore(pointsPlayer);
+      localStorage.setItem('score', `${pointsPlayer}`);
     }
     this.clickOnOption();
   }
@@ -49,8 +51,14 @@ class GamePlay extends React.Component {
     // }
   }
 
+  handleNext() {
+    this.setState(({ index }) => ({
+      index: index + 1,
+    }));
+  }
+
   render() {
-    const { clicked } = this.state;
+    const { clicked, indexQuestions } = this.state;
     const { questions, time } = this.props;
     // console.log(questions[0].difficulty);
     return (
@@ -58,10 +66,10 @@ class GamePlay extends React.Component {
         <h1 data-testid="question-category">
           Category:
           {
-            questions[0].category
+            questions[indexQuestions].category
           }
         </h1>
-        <h2 data-testid="question-text">{ questions[0].question }</h2>
+        <h2 data-testid="question-text">{ questions[indexQuestions].question }</h2>
         <button
           onClick={ this.scoreCount }
           id="correct-answer"
@@ -71,10 +79,10 @@ class GamePlay extends React.Component {
           disabled={ time === 0 || clicked }
         >
           {
-            questions[0].correct_answer
+            questions[indexQuestions].correct_answer
           }
         </button>
-        {questions[0].incorrect_answers
+        {questions[indexQuestions].incorrect_answers
           .map((incorretAnsewr, index) => (
             <button
               type="button"
@@ -87,6 +95,14 @@ class GamePlay extends React.Component {
             >
               { incorretAnsewr }
             </button>))}
+        <div>
+          <button
+            type="button"
+            onClick={ this.handleNext }
+          >
+            Proxima pergunta
+          </button>
+        </div>
       </div>
     );
   }
@@ -105,6 +121,7 @@ const mapDispatchToProps = (dispatch) => ({
 GamePlay.propTypes = {
   time: propTypes.number.isRequired,
   questions: propTypes.arrayOf().isRequired,
+  dispatchScore: propTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(GamePlay);
