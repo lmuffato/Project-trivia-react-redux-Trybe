@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 
 class Feedback extends React.Component {
@@ -24,6 +25,22 @@ class Feedback extends React.Component {
           <p>Total de acertos:</p>
           <p data-testid="feedback-total-question">{assertions}</p>
         </div>
+        <Link to="/">
+          <button
+            type="button"
+            data-testid="btn-play-again"
+          >
+            Jogar novamente
+          </button>
+        </Link>
+        <Link to="/Ranking">
+          <button
+            type="button"
+            data-testid="btn-ranking"
+          >
+            Ver Ranking
+          </button>
+        </Link>
       </div>
     );
   }
