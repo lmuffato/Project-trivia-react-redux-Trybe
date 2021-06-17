@@ -7,38 +7,61 @@ class Questions extends Component {
   constructor() {
     super();
 
-    // this.renderQuestions = this.renderQuestions.bind(this);
+    this.timer = this.timer.bind(this);
     this.answerClick = this.answerClick.bind(this);
     this.state = {
       index: 0,
-      chosedQuestion: false
+      chosedQuestion: false,
     };
   }
 
+  timer() {
+    let timer = 30;
+    setTimeout(() =>(
+      timer -= 1
+      ), 1000);
+    return timer
+  }
+
+  componentDidUpdate() {
+    const { loading } = this.props;
+    if (loading === false) {
+      this.timer();
+      setTimeout(() =>
+        this.setState({
+          index: 1,
+          chosedQuestion: true,
+      }), 30000
+      )
+    }
+  }
+
   answerClick(event) {
-    const { index } = this.state
+    const { index, chosedQuestion } = this.state
     const { questions } = this.props;
     if (event.target.value === questions[index].correct_answer) {
       // Correct Event
-      console.log("você acerto");
       this.setState({
         index: 1,
         chosedQuestion: true,
       })
-      console.log(index);
+      console.log(chosedQuestion);
     } else {
-      console.log("Xablau");
+      this.setState({
+        index: 1,
+        chosedQuestion: true,
+      })
     }
   }
 
   render() {
     const { questions, loading } = this.props;
     const { index, chosedQuestion } = this.state;
-    // console.log(questions);
     return (
       <div>
         {loading === true ? <p>carregando...</p>
           : <div>
+            <h1>{ this.timer() }</h1>
             <p data-testid="question-category">{questions[index].category}</p>
             <p>{questions[index].difficulty}</p>
             <p data-testid="question-text">{questions[index].question}</p>
@@ -48,6 +71,7 @@ class Questions extends Component {
               onClick={this.answerClick}
               value={questions[index].correct_answer}
               className={ chosedQuestion ? 'correct' : null }
+              disabled={ chosedQuestion }
             >
               {questions[index].correct_answer}
             </button>
@@ -60,6 +84,7 @@ class Questions extends Component {
                   onClick={this.answerClick}
                   value={ia}
                   className={ chosedQuestion ? 'incorrect' : null }
+                  disabled={ chosedQuestion }
                 >
                   {ia}
                 </button>
