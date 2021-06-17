@@ -26,7 +26,6 @@ class DisplayGame extends React.Component {
   async fetchTrivia() {
     const { triviaQuestions, token } = this.props;
     const questions = await triviaAPI(token);
-
     triviaQuestions(questions);
   }
 
@@ -65,10 +64,10 @@ class DisplayGame extends React.Component {
 
   sumPoint() {
     const { timer } = this.state;
-    const { addScore } = this.props;
+    const { addScore, score: totalScore } = this.props;
     const correctAnswerValue = 10;
     const difficultyValue = this.checkDifficulty();
-    const score = correctAnswerValue + (timer * difficultyValue);
+    const score = totalScore + (correctAnswerValue + (timer * difficultyValue));
     addScore(score);
     localStorage.setItem('state', JSON.stringify({
       player: { score },
@@ -77,10 +76,24 @@ class DisplayGame extends React.Component {
   }
 
   nextButton() {
+    const { questionIndex } = this.state;
+    const { history } = this.props;
+    const lastQuestion = 4;
+
     return (
       <button
         type="button"
         data-testid="btn-next"
+        onClick={ () => {
+          if (questionIndex >= lastQuestion) {
+            history.push('/feedback');
+          } else {
+            this.setState({ questionIndex: questionIndex + 1, displayNextButton: false });
+            this.createQuestion();
+            this.timerAnswer();
+            this.checkAnswer();
+          }
+        } }
       >
         Next
       </button>
@@ -90,21 +103,52 @@ class DisplayGame extends React.Component {
   checkAnswer() {
     const correctButton = document.querySelector('.correct-answer');
     const incorrectButtons = document.querySelectorAll('.wrong-answer');
-    correctButton.style.border = '3px solid rgb(6, 240, 15)';
-    correctButton.setAttribute('disabled', 'disabled');
-    incorrectButtons.forEach((button) => {
-      button.style.border = '3px solid rgb(255, 0, 0)';
-      button.setAttribute('disabled', 'disabled');
-    });
-    this.setState({
-      displayNextButton: true,
-    });
+    const { displayNextButton } = this.state;
+
+    if (!displayNextButton) {
+      correctButton.style.border = '3px solid rgb(6, 240, 15)';
+      correctButton.setAttribute('disabled', 'disabled');
+      incorrectButtons.forEach((button) => {
+        button.style.border = '3px solid rgb(255, 0, 0)';
+        button.setAttribute('disabled', 'disabled');
+      });
+      this.setState({
+        displayNextButton: true,
+      });
+    } else {
+      correctButton.style.border = '';
+      correctButton.removeAttribute('disabled');
+      incorrectButtons.forEach((button) => {
+        button.style.border = '';
+        button.removeAttribute('disabled');
+      });
+      this.setState({
+        displayNextButton: false,
+      });
+    }
+  }
+
+  createQuestion() {
+    const { questionIndex } = this.state;
+    const { questionsApiGames } = this.props;
+    if (questionsApiGames === undefined) {
+      return <div>Loading...</div>;
+    }
+    const { question, category } = questionsApiGames[questionIndex];
+    return (
+      <div>
+        <span data-testid="question-category">{ category }</span>
+        <h2 data-testid="question-text">{ question }</h2>
+        <div>
+          { this.createAnswers(questionsApiGames[questionIndex]) }
+        </div>
+      </div>
+    );
   }
 
   createAnswers(question) {
     const answers = [question.correct_answer]
       .concat(question.incorrect_answers);
-
     return answers.map((answer, indexAnswer) => (
       <button
         type="button"
@@ -121,25 +165,19 @@ class DisplayGame extends React.Component {
   }
 
   render() {
-    const { questionIndex, displayNextButton } = this.state;
+    const { displayNextButton, questionIndex } = this.state;
     const { questionsApiGames } = this.props;
+    const indexCheck = 5;
 
     if (questionsApiGames === undefined) {
       return <div>Loading...</div>;
     }
-    const { question, category } = questionsApiGames[questionIndex];
 
     return (
       <>
         <Header />
-        <div>
-          <span data-testid="question-category">{ category }</span>
-          <h2 data-testid="question-text">{ question }</h2>
-          <div>
-            { this.createAnswers(questionsApiGames[questionIndex]) }
-          </div>
-          { displayNextButton ? this.nextButton() : 0 }
-        </div>
+        { questionIndex < indexCheck ? this.createQuestion() : '' }
+        { displayNextButton ? this.nextButton() : '' }
       </>
     );
   }
