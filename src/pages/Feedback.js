@@ -1,14 +1,21 @@
 import React from 'react';
+import { object } from 'prop-types';
 import { Link } from 'react-router-dom';
 // import { connect } from 'react-redux';
 import Header from '../components/Header';
 
 class Feedback extends React.Component {
-  // constructor() {
-  //   super();
-  //   this.scoreMenssage = this.scoreMenssage.bind(this);
-  //   this.totalQuestions = this.totalQuestions.bind(this);
-  // }
+  constructor() {
+    super();
+    //   this.scoreMenssage = this.scoreMenssage.bind(this);
+    //   this.totalQuestions = this.totalQuestions.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    const { history } = this.props;
+    history.push('/ranking');
+  }
 
   // scoreMenssage() {
   //   const { score } = this.props;
@@ -49,7 +56,7 @@ class Feedback extends React.Component {
           </button>
         </Link>
         <Link to="/ranking">
-          <button type="button" data-testid="btn-ranking" onClick={ this.func }>
+          <button type="button" data-testid="btn-ranking" onClick={ this.handleClick }>
             Ver Ranking
           </button>
         </Link>
@@ -57,6 +64,10 @@ class Feedback extends React.Component {
     );
   }
 }
+
+Feedback.propTypes = {
+  history: object,
+}.isRequired;
 
 // const mapStateToProps = (state) => ({
 //   name: state.playerFunction.player.name,
