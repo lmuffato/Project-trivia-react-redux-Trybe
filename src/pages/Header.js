@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import md5 from 'crypto-js/md5';
 import './Header.css';
+import { Link } from 'react-router-dom';
 
 class Header extends Component {
   render() {
@@ -28,15 +29,20 @@ class Header extends Component {
           {' '}
           { getScore }
         </h3>
+        <Link to="/ranking">
+          <button type="button" data-testid="btn-ranking">
+            Ver Ranking
+          </button>
+        </Link>
       </div>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  getName: state.user.name,
-  getEmail: state.user.email,
-  getScore: state.user.score,
+  getName: state.player.name,
+  getEmail: state.player.gravatarEmail,
+  getScore: state.player.score,
 });
 
 Header.propTypes = {

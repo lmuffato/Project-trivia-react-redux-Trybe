@@ -2,6 +2,7 @@ const INITIAL_STATE = {
   questions: [],
   questionNumber: 1,
   isLoading: true,
+  ranking: [],
 };
 
 export const game = (state = INITIAL_STATE, action) => {

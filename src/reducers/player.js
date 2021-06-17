@@ -1,10 +1,11 @@
 const INITIAL_STATE = {
   name: '',
-  email: '',
+  assertions: 0,
   score: 0,
+  gravatarEmail: '',
 };
 
-export const user = (state = INITIAL_STATE, action) => {
+export const player = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case 'SET_NAME':
     return {
@@ -14,10 +15,10 @@ export const user = (state = INITIAL_STATE, action) => {
   case 'SET_EMAIL':
     return {
       ...state,
-      email: action.payload.email,
+      gravatarEmail: action.payload.email,
     };
   default: return state;
   }
 };
 
-export default user;
+export default player;
