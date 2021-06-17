@@ -41,6 +41,9 @@ class Login extends Component {
     requestToken();
     const { state: { name, email }, props: { loginProps, history } } = this;
     loginProps({ name, email });
+
+    const player = { name, email, score: 0, assertions: 0 };
+    localStorage.setItem('player', JSON.stringify({ player }));
     history.push('/game');
   }
 
