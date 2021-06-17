@@ -2,7 +2,7 @@ const INITIAL_STATE = {
   questions: [],
   questionNumber: 1,
   isLoading: true,
-  ranking: [
+  ranking: [ // Array Ficticio apenas pra testar o map do ranking
     {
       name: 'Luiz',
       assertions: 1,
