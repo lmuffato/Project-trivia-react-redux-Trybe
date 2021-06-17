@@ -14,7 +14,6 @@ class Play extends Component {
       answered: false,
       time: 30,
       isLoading: true,
-      numberOfHits: 0,
     };
 
     this.mountRound = this.mountRound.bind(this);
@@ -118,7 +117,7 @@ class Play extends Component {
 
   nextQuestion() {
     const { questions, history } = this.props;
-    const { questionNumber, numberOfHits } = this.state;
+    const { questionNumber } = this.state;
 
     if (questionNumber + 1 < questions.length) {
       this.setState((previousState) => ({
@@ -130,10 +129,7 @@ class Play extends Component {
         this.countdown();
       });
     } else {
-      return history.push({
-        pathname: '/feedback',
-        state: { hits: numberOfHits },
-      });
+      return history.push('/feedback');
     }
   }
 
