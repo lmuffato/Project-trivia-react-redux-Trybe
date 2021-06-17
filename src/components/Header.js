@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import md5 from 'crypto-js/md5';
 
 export default function Header() {
-  const { email, name, score } = useSelector((state) => state.loginReducer);
+  const { email, name, score } = useSelector((state) => state.loginReducer.player);
   const hash = md5(email);
   const gravatar = `https://www.gravatar.com/avatar/${hash}`;
 

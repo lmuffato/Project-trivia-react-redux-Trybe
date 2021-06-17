@@ -14,6 +14,7 @@ class GamePlay extends React.Component {
     this.clickOnOption = this.clickOnOption.bind(this);
     this.scoreCount = this.scoreCount.bind(this);
     this.handleNext = this.handleNext.bind(this);
+    this.conditional = this.conditional.bind(this);
   }
 
   clickOnOption() {
@@ -67,6 +68,14 @@ class GamePlay extends React.Component {
     }
   }
 
+  conditional() {
+    const { clicked } = this.state;
+    const { time } = this.props;
+    console.log('teste');
+    if (clicked || time === 0) return '';
+    return 'none';
+  }
+
   render() {
     const { clicked, indexQuestions } = this.state;
     const { questions, time } = this.props;
@@ -109,6 +118,7 @@ class GamePlay extends React.Component {
             type="button"
             data-testid="btn-next"
             onClick={ this.handleNext }
+            className={ this.conditional() }
           >
             Proxima pergunta
           </button>
