@@ -72,7 +72,17 @@ class Login extends React.Component {
   // Requisito 2 - Redirenciona para pagina de games e faz a requisição do token na api;
   async handleClickPlay() {
     const { name: userName, email } = this.state;
+    const name = userName;
     const { getLogin } = this.props;
+    const localStorageFormat = {
+      player: {
+        name,
+        assertions: 0,
+        score: 0,
+        gravatarEmail: email,
+      },
+    };
+    localStorage.setItem('state', JSON.stringify(localStorageFormat));
     getLogin({ userName, email });
     const getToken = await requestToken();
     // https://pt.stackoverflow.com/questions/369892/como-redirecionar-para-uma-rota-usando-onclick-e-react-router

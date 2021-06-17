@@ -1,6 +1,7 @@
 // Requisito 5 - Requisição da Api das perguntas e renderixação na tela
 import React from 'react';
-// import Timer from '../Componentes/Timer';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { requestTrivia } from '../Api';
 import Timer from './Timer';
 import './playGame.css';
@@ -11,17 +12,22 @@ class PlayGame extends React.Component {
     this.state = {
       questions: '',
       loading: true,
-      greenBtn: '',
-      redBtn: '',
+      answer: '',
       greenClass: 'gray',
       redClass: 'gray',
+      clikedClor: 'gray',
+      greenPink: 'gray',
+      index: 0,
     };
 
     this.fetchApiTrivia = this.fetchApiTrivia.bind(this);
     this.renderQuestions = this.renderQuestions.bind(this);
     this.renderLoading = this.renderLoading.bind(this);
     this.nameTheClassBtnAnswer = this.nameTheClassBtnAnswer.bind(this);
-    this.colorTheButtons = this.colorTheButtons.bind(this);
+    this.colorSelectAnswer = this.colorSelectAnswer.bind(this);
+    this.nextQuestion = this.nextQuestion.bind(this);
+    // this.fetchFilterQuestion = this.fetchFilterQuestion.bind(this);
+    this.calcScore = this.calcScore.bind(this);
   }
 
   componentDidMount() {
@@ -50,17 +56,82 @@ class PlayGame extends React.Component {
     return nameTheClass;
   }
 
-  colorTheButtons(e) {
-    // e.prentDefault();
-    console.log(e);
+  // Requisito 9 - Faz a pontuação dinâmica por dificuldade e salva no localStorage
+  calcScore() {
+    const { questions, index } = this.state;
+    const { timeGotten } = this.props;
+    const hard = 3;
+    const basePoint = 10;
+    const localRanking = JSON.parse(localStorage.getItem('state'));
+    const { player: { score } } = localRanking;
+    if (questions[index].difficulty === 'hard') {
+      localRanking.player.score = score + basePoint + (timeGotten * hard);
+      localStorage.setItem('state', JSON.stringify(localRanking));
+    }
+    if (questions[index].difficulty === 'medium') {
+      localRanking.player.score = score + basePoint + (timeGotten * 2);
+      localStorage.setItem('state', JSON.stringify(localRanking));
+    }
+    if (questions[index].difficulty === 'easy') {
+      localRanking.player.score = score + basePoint + (timeGotten * 1);
+      localStorage.setItem('state', JSON.stringify(localRanking));
+    }
   }
+
+  // Requisito 10 - Renderiza uma pergunta por vez
+  nextQuestion() {
+    const { questions, index } = this.state;
+    this.setState((prevState) => ({
+      index: (prevState.index + 1) % questions.length,
+      answer: '',
+      greenClass: 'gray',
+      redClass: 'gray',
+      clikedClor: 'gray',
+      greenPink: 'gray',
+    }));
+    console.log(questions[index].category);
+  }
+
+  colorSelectAnswer(e) {
+    const FIVE_SECONDS = 5000;
+    this.setState({
+      clikedClor: 'pink',
+      greenPink: 'pink',
+      answer: e.target.innerText,
+    });
+    setTimeout(() => {
+      this.setState({
+        greenPink: 'green',
+        clikedClor: 'red',
+        redClass: 'red',
+        greenClass: 'green',
+      });
+    }, FIVE_SECONDS);
+
+    this.calcScore();
+  }
+
+  // changeTheColorClass(question) {
+  //   const { clikedClor, answer } = this.state;
+  //   if (clikedClor === 'pink') {
+  //     setTimeout(() => {
+  //       if (answer === question) {
+  //         this.setState({
+  //           clikedClor: 'green',
+  //         });
+  //       }
+  //     }, 5000);
+  //   }
+  // }
 
   // renderAnswers(correct, incorrect) {
   //   return [...correct, ...incorrect];
   // }
 
   renderQuestions() {
-    const { questions, greenClass, redClass } = this.state;
+    const { questions, greenClass, redClass, index,
+      clikedClor, answer, greenPink } = this.state;
+    const question = questions[index];
     return (
       <>
         <div>
@@ -68,38 +139,38 @@ class PlayGame extends React.Component {
           <Timer />
         </div>
         <div>
-          {
-            questions.map((question, indexKey) => (
-              <div key={ indexKey }>
-                <p data-testid="question-category">{question.category}</p>
-                <h3 data-testid="question-text">{question.question}</h3>
-                <button
-                  data-testid="correct-answer"
-                  type="button"
-                  name={ question.correct_answer }
-                  // Req 7: Evento de clique que atualiza o state com o valor da resposta
-                  onClick={ (e) => this.colorTheButtons(e) }
-                  // this.setState({ greenBtn: e.target.value, greenClass: 'green' });
-                  className={ greenClass }
-                >
-                  {question.correct_answer}
-                </button>
-                {question.incorrect_answers.map((incorrect, index) => (
-                  <button
-                    data-testid={ `wrong-answer-${index}` }
-                    type="button"
-                    key={ index }
-                    // Req 7: Evento de clique que atualiza o state com o valor da resposta
-                    onClick={ () => this.setState({
-                      redBtn: incorrect, greenClass: 'green', redClass: 'red' }) }
-                    className={ redClass }
-                  >
-                    {incorrect}
-                  </button>
-                ))}
-              </div>
-            ))
-          }
+          <div key={ index }>
+            <p data-testid="question-category">{question.category}</p>
+            <h4 data-testid="question-text">{question.question}</h4>
+            <button
+              data-testid="correct-answer"
+              type="button"
+              onClick={ (e) => this.colorSelectAnswer(e) }
+              className={ answer === question.correct_answer ? greenPink : greenClass }
+            >
+              {question.correct_answer}
+            </button>
+            {question.incorrect_answers.map((incorrect, indexKey) => (
+              <button
+                data-testid={ `wrong-answer-${indexKey}` }
+                type="button"
+                key={ indexKey }
+                onClick={ (e) => this.colorSelectAnswer(e) }
+                className={ answer === incorrect ? clikedClor : redClass }
+              >
+                {incorrect}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div>
+          <button
+            data-testid="btn-next"
+            type="button"
+            onClick={ () => this.nextQuestion() }
+          >
+            Próxima
+          </button>
         </div>
       </>
     );
@@ -119,4 +190,12 @@ class PlayGame extends React.Component {
   }
 }
 
-export default PlayGame;
+const mapStateToProps = (state) => ({
+  timeGotten: state.triviaReducer.seconds,
+});
+
+PlayGame.propTypes = {
+  timeGotten: PropTypes.number.isRequired,
+};
+
+export default connect(mapStateToProps)(PlayGame);
