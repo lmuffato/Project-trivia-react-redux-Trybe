@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
+import { addRank } from '../redux/actions';
 
 class Feedback extends Component {
   render() {
-    const { assertations } = this.props;
+    const { assertations, ranking, score, gravatar, name } = this.props;
     const minHits = 3;
+    const playerInfo = { score, gravatar, name };
     return (
       <div>
         <Header />
@@ -26,6 +28,7 @@ class Feedback extends Component {
           <button
             type="button"
             data-testid="btn-ranking"
+            onClick={ () => ranking(playerInfo) }
           >
             Ver Ranking
           </button>
@@ -42,6 +45,12 @@ Feedback.propTypes = {
 const mapStateToProps = (state) => ({
   score: state.player.score,
   assertations: state.player.assertations,
+  gravatar: state.player.gravatar,
+  name: state.player.name,
 });
 
-export default connect(mapStateToProps, null)(Feedback);
+const mapDispatchToProps = (dispatch) => ({
+  ranking: (infos) => dispatch(addRank(infos)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Feedback);

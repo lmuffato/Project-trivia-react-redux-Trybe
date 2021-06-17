@@ -1,5 +1,5 @@
 import { LOGIN, GET_QUESTIONS, GET_TOKEN,
-  REQUEST_API, ADD_GRAVATAR, UPDATE_SCORE } from './actionsTypes';
+  REQUEST_API, ADD_GRAVATAR, UPDATE_SCORE, UPDATE_RANKING } from './actionsTypes';
 
 export const updateScore = (newScore) => {
   const { assertations, score } = newScore;
@@ -35,6 +35,11 @@ export const addToken = (saveToken) => {
     payload: saveToken,
   };
 };
+
+export const addRank = (infos) => ({
+  type: UPDATE_RANKING,
+  payload: infos,
+});
 
 function updateToken() {
   return async (dispatch) => {
