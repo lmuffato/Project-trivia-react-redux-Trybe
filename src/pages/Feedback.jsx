@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { string, shape } from 'prop-types';
 import { Link } from 'react-router-dom';
+
 import md5 from 'crypto-js/md5';
 
 class Feedback extends Component {
@@ -37,6 +38,14 @@ class Feedback extends Component {
             data-testid="btn-play-again"
           >
             Jogar novamente
+          </button>
+        </Link>
+        <Link to="/ranking">
+          <button
+            type="button"
+            data-testid="btn-ranking"
+          >
+            Ver Ranking
           </button>
         </Link>
       </>
