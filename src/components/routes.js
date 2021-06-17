@@ -12,7 +12,11 @@ class Routes extends React.Component {
         <Route exact path="/" component={ Login } />
         <Route path="/jogo" component={ Jogo } />
         <Route path="/configuracoes" component={ Configuracoes } />
+<<<<<<< HEAD
         <Route path="/feedback" component={ Feedback } />
+=======
+        <Route path="feedback" component={Feedback} />
+>>>>>>> group30-feadback
       </Switch>
     );
   }

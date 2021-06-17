@@ -1,12 +1,30 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import FeedbackHeader from '../components/FeedbackHeader';
+import FeedbackMsg from '../components/FeedbackMsg';
+import feedbackResult from '../components/feedbackResult';
 
-class Feedback extends React.Component {
+export class Feedback extends Component {
   render() {
     return (
       <div>
-        <h1 data-testid="settings-title">Feedback</h1>
+        <FeedbackHeader />
+        <FeedbackMsg />
+        <feedbackResult />
+        <Link 
+          to="/"
+          data-testid="btn-play-again"
+        >
+          Jogar novamente
+        </Link>
+        <Link 
+          to="/ranking"
+          data-testid="btn-ranking"
+        >
+          Ver Ranking
+          </Link>
       </div>
-    );
+    )
   }
 }
 
