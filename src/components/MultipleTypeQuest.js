@@ -24,7 +24,7 @@ class MultipleTypeQuest extends Component {
     this.addAnswerBorder();
     getAnswer({
       validation: e.target.className,
-      Questiondifficulty: e.target.parentNode.className,
+      questionDifficulty: e.target.parentNode.className,
     });
   }
 
@@ -39,6 +39,7 @@ class MultipleTypeQuest extends Component {
               onClick={ this.handleClick }
               key={ index }
               data-testid={ alternative.dataTest }
+              disabled={ false }
             >
               { alternative.text }
             </button>)) }

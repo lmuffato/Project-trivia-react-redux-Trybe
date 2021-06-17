@@ -24,6 +24,8 @@ class Timer extends Component {
         time -= 1;
       } else {
         clearInterval(interval);
+        const buttons = document.querySelectorAll('button');
+        buttons.forEach((button) => { button.disabled = true; });
       }
       this.setState({ time });
       stopTimer(interval, time);
