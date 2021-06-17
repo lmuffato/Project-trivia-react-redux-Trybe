@@ -9,6 +9,7 @@ class GamePlay extends React.Component {
     this.state = {
       clicked: false,
       indexQuestions: 0,
+      assertions: 0,
     };
     this.clickOnOption = this.clickOnOption.bind(this);
     this.scoreCount = this.scoreCount.bind(this);
@@ -22,7 +23,7 @@ class GamePlay extends React.Component {
   }
 
   scoreCount(event) {
-    const { indexQuestions } = this.state;
+    const { indexQuestions, assertions } = this.state;
     const { time, dispatchScore, questions } = this.props;
     const { id } = event.target;
     console.log(id);
@@ -32,6 +33,10 @@ class GamePlay extends React.Component {
       hard: 3,
     };
     if (id === 'correct-answer') {
+      this.setState(({ oldScore }) => ({
+        assertions: oldScore + 1,
+      }));
+      console.log(assertions);
       const pointsRate = 10;
       const pointsPlayer = pointsRate
       + (time * difficultyQuestions[questions[indexQuestions].difficulty]);
@@ -52,15 +57,19 @@ class GamePlay extends React.Component {
   }
 
   handleNext() {
-    this.setState(({ index }) => ({
-      index: index + 1,
-    }));
+    const { indexQuestions } = this.state;
+    const { questions } = this.props;
+    if (indexQuestions < questions.length - 1) {
+      this.setState(({ indexQuestions }) => ({
+        indexQuestions: indexQuestions + 1,
+      }));
+      this.setState({ clicked: false });
+    }
   }
 
   render() {
     const { clicked, indexQuestions } = this.state;
     const { questions, time } = this.props;
-    // console.log(questions[0].difficulty);
     return (
       <div>
         <h1 data-testid="question-category">
@@ -98,6 +107,7 @@ class GamePlay extends React.Component {
         <div>
           <button
             type="button"
+            data-testid="btn-next"
             onClick={ this.handleNext }
           >
             Proxima pergunta
