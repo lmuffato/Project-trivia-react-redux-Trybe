@@ -22,11 +22,9 @@ class Login extends Component {
     };
   }
 
-  requestToken() {
+  async requestToken() {
     const { props: { requestQuestions },
       state: { name, email } } = this;
-    getTokenFromAPIAndSaveToLS();
-    requestQuestions();
     const state = {
       player: {
         name,
@@ -35,6 +33,8 @@ class Login extends Component {
         email,
       },
     };
+    await getTokenFromAPIAndSaveToLS();
+    await requestQuestions();
     localStorage.setItem('state', JSON.stringify(state));
     return this.redirectToGameNow();
   }
@@ -76,7 +76,9 @@ class Login extends Component {
 
   render() {
     const { state: { disabled, redirectToGame, redirectToConfigs },
-      handleChange, requestToken, redirectToConfigsNow } = this;
+      handleChange, requestToken, redirectToConfigsNow,
+      props: { questions } } = this;
+    console.log(questions);
     return (
       <div>
         <form>
@@ -122,6 +124,10 @@ class Login extends Component {
   }
 }
 
+const mapSatateToProps = (state) => ({
+  questions: state.questions.results,
+});
+
 const mapDispatchToProps = () => (dispatch) => ({
   requestQuestions: () => dispatch(requestQuestionThunk()),
 });
@@ -130,4 +136,4 @@ Login.propTypes = {
   requestQuestions: PropTypes.func,
 }.isRequired;
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapSatateToProps, mapDispatchToProps)(Login);
