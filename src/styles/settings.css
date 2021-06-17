@@ -1,0 +1,86 @@
+.main-settings {
+  align-items: center;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  height: 40vh;
+  justify-content: space-evenly;
+}
+
+.title-settings {
+  background-color: #3a2d88;
+  text-align: center;
+  width: 100%;
+}
+
+.form-settings {
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.form-settings :first-child {
+  background-color: #3a2d88;
+  border: none;
+  border-radius: 3px;
+  box-shadow: 2px 3px 10px black;
+  color: white;
+  font-size: medium;
+  font-weight: 600;
+  margin: 10px 0;
+  padding: 10px;
+}
+
+.form-settings :nth-child( 2 ) {
+  background-color: #3a2d88;
+  border: none;
+  border-radius: 3px;
+  box-shadow: 2px 3px 10px black;
+  color: white;
+  font-size: medium;
+  font-weight: 600;
+  margin: 10px 0;
+  padding: 10px;
+}
+
+.form-settings :last-child {
+  background-color: #3a2d88;
+  border: none;
+  border-radius: 3px;
+  box-shadow: 2px 3px 10px black;
+  color: white;
+  font-size: medium;
+  font-weight: 600;
+  margin: 10px 0;
+  padding: 10px;
+}
+
+.form-settings :nth-child( 2 ):hover {
+  box-shadow: 2px 5px 20px white;
+}
+
+.form-settings :first-child:hover {
+  box-shadow: 2px 5px 20px white;
+}
+
+.form-settings :last-child:hover {
+  box-shadow: 2px 5px 20px white;
+}
+
+.btn-settings {
+  background-color: #3a2d88;
+  border: none;
+  border-radius: 3px;
+  box-shadow: 2px 3px 10px black;
+  color: white;
+  font-family: sans-serif;
+  font-size: x-large;
+  font-weight: 600;
+  height: 5vh;
+  width: 15%;
+}
+
+.btn-settings:hover {
+  box-shadow: 2px 5px 20px white;
+}
