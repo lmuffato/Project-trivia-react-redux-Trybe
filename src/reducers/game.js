@@ -1,9 +1,10 @@
-import { DISABLE } from '../actions';
+import { DISABLE, HIDDEN } from '../actions';
 
 const INITIAL_STATE = {
   questions: [],
   isLoading: false,
-  disable: false,
+  disableAnswer: false,
+  hiddenBtnNext: true,
 };
 
 function gameReducer(state = INITIAL_STATE, action) {
@@ -11,7 +12,13 @@ function gameReducer(state = INITIAL_STATE, action) {
   case DISABLE:
     return ({
       ...state,
-      disable: action.payload,
+      disableAnswer: action.payload,
+    });
+
+  case HIDDEN:
+    return ({
+      ...state,
+      hiddenBtnNext: action.payload,
     });
 
   default:

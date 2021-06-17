@@ -19,7 +19,6 @@ class Login extends React.Component {
     this.handleClick = this.handleClick.bind(this);
     this.validateFields = this.validateFields.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    // this.newName = this.newName.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -44,22 +43,9 @@ class Login extends React.Component {
     });
   }
 
-  // newEmail(event) {
-  //   this.setState({
-  //     email: event.target.value,
-  //   });
-  // }
-
-  // newName(event) {
-  //   this.setState({
-  //     name: event.target.value,
-  //   });
-  // }
-
   async handleClick() {
     const tokenTest = await getToken();
     localStorage.setItem('token', JSON.stringify(tokenTest.token));
-    // const { email } = this.state;
     const { addEmail, addToken } = this.props;
     addEmail(this.state);
     addToken(tokenTest);

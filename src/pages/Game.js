@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { getQuestions } from '../services/dataApi';
 import '../styles/Game.css';
 import Timer from '../components/Timer';
+import { disable, hidden } from '../actions';
 
 class Game extends Component {
   constructor(props) {
@@ -13,6 +14,7 @@ class Game extends Component {
     this.state = {
       questions: [],
       index: 0,
+      shuffle: [],
     };
 
     this.wrongIndex = -1;
@@ -21,31 +23,28 @@ class Game extends Component {
     this.incrementIndex = this.incrementIndex.bind(this);
     this.checkAnswer = this.checkAnswer.bind(this);
     this.shuffleArray = this.shuffleArray.bind(this);
-    this.createButton = this.createButton.bind(this);
+    this.createButton = this.createAnswersButtons.bind(this);
+    this.removeButtonBorder = this.removeButtonBorder.bind(this);
+    this.editDisableAndHidden = this.editDisableAndHidden.bind(this);
+    this.funcManeger = this.funcManeger.bind(this);
   }
 
-  componentDidMount() {
-    this.handleFunc();
+  async componentDidMount() {
+    await this.handleFunc();
+    this.shuffleArray();
   }
 
   handleFunc() {
     const { token } = this.props;
-    console.log(token);
     return getQuestions(token)
       .then((data) => this.setState({
         questions: data.results,
       }));
   }
 
-  incrementIndex() {
-    const { index } = this.state;
-    this.setState({
-      index: index + 1,
-    });
-    this.wrongIndex = -1;
+  removeButtonBorder() {
     const buttons = document.getElementsByClassName('button');
     const buttonsArray = Array.from(buttons);
-    console.log(buttonsArray);
     buttonsArray.map((button) => {
       button.className = '';
       button.className = 'button';
@@ -53,21 +52,51 @@ class Game extends Component {
     });
   }
 
-  // Função baseada em um dos exemplos da página a seguir: https://www.delftstack.com/pt/howto/javascript/shuffle-array-javascript/
-  shuffleArray(inputArray) {
-    const sortControl = 0.5;
-    return inputArray.sort(() => Math.random() - sortControl);
+  incrementIndex() {
+    const { index } = this.state;
+    this.setState({
+      index: index + 1,
+    });
+    // console.log(index);
+    this.wrongIndex = -1;
   }
 
-  createButton(answer, i) {
-    const { disable } = this.props;
+  editDisableAndHidden() {
+    const { editHidden, editDisable } = this.props;
+    editDisable(false);
+    editHidden(true);
+  }
+
+  async funcManeger() {
+    this.removeButtonBorder();
+    await this.incrementIndex();
+    this.editDisableAndHidden();
+    this.shuffleArray();
+  }
+
+  // Função baseada em um dos exemplos da página a seguir: https://www.delftstack.com/pt/howto/javascript/shuffle-array-javascript/
+  shuffleArray() {
+    const { questions, index } = this.state;
+    // console.log(index);
+    const sortControl = 0.5;
+    const answers = [questions[index].correct_answer,
+      ...questions[index].incorrect_answers,
+    ];
+    const shuffle = answers.sort(() => Math.random() - sortControl);
+    this.setState({
+      shuffle,
+    });
+  }
+
+  createAnswersButtons(answer, i) {
+    const { disableAnswer } = this.props;
     const { questions, index } = this.state;
     if (answer === questions[index].correct_answer) {
       return (
         <button
           key={ i }
           type="button"
-          disabled={ disable }
+          disabled={ disableAnswer }
           name="correct-answer"
           className="button"
           data-testid="correct-answer"
@@ -82,7 +111,7 @@ class Game extends Component {
       <button
         key={ i }
         type="button"
-        disabled={ disable }
+        disabled={ disableAnswer }
         name="wrong-answer"
         className="button"
         data-testid={ `wrong-answer-${this.wrongIndex}` }
@@ -94,31 +123,27 @@ class Game extends Component {
   }
 
   checkAnswer() {
+    const { editHidden } = this.props;
+    editHidden(false);
     const buttons = document.getElementsByClassName('button');
     const buttonsArray = Array.from(buttons);
-    console.log(buttonsArray);
     buttonsArray.map((button) => {
       if (button.name === 'correct-answer') {
         return button.classList.add('correctAnswer');
-        // return button.classList;
       }
       return button.classList.add('wrongAnswer');
-      //  button.classList;
     });
   }
 
   render() {
-    const { emailDoUsuario, nomeDoUsuario } = this.props;
+    const { emailDoUsuario, nomeDoUsuario, hiddenBtnNext } = this.props;
+    const { questions, index, shuffle } = this.state;
     const hashGerada = md5(emailDoUsuario).toString();
-    const { questions, index } = this.state;
     if (questions.length === 0) return <h2>loading...</h2>;
-    const answers = [questions[index].correct_answer,
-      ...questions[index].incorrect_answers,
-    ];
     return (
       <div>
         <header>
-          <img src={ `https://br.gravatar.com/site/implement/${hashGerada}` } alt="usário" data-testid="header-profile-picture" />
+          <img src={ `https://gravatar.com/avatar/${hashGerada}` } alt="usuário" data-testid="header-profile-picture" />
           <p data-testid="header-player-name">{nomeDoUsuario}</p>
           <p data-testid="header-score">0</p>
         </header>
@@ -130,11 +155,12 @@ class Game extends Component {
           <p data-testid="question-text">
             {questions[index].question}
           </p>
-          {this.shuffleArray(answers).map((answer, i) => this.createButton(answer, i))}
+          {shuffle.map((answer, i) => this.createAnswersButtons(answer, i))}
           <button
             type="button"
+            className={ hiddenBtnNext ? 'hidden' : 'visible' }
             data-testid="btn-next"
-            onClick={ this.incrementIndex }
+            onClick={ this.funcManeger }
           >
             Próxima
           </button>
@@ -146,14 +172,20 @@ class Game extends Component {
 
 const mapStateToProps = ({
   player: { email, name, token },
-  gameReducer: { disable } }) => ({
+  gameReducer: { disableAnswer, hiddenBtnNext } }) => ({
   emailDoUsuario: email,
   nomeDoUsuario: name,
   token,
-  disable,
+  disableAnswer,
+  hiddenBtnNext,
 });
 
-export default connect(mapStateToProps, null)(Game);
+const mapDispatchToProps = (dispatch) => ({
+  editDisable: (payload) => dispatch(disable(payload)),
+  editHidden: (payload) => dispatch(hidden(payload)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Game);
 
 Game.propTypes = {
   emailDoUsuario: PropTypes.string,
