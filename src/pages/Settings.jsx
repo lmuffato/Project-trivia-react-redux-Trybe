@@ -8,6 +8,7 @@ class Settings extends React.Component {
     this.state = {
       category: 9,
       difficulty: 'easy',
+      type: 'multiple',
     };
   }
 
@@ -55,6 +56,23 @@ class Settings extends React.Component {
     );
   }
 
+  renderSelectType() {
+    const { type } = this.state;
+    return (
+      <label htmlFor="type">
+        Tipo de pergunta
+        <select
+          id="type"
+          value={ type }
+          onChange={ (e) => this.handleChange(e) }
+        >
+          <option value="boolean">Verdadeiro ou Falso</option>
+          <option value="multiple">Múltipla escolha</option>
+        </select>
+      </label>
+    );
+  }
+
   render() {
     return (
       <main>
@@ -68,6 +86,9 @@ class Settings extends React.Component {
           <h3>
             {this.renderSelectDifficulty()}
           </h3>
+          <h3>
+            {this.renderSelectType()}
+          </h3>
         </section>
       </main>
     );
@@ -79,7 +100,7 @@ const mapStateToProps = (state) => ({
 });
 
 Settings.propTypes = {
-  categories: PropTypes.array,
+  categories: PropTypes.arrayOf(PropTypes.object),
 }.isRequired;
 
 export default connect(mapStateToProps)(Settings);
