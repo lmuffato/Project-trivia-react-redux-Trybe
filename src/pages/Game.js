@@ -11,6 +11,7 @@ class Game extends React.Component {
     this.getUserRanking = this.getUserRanking.bind(this);
     this.updateLocalStorage = this.updateLocalStorage.bind(this);
     this.setTimer = this.setTimer.bind(this);
+    this.changeBorders = this.changeBorders.bind(this);
   }
 
   componentDidMount() {
@@ -46,8 +47,19 @@ class Game extends React.Component {
       difficultyPoint = hard;
     }
     finalPoint += fixedPoint + (timer * difficultyPoint);
+    this.changeBorders();
     getScore(finalPoint);
     this.updateLocalStorage(finalPoint);
+  }
+
+  changeBorders() {
+    const correctAnswer = document.getElementsByClassName('correct-answer');
+    correctAnswer[0].style.border = '3px solid rgb(6, 240, 15)';
+
+    const incorrectAnswer = document.querySelectorAll('.wrong-answer');
+    for (let index = 0; index < incorrectAnswer.length; index += 1) {
+      incorrectAnswer[index].style.border = '3px solid rgb(255, 0, 0)';
+    }
   }
 
   updateLocalStorage(score) {
@@ -79,6 +91,8 @@ class Game extends React.Component {
             data-testid={ `wrong-answer-${index}` }
             key={ index }
             type="button"
+            onClick={ this.changeBorders }
+            className="wrong-answer"
           >
             {incorrect}
 
@@ -88,6 +102,7 @@ class Game extends React.Component {
           data-testid="correct-answer"
           type="button"
           onClick={ () => this.getUserRanking(category.difficulty) }
+          className="correct-answer"
         >
           {category.correct_answer}
 
