@@ -4,18 +4,22 @@ class Timer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      time: 30,
-      timerOk: true,
-      stopTimer: false,
+      time: 3, // 30
+      second: 1000,
+      timeOk: false,
     };
 
     this.runTimer = this.runTimer.bind(this);
-    this.handlestopTimer = this.handlestopTimer.bind(this);
+    // this.handlestopTimer = this.handlestopTimer.bind(this);
   }
 
   componentDidMount() {
     this.runTimer();
   }
+
+  // componentWillUnmount() {
+  //   clearInterval(this.runTimer);
+  // }
 
   // CONTADOR PARAR EM ZERO
   // CONTADOR QND CLICAR EM QUALQUER BOTÃO DE RESPOSTA
@@ -24,35 +28,48 @@ class Timer extends React.Component {
   // estado booleano p controlar o time
   runTimer() {
     // const limitTime = 0;
-    const oneSecond = 1000;
-    const { time, timerOk } = this.state;
-    // const { timerActive } = this.props;
-    switch (time) {
-    case timerOk && time !== 0:
-      setInterval(() => {
-        this.setState((state) => ({
-          time: state.time - 1,
-        }));
-      }, oneSecond);
-      break;
-    case time === 0:
+    const { time, second } = this.state;
+    let timeLimit = time;
+    const timeLeft = setInterval(() => {
       this.setState({
-        timerOk: false,
+        time: timeLimit - 1,
       });
-      this.handlestopTimer();
-      break;
-    default:
-      return time;
-    }
+      timeLimit -= 1;
+      if (timeLimit === 0) {
+        this.setState({
+          timeOk: true,
+        });
+        clearInterval(timeLeft);
+      }
+    }, second);
   }
 
-  handlestopTimer() {
-    this.setState({
-      stopTimer: true,
-    });
+  //   switch (time) {
+  //   case timerOk && time !== 0:
+  //     setInterval(() => {
+  //       this.setState((state) => ({
+  //         time: state.time - 1,
+  //       }));
+  //     }, oneSecond);
+  //     break;
+  //   case time === 0:
+  //     this.setState({
+  //       timerOk: false,
+  //     });
+  //     this.handlestopTimer();
+  //     break;
+  //   default:
+  //     return time;
+  //   }
+  // }
 
-    clearInterval(this.runTimer);
-  }
+  // handlestopTimer() {
+  //   this.setState({
+  //     stopTimer: true,
+  //   });
+
+  //   clearInterval(this.runTimer);
+  // }
 
   render() {
     const { time } = this.state;
