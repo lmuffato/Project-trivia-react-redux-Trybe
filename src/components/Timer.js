@@ -24,10 +24,11 @@ class Timer extends Component {
   }
 
   async componentDidUpdate() {
-    const { timerWillRestart, makeTimerRestart } = this.props;
+    const { timeCondition, timerWillRestart, makeTimerRestart } = this.props;
     console.log('Timer Updated', timerWillRestart);
 
     if (timerWillRestart) {
+      timeCondition(false);
       makeTimerRestart(false);
       await this.restartTime();
       this.setTime();
@@ -43,7 +44,7 @@ class Timer extends Component {
 
       if (seconds === 0 || stop) {
         console.log('Segundos que vem do Timer', seconds);
-        timeCondition();
+        timeCondition(true); // true
         clearInterval(this.timer);
       } else if (seconds > 0) {
         this.setState((prevState) => ({

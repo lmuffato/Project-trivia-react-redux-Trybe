@@ -53,10 +53,11 @@ class GamePlay extends React.Component {
     fecthQuestionsAction(token);
   }
 
-  timeCondition() {
+  timeCondition(bool) {
     this.setState({
-      disable: true,
-      visible: true,
+      disable: bool,
+      visible: bool,
+      stop: bool,
     });
   }
 
