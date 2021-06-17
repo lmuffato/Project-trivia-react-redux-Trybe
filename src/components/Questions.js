@@ -62,8 +62,11 @@ class Questions extends Component {
     );
   }
 
-  stopCountdown() {
-    const { props: { timerID }, addBorderOnClick, disableAlternativeButtons } = this;
+  stopCountdown(event) {
+    const {
+      props: { timerID },
+      addBorderOnClick,
+      disableAlternativeButtons } = this;
     clearInterval(timerID);
     addBorderOnClick();
     disableAlternativeButtons();
