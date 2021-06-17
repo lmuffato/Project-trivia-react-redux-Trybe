@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Feedback from './pages/Feedback';
 import Settings from './pages/Settings';
 import GamePlay from './pages/GamePlay';
+import Ranking from './pages/Ranking';
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
         <Route path="/gameplay" component={ GamePlay } />
         <Route path="/feedback" component={ Feedback } />
         <Route path="/settings" component={ Settings } />
+        <Route path="/ranking" component={ Ranking } />
       </Switch>
     </div>
   );
