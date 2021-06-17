@@ -53,7 +53,7 @@ export const getApiQuestionsThunk = () => async (dispatch) => {
   } else if (!verifiedToken.token) {
     const resolve = await fetch('https://opentdb.com/api_token.php?command=request');
     const token = await resolve.json();
-    const data = await fetch(`https://opentdb.com/api.php?amount=5&token=${token.token}&encode=url3986`);
+    const data = await fetch(`https://opentdb.com/api.php?amount=5&token=${token.token}`);
     const result = await data.json();
     dispatch(getApiQuestionsSuccess(result.results));
     localStorage.setItem('token', JSON.stringify(token));

@@ -9,14 +9,7 @@ class Game extends React.Component {
     super();
     this.handlePosition = this.handlePosition.bind(this);
     this.getUserRanking = this.getUserRanking.bind(this);
-  }
-
-  componentDidMount() {
-    const { getName, getScore, getUrl } = this.props;
-    const ranking = [
-      { name: getName, score: getScore, picture: getUrl },
-    ];
-    localStorage.setItem('ranking', JSON.stringify(ranking));
+    this.updateLocalStorage = this.updateLocalStorage.bind(this);
   }
 
   getUserRanking(difficulty) {
@@ -37,6 +30,15 @@ class Game extends React.Component {
     }
     finalPoint += fixedPoint + (timer * difficultyPoint);
     getScore(finalPoint);
+    this.updateLocalStorage(finalPoint);
+  }
+
+  updateLocalStorage(score) {
+    const { getName, getUrl } = this.props;
+    const ranking = [
+      { name: getName, score, picture: getUrl },
+    ];
+    localStorage.setItem('ranking', JSON.stringify(ranking));
   }
 
   handlePosition() {
@@ -98,9 +100,9 @@ const mapDispatchToProps = (dispatch) => ({
 const mapStateToProps = (state) => ({
   results: state.game.questions,
   isLoading: state.game.isLoading,
-  getName: state.user.name,
-  getScore: state.user.score,
-  getUrl: state.user.gravatar,
+  getName: state.player.name,
+  getScore: state.player.score,
+  getUrl: state.player.gravatar,
 
 });
 
