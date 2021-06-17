@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { string, shape } from 'prop-types';
-
+import { Link } from 'react-router-dom';
 import md5 from 'crypto-js/md5';
 
 class Feedback extends Component {
@@ -15,6 +15,14 @@ class Feedback extends Component {
         <img src={ `https://www.gravatar.com/avatar/${hash}.png` } alt="Gravatar" data-testid="header-profile-picture" />
         <p data-testid="header-player-name">{`Jogador ${name}`}</p>
         <p data-testid="header-score">{ storage.player.score }</p>
+        <Link to="/">
+          <button
+            type="button"
+            data-testid="btn-play-again"
+          >
+            Jogar novamente
+          </button>
+        </Link>
       </header>
     );
   }
