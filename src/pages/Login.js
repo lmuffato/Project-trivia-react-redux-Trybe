@@ -33,12 +33,21 @@ class Login extends React.Component {
   }
 
   async startGame() {
-    const { state } = this;
+    const { name, email } = this.state;
     const ONE_SECOND = 1000;
     const { loginAction, requestTokenAction, history } = this.props;
     await requestTokenAction();
-    loginAction(state);
+    loginAction(this.state);
     setTimeout(() => history.push('/gameplay'), ONE_SECOND);
+    const state = { player: {
+      name,
+      assertions: 0,
+      score: 0,
+      gravatarEmail: email,
+    } };
+
+    const playerStorage = JSON.stringify(state);
+    localStorage.setItem('state', playerStorage);
   }
 
   renderInputs() {

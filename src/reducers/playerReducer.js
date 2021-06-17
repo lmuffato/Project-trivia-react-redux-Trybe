@@ -1,4 +1,6 @@
-import { LOG_IN, REQUEST_TOKEN, SAVE_AVATAR, REQUEST_TOKEN_SUCCESS } from '../actions';
+import {
+  LOG_IN, REQUEST_TOKEN, SAVE_AVATAR, GET_SCORE, REQUEST_TOKEN_SUCCESS,
+} from '../actions';
 
 const INITIAL_STATE = {
   name: '',
@@ -32,6 +34,12 @@ const player = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       avatar: action.payload,
+    };
+  case GET_SCORE:
+    return {
+      ...state,
+      score: state.score + action.payload,
+      assertions: state.assertions + 1,
     };
   default:
     return state;
