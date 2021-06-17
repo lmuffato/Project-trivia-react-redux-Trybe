@@ -102,7 +102,9 @@ class Questions extends Component {
     this.getDifficulty(difficulty, condition);
     this.setState(
       { displayBtn: true,
-        showAsnwer: true },
+        showAsnwer: true,
+        disableButton: true,
+      },
     );
   }
 

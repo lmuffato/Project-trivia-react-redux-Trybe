@@ -20,9 +20,15 @@ class Feedback extends React.Component {
   }
 
   render() {
+    const { assertions, score } = this.props;
+
     return (
       <>
         <Header />
+        <h3>Placar final</h3>
+        <h3 data-testid="feedback-total-score">{score}</h3>
+        <h3>Acertos</h3>
+        <h3 data-testid="feedback-total-question">{assertions}</h3>
         <h1 data-testid="feedback-text">
           { this.FeedbackMessenger() }
         </h1>
@@ -49,10 +55,12 @@ class Feedback extends React.Component {
 
 const mapStateToProps = (state) => ({
   assertions: state.assertions.assertions,
+  score: state.score.score,
 });
 
 Feedback.propTypes = {
   assertions: PropTypes.number,
+  score: PropTypes.number,
 }.isRequired;
 
 export default connect(mapStateToProps, null)(Feedback);
