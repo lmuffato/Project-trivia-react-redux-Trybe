@@ -90,8 +90,9 @@ class GamePlay extends React.Component {
     });
 
     const { player } = this.state;
-    const playerStorage = JSON.stringify(player);
-    localStorage.setItem('player', playerStorage);
+    const state = { player };
+    const playerStorage = JSON.stringify(state);
+    localStorage.setItem('state', playerStorage);
   }
 
   async score(difficulty) {
