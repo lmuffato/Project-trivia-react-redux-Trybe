@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { time } from '../actions';
 
 class Timer extends React.Component {
   constructor() {
@@ -21,12 +24,14 @@ class Timer extends React.Component {
   }
 
   tick() {
+    const { getTime } = this.props;
     const { seconds } = this.state;
     if (seconds !== 0) {
       this.setState((prevState) => ({
         seconds: prevState.seconds - 1,
       }));
     }
+    getTime(seconds);
   }
 
   render() {
@@ -39,4 +44,12 @@ class Timer extends React.Component {
   }
 }
 
-export default Timer;
+const mapDispatchToProps = (dispatch) => ({
+  getTime: (seconds) => dispatch(time(seconds)),
+});
+
+Timer.propTypes = {
+  getTime: PropTypes.number.isRequired,
+};
+
+export default connect(null, mapDispatchToProps)(Timer);
