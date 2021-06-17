@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { setTimerID } from '../actions';
+import { setTimerID, saveSeconds } from '../actions';
 
 class Timer extends Component {
   constructor() {
@@ -19,11 +19,14 @@ class Timer extends Component {
   }
 
   decrease1Second() {
-    const { props: { stopCountdown } } = this;
+    const { props: { stopCountdown, saveSeconds } } = this;
     this.setState(
       (prevState) => ({ seconds: prevState.seconds - 1 }),
       () => {
         const { state: { seconds, timerID } } = this;
+        // salvar seconds no redux
+        saveSeconds(seconds);
+
         if (seconds === 0) {
           stopCountdown(timerID);
         }
@@ -51,6 +54,7 @@ class Timer extends Component {
 
 const mapDispatchToProps = () => (dispatch) => ({
   saveTimerID: (timerID) => dispatch(setTimerID(timerID)),
+  saveSeconds: (seconds) => dispatch(saveSeconds(seconds)),
 });
 
 Timer.propTypes = {
