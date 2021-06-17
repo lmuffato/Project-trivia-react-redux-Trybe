@@ -1,30 +1,31 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+// import md5 from 'crypto-js/md5';
 import Proptypes from 'prop-types';
 import Header from '../components/Header';
 
 class Feedback extends Component {
   render() {
-    const { userAssertions, userScore, userName, userEmail } = this.props;
+    const { userAssertions, userScore } = this.props;
     const minScore = 3;
-    const lsRanking = window.location.getItem('ranking');
-    if (lsRanking) {
-      const ranking = JSON.parse(lsRanking);
-      ranking.push({
-        nome: userName,
-        score: userScore,
-        picture: `https://www.gravatar.com/avatar/${md5(userEmail)}` });
+    // const lsRanking = window.location.getItem('ranking');
+    // if (lsRanking) {
+    //   const ranking = JSON.parse(lsRanking);
+    //   ranking.push({
+    //     nome: userName,
+    //     score: userScore,
+    //     picture: `https://www.gravatar.com/avatar/${md5(userEmail)}` });
 
-      window.localStorage.setItem('ranking', JSON.stringify(ranking));
-    } else {
-      const ranking = [{
-        nome: userName,
-        score: userScore,
-        picture: `https://www.gravatar.com/avatar/${md5(userEmail)}` }];
+    //   window.localStorage.setItem('ranking', JSON.stringify(ranking));
+    // } else {
+    //   const ranking = [{
+    //     nome: userName,
+    //     score: userScore,
+    //     picture: `https://www.gravatar.com/avatar/${md5(userEmail)}` }];
 
-      window.localStorage.setItem('ranking', JSON.stringify(ranking));
-    }
+    //   window.localStorage.setItem('ranking', JSON.stringify(ranking));
+    // }
     return (
       <>
         <Header />
@@ -39,7 +40,7 @@ class Feedback extends Component {
           <h3>Quantidades de respostas corretas: </h3>
           <span data-testid="feedback-total-question">{ userAssertions }</span>
           <Link to="/ranking">
-            <button type="button" data-test-id="btn-ranking">Ranking</button>
+            <button type="button" data-testid="btn-ranking">Ver Ranking</button>
           </Link>
           <Link to="/">
             <button type="button" data-testid="btn-play-again">Jogar novamente</button>
