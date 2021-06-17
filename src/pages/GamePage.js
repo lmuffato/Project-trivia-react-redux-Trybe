@@ -9,7 +9,6 @@ import Header from '../components/Header';
 import Button from '../components/Button';
 import Question from '../components/Question';
 import Loading from '../components/Loading';
-import Timer from '../components/Timer';
 
 class GamePage extends React.Component {
   constructor(props) {
@@ -19,20 +18,22 @@ class GamePage extends React.Component {
       loading: true,
       index: 0,
       shouldRedirect: false,
+      isButtonDisabled: false,
+      second: 1000,
+      time: 30,
     };
 
     this.fetchApi = this.fetchApi.bind(this);
     this.getNextQuestion = this.getNextQuestion.bind(this);
-    this.renderTimer = this.renderTimer.bind(this);
+    // this.renderTimer = this.renderTimer.bind(this);
+    this.runTimer = this.runTimer.bind(this);
+    this.resetTimer = this.resetTimer.bind(this);
   }
 
   componentDidMount() {
     this.fetchApi();
+    this.runTimer();
   }
-
-  // componentWillUnmount() {
-  //   this.runTimer();
-  // }
 
   // renderiza uma pergunta por vez do array de perguntas
   // controla o index do array de perguntas
@@ -44,6 +45,11 @@ class GamePage extends React.Component {
     if (index === questions.length - 1) {
       this.setState({ shouldRedirect: true });
     }
+    this.setState({ time: 30 });
+  }
+
+  resetTimer() {
+    clearInterval(this.runTimer);
   }
 
   async fetchApi() {
@@ -63,13 +69,26 @@ class GamePage extends React.Component {
     }
   }
 
-  renderTimer() {
-    const { time } = this.state;
-    return (<span>{ time }</span>);
+  runTimer() {
+    const { time, second } = this.state;
+    let timeLimit = time;
+    const timeLeft = setInterval(() => {
+      this.setState({
+        time: timeLimit - 1,
+      });
+      timeLimit -= 1;
+      if (timeLimit === 0) {
+        this.setState({
+          isButtonDisabled: true,
+        });
+        clearInterval(timeLeft);
+      }
+    }, second);
   }
 
   render() {
-    const { loading, index, questions, shouldRedirect, time, timerActive } = this.state;
+    const { loading, index, questions, shouldRedirect, time,
+      isButtonDisabled } = this.state;
 
     if (loading) {
       return <Loading />;
@@ -82,9 +101,17 @@ class GamePage extends React.Component {
     return (
       <>
         <Header />
-        <Timer time={ time } timerActive={ timerActive } />
         <div>
-          <Question quiz={ questions[index] } />
+          Tempo:
+          { time }
+        </div>
+        {/* <Timer time={ time } timerActive={ timerActive } /> */}
+        <div>
+          <Question
+            quiz={ questions[index] }
+            isButtonDisabled={ isButtonDisabled }
+            resetTimer={ this.resetTimer }
+          />
         </div>
         <Button
           dataTestid="btn-next"
