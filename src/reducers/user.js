@@ -2,6 +2,7 @@ const INITIAL_STATE = {
   name: '',
   email: '',
   score: 0,
+  gravatar: '',
 };
 
 export const user = (state = INITIAL_STATE, action) => {
@@ -15,6 +16,16 @@ export const user = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       email: action.payload.email,
+    };
+  case 'SET_URL_GRAVATAR':
+    return {
+      ...state,
+      gravatar: action.payload.gravatar,
+    };
+  case 'SET_SCORE':
+    return {
+      ...state,
+      score: action.payload.score,
     };
   default: return state;
   }

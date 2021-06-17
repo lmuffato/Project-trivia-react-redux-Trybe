@@ -12,6 +12,20 @@ export const setEmailAction = (email) => ({
   },
 });
 
+export const setUrlAction = (gravatar) => ({
+  type: 'SET_URL_GRAVATAR',
+  payload: {
+    gravatar,
+  },
+});
+
+export const setScoreAction = (score) => ({
+  type: 'SET_SCORE',
+  payload: {
+    score,
+  },
+});
+
 // ------- QUESTION API REQUESTS -----------
 
 export const getApiQuestionsSuccess = (payload) => ({
@@ -39,7 +53,7 @@ export const getApiQuestionsThunk = () => async (dispatch) => {
   } else if (!verifiedToken.token) {
     const resolve = await fetch('https://opentdb.com/api_token.php?command=request');
     const token = await resolve.json();
-    const data = await fetch(`https://opentdb.com/api.php?amount=5&token=${token.token}`);
+    const data = await fetch(`https://opentdb.com/api.php?amount=5&token=${token.token}&encode=url3986`);
     const result = await data.json();
     dispatch(getApiQuestionsSuccess(result.results));
     localStorage.setItem('token', JSON.stringify(token));
