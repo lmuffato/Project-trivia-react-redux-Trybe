@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Button from './Button';
 import Timer from './Timer';
-import { scoreAction } from '../actions';
+import { assertionsAction, scoreAction } from '../actions';
 
 class Question extends Component {
   constructor() {
@@ -81,15 +81,15 @@ class Question extends Component {
     }
   }
 
-  // handleCorrectAnswer() {
-  //   const btnAssertion = document.querySelector('.correct');
-  //   const btnError = document.querySelectorAll('.incorrect');
-  //   if (btnAssertion.getAttribute('class') === 'correct') {
-  //     console.log('Você acertou!!');
-  //     btnAssertion.classList.add('green');
-  //     return btnError.map((btn) => btn.classList.add('red'));
-  //   }
-  // }
+  handleCorrectAnswer() {
+    console.log('correct answer click');
+    const { handleAssertions } = this.props;
+    let { assertions } = this.state;
+    this.handleStyle();
+    this.handleScore();
+    this.setState({ assertions: assertions += 1 });
+    handleAssertions(assertions);
+  }
 
   render() {
     const { quiz } = this.props;
@@ -142,10 +142,12 @@ Question.defaultProps = {
 Question.propTypes = {
   quiz: PropTypes.shape(),
   setScore: PropTypes.func.isRequired,
+  handleAssertions: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
   setScore: (score) => dispatch(scoreAction(score)),
+  handleAssertions: (userAssertions) => dispatch(assertionsAction(userAssertions)),
 });
 
 export default connect(null, mapDispatchToProps)(Question);
