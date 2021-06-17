@@ -9,7 +9,6 @@ const second = 1000;
 class Questions extends Component {
   constructor(props) {
     super(props);
-    const { name, gravatarEmail } = this.props;
     this.state = {
       questions: [],
       questionNumber: 0,
@@ -18,8 +17,6 @@ class Questions extends Component {
       disableButton: false,
       assertions: 0,
       showAsnwer: false,
-      name,
-      gravatarEmail,
     };
     this.setTime = this.setTime.bind(this);
     this.setStorage = this.setStorage.bind(this);
@@ -27,13 +24,28 @@ class Questions extends Component {
   }
 
   componentDidMount() {
-    const { name, gravatarEmail } = this.state;
+    const { gravatar } = this.props;
+    const ranking = [];
+    let rankingOnstorage = JSON.parse(localStorage.getItem('ranking'));
+    if (rankingOnstorage !== null) {
+      rankingOnstorage = [...rankingOnstorage, {
+        name: '',
+        score: 0,
+        gravatar,
+      },
+      ];
+      localStorage.setItem('ranking', JSON.stringify(rankingOnstorage));
+    }
+    if (!rankingOnstorage) {
+      ranking.push({ name: '', score: 0, gravatar });
+      localStorage.setItem('ranking', JSON.stringify(ranking));
+    }
     const state = {
       player: {
-        name,
+        name: '',
         assertions: 0,
         score: 0,
-        gravatarEmail,
+        gravatarEmail: '',
       },
     };
     localStorage.setItem('state', JSON.stringify(state));
@@ -43,20 +55,40 @@ class Questions extends Component {
 
   setStorage(mult) {
     const { currentTime } = this.state;
-    const { getScore, getAssertons } = this.props;
+    const { name, gravatarEmail, getScore, getAssertions, gravatar } = this.props;
     const grade = 10;
     const currentScore = grade + (currentTime * mult);
     let state = JSON.parse(localStorage.getItem('state'));
-    state = {
-      player: {
-        ...state.player,
-        assertions: state.player.assertions + 1,
+    let ranking = JSON.parse(localStorage.getItem('ranking'));
+    const values = ranking.map((object) => Object.values(object));
+    const verifyRanking = values[0].some((item) => item === name);
+    console.log(verifyRanking);
+    const lastIndex = ranking.length - 1;
+    if (verifyRanking === false && state.assertions > 0) {
+      ranking = [...ranking, {
+        name,
         score: state.player.score + currentScore,
+        gravatar,
       },
-    };
-    localStorage.setItem('state', JSON.stringify(state));
+    ];
+      localStorage.setItem('ranking', JSON.stringify(ranking));
+    } else {
+      ranking = [{
+        name,
+        score: state.player.score + currentScore,
+        gravatar }];
+      state = { player: {
+          name,
+          assertions: state.player.assertions + 1,
+          score: state.player.score + currentScore,
+          gravatarEmail,
+        },
+      };
+      localStorage.setItem('ranking', JSON.stringify(ranking));
+      localStorage.setItem('state', JSON.stringify(state));
+    }
     getScore(state.player.score);
-    getAssertons(state.player.assertions);
+    getAssertions(state.player.assertions);
   }
 
   getDifficulty(difficulty, condition) {
@@ -189,12 +221,13 @@ class Questions extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   getScore: (payload) => dispatch(score(payload)),
-  getAssertons: (payload) => dispatch(quantyAssertions(payload)),
+  getAssertions: (payload) => dispatch(quantyAssertions(payload)),
 });
 
 const mapStateToProps = (state) => ({
   gravatarEmail: state.player.gravatarEmail,
   name: state.player.name,
+  gravatar: state.player.gravatar,
 });
 
 Questions.propTypes = {

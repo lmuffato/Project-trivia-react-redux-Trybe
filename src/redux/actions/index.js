@@ -1,6 +1,7 @@
 export const LOGIN = 'LOGIN';
 export const SCORE = 'SCORE';
 export const ASSERTIONS = 'ASSERTIONS';
+export const GRAVATAR = 'GRAVATAR';
 
 export const login = (payload) => ({
   type: LOGIN,
@@ -14,5 +15,10 @@ export const score = (payload) => ({
 
 export const quantyAssertions = (payload) => ({
   type: ASSERTIONS,
+  payload,
+});
+
+export const getGravatar = (payload) => ({
+  type: GRAVATAR,
   payload,
 });
