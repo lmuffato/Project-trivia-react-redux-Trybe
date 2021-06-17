@@ -11,11 +11,11 @@ class DisplayGame extends React.Component {
     this.state = {
       questionIndex: 0,
       timer: 30,
+      displayNextButton: false,
     };
     this.checkAnswer = this.checkAnswer.bind(this);
     this.fetchTrivia = this.fetchTrivia.bind(this);
     this.sumPoint = this.sumPoint.bind(this);
-    this.ticoeTeco = this.ticoeTeco.bind(this);
   }
 
   async componentDidMount() {
@@ -76,6 +76,17 @@ class DisplayGame extends React.Component {
     this.checkAnswer();
   }
 
+  nextButton() {
+    return (
+      <button
+        type="button"
+        data-testid="btn-next"
+      >
+        Next
+      </button>
+    );
+  }
+
   checkAnswer() {
     const correctButton = document.querySelector('.correct-answer');
     const incorrectButtons = document.querySelectorAll('.wrong-answer');
@@ -84,6 +95,9 @@ class DisplayGame extends React.Component {
     incorrectButtons.forEach((button) => {
       button.style.border = '3px solid rgb(255, 0, 0)';
       button.setAttribute('disabled', 'disabled');
+    });
+    this.setState({
+      displayNextButton: true,
     });
   }
 
@@ -107,7 +121,7 @@ class DisplayGame extends React.Component {
   }
 
   render() {
-    const { questionIndex } = this.state;
+    const { questionIndex, displayNextButton } = this.state;
     const { questionsApiGames } = this.props;
 
     if (questionsApiGames === undefined) {
@@ -124,6 +138,7 @@ class DisplayGame extends React.Component {
           <div>
             { this.createAnswers(questionsApiGames[questionIndex]) }
           </div>
+          { displayNextButton ? this.nextButton() : 0 }
         </div>
       </>
     );
