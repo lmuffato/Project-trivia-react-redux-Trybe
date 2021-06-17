@@ -76,9 +76,7 @@ class Login extends Component {
 
   render() {
     const { state: { disabled, redirectToGame, redirectToConfigs },
-      handleChange, requestToken, redirectToConfigsNow,
-      props: { questions } } = this;
-    console.log(questions);
+      handleChange, requestToken, redirectToConfigsNow } = this;
     return (
       <div>
         <form>
