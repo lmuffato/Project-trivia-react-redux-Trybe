@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Timer from '../components/Timer';
-import { fetchQuestions, getScore } from '../actions';
+import { fetchQuestions, getScore, shouldTimerRestartAction } from '../actions';
 import { conditionScore } from '../services/score';
 import Header from '../components/Header';
 import './GamePlay.css';
@@ -31,12 +31,12 @@ class GamePlay extends React.Component {
       },
       correctClass: 'answer',
       wrongClass: 'answer',
-      // player: {
-      //   name: '',
-      //   assertions: 0,
-      //   score: 0,
-      //   gravatarEmail: '',
-      // },
+      player: {
+        name: '',
+        assertions: 0,
+        score: 0,
+        gravatarEmail: '',
+      },
     };
     this.renderQuestions = this.renderQuestions.bind(this);
     this.showNextQuestionBtn = this.showNextQuestionBtn.bind(this);
@@ -53,16 +53,17 @@ class GamePlay extends React.Component {
     fecthQuestionsAction(token);
   }
 
-  timeCondition() {
+  timeCondition(bool) {
     this.setState({
-      disable: true,
-      visible: true,
+      disable: bool,
+      visible: bool,
+      stop: bool,
     });
   }
 
   handleClick(value) {
     const four = 4;
-    const { history } = this.props;
+    const { history, makeTimerRestart } = this.props;
     this.setState({
       index: value,
       correctClass: 'answer',
@@ -70,44 +71,44 @@ class GamePlay extends React.Component {
     });
 
     if (value > four) {
-      history.push('/feedback');
+      return history.push('/feedback');
     }
+
+    makeTimerRestart(true);
   }
 
   sendLocalStorage() {
     const { nameStore, emailStore, assertionsStore, scoreStore } = this.props;
-    console.log(nameStore);
-    console.log(emailStore);
-    console.log(assertionsStore);
-    console.log(scoreStore);
 
-    //   let correctAnswer;
-    //   correctAnswer = 0;
-    //   correctAnswer += 1;
-    //   points += points;
+    this.setState({
+      player: {
+        name: nameStore,
+        assertions: assertionsStore,
+        score: scoreStore,
+        gravatarEmail: emailStore,
+      },
+    });
 
-    //   this.setState({
-    //     player: {
-    //       name: nameStore,
-    //       assertions: correctAnswer,
-    //       score: points,
-    //       gravatarEmail: emailStore,
-    //     },
-    //   });
+    const { player } = this.state;
+    const playerStorage = JSON.stringify(player);
+    localStorage.setItem('player', playerStorage);
   }
 
-  score(difficulty) {
+  async score(difficulty) {
     const { props, state, sendLocalStorage } = this;
     const { dificuldade } = state;
-    const points = conditionScore(difficulty, dificuldade, props);
-    console.log(points);
+    const points = await conditionScore(difficulty, dificuldade, props);
     props.sendScore(points);
-    sendLocalStorage();
+    sendLocalStorage(state);
   }
 
-  showNextQuestionBtn(difficulty) {
-    this.setState({ visible: true });
-    this.score(difficulty);
+  showNextQuestionBtn(testid, difficulty) {
+    if (testid === 'correct-answer') {
+      this.setState({ visible: true });
+      this.score(difficulty);
+    } else {
+      this.setState({ visible: true });
+    }
   }
 
   timerComponent() {
@@ -122,7 +123,7 @@ class GamePlay extends React.Component {
     );
   }
 
-  handleAlternativeClick(difficulty) {
+  handleAlternativeClick({ target }, difficulty) {
     // Adição de classe em React baseada em pesquisa no StackOverflow no link:
     // https://stackoverflow.com/questions/28732253/how-to-add-or-remove-a-classname-on-event-in-reactjs
     this.setState((prevState) => ({
@@ -130,7 +131,8 @@ class GamePlay extends React.Component {
       wrongClass: `${prevState.wrongClass} wrong`,
       stop: true,
     }));
-    this.showNextQuestionBtn(difficulty);
+    const { dataset: { testid } } = target;
+    this.showNextQuestionBtn(testid, difficulty);
   }
 
   renderQuestion(question) {
@@ -146,7 +148,7 @@ class GamePlay extends React.Component {
           type="button"
           data-testid="correct-answer"
           disabled={ isDisabled }
-          onClick={ () => this.handleAlternativeClick(difficulty) }
+          onClick={ (e) => this.handleAlternativeClick(e, difficulty) }
           className={ correctClass }
         >
           { correctAnswer }
@@ -158,7 +160,7 @@ class GamePlay extends React.Component {
               type="button"
               disabled={ isDisabled }
               data-testid={ `wrong-answer-${index}` }
-              onClick={ () => this.handleAlternativeClick() }
+              onClick={ (event) => this.handleAlternativeClick(event, difficulty) }
               className={ wrongClass }
             >
               {e}
@@ -218,11 +220,13 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   fecthQuestionsAction: (token) => dispatch(fetchQuestions(token)),
   sendScore: (points) => dispatch(getScore(points)),
+  makeTimerRestart: (bool) => dispatch(shouldTimerRestartAction(bool)),
 });
 
 GamePlay.propTypes = {
   loading: PropTypes.bool,
   nameStore: PropTypes.string,
+  makeTimerRestart: PropTypes.func,
 }.isRequired;
 
 export default connect(mapStateToProps, mapDispatchToProps)(GamePlay);

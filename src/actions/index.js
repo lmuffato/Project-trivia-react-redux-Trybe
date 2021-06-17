@@ -5,6 +5,7 @@ export const GET_QUESTIONS = 'GET_QUESTIONS';
 export const SAVE_AVATAR = 'SAVE_AVATAR';
 export const GET_SECONDS = 'GET_SECONDS';
 export const GET_SCORE = 'GET_SCORE';
+export const SHOULD_TIMER_RESTART = 'SHOULD_TIMER_RESTART';
 
 export const login = (payload) => ({
   type: LOG_IN,
@@ -37,6 +38,11 @@ export const getSeconds = (payload) => ({
 
 export const getScore = (payload) => ({
   type: GET_SCORE,
+  payload,
+});
+
+export const shouldTimerRestartAction = (payload) => ({
+  type: SHOULD_TIMER_RESTART,
   payload,
 });
 

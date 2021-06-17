@@ -2,12 +2,14 @@ import {
   GET_QUESTIONS,
   GET_QUESTIONS_SUCCESS,
   GET_SECONDS,
+  SHOULD_TIMER_RESTART,
 } from '../actions';
 
 const INITIAL_STATE = {
   questions: [],
   isLoading: true,
   seconds: 0,
+  shouldTimerRestart: false,
 };
 
 export default function triviaReducer(state = INITIAL_STATE, action) {
@@ -28,6 +30,8 @@ export default function triviaReducer(state = INITIAL_STATE, action) {
       ...state,
       seconds: action.payload,
     };
+  case SHOULD_TIMER_RESTART:
+    return { ...state, shouldTimerRestart: action.payload };
   default:
     return state;
   }
