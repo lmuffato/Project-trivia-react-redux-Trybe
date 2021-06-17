@@ -24,6 +24,9 @@ class Feedback extends Component {
           <Link to="/ranking">
             <button type="button" data-test-id="btn-ranking">Ranking</button>
           </Link>
+          <Link to="/">
+            <button type="button" data-testid="btn-play-again">Jogar novamente</button>
+          </Link>
         </section>
 
       </>
