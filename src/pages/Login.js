@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-import { loginAction } from '../redux/actions';
-import requestToken from '../services/requestToken';
+import { getTokenThunk, loginAction } from '../redux/actions';
 
 class Login extends Component {
   constructor(props) {
@@ -38,7 +37,10 @@ class Login extends Component {
   }
 
   handleClick() {
-    requestToken();
+    const { getToken, token } = this.props;
+    if (token === null) {
+      getToken();
+    }
     const { state: { name, email }, props: { loginProps, history } } = this;
     loginProps({ name, email });
 
@@ -90,11 +92,18 @@ class Login extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   loginProps: (payload) => dispatch(loginAction(payload)),
+  getToken: () => dispatch(getTokenThunk()),
 });
 
-export default connect(null, mapDispatchToProps)(Login);
+const mapStateToProps = (state) => ({
+  token: state.tokenReducer.data,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
 
 Login.propTypes = {
+  getToken: PropTypes.func.isRequired,
+  token: PropTypes.string.isRequired,
   loginProps: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,

@@ -11,9 +11,9 @@ class Questions extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      borderColor: [],
       questionsIndex: 0,
       isVisible: 'false',
+      borderColor: [],
       reset: false,
       stop: false,
       disabled: false,
@@ -113,7 +113,7 @@ class Questions extends Component {
     const { borderColor, isVisible, questionsIndex, reset, stop, disabled } = this.state;
     const { loading, questions } = this.props;
     const questionsFiltered = questions[questionsIndex];
-    if (loading) {
+    if (loading || questions.length < 1) {
       return <Loading />;
     }
     return (
