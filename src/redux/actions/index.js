@@ -12,8 +12,8 @@ export const receiveQuestions = (questions) => ({ type: RECEIVE_QUESTS, question
 
 export const changeConfigs = (configs) => ({ type: CHANGE_CONFIGS, configs });
 
-export const updateScoreAction = (score, assertions) => ({
-  type: UPDATE_SCORE, score, assertions });
+export const updateScoreAction = (score, assertions) => (
+  { type: UPDATE_SCORE, score, assertions });
 
 export const fetchToken = (amount) => async (dispatch) => {
   const tokenJson = await fetch('https://opentdb.com/api_token.php?command=request');

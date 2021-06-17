@@ -4,6 +4,7 @@ import Login from './pages/Login';
 import Settings from './pages/Settings';
 import GameScreen from './pages/GameScreen';
 import Feedback from './pages/Feedback';
+import Ranking from './pages/Ranking';
 import './App.css';
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
       <Route path="/game"><GameScreen /></Route>
       <Route path="/configuracoes"><Settings /></Route>
       <Route path="/feedback"><Feedback /></Route>
+      <Route path="/ranking"><Ranking /></Route>
     </Switch>
   );
 }

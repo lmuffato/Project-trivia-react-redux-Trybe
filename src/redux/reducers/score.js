@@ -8,10 +8,8 @@ const INITIAL_STATE = {
 function updateLocalStorage(score, assertions) {
   const playerInfo = window.localStorage.getItem('state');
   const playerInfoParse = JSON.parse(playerInfo);
-
-  playerInfoParse.assertions += assertions;
+  playerInfoParse.player.assertions += assertions;
   playerInfoParse.player.score += score;
-
   window.localStorage.setItem('state', JSON.stringify(playerInfoParse));
 }
 
