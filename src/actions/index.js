@@ -3,6 +3,8 @@ export const REQUEST_TOKEN = 'REQUEST_TOKEN';
 export const GET_QUESTIONS_SUCCESS = 'GET_QUESTIONS_SUCCESS';
 export const GET_QUESTIONS = 'GET_QUESTIONS';
 export const SAVE_AVATAR = 'SAVE_AVATAR';
+export const GET_SECONDS = 'GET_SECONDS';
+export const SHOULD_TIMER_RESTART = 'SHOULD_TIMER_RESTART';
 
 export const login = (payload) => ({
   type: LOG_IN,
@@ -25,6 +27,16 @@ const requestQuestions = () => ({
 
 export const saveAvatar = (payload) => ({
   type: SAVE_AVATAR,
+  payload,
+});
+
+export const getSeconds = (payload) => ({
+  type: GET_SECONDS,
+  payload,
+});
+
+export const shouldTimerRestartAction = (payload) => ({
+  type: SHOULD_TIMER_RESTART,
   payload,
 });
 
