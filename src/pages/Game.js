@@ -31,8 +31,8 @@ class Game extends React.Component {
         quests: res.results,
         loading: false,
       });
-      this.ramdomizeQuestions();
       this.runTimer();
+      this.ramdomizeQuestions();
     });
   }
 
@@ -100,10 +100,11 @@ class Game extends React.Component {
         ))}
         <button
           type="button"
+          data-testid="btn-next"
           onClick={
             () => this.setState((prevState) => (
               { indice: prevState.indice + 1, userAnswer: false }
-            ), () => this.runTimer())
+            ), () => this.ramdomizeQuestions())
           }
         >
           Próximo
