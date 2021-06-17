@@ -33,8 +33,19 @@ class RenderQuestions extends Component {
     }
   }
 
+  handleAnswerClick(event, questionLevel) {
+    const { checkAnswer } = this.props;
+    checkAnswer(event, questionLevel);
+    const correct = document.getElementsByClassName('correct-answer');
+    correct[0].style.border = '3px solid rgb(6, 240, 15)';
+    const incorrect = document.querySelectorAll('.wrong-answer');
+    for (let i = 0; i < incorrect.length; i += 1) {
+      incorrect[i].style.border = '3px solid rgb(255, 0, 0)';
+    }
+  }
+
   renderQuestion() {
-    const { apiResult, question, timeOut, checkAnswer } = this.props;
+    const { apiResult, question, timeOut } = this.props;
     const { results } = apiResult;
     if (results === undefined) return;
     const currQuestion = results[question];
@@ -45,8 +56,9 @@ class RenderQuestions extends Component {
         disabled={ timeOut }
         key={ 5 }
         type="button"
-        onClick={ (event) => checkAnswer(event, questionLevel) }
         data-testid="correct-answer"
+        onClick={ (event) => this.handleAnswerClick(event, questionLevel) }
+        className="correct-answer"
       >
         {currQuestion.correct_answer}
       </button>);
@@ -54,10 +66,11 @@ class RenderQuestions extends Component {
       .map((answer, index) => (
         <button
           type="button"
-          onClick={ checkAnswer }
           key={ index }
           disabled={ timeOut }
           data-testid={ `wrong-answer-${index}` }
+          onClick={ (event) => this.handleAnswerClick(event, questionLevel) }
+          className="wrong-answer"
         >
           { answer }
         </button>

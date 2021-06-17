@@ -12,7 +12,6 @@ class Game extends Component {
     super();
     this.state = {
       questionNumber: 0,
-      // questionAnswered: false,
     };
     this.checkAnswer = this.checkAnswer.bind(this);
   }
@@ -37,7 +36,7 @@ class Game extends Component {
   }
 
   render() {
-    const { isLoading } = this.props;
+    const { isLoading, questionAnswered } = this.props;
     const { questionNumber } = this.state;
     if (isLoading) return <h2>Loading...</h2>;
     return (
@@ -52,7 +51,15 @@ class Game extends Component {
           checkAnswer={ this.checkAnswer }
           question={ questionNumber }
         />
-        <button type="button">PRÓXIMA</button>
+        {questionAnswered
+          ? (
+            <button
+              type="button"
+              data-testid="btn-next"
+              // onClick={ this.nextQuestion }
+            >
+              PRÓXIMA
+            </button>) : ''}
       </div>
     );
   }
@@ -63,8 +70,9 @@ const mapDispatchToProps = (dispatch) => ({
   addScore: (score) => dispatch(calculateScore(score)),
 });
 
-const mapStateToProps = ({ apiResponse: { isLoading } }) => ({
+const mapStateToProps = ({ apiResponse: { isLoading }, player }) => ({
   isLoading,
+  questionAnswered: player.timeOut,
 });
 
 Game.propTypes = {

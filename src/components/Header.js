@@ -1,6 +1,8 @@
 import React from 'react';
 import Proptypes from 'prop-types';
 import { connect } from 'react-redux';
+import getUserImg from '../services/gravatarApi';
+import '../css/Header.css';
 
 class Header extends React.Component {
   render() {
@@ -8,7 +10,12 @@ class Header extends React.Component {
     return (
       <header>
         <figure>
-          <img src={ gravatarEmail } alt="userImg" data-testid="header-profile-picture" />
+          <img
+            src={ getUserImg(gravatarEmail) }
+            alt="userImg"
+            data-testid="header-profile-picture"
+            className="gravatar"
+          />
           <legend data-testid="header-player-name">{ name }</legend>
         </figure>
         <p>Score</p>
