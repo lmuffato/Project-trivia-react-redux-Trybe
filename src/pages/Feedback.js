@@ -25,6 +25,7 @@ class Feedback extends React.Component {
     return (
       <div>
         <Header />
+        <p data-testid="feedback-text">Mensagem de Feedback.</p>
         <Link to="/ranking">
           <button
             type="button"
