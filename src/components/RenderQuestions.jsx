@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Proptypes from 'prop-types';
-import '../css/Answers.css';
 
 class RenderQuestions extends Component {
   sortArr(arr) {
@@ -17,10 +16,10 @@ class RenderQuestions extends Component {
 
   handleAnswerClick() {
     const correct = document.getElementsByClassName('correct-answer');
-    correct[0].className = 'correct';
+    correct[0].style.border = '3px solid rgb(6, 240, 15)';
     const incorrect = document.querySelectorAll('.wrong-answer');
     for (let i = 0; i < incorrect.length; i += 1) {
-      incorrect[i].className = 'incorrect';
+      incorrect[i].style.border = '3px solid rgb(255, 0, 0)';
     }
   }
 
