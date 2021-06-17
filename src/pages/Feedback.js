@@ -1,5 +1,6 @@
 import React from 'react';
-import propTypes from 'prop-types';
+// import propTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 
 class Feedback extends React.Component {
@@ -20,31 +21,35 @@ class Feedback extends React.Component {
   }
 
   render() {
-    const { history } = this.props;
-    const result = 3;
-    const three = 3;
+    // const { history } = this.props;
     return (
       <div>
         <Header />
-        <main>
-          <h2 data-testid="feedback-text">
-            { result < three ? this.renderLessThenThree() : this.renderThreeOrMore() }
-          </h2>
-        </main>
-        <button
-          type="button"
-          data-testid="btn-play-again"
-          onClick={ () => history.push('/') }
-        >
-          Jogar novamente
-        </button>
+        <Link to="/ranking">
+          <button
+            type="button"
+            data-testid="btn-ranking"
+            // onClick={ () => history.push('/ranking') }
+          >
+            Ver Ranking
+          </button>
+        </Link>
+        <Link to="/">
+          <button
+            type="button"
+            data-testid="btn-play-again"
+            // onClick={ () => history.push('/') }
+          >
+            Jogar novamente
+          </button>
+        </Link>
       </div>
     );
   }
 }
 
-Feedback.propTypes = {
-  history: propTypes.shape(),
-}.isRequired;
+// Feedback.propTypes = {
+//   history: propTypes.shape(),
+// }.isRequired;
 
 export default Feedback;
