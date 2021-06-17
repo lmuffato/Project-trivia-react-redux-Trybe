@@ -3,7 +3,13 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Proptypes from 'prop-types';
 import Header from '../components/Header';
-import { calculateScore, fetchAPIThunk, timeOut, timeIn } from '../actions/index';
+import {
+  calculateScore,
+  fetchAPIThunk,
+  timeOut,
+  timeIn,
+  addAssertions as sumAssertions,
+} from '../actions/index';
 import Timer from '../components/Timer';
 import RenderQuestions from '../components/RenderQuestions';
 import { getItemFromLocalStorage, setToLocalStorage } from '../services/storage';
@@ -45,7 +51,7 @@ class Game extends Component {
   }
 
   checkAnswer(event, questionLevel) {
-    const { addScore, timesUp } = this.props;
+    const { addScore, timesUp, addAssertions } = this.props;
     const DEFAULT_POINTS = 10;
     const getTime = Number(document.getElementById('timer').innerHTML);
     const attribute = event.target.getAttribute('data-testid');
@@ -53,7 +59,9 @@ class Game extends Component {
     if (attribute !== 'correct-answer') return timesUp();
     const points = DEFAULT_POINTS + (getTime * questionLevel);
     state.player.score = points;
+    state.player.assertions += 1;
     setToLocalStorage('state', state);
+    addAssertions();
     timesUp();
     return addScore(points);
   }
@@ -97,6 +105,7 @@ const mapDispatchToProps = (dispatch) => ({
   timesUp: () => dispatch(timeOut()),
   addScore: (score) => dispatch(calculateScore(score)),
   next: () => dispatch(timeIn()),
+  addAssertions: () => dispatch(sumAssertions()),
 });
 
 const mapStateToProps = ({ apiResponse: { isLoading, apiResult }, player }) => ({
