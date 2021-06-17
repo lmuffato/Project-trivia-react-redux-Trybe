@@ -1,6 +1,7 @@
-import { USER_NAME } from '../actions/index';
+import { USER_NAME, PICTURE } from '../actions/index';
 
 const INITIAL_STATE = {
+  picture: '',
   token: '',
   name: '',
   email: '',
@@ -13,6 +14,8 @@ function tokenReducer(state = INITIAL_STATE, action) {
     return { ...state, token: action.token };
   case USER_NAME:
     return { ...state, name: action.payload };
+  case PICTURE:
+    return { ...state, picture: action.payload };
   default:
     return state;
   }

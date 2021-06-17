@@ -57,6 +57,7 @@ class Trivia extends React.Component {
       localStorage.setItem('state', JSON.stringify(
         {
           player: {
+            index: state.player.index,
             name: state.player.name,
             assertions: state.player.assertions + 1,
             gravatarEmail: state.player.gravatarEmail,
