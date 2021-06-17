@@ -25,6 +25,25 @@ class Game extends React.Component {
     this.requestApi();
   }
 
+  getScore() {
+    const { quests, indice, timer } = this.state;
+    const { difficulty } = quests[indice];
+    const questionValue = 10;
+    const hard = 3;
+    const medium = 2;
+    const easy = 1;
+    switch (difficulty) {
+    case 'hard':
+      return (hard * timer) + questionValue;
+    case 'medium':
+      return (medium * timer) + questionValue;
+    case 'easy':
+      return (easy * timer) + questionValue;
+    default:
+      return 0;
+    }
+  }
+
   requestApi() {
     const token = JSON.parse(localStorage.getItem('token'));
     api.fetchQuest(token).then((res) => {
@@ -47,11 +66,7 @@ class Game extends React.Component {
     setInterval(() => {
       this.setState((prev) => {
         if (prev.timer <= 0 || prev.userAnswer === true) {
-          this.setState({
-            timer: 30,
-            userAnswer: true,
-            isVisible: false,
-          });
+          return { timer: prev.timer, userAnswer: true, isVisible: false };
         }
         return { timer: prev.timer - 1 };
       });
@@ -109,14 +124,14 @@ class Game extends React.Component {
           data-testid="btn-next"
           onClick={
             () => this.setState((prevState) => (
-              { indice: prevState.indice + 1, userAnswer: false }
-            ), () => this.ramdomizeQuestions())
+              { indice: prevState.indice + 1, userAnswer: false, timer: 30 }
+            ), () => this.ramdomizeQuestions(), this.getScore())
           }
         >
           Próximo
         </button>
         <Link to="/">
-          <button type="button">voltar</button>
+          <button type="button" data-testid="btn-play-again">Jogar novamente</button>
         </Link>
       </div>
     );
