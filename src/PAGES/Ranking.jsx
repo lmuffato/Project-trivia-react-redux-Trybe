@@ -13,6 +13,7 @@ class Ranking extends React.Component {
     const list = ranking.sort((a, b) => b.score - a.score);
     return (
       <section>
+        <h1 data-testid="ranking-title">Ranking</h1>
         <ul>
           {list.map((item, index) => {
             const { name, score, picture } = item;
