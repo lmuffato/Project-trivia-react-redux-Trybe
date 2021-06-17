@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 
+// vamo que vamo
+
 class UserData extends Component {
   render() {
     const state = JSON.parse(localStorage.getItem('state')) || 0;
