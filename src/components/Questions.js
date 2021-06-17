@@ -20,6 +20,16 @@ class Questions extends Component {
     this.handleClickAnswer = this.handleClickAnswer.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     this.handleZero = this.handleZero.bind(this);
+    this.redirectFeedback = this.redirectFeedback.bind(this);
+  }
+
+  redirectFeedback() {
+    const { history } = this.props;
+    const { questionsIndex } = this.state;
+    const numberOfTheQuestionsEnd = 4;
+    if (questionsIndex === numberOfTheQuestionsEnd) {
+      history.push('/feedback');
+    }
   }
 
   nextQuestion(NumberOfQuestions) {
@@ -31,6 +41,7 @@ class Questions extends Component {
       stop: false,
       disabled: false,
     }));
+    this.redirectFeedback();
   }
 
   handleClickAnswer() {
@@ -64,7 +75,7 @@ class Questions extends Component {
       return <Loading />;
     }
     return (
-      <div>
+      <div className={ styles.question__container }>
         <div>
           <h2 data-testid="question-category">{questionsFiltered.category}</h2>
           <p data-testid="question-text">{questionsFiltered.question}</p>
@@ -118,6 +129,9 @@ Questions.propTypes = {
     alternatives: PropTypes.arrayOf(PropTypes.object),
   })).isRequired,
   loading: PropTypes.bool,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 Questions.defaultProps = {
