@@ -53,7 +53,7 @@ export const getQuestionsThunk = (token) => (dispatch) => {
 };
 
 // middleware localStorage
-export const localStorage = (store) => (next) => (action) => {
+export const localStorage = () => (next) => (action) => {
   if (action.localStorage !== undefined) {
     console.log('entrou!');
     window.localStorage.setItem(
