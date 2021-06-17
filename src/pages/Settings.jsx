@@ -21,76 +21,80 @@ class Settings extends React.Component {
     const { categories } = this.props;
     const { category } = this.state;
     return (
-      <label htmlFor="category">
-        Categoria
-        <select
-          id="category"
-          value={ category }
-          onChange={ (e) => this.handleChange(e) }
-        >
-          {
-            categories.map((e) => (
-              <option key={ e.id } value={ e.id }>{e.name}</option>
-            ))
-          }
-        </select>
-      </label>
+      <h4>
+        <label htmlFor="category">
+          Categoria
+          <select
+            id="category"
+            value={ category }
+            onChange={ (e) => this.handleChange(e) }
+          >
+            {
+              categories.map((e) => (
+                <option key={ e.id } value={ e.id }>{e.name}</option>
+              ))
+            }
+          </select>
+        </label>
+      </h4>
     );
   }
 
   renderSelectDifficulty() {
     const { difficulty } = this.state;
     return (
-      <label htmlFor="difficulty">
-        Dificuldade
-        <select
-          id="difficulty"
-          value={ difficulty }
-          onChange={ (e) => this.handleChange(e) }
-        >
-          <option value="easy">Fácil</option>
-          <option value="medium">Médio</option>
-          <option value="hard">Difícil</option>
-        </select>
-      </label>
+      <h4>
+        <label htmlFor="difficulty">
+          Dificuldade
+          <select
+            id="difficulty"
+            value={ difficulty }
+            onChange={ (e) => this.handleChange(e) }
+          >
+            <option value="easy">Fácil</option>
+            <option value="medium">Médio</option>
+            <option value="hard">Difícil</option>
+          </select>
+        </label>
+      </h4>
     );
   }
 
   renderSelectType() {
     const { type } = this.state;
     return (
-      <label htmlFor="type">
-        Tipo de pergunta
-        <select
-          id="type"
-          value={ type }
-          onChange={ (e) => this.handleChange(e) }
-        >
-          <option value="boolean">Verdadeiro ou Falso</option>
-          <option value="multiple">Múltipla escolha</option>
-        </select>
-      </label>
+      <h4>
+        <label htmlFor="type">
+          Tipo de pergunta
+          <select
+            id="type"
+            value={ type }
+            onChange={ (e) => this.handleChange(e) }
+          >
+            <option value="boolean">Verdadeiro ou Falso</option>
+            <option value="multiple">Múltipla escolha</option>
+          </select>
+        </label>
+      </h4>
     );
   }
 
   render() {
     return (
-      <main>
-        <h1 data-testid="settings-title">
-          Página de configurações
-        </h1>
-        <section>
-          <h3>
+      <>
+        <header>
+          <h1 data-testid="settings-title">
+            Página de configurações
+          </h1>
+        </header>
+        <main>
+          <section>
             {this.renderSelectCategory()}
-          </h3>
-          <h3>
             {this.renderSelectDifficulty()}
-          </h3>
-          <h3>
             {this.renderSelectType()}
-          </h3>
-        </section>
-      </main>
+          </section>
+        </main>
+      </>
     );
   }
 }
