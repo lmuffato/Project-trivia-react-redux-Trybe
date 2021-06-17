@@ -12,6 +12,20 @@ export const setEmailAction = (email) => ({
   },
 });
 
+export const setUrlAction = (gravatar) => ({
+  type: 'SET_URL_GRAVATAR',
+  payload: {
+    gravatar,
+  },
+});
+
+export const setScoreAction = (score) => ({
+  type: 'SET_SCORE',
+  payload: {
+    score,
+  },
+});
+
 // ------- QUESTION API REQUESTS -----------
 
 export const getApiQuestionsSuccess = (payload) => ({

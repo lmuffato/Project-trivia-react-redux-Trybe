@@ -3,6 +3,7 @@ const INITIAL_STATE = {
   assertions: 0,
   score: 0,
   gravatarEmail: '',
+  gravatar: '',
 };
 
 export const player = (state = INITIAL_STATE, action) => {
@@ -16,6 +17,17 @@ export const player = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       gravatarEmail: action.payload.email,
+    };
+      
+  case 'SET_URL_GRAVATAR':
+    return {
+      ...state,
+      gravatar: action.payload.gravatar,
+    };
+  case 'SET_SCORE':
+    return {
+      ...state,
+      score: action.payload.score,
     };
   default: return state;
   }
