@@ -2,6 +2,7 @@ import fetchQuestion from '../services/fetchQuestion';
 import fetchToken from '../services/fetchToken';
 
 export const START_FETCH = 'START_FETCH';
+export const ADD_FILTER = 'ADD_FILTER';
 export const ADD_PLAYER = 'ADD_PLAYER';
 export const FETCH_TOKEN_SUCCESS = 'FETCH_TOKEN_SUCCESS';
 export const FETCH_QUESTIONS_SUCCESS = 'FETCH_QUESTIONS_SUCCESS';
@@ -15,6 +16,13 @@ function startFetch() {
 export function addPlayer(payload) {
   return {
     type: ADD_PLAYER,
+    payload,
+  };
+}
+
+export function addFilter(payload) {
+  return {
+    type: ADD_FILTER,
     payload,
   };
 }
