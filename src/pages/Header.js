@@ -34,7 +34,7 @@ class Header extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  getName: state.user.nome,
+  getName: state.user.name,
   getEmail: state.user.email,
   getScore: state.user.score,
 });
