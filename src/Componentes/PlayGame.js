@@ -21,6 +21,7 @@ class PlayGame extends React.Component {
     this.renderQuestions = this.renderQuestions.bind(this);
     this.renderLoading = this.renderLoading.bind(this);
     this.nameTheClassBtnAnswer = this.nameTheClassBtnAnswer.bind(this);
+    this.colorTheButtons = this.colorTheButtons.bind(this);
   }
 
   componentDidMount() {
@@ -49,6 +50,11 @@ class PlayGame extends React.Component {
     return nameTheClass;
   }
 
+  colorTheButtons(e) {
+    e.prentDefault();
+    console.log(e);
+  }
+
   // renderAnswers(correct, incorrect) {
   //   return [...correct, ...incorrect];
   // }
@@ -70,8 +76,10 @@ class PlayGame extends React.Component {
                 <button
                   data-testid="correct-answer"
                   type="button"
+                  name={ question.correct_answer }
                   // Req 7: Evento de clique que atualiza o state com o valor da resposta
-                  onClick={ () => this.setState({ greenBtn: question.correct_answer, greenClass: 'green' }) }
+                  onClick={ (e) => this.colorTheButtons(e) }
+                  // this.setState({ greenBtn: e.target.value, greenClass: 'green' });
                   className={ greenClass }
                 >
                   {question.correct_answer}
@@ -82,7 +90,8 @@ class PlayGame extends React.Component {
                     type="button"
                     key={ index }
                     // Req 7: Evento de clique que atualiza o state com o valor da resposta
-                    onClick={ () => this.setState({ redBtn: incorrect, greenClass: 'green', redClass: 'red' }) }
+                    onClick={ () => this.setState({
+                      redBtn: incorrect, greenClass: 'green', redClass: 'red' }) }
                     className={ redClass }
                   >
                     {incorrect}
