@@ -12,7 +12,6 @@ class Alternatives extends Component {
     this.state = {
       mostraImg: false,
       showFaustao: false,
-      showButton: false,
     };
     this.toasty = this.toasty.bind(this);
     this.renderNextButton = this.renderNextButton.bind(this);
@@ -24,16 +23,22 @@ class Alternatives extends Component {
     if (e.target.name === CORRECT) {
       setScore(true);
       return (
-        this.setState({ mostraImg: true, showButton: true })
+        this.setState({ mostraImg: true })
       );
     }
     setScore(false);
-    return (this.setState({ showFaustao: true, showButton: true }));
+    return (this.setState({ showFaustao: true }));
   }
 
   nextButton() {
+    const { onClick } = this.props;
     return (
-      <button type="button" className="button-next" data-testid="btn-next">
+      <button
+        type="button"
+        className="button-next"
+        data-testid="btn-next"
+        onClick={ onClick }
+      >
         Próxima Pergunta
       </button>
     );
@@ -74,8 +79,8 @@ class Alternatives extends Component {
   }
 
   renderNextButton() {
-    const { showButton } = this.state;
-    if (showButton) {
+    const { revelaBorda } = this.props;
+    if (revelaBorda !== '') {
       return (
         this.nextButton()
       );
@@ -137,6 +142,7 @@ Alternatives.propTypes = {
   revelaBorda: PropTypes.string.isRequired,
   setRevelaBorda: PropTypes.func.isRequired,
   setScore: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default Alternatives;

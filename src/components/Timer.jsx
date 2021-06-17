@@ -9,34 +9,24 @@ class Timer extends Component {
   constructor(props) {
     super(props);
 
-    this.inicializeTimer = this.inicializeTimer.bind(this);
+    this.initializeTimer = this.initializeTimer.bind(this);
   }
 
   componentDidMount() {
-    this.inicializeTimer();
+    this.initializeTimer();
   }
 
-  inicializeTimer() {
-    const { setTimer, saveTimer } = this.props;
+  initializeTimer() {
+    const { setTimer, saveTimeNumber } = this.props;
 
     const timer = setInterval(() => {
       const { time } = this.props;
 
-      // if (time === 1) {
-      //   this.stopTimer();
-      // }
-
       setTimer({ time: time - 1 });
     }, TIMER_TIME);
 
-    saveTimer({ timer });
+    saveTimeNumber({ timer });
   }
-
-  // stopTimer() {
-  //   const { timer } = this.props;
-
-  //   clearInterval(timer);
-  // }
 
   render() {
     const { time } = this.props;
@@ -49,7 +39,7 @@ class Timer extends Component {
 Timer.propTypes = {
   setTimer: PropTypes.func.isRequired,
   time: PropTypes.number.isRequired,
-  saveTimer: PropTypes.func.isRequired,
+  saveTimeNumber: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -57,7 +47,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  saveTimer: (payload) => dispatch(saveTime(payload)),
+  saveTimeNumber: (payload) => dispatch(saveTime(payload)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Timer);

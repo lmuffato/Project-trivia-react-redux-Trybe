@@ -18,7 +18,7 @@ class Jogo extends Component {
     this.setRevelaBorda = this.setRevelaBorda.bind(this);
 
     this.state = {
-      time: 30,
+      time: 3,
       revelaBorda: '',
     };
   }
@@ -30,8 +30,13 @@ class Jogo extends Component {
   }
 
   setTimer(timeObj) {
+    const { timeID } = this.props;
+
     if (timeObj.time === 0) {
       this.setState({ revelaBorda: 'show' });
+      clearInterval(timeID.timer);
+      console.log(timeObj, 'timeObj');
+      console.log(timeID, 'timeID');
     }
 
     this.setState(timeObj);
@@ -73,6 +78,7 @@ class Jogo extends Component {
         </div>
         <h1>Página do Jogo</h1>
         {questions && questions.length && (<Questions
+          setTimer={ this.setTimer }
           time={ time }
           questions={ questions }
           revelaBorda={ revelaBorda }
@@ -100,6 +106,7 @@ const mapStateToProps = (state) => ({
   questions: state.jogoReducer.results,
   assertions: state.jogoReducer.player.assertions,
   score: state.jogoReducer.player.score,
+  timeID: state.jogoReducer.time,
 });
 
 const mapDispatchToProps = (dispatch) => ({

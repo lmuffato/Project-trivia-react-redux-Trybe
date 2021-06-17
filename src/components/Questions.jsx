@@ -1,18 +1,22 @@
 import React, { Component } from 'react';
 import { string, arrayOf, shape, func } from 'prop-types';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import Alternatives from './Alternatives';
 import { updateScore } from '../redux/actions/actions';
 
 class Questions extends Component {
   constructor(props) {
     super(props);
+    console.log(props);
 
     this.state = {
       currentIndex: 0,
+      redirect: false,
     };
     this.setScore = this.setScore.bind(this);
     this.saveInStorage = this.saveInStorage.bind(this);
+    this.handleClickNextButton = this.handleClickNextButton.bind(this);
   }
 
   async setScore(shouldCalc) {
@@ -58,16 +62,35 @@ class Questions extends Component {
     localStorage.setItem('state', json);
   }
 
-  render() {
+  handleClickNextButton() {
+    const { setRevelaBorda, setTimer, questions } = this.props;
     const { currentIndex } = this.state;
+    setRevelaBorda('');
+    setTimer({ time: 3 });
+    if (currentIndex === questions.length - 1) {
+      this.setState({ redirect: true });
+    } else {
+      this.setState((prevState) => ({
+        currentIndex: prevState.currentIndex + 1,
+      }));
+    }
+  }
+
+  render() {
+    const { currentIndex, redirect } = this.state;
     const { questions, revelaBorda, setRevelaBorda } = this.props;
 
     const currentQuestion = questions[currentIndex];
 
     const aleatoryAnswers = currentQuestion.aleatory_answers;
 
+    if (redirect) {
+      return (<Redirect to="/feedback" />);
+    }
+
     return (
       <Alternatives
+        onClick={ this.handleClickNextButton }
         setScore={ this.setScore }
         question={ currentQuestion }
         aleatoryAnswers={ aleatoryAnswers }
