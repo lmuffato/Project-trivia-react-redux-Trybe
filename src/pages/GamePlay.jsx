@@ -49,8 +49,9 @@ class GamePlay extends React.Component {
   }
 
   componentDidMount() {
-    const { token, fecthQuestionsAction } = this.props;
-    fecthQuestionsAction(token);
+    const { token, fecthQuestionsAction, filters } = this.props;
+    const ONE_SECOND = 1000;
+    setTimeout(() => fecthQuestionsAction(token, filters), ONE_SECOND);
   }
 
   timeCondition(bool) {
@@ -215,6 +216,7 @@ const mapStateToProps = (state) => ({
   scoreStore: state.player.score,
   questions: state.triviaReducer.questions,
   loading: state.triviaReducer.isLoading,
+  filters: state.triviaReducer.filters,
   secondsStore: state.triviaReducer.seconds,
 });
 
