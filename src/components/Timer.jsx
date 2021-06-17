@@ -4,15 +4,13 @@ class Timer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      contador: 30,
-      timerOk: true,
-      segundo: 30,
-      // stopTimer: false,
+      time: 3, // 30
+      second: 1000,
+      timeOk: false,
     };
 
-    // this.runTimer = this.runTimer.bind(this);
+    this.runTimer = this.runTimer.bind(this);
     // this.handlestopTimer = this.handlestopTimer.bind(this);
-    this.runCountdown = this.runCountdown.bind(this);
   }
 
   componentDidMount() {
@@ -20,8 +18,9 @@ class Timer extends React.Component {
   }
 
   // componentWillUnmount() {
-  //   this.handlestopTimer();
+  //   clearInterval(this.runTimer);
   // }
+
   // CONTADOR PARAR EM ZERO
   // CONTADOR QND CLICAR EM QUALQUER BOTÃO DE RESPOSTA
   // INICIAR QUANDO COMEÇA O JOGO
@@ -51,25 +50,25 @@ class Timer extends React.Component {
   //   }
   // }
 
-  runCountdown() {
-    let interval;
-    const oneSecond = 1000;
-    const thirty = 30;
-    const { second, timerOk, contador } = this.state;
-    const secondCounter = contador % thirty;
-    if (timerOk && contador > -1) {
-      interval = setTimeout(() => {
-        this.setState((state) => ({
-          contador: state.contador - 1,
-        }));
-        this.setState({ second: secondCounter });
-        console.log(contador);
-      }, oneSecond);
-    }
-    if (!timerOk || contador < 0) {
-      return () => clearTimeout(interval);
-    }
-  }
+  // runCountdown() {
+  //   let interval;
+  //   const oneSecond = 1000;
+  //   const thirty = 30;
+  //   const { second, timerOk, contador } = this.state;
+  //   const secondCounter = contador % thirty;
+  //   if (timerOk && contador > -1) {
+  //     interval = setTimeout(() => {
+  //       this.setState((state) => ({
+  //         contador: state.contador - 1,
+  //       }));
+  //       this.setState({ second: secondCounter });
+  //       console.log(contador);
+  //     }, oneSecond);
+  //   }
+  //   if (!timerOk || contador < 0) {
+  //     return () => clearTimeout(interval);
+  //   }
+  // }
 
   // handlestopTimer() {
   //   const { time } = this.state;
@@ -78,7 +77,23 @@ class Timer extends React.Component {
   //   return () => clearTimeout(this.runCountdown);
 
   //   // clearInterval(this.runTimer);
-  // }
+  runTimer() {
+    // const limitTime = 0;
+    const { time, second } = this.state;
+    let timeLimit = time;
+    const timeLeft = setInterval(() => {
+      this.setState({
+        time: timeLimit - 1,
+      });
+      timeLimit -= 1;
+      if (timeLimit === 0) {
+        this.setState({
+          timeOk: true,
+        });
+        clearInterval(timeLeft);
+      }
+    }, second);
+  }
 
   render() {
     const { second } = this.state;
