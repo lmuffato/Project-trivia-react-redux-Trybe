@@ -1,6 +1,6 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 class Ranking extends React.Component {
@@ -30,6 +30,9 @@ class Ranking extends React.Component {
             );
           })}
         </ul>
+        <Link to="/">
+          <button data-testid="btn-go-home" type="button">Voltar inicio</button>
+        </Link>
       </section>
     );
   }
