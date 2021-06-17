@@ -45,6 +45,8 @@ class Login extends React.Component {
       player: {
         name,
         gravatarEmail: email,
+        score: 0,
+        assertions: 0,
       },
     };
     setToLocalStorage('state', state);
