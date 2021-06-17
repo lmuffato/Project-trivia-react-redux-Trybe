@@ -13,9 +13,11 @@ class Game extends React.Component {
       selectedStyle: false,
       index: 0,
       time: 30,
+      globalScore: 0,
     };
     this.handleindex = this.handleindex.bind(this);
     this.HandleTime = this.HandleTime.bind(this);
+    this.updateScore = this.updateScore.bind(this);
   }
 
   componentDidMount() {
@@ -29,47 +31,110 @@ class Game extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    localStorage.clear();
+  }
+
   playTime() {
     const { time } = this.state;
+    console.log('time');
+    console.log(time);
     const segundo = 1000;
     const maxTime = 30;
 
     if (time <= maxTime && time > 0) {
+      console.log('playtime');
       this.timeout = setInterval(this.HandleTime, segundo);
     }
   }
 
-  handleindex() {
-    const { index } = this.state;
+  HandleTime() {
+    const { time } = this.state;
+    this.setState({ time: time - 1 });
+  }
 
-    this.setState({
-      index: index + 1,
+  handleindex() {
+    // const { index } = this.state;
+    this.setState((prevState) => ({
+      index: prevState.index + 1,
       time: 30,
       nextBtnVisible: 'none',
       selectedStyle: false,
-    });
-    this.playTime();
+    }), this.playTime);
   }
 
-  handleClickAnswer(type) {
-    clearInterval(this.timeout);
-    this.setState({ selectedStyle: true, nextBtnVisible: '' });
-    if (type === true) {
-      console.log(type);
+  updateScore(points) {
+    const myLocalStorage = JSON.parse(localStorage.getItem('state'));
+    if (myLocalStorage !== null) {
+      const mlsNumber = Number(myLocalStorage.player.score);
+      const state = {
+        player: {
+          name: '',
+          assertions: 0,
+          score: (points + mlsNumber),
+          gravatarEmail: '',
+        },
+      };
+      localStorage.setItem('state', JSON.stringify(state));
+      this.setState({
+        globalScore: (points + mlsNumber),
+      });
+    } else {
+      const state = {
+        player: {
+          name: '',
+          assertions: 0,
+          score: points,
+          gravatarEmail: '',
+        },
+      };
+      localStorage.setItem('state', JSON.stringify(state));
+      this.setState({
+        globalScore: points,
+      });
     }
   }
 
-  handleAnswers(answers) {
+  handleClickAnswer(type, difficulty) {
+    clearInterval(this.timeout);
+    this.setState({ selectedStyle: true, nextBtnVisible: '' });
+    let level = 0;
+    const levelhard = 3;
+    switch (difficulty) {
+    case 'easy': (level = 1);
+      break;
+    case 'medium': (level = 2);
+      break;
+    case 'hard': (level = levelhard);
+      break;
+    default: (level = 1);
+      break;
+    }
+    console.log(difficulty);
+    console.log('antes do if');
+    if (type === 'correct') {
+      console.log('resposta certa');
+      const tenPoints = 10;
+      const { time } = this.state;
+      const score = tenPoints + (time * level);
+      console.log(time);
+      this.updateScore(score);
+      // localStorage.setItem('score', score);
+      console.log(score);
+    } else console.log('resposta errada');
+  }
+
+  handleAnswers(answers, difficulty) {
     const { time, selectedStyle } = this.state;
     let answerDisabled = false;
-    let corectBorder = 'none';
-    let wrongBorder = 'none';
+    let corectborder = 'none';
+    let wrongborder = 'none';
     if (time === 0) {
       answerDisabled = true;
     }
     if (selectedStyle === true) {
-      corectBorder = '3px solid rgb(6, 240, 15)';
-      wrongBorder = '3px solid rgb(255, 0, 0)';
+      corectborder = '3px solid rgb(6, 240, 15)';
+      wrongborder = '3px solid rgb(255, 0, 0)';
     }
 
     return answers.map((answer, index) => {
@@ -79,9 +144,9 @@ class Game extends React.Component {
             type="button"
             data-testid="correct-answer"
             key={ index }
-            onClick={ () => this.handleClickAnswer('correct') }
+            onClick={ () => this.handleClickAnswer('correct', difficulty) }
             disabled={ answerDisabled }
-            style={ { border: [corectBorder] } }
+            style={ { border: [corectborder] } }
           >
             { answer.text }
           </button>
@@ -92,9 +157,9 @@ class Game extends React.Component {
           type="button"
           data-testid={ `wrong-answer-${index}` }
           key={ index }
-          onClick={ () => this.handleClickAnswer('wrong') }
+          onClick={ () => this.handleClickAnswer('wrong', difficulty) }
           disabled={ answerDisabled }
-          style={ { border: [wrongBorder] } }
+          style={ { border: [wrongborder] } }
         >
           {answer.text}
         </button>
@@ -102,26 +167,20 @@ class Game extends React.Component {
     });
   }
 
-  HandleTime() {
-    const { time } = this.state;
-
-    this.setState({ time: time - 1 });
-  }
-
   render() {
-    const { index, time, nextBtnVisible } = this.state;
+    const { index, time, nextBtnVisible, globalScore } = this.state;
     const { questions, isLoading } = this.props;
 
-    let nextBtnVisible2 = nextBtnVisible;
+    let nextbtnvisible2 = nextBtnVisible;
 
     if (time === 0) {
-      nextBtnVisible2 = '';
+      nextbtnvisible2 = '';
     }
 
     if (isLoading === false) {
       return (
         <section>
-          <Header />
+          <Header score={ globalScore } />
           <p data-testid="question-category">
             Categoria:
             {questions[index].category}
@@ -129,12 +188,12 @@ class Game extends React.Component {
           <p data-testid="question-text">
             {questions[index].question}
           </p>
-          { this.handleAnswers(questions[index].answers)}
+          { this.handleAnswers(questions[index].answers, questions[index].difficulty)}
           <button
             type="button"
             data-testid="btn-next"
             onClick={ () => this.handleindex() }
-            style={ { display: [nextBtnVisible2] } }
+            style={ { display: [nextbtnvisible2] } }
           >
             Próxima Pergunta
           </button>

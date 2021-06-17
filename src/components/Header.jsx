@@ -8,7 +8,6 @@ class Header extends React.Component {
     super(props);
     this.state = {
       Gravatar: {},
-      score: 0,
     };
     this.convertEmailtoHash = this.convertEmailtoHash.bind(this);
   }
@@ -24,8 +23,9 @@ class Header extends React.Component {
   }
 
   render() {
-    const { Gravatar, score } = this.state;
-    const { getEmail: { name } } = this.props;
+    const { Gravatar } = this.state;
+    const { getEmail: { name }, score } = this.props;
+
     return (
       <section>
         <header>
@@ -47,6 +47,7 @@ const mapStateToProps = (state) => ({
 });
 
 Header.propTypes = {
-  getEmail: PropTypes.func.isRequired,
+  getEmail: PropTypes.objectOf(PropTypes.string).isRequired,
+  score: PropTypes.number.isRequired,
 };
 export default connect(mapStateToProps)(Header);
