@@ -25,7 +25,6 @@ class GameScreen extends React.Component {
   getUserAnswer(response) { // {validation: "correct-answer", Questiondifficulty: "medium"}
     const { answer, time } = this.state;
     const { validation, questionDifficulty } = response;
-    console.log(validation, questionDifficulty, time);
     this.updateUserScore(validation, questionDifficulty, time);
     answer.push({ ...response, time });
     this.setState({ answer, answered: true });

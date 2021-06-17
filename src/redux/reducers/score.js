@@ -6,13 +6,13 @@ const INITIAL_STATE = {
 };
 
 function updateLocalStorage(score, assertions) {
-  const playerInfo = window.localStorage.getItem('player');
+  const playerInfo = window.localStorage.getItem('state');
   const playerInfoParse = JSON.parse(playerInfo);
 
   playerInfoParse.assertions += assertions;
-  playerInfoParse.score += score;
+  playerInfoParse.player.score += score;
 
-  window.localStorage.setItem('player', JSON.stringify(playerInfoParse));
+  window.localStorage.setItem('state', JSON.stringify(playerInfoParse));
 }
 
 function scoreReducer(state = INITIAL_STATE, actions) {
