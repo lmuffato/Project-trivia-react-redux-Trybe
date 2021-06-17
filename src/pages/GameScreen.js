@@ -25,8 +25,12 @@ class GameScreen extends React.Component {
     this.setState({ answer, answered: true });
   }
 
-  stopTimer(time) {
-    this.setState({ time });
+  stopTimer(interval, time) {
+    const { answered } = this.state;
+    if (answered) {
+      clearInterval(interval);
+      this.setState({ time });
+    }
   }
 
   loading() {

@@ -4,13 +4,11 @@ import PropTypes from 'prop-types';
 class Timer extends Component {
   constructor(props) {
     super(props);
-    const { time, answered } = this.props;
+    const { time } = this.props;
     this.state = {
       time,
-      answered,
     };
     this.runTimer = this.runTimer.bind(this);
-    this.pauseTimer = this.pauseTimer.bind(this);
   }
 
   componentDidMount() {
@@ -18,23 +16,18 @@ class Timer extends Component {
   }
 
   runTimer() {
-    let { time, answered } = this.state;
+    let { time } = this.state;
+    const { stopTimer } = this.props;
     const oneSec = 1000;
     const interval = setInterval(() => {
-      if (answered) {
-        this.pauseTimer(interval);
-      } else if (time > 0) {
+      if (time > 0) {
         time -= 1;
       } else {
         clearInterval(interval);
       }
-      this.setState({ time, interval });
+      this.setState({ time });
+      stopTimer(interval, time);
     }, oneSec);
-  }
-
-  pauseTimer(interval) {
-    console.log('got it');
-    clearInterval(interval);
   }
 
   render() {

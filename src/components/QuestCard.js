@@ -15,7 +15,6 @@ class QuestCard extends Component {
 
   render() {
     const { question } = this.props;
-    console.log(question);
     const wrongAlternatives = question.incorrect_answers
       .map((incAns, index) => ({ text: incAns, dataTest: `wrong-answer${index}` }));
     const correctAlternative = {
@@ -38,6 +37,7 @@ class QuestCard extends Component {
 
 QuestCard.propTypes = {
   question: PropTypes.arrayOf(PropTypes.object).isRequired,
+  getUserAnswer: PropTypes.func.isRequired,
 };
 
 export default QuestCard;
