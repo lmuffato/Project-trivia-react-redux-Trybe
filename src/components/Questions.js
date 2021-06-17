@@ -9,20 +9,12 @@ class Questions extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      borderColor: [],
       questionsIndex: 0,
       isVisible: 'false',
+      borderColor: [],
     };
     this.handleClickAnswer = this.handleClickAnswer.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
-  }
-
-  nextQuestion(NumberOfQuestions) {
-    this.setState((prevState) => ({
-      questionsIndex: (prevState.questionsIndex + 1) % NumberOfQuestions,
-      borderColor: [],
-      isVisible: 'false',
-    }));
   }
 
   handleClickAnswer() {
@@ -44,15 +36,33 @@ class Questions extends Component {
     this.setState({ isVisible: 'true' });
   }
 
+  nextQuestion(NumberOfQuestions) {
+    this.setState((prevState) => ({
+      questionsIndex: (prevState.questionsIndex + 1) % NumberOfQuestions,
+      isVisible: 'false',
+      borderColor: [],
+    }));
+
+    const alternatives = Array.from(
+      document.getElementsByClassName(
+        styles.question__alternatives,
+      ),
+    );
+    alternatives.forEach((alternative) => {
+      alternative.classList.remove(
+        'question__alternatives__incorrect',
+        'question__alternatives__correct',
+      );
+    });
+  }
+
   render() {
-    const { borderColor, isVisible, questionsIndex } = this.state;
+    const { isVisible, questionsIndex, borderColor } = this.state;
     const { loading, questions } = this.props;
     const questionsFiltered = questions[questionsIndex];
-
-    if (loading) {
+    if (loading || questions.length < 1) {
       return <Loading />;
     }
-
     return (
       <div>
         <div>
@@ -61,21 +71,18 @@ class Questions extends Component {
         </div>
 
         <div className={ styles.question__card }>
-          <ul className={ styles.question__list }>
-            {questionsFiltered.alternatives.map((question, index) => (
-              <li key={ index }>
-                <button
-                  onClick={ this.handleClickAnswer }
-                  type="button"
-                  className={ [styles
-                    .question__alternatives, borderColor[index]].join(' ') }
-                  data-testid={ Object.values(question) }
-                >
-                  {Object.keys(question)}
-                </button>
-              </li>
-            ))}
-          </ul>
+          {questionsFiltered.alternatives.map((question, index) => (
+            <button
+              key={ index }
+              onClick={ this.handleClickAnswer }
+              type="button"
+              className={ [styles
+                .question__alternatives, borderColor[index]].join(' ') }
+              data-testid={ Object.values(question) }
+            >
+              {Object.keys(question)}
+            </button>
+          ))}
         </div>
         <button
           type="button"
@@ -85,7 +92,6 @@ class Questions extends Component {
             [styles.question__button, `question__button__${isVisible}`]
               .join(' ')
           }
-
         >
           Próxima
         </button>
