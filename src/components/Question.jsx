@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from './Button';
+import Timer from './Timer';
 
 class Question extends Component {
   constructor() {
@@ -30,10 +31,10 @@ class Question extends Component {
     const btnAnswers = document.getElementsByTagName('button');
     [...btnAnswers].map((btn) => {
       if (btn.getAttribute('data-testid') === 'correct-answer') {
-        btn.classList.add('green');
+        btn.classList.toggle('green');
       }
       if (btn.getAttribute('data-testid').includes('wrong-answer')) {
-        btn.classList.add('red');
+        btn.classList.toggle('red');
       }
       this.setState({ isButtonDisabled: true });
       const element = document.querySelector('.hide-button');
@@ -65,6 +66,7 @@ class Question extends Component {
     return (
       <div>
         <div>
+          <Timer />
           <h4 data-testid="question-category">
             { quiz.category }
           </h4>

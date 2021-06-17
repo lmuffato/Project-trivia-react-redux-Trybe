@@ -9,7 +9,6 @@ import Header from '../components/Header';
 import Button from '../components/Button';
 import Question from '../components/Question';
 import Loading from '../components/Loading';
-import Timer from '../components/Timer';
 
 class GamePage extends React.Component {
   constructor(props) {
@@ -69,7 +68,7 @@ class GamePage extends React.Component {
   }
 
   render() {
-    const { loading, index, questions, shouldRedirect, time, timerActive } = this.state;
+    const { loading, index, questions, shouldRedirect } = this.state;
 
     if (loading) {
       return <Loading />;
@@ -82,7 +81,7 @@ class GamePage extends React.Component {
     return (
       <>
         <Header />
-        <Timer time={ time } timerActive={ timerActive } />
+        {/* <Timer /> */}
         <div>
           <Question quiz={ questions[index] } />
         </div>
