@@ -1,4 +1,5 @@
 .App {
+  max-height: 100vh;
   text-align: center;
 }
 
@@ -30,7 +31,7 @@
   flex-direction: column;
   font-size: calc(10px + 2vmin);
   justify-content: center;
-  min-height: 100vh;
+  min-height: 60vh;
 }
 
 .App-link {
@@ -54,4 +55,25 @@
   40%, 60% {
     transform: translate3d(4px, 0, 0);
   }
+}
+
+.btn-settings {
+  align-items: center;
+  background-color: #282c34;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 10vh;
+}
+
+.form {
+  align-items: center;
+  background-color: #282c34;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  font-size: calc(10px + 2vmin);
+  justify-content: center;
+  min-height: 30vh;
 }

@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import logo from '../trivia.png';
+import { setNameAction, setEmailAction, getApiQuestionsThunk } from '../actions';
 
 class Login extends React.Component {
   constructor(props) {
@@ -16,6 +19,7 @@ class Login extends React.Component {
 
   handleChange({ target }) {
     const { value, name } = target;
+
     this.setState({
       [name]: value,
     }, () => { this.handleErrors(); });
@@ -23,6 +27,8 @@ class Login extends React.Component {
 
   handleErrors() {
     const { email, name } = this.state;
+    const { setName, setEmail } = this.props;
+
     const errorCases = [
       !name,
       !email.match(/^\w+@\w+.com$/),
@@ -31,15 +37,20 @@ class Login extends React.Component {
     this.setState({
       formErrors: !formComplete,
     });
+
+    setName(name);
+    setEmail(email);
   }
 
   render() {
-    const { formErrors, email } = this.state;
-    const { userEmail } = this.props;
+    const { formErrors } = this.state;
+    const { getApi } = this.props;
     return (
-      <div>
-        <h1>Bem Vindo a Trybe Wallet</h1>
-        <form>
+      <div className="App">
+        <header className="App-header">
+          <img src={ logo } className="App-logo" alt="logo" />
+        </header>
+        <form className="form">
           <div>
             <input
               data-testid="input-player-name"
@@ -56,27 +67,42 @@ class Login extends React.Component {
               name="email"
             />
           </div>
-          <div>
-            <Link to="/">
-              <button
-                data-testid="btn-play"
-                type="button"
-                disabled={ formErrors }
-                onClick={ () => userEmail({ email }) }
-              >
-                Jogar
-              </button>
-            </Link>
-
-          </div>
+          <Link to="/game">
+            <button
+              data-testid="btn-play"
+              type="button"
+              disabled={ formErrors }
+              onClick={ getApi }
+            >
+              Jogar
+            </button>
+          </Link>
         </form>
+        <div className="btn-settings">
+          <Link to="/settings">
+            <button
+              data-testid="btn-settings"
+              type="button"
+            >
+              Configuração
+            </button>
+          </Link>
+        </div>
       </div>
     );
   }
 }
 
+const mapDispatchToProps = (dispatch) => ({
+  setName: (state) => dispatch(setNameAction(state)),
+  setEmail: (state) => dispatch(setEmailAction(state)),
+  getApi: (state) => dispatch(getApiQuestionsThunk(state)),
+});
+
 Login.propTypes = {
-  userEmail: PropTypes.func.isRequired,
+  setName: PropTypes.string.isRequired,
+  setEmail: PropTypes.string.isRequired,
+  getApi: PropTypes.func.isRequired,
 };
 
-export default Login;
+export default connect(null, mapDispatchToProps)(Login);

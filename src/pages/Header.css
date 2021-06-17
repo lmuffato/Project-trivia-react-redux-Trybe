@@ -1,0 +1,25 @@
+.headerTrivia {
+  align-items: center;
+  background-color: cornflowerblue;
+  border-radius: 10px;
+  color: white;
+  display: flex;
+  justify-content: space-around;
+  margin: 15px;
+
+}
+
+h1 {
+  margin: 20px;
+}
+
+img {
+  border-radius: 10px;
+  opacity: 0.8;
+
+}
+
+img:hover {
+  border-radius: 10px;
+  opacity: 1;
+}
