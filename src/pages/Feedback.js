@@ -29,14 +29,14 @@ class Feedback extends React.Component {
 
   render() {
     const { score } = this.props;
-    const maxAssertions = 3;
+    const maxAssertions = 2;
     const { assertions, ranking, loginRedirect } = this.state;
     return (
       <div>
         <header>
           <Header />
           <h1 data-testid="feedback-text">
-            {assertions < maxAssertions ? 'Podia ser melhor...' : 'Mandou bem!'}
+            {assertions <= maxAssertions ? 'Podia ser melhor...' : 'Mandou bem!'}
           </h1>
           <h3 data-testid="feedback-total-score">
             Pontuação Total:
