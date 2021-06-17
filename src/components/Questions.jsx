@@ -27,16 +27,15 @@ class Questions extends Component {
   }
 
   componentDidMount() {
-    const { name, gravatarEmail} = this.state
-    console.log("ahh");
-    let state = {
+    const { name, gravatarEmail } = this.state;
+    const state = {
       player: {
-        name: name,
+        name,
         assertions: 0,
         score: 0,
-        gravatarEmail: gravatarEmail,
+        gravatarEmail,
       },
-    }
+    };
     localStorage.setItem('state', JSON.stringify(state));
     this.getQuestions();
     setInterval(() => this.setTime(), second);
@@ -47,16 +46,16 @@ class Questions extends Component {
     const { getScore } = this.props;
     const grade = 10;
     const currentScore = grade + (currentTime * mult);
-      let state = JSON.parse(localStorage.getItem('state'));
-      state = {
-        player: {
-          ...state.player,
-          assertions: state.player.assertions + 1,
-          score: state.player.score + currentScore,
-        },
-      };
-      localStorage.setItem('state', JSON.stringify(state));
-      getScore(state.player.score);
+    let state = JSON.parse(localStorage.getItem('state'));
+    state = {
+      player: {
+        ...state.player,
+        assertions: state.player.assertions + 1,
+        score: state.player.score + currentScore,
+      },
+    };
+    localStorage.setItem('state', JSON.stringify(state));
+    getScore(state.player.score);
   }
 
   getDifficulty(difficulty, condition) {
