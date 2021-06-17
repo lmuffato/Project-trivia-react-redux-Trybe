@@ -71,7 +71,8 @@ class Login extends React.Component {
 
   // Requisito 2 - Redirenciona para pagina de games e faz a requisição do token na api;
   async handleClickPlay() {
-    const { name, userName, email } = this.state;
+    const { name: userName, email } = this.state;
+    const name = userName;
     const { getLogin } = this.props;
     const localStorageFormat = {
       player: {
