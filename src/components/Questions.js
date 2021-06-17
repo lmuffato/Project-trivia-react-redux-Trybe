@@ -178,7 +178,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 Question.propTypes = {
-  results: PropTypes.shape.isRequired,
+  results: PropTypes.func.isRequired,
   setPointsRedux: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
