@@ -14,12 +14,23 @@ class GameScreen extends React.Component {
       answer: [],
       time,
       answered: false,
+      actualQuestion: 0,
     };
     this.loading = this.loading.bind(this);
     this.getUserAnswer = this.getUserAnswer.bind(this);
     this.stopTimer = this.stopTimer.bind(this);
     this.updateUserScore = this.updateUserScore.bind(this);
     this.calcDifficulty = this.calcDifficulty.bind(this);
+    this.onNextClick = this.onNextClick.bind(this);
+  }
+
+  onNextClick() {
+    let { actualQuestion } = this.state;
+    const { questions } = this.props;
+    if (actualQuestion < questions.length - 1) {
+      actualQuestion += 1;
+      this.setState({ actualQuestion });
+    }
   }
 
   getUserAnswer(response) { // {validation: "correct-answer", Questiondifficulty: "medium"}
@@ -43,7 +54,7 @@ class GameScreen extends React.Component {
     const basePoints = 10;
     const updateAssertions = 1;
     const difficulty = this.calcDifficulty(questionDifficulty);
-    if (validation === 'correct-answer') {
+    if (validation === 'correct correct-answer') {
       const calcScore = basePoints + (time * difficulty);
       updateScore(calcScore, updateAssertions);
     }
@@ -52,7 +63,6 @@ class GameScreen extends React.Component {
   stopTimer(interval, time) {
     const { answered } = this.state;
     if (answered) {
-      this.setState({ time });
       clearInterval(interval);
     }
     this.setState({
@@ -66,15 +76,16 @@ class GameScreen extends React.Component {
 
   render() {
     const { questions, time } = this.props;
-    const { answered } = this.state;
+    const { actualQuestion } = this.state;
     return (
       <>
         <Header />
-        <Timer time={ time } stopTimer={ this.stopTimer } answered={ answered } />
+        <Timer time={ time } stopTimer={ this.stopTimer } />
         <section>
           { questions === '' ? this.loading() : <QuestCard
-            question={ questions[0] }
+            question={ questions[actualQuestion] }
             getUserAnswer={ this.getUserAnswer }
+            nextQuestion={ this.onNextClick }
           /> }
         </section>
       </>
