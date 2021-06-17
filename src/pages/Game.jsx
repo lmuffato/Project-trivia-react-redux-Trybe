@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import { string, shape } from 'prop-types';
+import { connect } from 'react-redux';
+
+import md5 from 'crypto-js/md5';
 
 import Question from '../components/Question';
 import getTriviaQuestions from '../utils/triviaApi';
-import Header from '../components/Header';
 import { updateLocalStorage, updateUserScore } from '../utils/functions';
 
 class Game extends Component {
@@ -92,6 +95,9 @@ class Game extends Component {
   }
 
   render() {
+    const { user } = this.props;
+    const { name, email } = user;
+    const hash = md5(email).toString();
     const {
       questions,
       currentQuestionId,
@@ -105,7 +111,11 @@ class Game extends Component {
 
     return (
       <>
-        <Header score={ score } />
+        <header>
+          <img src={ `https://www.gravatar.com/avatar/${hash}.png` } alt="Gravatar" data-testid="header-profile-picture" />
+          <p data-testid="header-player-name">{`Jogador ${name}`}</p>
+          <p data-testid="header-score">{ score }</p>
+        </header>
         <p>Questão:</p>
         {(currentQuestion)
           && <Question
@@ -114,12 +124,21 @@ class Game extends Component {
             timeLeft={ timeLeft }
             handleClick={ this.handleClick }
           />}
-
-        <Header />
         <p>Jogo</p>
       </>
     );
   }
 }
 
-export default Game;
+Game.propTypes = {
+  user: shape({
+    name: string,
+    email: string,
+  }).isRequired,
+};
+
+const mapStateToProps = ({ user }) => ({
+  user,
+});
+
+export default connect(mapStateToProps)(Game);
