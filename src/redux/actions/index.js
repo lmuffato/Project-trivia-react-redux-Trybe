@@ -3,9 +3,9 @@ import { LOGIN, GET_QUESTIONS, GET_TOKEN,
 
 export const updateScore = (newScore) => {
   const { assertations, score } = newScore;
-  const previusPlayerInfo = JSON.parse(localStorage.getItem('player'));
-  const playerUpdate = { ...previusPlayerInfo, assertations, score };
-  localStorage.setItem('player', JSON.stringify(playerUpdate));
+  const previusPlayerInfo = JSON.parse(localStorage.getItem('state'));
+  const stateUpdate = { player: { ...previusPlayerInfo.player, assertations, score } };
+  localStorage.setItem('state', JSON.stringify(stateUpdate));
   return ({
     type: UPDATE_SCORE,
     payload: { ...newScore },
@@ -13,8 +13,8 @@ export const updateScore = (newScore) => {
 };
 
 export const addLogin = (userInfo) => {
-  const newPlayer = { ...userInfo };
-  localStorage.setItem('player', JSON.stringify(newPlayer));
+  const player = { ...userInfo, score: 0, assertations: 0 };
+  localStorage.setItem('state', JSON.stringify({ player }));
   return ({
     type: LOGIN,
     payload: { ...userInfo },
