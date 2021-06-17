@@ -19,5 +19,5 @@ export const updateUserScore = (timer, difficulty) => {
 };
 
 export const sortRankingArray = (array) => {
-  array.sort((a, b) => b.player.score - a.player.score);
+  array.sort((a, b) => b.score - a.score);
 };

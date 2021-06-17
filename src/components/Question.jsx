@@ -48,7 +48,9 @@ class Question extends Component {
           type="button"
           data-testid="btn-next"
           id="btn-next"
-          onClick={ this.clickNextButton }
+          onClick={ () => {
+            this.clickNextButton();
+          } }
         >
           {(currQuestionId >= maxQuestions)
             ? 'Ir para feedback'
