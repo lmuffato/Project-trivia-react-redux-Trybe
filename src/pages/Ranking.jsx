@@ -8,6 +8,7 @@ class Ranking extends Component {
     return (
       <div>
         <Header />
+        <p data-testid="feedback-text">FeedBack text to be put on here</p>
       </div>
     );
   }

@@ -115,12 +115,8 @@ class Play extends Component {
     if (target.className === 'correct-answer') this.calcScore();
   }
 
-  finishGame() {
-    // desenvolver logica para chamar a tela de feedback
-  }
-
   nextQuestion() {
-    const { questions } = this.props;
+    const { questions, history } = this.props;
     const { questionNumber } = this.state;
 
     if (questionNumber + 1 < questions.length) {
@@ -133,7 +129,7 @@ class Play extends Component {
         this.countdown();
       });
     } else {
-      this.finishGame();
+      return history.push('/ranking');
     }
   }
 
