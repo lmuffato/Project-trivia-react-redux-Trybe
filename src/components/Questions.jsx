@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { score } from '../redux/actions';
+import { score, quantyAssertions } from '../redux/actions';
 
 const second = 1000;
 
@@ -43,7 +43,7 @@ class Questions extends Component {
 
   setStorage(mult) {
     const { currentTime } = this.state;
-    const { getScore } = this.props;
+    const { getScore, getAssertons } = this.props;
     const grade = 10;
     const currentScore = grade + (currentTime * mult);
     let state = JSON.parse(localStorage.getItem('state'));
@@ -56,6 +56,7 @@ class Questions extends Component {
     };
     localStorage.setItem('state', JSON.stringify(state));
     getScore(state.player.score);
+    getAssertons(state.player.assertions);
   }
 
   getDifficulty(difficulty, condition) {
@@ -188,6 +189,7 @@ class Questions extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   getScore: (payload) => dispatch(score(payload)),
+  getAssertons: (payload) => dispatch(quantyAssertions(payload)),
 });
 
 const mapStateToProps = (state) => ({
