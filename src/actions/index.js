@@ -2,6 +2,7 @@ export const USER = 'USER';
 export const RANKING = 'RANKING';
 export const QUESTIONS_API = 'QUESTIONS_API';
 export const TOKEN = 'TOKEN';
+export const SCORE = 'SCORE';
 
 export const user = (payload) => ({
   type: 'USER',
@@ -20,5 +21,10 @@ export const questionsApi = (payload) => ({
 
 export const token = (payload) => ({
   type: 'TOKEN',
+  payload,
+});
+
+export const setScore = (payload) => ({
+  type: 'SCORE',
   payload,
 });
