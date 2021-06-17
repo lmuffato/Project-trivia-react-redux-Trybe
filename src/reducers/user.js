@@ -1,13 +1,10 @@
-import { USER, TOKEN } from '../actions';
+import { USER, TOKEN, SCORE } from '../actions';
 
 const USER_INITIAL_STATE = {
-  player: {
-    name: '',
-    assertions: '',
-    score: 0,
-    gravatarEmail: '',
-    token: '',
-  },
+  name: '',
+  assertions: 0,
+  score: 0,
+  gravatarEmail: '',
 };
 
 const user = (state = USER_INITIAL_STATE, action) => {
@@ -22,6 +19,11 @@ const user = (state = USER_INITIAL_STATE, action) => {
     return {
       ...state,
       token: action.payload,
+    };
+  case SCORE:
+    return {
+      ...state,
+      score: action.payload,
     };
   default:
     return state;
