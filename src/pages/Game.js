@@ -5,7 +5,13 @@ import { connect } from 'react-redux';
 import { getQuestions } from '../services/dataApi';
 import '../styles/Game.css';
 import Timer from '../components/Timer';
-import { disable, hidden } from '../actions';
+import {
+  clockStoper,
+  disable,
+  changeTrueOrFalse,
+  hidden,
+  resetCurrentTime,
+} from '../actions';
 
 class Game extends Component {
   constructor(props) {
@@ -19,22 +25,23 @@ class Game extends Component {
 
     this.wrongIndex = -1;
 
-    this.handleFunc = this.handleFunc.bind(this);
+    this.fetchQuestions = this.fetchQuestions.bind(this);
     this.incrementIndex = this.incrementIndex.bind(this);
     this.checkAnswer = this.checkAnswer.bind(this);
     this.shuffleArray = this.shuffleArray.bind(this);
     this.createButton = this.createAnswersButtons.bind(this);
     this.removeButtonBorder = this.removeButtonBorder.bind(this);
-    this.editDisableAndHidden = this.editDisableAndHidden.bind(this);
-    this.funcManeger = this.funcManeger.bind(this);
+    this.editFuncManeger = this.editFuncManeger.bind(this);
+    this.nextButtonFuncManeger = this.nextButtonFuncManeger.bind(this);
+    this.answersButtonsFuncManeger = this.answersButtonsFuncManeger.bind(this);
   }
 
   async componentDidMount() {
-    await this.handleFunc();
+    await this.fetchQuestions();
     this.shuffleArray();
   }
 
-  handleFunc() {
+  fetchQuestions() {
     const { token } = this.props;
     return getQuestions(token)
       .then((data) => this.setState({
@@ -61,21 +68,8 @@ class Game extends Component {
     this.wrongIndex = -1;
   }
 
-  editDisableAndHidden() {
-    const { editHidden, editDisable } = this.props;
-    editDisable(false);
-    editHidden(true);
-  }
-
-  async funcManeger() {
-    this.removeButtonBorder();
-    await this.incrementIndex();
-    this.editDisableAndHidden();
-    this.shuffleArray();
-  }
-
-  // Função baseada em um dos exemplos da página a seguir: https://www.delftstack.com/pt/howto/javascript/shuffle-array-javascript/
   shuffleArray() {
+    // Função baseada em um dos exemplos da página a seguir: https://www.delftstack.com/pt/howto/javascript/shuffle-array-javascript/
     const { questions, index } = this.state;
     // console.log(index);
     const sortControl = 0.5;
@@ -88,9 +82,15 @@ class Game extends Component {
     });
   }
 
+  saveScore() {
+    // const { questions, index } = this.state;
+    // const { currentTime } = this.props;
+  }
+
   createAnswersButtons(answer, i) {
     const { disableAnswer } = this.props;
     const { questions, index } = this.state;
+    console.log(questions);
     if (answer === questions[index].correct_answer) {
       return (
         <button
@@ -100,7 +100,10 @@ class Game extends Component {
           name="correct-answer"
           className="button"
           data-testid="correct-answer"
-          onClick={ this.checkAnswer }
+          onClick={ () => {
+            this.answersButtonsFuncManeger();
+            this.saveScore();
+          } }
         >
           {answer}
         </button>
@@ -115,7 +118,7 @@ class Game extends Component {
         name="wrong-answer"
         className="button"
         data-testid={ `wrong-answer-${this.wrongIndex}` }
-        onClick={ this.checkAnswer }
+        onClick={ this.answersButtonsFuncManeger }
       >
         {answer}
       </button>
@@ -133,6 +136,34 @@ class Game extends Component {
       }
       return button.classList.add('wrongAnswer');
     });
+  }
+
+  editFuncManeger() {
+    const {
+      editHidden,
+      editDisable,
+      editClockStoper,
+      editCurrentTime,
+      editTrueOrFalse,
+    } = this.props;
+    editHidden(true);
+    editCurrentTime();
+    editClockStoper(false);
+    editTrueOrFalse(true);
+    editDisable(false);
+  }
+
+  async nextButtonFuncManeger() {
+    this.removeButtonBorder();
+    await this.incrementIndex();
+    this.editFuncManeger();
+    this.shuffleArray();
+  }
+
+  answersButtonsFuncManeger() {
+    const { editClockStoper } = this.props;
+    this.checkAnswer();
+    editClockStoper(true);
   }
 
   render() {
@@ -160,7 +191,7 @@ class Game extends Component {
             type="button"
             className={ hiddenBtnNext ? 'hidden' : 'visible' }
             data-testid="btn-next"
-            onClick={ this.funcManeger }
+            onClick={ this.nextButtonFuncManeger }
           >
             Próxima
           </button>
@@ -172,17 +203,22 @@ class Game extends Component {
 
 const mapStateToProps = ({
   player: { email, name, token },
-  gameReducer: { disableAnswer, hiddenBtnNext } }) => ({
+  gameReducer: { disableAnswer, hiddenBtnNext, currentTime },
+}) => ({
   emailDoUsuario: email,
   nomeDoUsuario: name,
   token,
   disableAnswer,
   hiddenBtnNext,
+  currentTime,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   editDisable: (payload) => dispatch(disable(payload)),
   editHidden: (payload) => dispatch(hidden(payload)),
+  editClockStoper: (payload) => dispatch(clockStoper(payload)),
+  editCurrentTime: () => dispatch(resetCurrentTime()),
+  editTrueOrFalse: (payload) => dispatch(changeTrueOrFalse(payload)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);
