@@ -40,4 +40,4 @@ FeedbackResult.propTypes = {
   assetions: PropTypes.number,
 }.isRequired;
 
-export default connect(mapStateToProps)(FeedbackResult);
+export default connect(mapStateToProps, null)(FeedbackResult);
