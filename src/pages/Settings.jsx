@@ -12,8 +12,8 @@ class Settings extends React.Component {
     };
   }
 
-  handleChange({ target }) {
-    const { id, value } = target;
+  handleChange({ target: { id, value } }) {
+    // const { id, value } = target;
     this.setState({ [id]: value });
   }
 
