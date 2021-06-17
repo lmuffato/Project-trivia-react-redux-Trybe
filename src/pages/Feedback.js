@@ -35,29 +35,31 @@ class Feedback extends React.Component {
     const { score, assertions } = localStorage.state.player;
     return (
       <div>
-        <p data-testid="feedback-text">{ this.mensage() }</p>
-        <p data-testid="feedback-total-score">
-          Placar final:
-          { score }
-        </p>
-        <p data-testid="feedback-total-question">
-          Acerto:
-          { assertions }
-        </p>
-        <button
-          data-testid="btn-play-again"
-          type="button"
-          onClick={ this.redirectToLogin }
-        >
-          Jogar novamente
-        </button>
-        <button
-          data-testid="btn-ranking"
-          type="button"
-          onClick={ this.redirectToRanking }
-        >
-          Ver Ranking
-        </button>
+        <span data-testid="feedback-text">
+          <p data-testid="feedback-text">{ this.mensage() }</p>
+          <p data-testid="feedback-total-score">
+            Placar final:
+            { score }
+          </p>
+          <p data-testid="feedback-total-question">
+            Acerto:
+            { assertions }
+          </p>
+          <button
+            data-testid="btn-play-again"
+            type="button"
+            onClick={ this.redirectToLogin }
+          >
+            Jogar novamente
+          </button>
+          <button
+            data-testid="btn-ranking"
+            type="button"
+            onClick={ this.redirectToRanking }
+          >
+            Ver Ranking
+          </button>
+        </span>
       </div>
     );
   }

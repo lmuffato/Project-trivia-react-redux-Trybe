@@ -25,7 +25,7 @@ class Questions extends Component {
     this.handleClickAnswer = this.handleClickAnswer.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     this.handleZero = this.handleZero.bind(this);
-    this.resetDifficulty = this.resetDifficulty.bind(this);
+    this.redirectFeedback = this.redirectFeedback.bind(this);
   }
 
   componentDidUpdate() {
@@ -34,6 +34,16 @@ class Questions extends Component {
       this.addPoints();
       this.addToLocalStorage();
     }
+  }
+
+  redirectFeedback() {
+    const { history } = this.props;
+    const { questionsIndex } = this.state;
+    const numberOfTheQuestionsEnd = 4;
+    if (questionsIndex === numberOfTheQuestionsEnd) {
+      history.push('/feedback');
+    }
+    this.resetDifficulty = this.resetDifficulty.bind(this);
   }
 
   addPoints() {
@@ -75,6 +85,7 @@ class Questions extends Component {
       stop: false,
       disabled: false,
     }));
+    this.redirectFeedback();
   }
 
   resetDifficulty() {
@@ -126,7 +137,7 @@ class Questions extends Component {
       return <Loading />;
     }
     return (
-      <div>
+      <div className={ styles.question__container }>
         <div>
           <h2 data-testid="question-category">{questionsFiltered.category}</h2>
           <p data-testid="question-text">{questionsFiltered.question}</p>
@@ -195,6 +206,9 @@ Questions.propTypes = {
     difficulty: PropTypes.string.isRequired,
   })).isRequired,
   loading: PropTypes.bool,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
   setDifficultyProps: PropTypes.func.isRequired,
   calc: PropTypes.bool.isRequired,
   name: PropTypes.string.isRequired,
