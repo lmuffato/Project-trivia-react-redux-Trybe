@@ -7,6 +7,7 @@ import Feedback from './pages/Feedback';
 import NotFound from './pages/NotFound';
 import Settings from './pages/Settings';
 import './App.css';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
