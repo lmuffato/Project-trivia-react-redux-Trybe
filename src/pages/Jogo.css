@@ -1,0 +1,36 @@
+header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.score {
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.music {
+  display: none;
+  margin-top: 100px;
+}
+
+.timer {
+  align-items: center;
+  background-color: green;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  font-size: 50px;
+  height: 90px;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  position: relative;
+  width: 90px;
+}
