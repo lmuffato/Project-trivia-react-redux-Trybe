@@ -117,12 +117,3 @@ img {
     transform: rotate(360deg);
   }
 }
-
-a {
-  bottom: 10px;
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 12px;
-  position: absolute;
-  right: 10px;
-  text-decoration: none;
-}

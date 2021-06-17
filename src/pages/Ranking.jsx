@@ -28,7 +28,7 @@ class Ranking extends Component {
     console.log(this.getInformations());
     return (
       <div>
-        <h2>Ranking</h2>
+        <h2 data-testid="ranking-title">Ranking</h2>
         { this.getInformations().map((player, index) => (
           <div key={ index }>
             <figure>
