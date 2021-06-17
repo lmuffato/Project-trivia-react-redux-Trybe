@@ -1,8 +1,9 @@
 // Requisito 5 - Requisição da Api das perguntas e renderixação na tela
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { requestTrivia } from '../Api';
 import Timer from './Timer';
-import './playGames.css';
 
 class PlayGame extends React.Component {
   constructor() {
@@ -37,6 +38,28 @@ class PlayGame extends React.Component {
     }
   }
 
+  // Requisito 9 - Faz a pontuação dinâmica por dificuldade e salva no localStorage
+  calcScore() {
+    const { questions, index } = this.state;
+    const { timeGotten } = this.props;
+    const hard = 3;
+    const basePoint = 10;
+    const localRanking = JSON.parse(localStorage.getItem('state'));
+    const { player: { score } } = localRanking;
+    if (questions[index].difficulty === 'hard') {
+      localRanking.player.score = score + basePoint + (timeGotten * hard);
+      localStorage.setItem('state', JSON.stringify(localRanking));
+    }
+    if (questions[index].difficulty === 'medium') {
+      localRanking.player.score = score + basePoint + (timeGotten * 2);
+      localStorage.setItem('state', JSON.stringify(localRanking));
+    }
+    if (questions[index].difficulty === 'easy') {
+      localRanking.player.score = score + basePoint + (timeGotten * 1);
+      localStorage.setItem('state', JSON.stringify(localRanking));
+    }
+  }
+
   // Requisito 10 - Renderiza uma pergunta por vez
   nextQuestion() {
     const { questions, index } = this.state;
@@ -62,6 +85,7 @@ class PlayGame extends React.Component {
             <button
               data-testid="correct-answer"
               type="button"
+              onClick={ () => this.calcScore() }
             >
               {question.correct_answer}
             </button>
@@ -115,4 +139,12 @@ class PlayGame extends React.Component {
   }
 }
 
-export default PlayGame;
+const mapStateToProps = (state) => ({
+  timeGotten: state.triviaReducer.seconds,
+});
+
+PlayGame.propTypes = {
+  timeGotten: PropTypes.number.isRequired,
+};
+
+export default connect(mapStateToProps)(PlayGame);

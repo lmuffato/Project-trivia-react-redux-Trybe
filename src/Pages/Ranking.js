@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-
 class Ranking extends Component {
   constructor() {
     super();
@@ -59,10 +58,6 @@ class Ranking extends Component {
       </div>
     );
   }
-// Requisito 18 - Botão usado para retornar ao início;
 }
-
-
-
 
 export default Ranking;

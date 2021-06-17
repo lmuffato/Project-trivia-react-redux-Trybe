@@ -1,9 +1,12 @@
 export const LOGIN = 'LOGIN';
+export const TIME = 'TIME';
 // export const RECEIVE_TOKEN = 'RECEIVE_TOKEN';
 // export const RECEIVE_TRIVIA = 'RECEIVE_TRIVIA';
 // export const REQUEST_TRIVIA = 'REQUEST_TRIVIA';
 
 export const login = (payload) => ({ type: LOGIN, payload });
+
+export const time = (payload) => ({ type: TIME, payload });
 
 // const receiveToken = (token) => ({ type: RECEIVE_TOKEN, token });
 
