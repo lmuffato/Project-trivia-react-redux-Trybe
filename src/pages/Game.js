@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Proptypes from 'prop-types';
 import Header from '../components/Header';
-import { calculateScore, fetchAPIThunk, timeOut } from '../actions/index';
+import { calculateScore, fetchAPIThunk, timeOut, timeIn } from '../actions/index';
 import Timer from '../components/Timer';
 import RenderQuestions from '../components/RenderQuestions';
 import { getItemFromLocalStorage, setToLocalStorage } from '../services/storage';
@@ -12,13 +12,29 @@ class Game extends Component {
     super();
     this.state = {
       questionNumber: 0,
+      changedQuestion: false,
     };
     this.checkAnswer = this.checkAnswer.bind(this);
+    this.nextQuestion = this.nextQuestion.bind(this);
+    this.resetChangedQuestion = this.resetChangedQuestion.bind(this);
   }
 
   componentDidMount() {
     const { fetchAPI } = this.props;
     fetchAPI();
+  }
+
+  nextQuestion() {
+    const { timerIn } = this.props;
+    this.setState(({ questionNumber }) => ({
+      questionNumber: questionNumber + 1,
+      changedQuestion: true,
+    }));
+    timerIn();
+  }
+
+  resetChangedQuestion() {
+    this.setState({ changedQuestion: false });
   }
 
   checkAnswer(event, questionLevel) {
@@ -37,14 +53,17 @@ class Game extends Component {
 
   render() {
     const { isLoading, questionAnswered } = this.props;
-    const { questionNumber } = this.state;
+    const { questionNumber, changedQuestion } = this.state;
     if (isLoading) return <h2>Loading...</h2>;
     return (
       <div>
         <Header />
         <span>
           Tempo:
-          <Timer />
+          <Timer
+            changedQuestion={ changedQuestion }
+            resetChangedQuestion={ this.resetChangedQuestion }
+          />
           segundos
         </span>
         <RenderQuestions
@@ -56,7 +75,7 @@ class Game extends Component {
             <button
               type="button"
               data-testid="btn-next"
-              // onClick={ this.nextQuestion }
+              onClick={ this.nextQuestion }
             >
               PRÓXIMA
             </button>) : ''}
@@ -68,6 +87,7 @@ const mapDispatchToProps = (dispatch) => ({
   fetchAPI: () => dispatch(fetchAPIThunk()),
   timesUp: () => dispatch(timeOut()),
   addScore: (score) => dispatch(calculateScore(score)),
+  timerIn: () => dispatch(timeIn()),
 });
 
 const mapStateToProps = ({ apiResponse: { isLoading }, player }) => ({
