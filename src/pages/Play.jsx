@@ -39,7 +39,6 @@ class Play extends Component {
     const roundScore = baseScoreAssertation + time * weigth[difficultyOfQuestion];
     const newScore = { assertations: assertations + 1, score: score + roundScore };
     callUpdateScore(newScore);
-    this.setState((old) => ({ numberOfHits: old.numberOfHits + 1 }));
   }
 
   createOptions() {
