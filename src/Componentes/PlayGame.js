@@ -3,6 +3,7 @@ import React from 'react';
 // import Timer from '../Componentes/Timer';
 import { requestTrivia } from '../Api';
 import Timer from './Timer';
+import './playGame.css';
 
 class PlayGame extends React.Component {
   constructor() {
@@ -10,31 +11,21 @@ class PlayGame extends React.Component {
     this.state = {
       questions: '',
       loading: true,
-      colorBtn: '',
+      greenBtn: '',
+      redBtn: '',
+      greenClass: 'gray',
+      redClass: 'gray',
     };
 
     this.fetchApiTrivia = this.fetchApiTrivia.bind(this);
     this.renderQuestions = this.renderQuestions.bind(this);
     this.renderLoading = this.renderLoading.bind(this);
-    // this.getButtonClicked = this.getButtonClicked.bind(this);
+    this.nameTheClassBtnAnswer = this.nameTheClassBtnAnswer.bind(this);
   }
 
   componentDidMount() {
     this.fetchApiTrivia();
   }
-
-  // getButtonClicked(answer) {
-  //   this.setState({
-  //     colorButton: answer,
-  //   });
-  // }
-
-  // getButtonClicked(e) {
-  //   const { name, value } = e.target;
-  //   this.setState({
-  //     [name]: value,
-  //   });
-  // }
 
   async fetchApiTrivia() {
     const token = localStorage.getItem('token');
@@ -49,12 +40,21 @@ class PlayGame extends React.Component {
     }
   }
 
+  // Req 7: Valida se o valor do state é igual ao valor do botão e define o nome da class
+  nameTheClassBtnAnswer(answer) {
+    let nameTheClass = 'gray';
+    const { greenBtn, redBtn } = this.state;
+    if (greenBtn === answer) nameTheClass = 'green';
+    if (redBtn === answer) nameTheClass = 'red';
+    return nameTheClass;
+  }
+
   // renderAnswers(correct, incorrect) {
   //   return [...correct, ...incorrect];
   // }
 
   renderQuestions() {
-    const { questions, colorBtn } = this.state;
+    const { questions, greenClass, redClass } = this.state;
     return (
       <>
         <div>
@@ -71,9 +71,8 @@ class PlayGame extends React.Component {
                   data-testid="correct-answer"
                   type="button"
                   // Req 7: Evento de clique que atualiza o state com o valor da resposta
-                  onClick={ () => this.setState({ colorBtn: question.correct_answer }) }
-                  // Req 7: Valida se o valor do state é igual ao valor do botão e define o nome da class
-                  className={ colorBtn === question.correct_answer ? 'green' : 'red' }
+                  onClick={ () => this.setState({ greenBtn: question.correct_answer, greenClass: 'green' }) }
+                  className={ greenClass }
                 >
                   {question.correct_answer}
                 </button>
@@ -83,9 +82,8 @@ class PlayGame extends React.Component {
                     type="button"
                     key={ index }
                     // Req 7: Evento de clique que atualiza o state com o valor da resposta
-                    onClick={ () => this.setState({ colorBtn: incorrect }) }
-                    // Req 7: Valida se o valor do state é igual ao valor do botão e define o nome da class
-                    className={ colorBtn === incorrect ? 'green' : 'red' }
+                    onClick={ () => this.setState({ redBtn: incorrect, greenClass: 'green', redClass: 'red' }) }
+                    className={ redClass }
                   >
                     {incorrect}
                   </button>
