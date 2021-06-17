@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class Raking extends Component {
+class Ranking extends Component {
   render() {
     return (
       <section>
@@ -10,4 +10,4 @@ class Raking extends Component {
   }
 }
 
-export default Raking;
+export default Ranking;
