@@ -39,7 +39,9 @@ class Question extends Component {
   }
 
   nextButton() {
+    const { currQuestionId } = this.props;
     const { displayButton } = this.state;
+    const maxQuestions = 4;
     if (displayButton) {
       return (
         <button
@@ -48,7 +50,9 @@ class Question extends Component {
           id="btn-next"
           onClick={ this.clickNextButton }
         >
-          Próxima
+          {(currQuestionId >= maxQuestions)
+            ? 'Ir para feedback'
+            : 'Próxima'}
         </button>
       );
     }
@@ -107,6 +111,7 @@ Question.propTypes = {
     correct_answer: PropTypes.string,
     difficulty: PropTypes.string,
   }).isRequired,
+  currQuestionId: PropTypes.number.isRequired,
   stopTimer: PropTypes.func.isRequired,
   timeLeft: PropTypes.number.isRequired,
   handleClick: PropTypes.func.isRequired,

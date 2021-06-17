@@ -9,16 +9,16 @@ import logo from './trivia.png';
 
 export default function App() {
   return (
-    <div>
-      <header>
-        <img src={ logo } width="200" alt="logo" />
-      </header>
-      <Switch>
+    <Switch>
+      <div>
+        <header>
+          <img src={ logo } width="200" alt="logo" />
+        </header>
         <Route path="/game" component={ Game } />
         <Route path="/feedback" component={ Feedback } />
         <Route path="/settings" component={ Settings } />
         <Route exact path="/" component={ Login } />
-      </Switch>
-    </div>
+      </div>
+    </Switch>
   );
 }
