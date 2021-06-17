@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import QuestCard from '../components/QuestCard';
@@ -15,6 +16,7 @@ class GameScreen extends React.Component {
       time,
       answered: false,
       actualQuestion: 0,
+      toFeedback: () => null,
     };
     this.loading = this.loading.bind(this);
     this.getUserAnswer = this.getUserAnswer.bind(this);
@@ -30,6 +32,8 @@ class GameScreen extends React.Component {
     if (actualQuestion < questions.length - 1) {
       actualQuestion += 1;
       this.setState({ actualQuestion });
+    } else {
+      this.setState({ toFeedback: () => <Redirect to="/feedback" /> });
     }
   }
 
@@ -76,7 +80,7 @@ class GameScreen extends React.Component {
 
   render() {
     const { questions, time } = this.props;
-    const { actualQuestion } = this.state;
+    const { actualQuestion, toFeedback } = this.state;
     return (
       <>
         <Header />
@@ -88,6 +92,7 @@ class GameScreen extends React.Component {
             nextQuestion={ this.onNextClick }
           /> }
         </section>
+        { toFeedback() }
       </>
     );
   }
