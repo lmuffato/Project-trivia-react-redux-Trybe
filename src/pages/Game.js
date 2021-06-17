@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Proptypes from 'prop-types';
 import Header from '../components/Header';
@@ -13,6 +14,7 @@ class Game extends Component {
     this.state = {
       questionNumber: 0,
       changedQuestion: false,
+      shouldRedirect: false,
     };
     this.checkAnswer = this.checkAnswer.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
@@ -25,12 +27,17 @@ class Game extends Component {
   }
 
   nextQuestion() {
-    const { timerIn } = this.props;
-    this.setState(({ questionNumber }) => ({
+    const { apiResult: { results }, next } = this.props;
+    const { questionNumber } = this.state;
+    if (results.length - 1 === questionNumber) {
+      this.setState(({ shouldRedirect: true }));
+      return;
+    }
+    this.setState({
       questionNumber: questionNumber + 1,
       changedQuestion: true,
-    }));
-    timerIn();
+    });
+    next();
   }
 
   resetChangedQuestion() {
@@ -53,8 +60,10 @@ class Game extends Component {
 
   render() {
     const { isLoading, questionAnswered } = this.props;
-    const { questionNumber, changedQuestion } = this.state;
+
+    const { questionNumber, shouldRedirect, changedQuestion } = this.state;
     if (isLoading) return <h2>Loading...</h2>;
+    if (shouldRedirect) return <Redirect to="/feedback" />;
     return (
       <div>
         <Header />
@@ -87,12 +96,13 @@ const mapDispatchToProps = (dispatch) => ({
   fetchAPI: () => dispatch(fetchAPIThunk()),
   timesUp: () => dispatch(timeOut()),
   addScore: (score) => dispatch(calculateScore(score)),
-  timerIn: () => dispatch(timeIn()),
+  next: () => dispatch(timeIn()),
 });
 
-const mapStateToProps = ({ apiResponse: { isLoading }, player }) => ({
+const mapStateToProps = ({ apiResponse: { isLoading, apiResult }, player }) => ({
   isLoading,
   questionAnswered: player.timeOut,
+  apiResult,
 });
 
 Game.propTypes = {

@@ -4,6 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 import Game from './pages/Game';
 import './App.css';
 import Login from './pages/Login';
+import Feedback from './pages/Feedback';
 // import NotFound from './pages/NotFound';
 
 export default function App() {
@@ -11,6 +12,7 @@ export default function App() {
     <Switch>
       <Route exact path="/" component={ Login } />
       <Route path="/trivia" component={ Game } />
+      <Route path="/feedback" component={ Feedback } />
       {/* <Route component={ NotFound } /> */}
     </Switch>
   );
