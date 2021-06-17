@@ -39,14 +39,9 @@ class Feedback extends React.Component {
             {assertions <= maxAssertions ? 'Podia ser melhor...' : 'Mandou bem!'}
           </h1>
           <h3 data-testid="feedback-total-score">
-            Pontuação Total:
-            {' '}
             {score}
-            {' '}
           </h3>
           <h3 data-testid="feedback-total-question">
-            Total de Acertos:
-            {' '}
             {assertions}
           </h3>
         </header>
