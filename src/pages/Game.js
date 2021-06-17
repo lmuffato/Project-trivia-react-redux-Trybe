@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Proptypes from 'prop-types';
 import Header from '../components/Header';
-import { calculateScore, fetchAPIThunk, timein, timeOut } from '../actions/index';
+import { calculateScore, fetchAPIThunk, timeOut, timeIn } from '../actions/index';
 import Timer from '../components/Timer';
 import RenderQuestions from '../components/RenderQuestions';
 import { getItemFromLocalStorage, setToLocalStorage } from '../services/storage';
@@ -13,10 +13,12 @@ class Game extends Component {
     super();
     this.state = {
       questionNumber: 0,
+      changedQuestion: false,
       shouldRedirect: false,
     };
     this.checkAnswer = this.checkAnswer.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
+    this.resetChangedQuestion = this.resetChangedQuestion.bind(this);
   }
 
   componentDidMount() {
@@ -27,14 +29,19 @@ class Game extends Component {
   nextQuestion() {
     const { apiResult: { results }, next } = this.props;
     const { questionNumber } = this.state;
-    console.log(results.length - 1);
-    console.log(questionNumber);
     if (results.length - 1 === questionNumber) {
       this.setState(({ shouldRedirect: true }));
       return;
     }
-    this.setState({ questionNumber: questionNumber + 1 });
+    this.setState({
+      questionNumber: questionNumber + 1,
+      changedQuestion: true,
+    });
     next();
+  }
+
+  resetChangedQuestion() {
+    this.setState({ changedQuestion: false });
   }
 
   checkAnswer(event, questionLevel) {
@@ -53,7 +60,8 @@ class Game extends Component {
 
   render() {
     const { isLoading, questionAnswered } = this.props;
-    const { questionNumber, shouldRedirect } = this.state;
+
+    const { questionNumber, shouldRedirect, changedQuestion } = this.state;
     if (isLoading) return <h2>Loading...</h2>;
     if (shouldRedirect) return <Redirect to="/feedback" />;
     return (
@@ -61,7 +69,10 @@ class Game extends Component {
         <Header />
         <span>
           Tempo:
-          <Timer />
+          <Timer
+            changedQuestion={ changedQuestion }
+            resetChangedQuestion={ this.resetChangedQuestion }
+          />
           segundos
         </span>
         <RenderQuestions
@@ -85,7 +96,7 @@ const mapDispatchToProps = (dispatch) => ({
   fetchAPI: () => dispatch(fetchAPIThunk()),
   timesUp: () => dispatch(timeOut()),
   addScore: (score) => dispatch(calculateScore(score)),
-  next: () => dispatch(timein()),
+  next: () => dispatch(timeIn()),
 });
 
 const mapStateToProps = ({ apiResponse: { isLoading, apiResult }, player }) => ({
