@@ -46,7 +46,7 @@ class Question extends Component {
           type="button"
           data-testid="btn-next"
           id="btn-next"
-        //  onClick={ }
+          onClick={ this.clickNextButton }
         >
           Próxima
         </button>
@@ -56,7 +56,7 @@ class Question extends Component {
 
   render() {
     const { currQuestion, timeLeft } = this.props;
-    const { color, displayButton } = this.state;
+    const { color } = this.state;
     const isTimeUp = timeLeft === 0;
     const { category, question, incorrect_answers: incorrectAnswer,
       correct_answer: correctAnswer,
@@ -93,15 +93,7 @@ class Question extends Component {
             { quest }
           </button>
         )) }
-        { displayButton
-          && (<button
-            type="button"
-            data-testid="btn-next"
-            id="btn-next"
-            onClick={ this.clickNextButton }
-          >
-            Próxima
-          </button>)}
+        {this.nextButton()}
       </section>
     );
   }
