@@ -21,8 +21,8 @@ class GamePlay extends React.Component {
   }
 
   componentDidMount() {
-    const { token, fecthQuestionsAction } = this.props;
-    fecthQuestionsAction(token);
+    const { token, fecthQuestionsAction, filters } = this.props;
+    fecthQuestionsAction(token, filters);
   }
 
   handleClick(value) {
@@ -118,6 +118,7 @@ const mapStateToProps = (state) => ({
   token: state.player.token,
   questions: state.triviaReducer.questions,
   loading: state.triviaReducer.isLoading,
+  filters: state.triviaReducer.filters,
 });
 
 const mapDispatchToProps = (dispatch) => ({

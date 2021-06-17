@@ -33,15 +33,17 @@ class Login extends React.Component {
     }, () => this.validateFields());
   }
 
-  startGame() {
+  async startGame() {
     const { state } = this;
-    const { loginAction, requestTokenAction } = this.props;
-    requestTokenAction();
+    const { loginAction, requestTokenAction, history } = this.props;
+    await requestTokenAction();
     loginAction(state);
+    history.push('/gameplay');
   }
 
   renderInputs() {
     const { name, email, playButton } = this.state;
+    const { history } = this.props;
     return (
       <>
         <label htmlFor="name">
@@ -64,24 +66,21 @@ class Login extends React.Component {
             onChange={ this.handleChange }
           />
         </label>
-        <Link to="/gameplay">
-          <button
-            type="button"
-            data-testid="btn-play"
-            disabled={ !playButton }
-            onClick={ this.startGame }
-          >
-            Jogar
-          </button>
-        </Link>
-        <Link to="/settings">
-          <button
-            type="button"
-            data-testid="btn-settings"
-          >
-            Configurações
-          </button>
-        </Link>
+        <button
+          type="button"
+          data-testid="btn-play"
+          disabled={ !playButton }
+          onClick={ this.startGame }
+        >
+          Jogar
+        </button>
+        <button
+          type="button"
+          data-testid="btn-settings"
+          onClick={ () => history.push('/settings') }
+        >
+          Configurações
+        </button>
       </>
     );
   }

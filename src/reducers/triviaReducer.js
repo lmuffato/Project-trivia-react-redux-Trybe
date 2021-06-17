@@ -1,6 +1,7 @@
 import {
   GET_QUESTIONS,
   GET_QUESTIONS_SUCCESS,
+  FILTER,
 } from '../actions';
 
 const INITIAL_STATE = {
@@ -104,6 +105,7 @@ const INITIAL_STATE = {
       name: 'Entertainment: Cartoon & Animations',
     },
   ],
+  filters: '',
 };
 
 export default function triviaReducer(state = INITIAL_STATE, action) {
@@ -118,6 +120,11 @@ export default function triviaReducer(state = INITIAL_STATE, action) {
       ...state,
       questions: action.payload,
       isLoading: false,
+    };
+  case FILTER:
+    return {
+      ...state,
+      filters: action.payload,
     };
   default:
     return state;
