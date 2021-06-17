@@ -6,11 +6,13 @@ const INITIAL_STATE = {
   user: {},
 };
 
-const player = {
-  name: '',
-  assertions: '',
-  score: 0,
-  gravatarEmail: '',
+const objState = {
+  player: {
+    name: '',
+    assertions: 0,
+    score: 0,
+    gravatarEmail: '',
+  },
 };
 
 export default function PlayerReducer(state = INITIAL_STATE, action) {
@@ -21,7 +23,7 @@ export default function PlayerReducer(state = INITIAL_STATE, action) {
     };
   case 'SUCCESS_REQUEST':
     localStorage.setItem('token', JSON.stringify(action.data.token));
-    localStorage.setItem('state', JSON.stringify(player));
+    localStorage.setItem('state', JSON.stringify(objState));
     return {
       ...state, user: action.data,
     };

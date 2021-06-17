@@ -66,25 +66,29 @@ class Game extends React.Component {
   updateScore(points) {
     const myLocalStorage = JSON.parse(localStorage.getItem('state'));
     if (myLocalStorage !== null) {
-      const mlsNumber = Number(myLocalStorage.score);
-      const player = {
-        name: '',
-        assertions: '',
-        score: points + mlsNumber,
-        gravatarEmail: '',
+      const mlsNumber = Number(myLocalStorage.player.score);
+      const state = {
+        player: {
+          name: '',
+          assertions: 0,
+          score: (points + mlsNumber),
+          gravatarEmail: '',
+        },
       };
-      localStorage.setItem('state', JSON.stringify(player));
+      localStorage.setItem('state', JSON.stringify(state));
       this.setState({
-        globalScore: points + mlsNumber,
+        globalScore: (points + mlsNumber),
       });
     } else {
-      const player = {
-        name: '',
-        assertions: '',
-        score: points,
-        gravatarEmail: '',
+      const state = {
+        player: {
+          name: '',
+          assertions: 0,
+          score: points,
+          gravatarEmail: '',
+        },
       };
-      localStorage.setItem('state', JSON.stringify(player));
+      localStorage.setItem('state', JSON.stringify(state));
       this.setState({
         globalScore: points,
       });
