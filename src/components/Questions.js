@@ -10,9 +10,9 @@ class Questions extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      borderColor: [],
       questionsIndex: 0,
       isVisible: 'false',
+      borderColor: [],
       reset: false,
       stop: false,
       disabled: false,
@@ -60,18 +60,15 @@ class Questions extends Component {
     const { borderColor, isVisible, questionsIndex, reset, stop, disabled } = this.state;
     const { loading, questions } = this.props;
     const questionsFiltered = questions[questionsIndex];
-
-    if (loading) {
+    if (loading || questions.length < 1) {
       return <Loading />;
     }
-
     return (
       <div>
         <div>
           <h2 data-testid="question-category">{questionsFiltered.category}</h2>
           <p data-testid="question-text">{questionsFiltered.question}</p>
         </div>
-
         <div className={ styles.question__card }>
           <ul className={ styles.question__list }>
             {questionsFiltered.alternatives.map((question, index) => (
@@ -98,7 +95,6 @@ class Questions extends Component {
             [styles.question__button, `question__button__${isVisible}`]
               .join(' ')
           }
-
         >
           Próxima
         </button>
