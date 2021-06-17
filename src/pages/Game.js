@@ -31,7 +31,6 @@ class Game extends React.Component {
   }
 
   getUserRanking(difficulty) {
-    const { getScore } = this.props;
     const fixedPoint = 10;
     let finalPoint = 0;
     let difficultyPoint = 0;
@@ -48,7 +47,6 @@ class Game extends React.Component {
     }
     finalPoint += fixedPoint + (timer * difficultyPoint);
     this.changeBorders();
-    getScore(finalPoint);
     this.updateLocalStorage(finalPoint);
   }
 
@@ -63,11 +61,12 @@ class Game extends React.Component {
   }
 
   updateLocalStorage(score) {
-    const { getName, getUrl } = this.props;
+    const { getName, getUrl, getScore } = this.props;
     const ranking = [
       { name: getName, score, picture: getUrl },
     ];
     localStorage.setItem('ranking', JSON.stringify(ranking));
+    getScore(score);
   }
 
   handlePosition() {
