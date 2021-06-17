@@ -55,8 +55,6 @@ class Login extends Component {
 
   render() {
     const { name, email, validation } = this.state;
-    const { token } = this.props;
-    console.log(token);
 
     return (
       <section>

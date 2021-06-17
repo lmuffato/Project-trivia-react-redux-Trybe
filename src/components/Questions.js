@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { arrayOf, object } from 'prop-types';
 import permutate from '../service/permutate';
 import {
-  disableAnswer as disableAnswerAction,
   updateStorageThunk,
+  verifyAnswered as verifyAnsweredAction,
 } from '../actions';
 
 import decoder from '../service/decoder';
@@ -15,22 +15,28 @@ const CORRECT_ANSWER = 'correct-answer';
 class Questions extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    console.log(props);
+    this.state = {
+      randomAnswers: permutate(props.answers),
+    };
     this.getID = this.getID.bind(this);
-    this.handleClickNext = this.handleClickNext.bind(this);
     this.checkAnswer = this.checkAnswer.bind(this);
   }
 
   getID(answer) {
-    const { questions } = this.props;
-    if (answer === questions[0].correct_answer) return CORRECT_ANSWER;
-    return `wrong-answer-${questions[0].incorrect_answers.indexOf(answer)}`;
+    const { questions, questionIndex } = this.props;
+    if (answer === questions[questionIndex].correct_answer) {
+      return CORRECT_ANSWER;
+    }
+    return `wrong-answer-${questions[questionIndex].incorrect_answers.indexOf(
+      answer,
+    )}`;
   }
 
   async checkAnswer({ target }, difficulty) {
     const { parentElement, id } = target;
     const TEN = 10;
-    const { timer, updateStorage } = this.props;
+    const { timer, updateStorage, verifyAnswered } = this.props;
     const pointsDifficulty = { hard: 3, medium: 2, easy: 1 };
     if (id === CORRECT_ANSWER) {
       const { player: { assertions } } = this.props;
@@ -50,25 +56,18 @@ class Questions extends React.Component {
         child.className = 'answer wrong';
       }
     });
-  }
-
-  handleClickNext() {
-    const { disableAnswer } = this.props;
-    disableAnswer(false);
+    verifyAnswered(false);
   }
 
   render() {
-    const { questions, timesUp, timer } = this.props;
-    if (questions.length === 0) return <div>Loading...</div>;
-    const { category, question, difficulty } = questions[0];
-    const answers = [
-      questions[0].correct_answer,
-      ...questions[0].incorrect_answers,
-    ];
+    const { timesUp, questions, questionIndex, answers } = this.props;
+    this.answers = answers;
+    if (!questions.length) return <div>Loading...</div>;
+    const { randomAnswers } = this.state;
+    const { question, category, difficulty } = questions[questionIndex];
     const questionDecoded = decoder(question);
-    if (timer === Number('30')) {
-      this.randomAnswers = permutate(...answers);
-    }
+    console.log(questionIndex, randomAnswers);
+
     return (
       <section>
         <h1>Trivia Game!</h1>
@@ -76,7 +75,7 @@ class Questions extends React.Component {
           <h3 data-testid="question-category">{category}</h3>
           <h4 data-testid="question-text">{questionDecoded}</h4>
           <div className="answers-container">
-            {this.randomAnswers.map((answer, index) => {
+            {randomAnswers[questionIndex].map((answer, index) => {
               const answerDecoded = decoder(answer);
               return (
                 <button
@@ -94,13 +93,6 @@ class Questions extends React.Component {
             })}
           </div>
         </div>
-        <button
-          type="button"
-          data-testid="btn-next"
-          onClick={ this.handleClickNext }
-        >
-          Next
-        </button>
       </section>
     );
   }
@@ -111,15 +103,15 @@ Questions.propTypes = {
 }.isRequired;
 
 const mapStateToProps = (state) => ({
-  questions: state.game.questions,
+  // questions: state.game.questions,
   timesUp: state.gameMatch.timesUp,
   timer: state.gameMatch.timer,
   player: state.player,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  disableAnswer: () => dispatch(disableAnswerAction()),
   updateStorage: (score, callback) => dispatch(updateStorageThunk(score, callback)),
+  verifyAnswered: (bool) => dispatch(verifyAnsweredAction(bool)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Questions);

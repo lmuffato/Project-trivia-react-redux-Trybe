@@ -10,6 +10,7 @@ export const UPDATE_SCORE = 'UPDATE_SCORE';
 export const UPDATE_ASSERTIONS = 'UPDATE_ASSERTIONS';
 export const DISABLE_ANS = 'DISABLE_ANS';
 export const UPDATE_TIME = 'UPDATE_TIME';
+export const VERIFY_ANSWERED = 'VERIFY_ANSWERED';
 
 export function requestApi() {
   return {
@@ -80,6 +81,13 @@ export const updateStorageThunk = (scoreAssertions, callback) => async (dispatch
   await dispatch(updateAssertions(sumAssertions));
   callback();
 };
+
+export function verifyAnswered(isAnswered) {
+  return {
+    type: VERIFY_ANSWERED,
+    payload: isAnswered,
+  };
+}
 
 // export function getName(namePlayer) {
 //   return {

@@ -1,0 +1,109 @@
+body {
+  background: #618f4f;
+}
+
+.example {
+  height: 2rem;
+  left: 50%;
+  position: fixed;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  width: 2rem;
+}
+
+.container {
+  height: 2rem;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 2rem;
+}
+
+.block {
+  height: 2rem;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 2rem;
+}
+
+.block .item {
+  animation: move 2s linear infinite;
+  background: white;
+  height: 2rem;
+  position: absolute;
+  width: 2rem;
+}
+
+.block .item:nth-of-type( 1 ) {
+  animation-delay: -7 * 2s / 8;
+  left: -2rem;
+  top: -2rem;
+}
+
+.block .item:nth-of-type( 2 ) {
+  animation-delay: -6 * 2s / 8;
+  left: 0;
+  top: -2rem;
+}
+
+.block .item:nth-of-type( 3 ) {
+  animation-delay: -5 * 2s / 8;
+  left: 2rem;
+  top: -2rem;
+}
+
+.block .item:nth-of-type( 4 ) {
+  animation-delay: -4 * 2s / 8;
+  left: 2rem;
+  top: 0;
+}
+
+.block .item:nth-of-type( 5 ) {
+  animation-delay: -3 * 2s / 8;
+  left: 2rem;
+  top: 2rem;
+}
+
+.block .item:nth-of-type( 6 ) {
+  animation-delay: -2 * 2s / 8;
+  left: 0;
+  top: 2rem;
+}
+
+.block .item:nth-of-type( 7 ) {
+  animation-delay: -1 * 2s / 8;
+  left: -2rem;
+  top: 2rem;
+}
+
+.block .item:nth-of-type( 8 ) {
+  animation-delay: 0 * 2s / 8;
+  left: -2rem;
+  top: 0;
+}
+
+@keyframes move {
+
+  0% {
+    animation-timing-function: ease-in;
+    transform: rotate(0) scale(1);
+  }
+
+  10% {
+    transform: rotate(90deg) scale(0);
+  }
+
+  50% {
+    animation-timing-function: ease-out;
+    transform: rotate(90deg) scale(0);
+  }
+
+  60% {
+    transform: rotate(180deg) scale(1);
+  }
+
+  100% {
+    transform: rotate(180deg) scale(1);
+  }
+}
