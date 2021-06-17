@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import propTypes from 'prop-types';
 import userScore from '../redux/actions/userScore.action';
 import assertionsAction from '../redux/actions/assertions.action';
@@ -11,6 +12,7 @@ class GamePlay extends React.Component {
     this.state = {
       clicked: false,
       indexQuestions: 0,
+      redirect: false,
     };
     this.clickOnOption = this.clickOnOption.bind(this);
     this.scoreCount = this.scoreCount.bind(this);
@@ -67,6 +69,10 @@ class GamePlay extends React.Component {
       }));
       this.setState({ clicked: false });
       dispatchReset();
+    } else {
+      this.setState({
+        redirect: true,
+      });
     }
   }
 
@@ -79,7 +85,7 @@ class GamePlay extends React.Component {
   }
 
   render() {
-    const { clicked, indexQuestions } = this.state;
+    const { clicked, indexQuestions, redirect } = this.state;
     const { questions, time } = this.props;
     return (
       <div>
@@ -98,9 +104,7 @@ class GamePlay extends React.Component {
           className={ clicked ? 'green-border' : '' }
           disabled={ time === 0 || clicked }
         >
-          {
-            questions[indexQuestions].correct_answer
-          }
+          { questions[indexQuestions].correct_answer }
         </button>
         {questions[indexQuestions].incorrect_answers
           .map((incorretAnsewr, index) => (
@@ -122,9 +126,10 @@ class GamePlay extends React.Component {
             onClick={ this.handleNext }
             className={ this.conditional() }
           >
-            Proxima pergunta
+            Proxima
           </button>
         </div>
+        { redirect ? <Redirect to="/feedback" /> : null}
       </div>
     );
   }
