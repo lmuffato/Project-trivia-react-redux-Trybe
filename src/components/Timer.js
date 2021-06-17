@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { saveTimerAction } from '../redux/actions';
 
-export default class Timer extends Component {
+class Timer extends Component {
   constructor() {
     super();
 
@@ -68,6 +70,8 @@ export default class Timer extends Component {
       });
     }
     clearInterval(this.interval);
+    const { state: { timer }, props: { saveTimerProps } } = this;
+    saveTimerProps({ timer });
   }
 
   render() {
@@ -84,4 +88,11 @@ Timer.propTypes = {
   reset: PropTypes.bool.isRequired,
   stop: PropTypes.bool.isRequired,
   handleZero: PropTypes.func.isRequired,
+  saveTimerProps: PropTypes.func.isRequired,
 };
+
+const mapDispatchToProps = (dispatch) => ({
+  saveTimerProps: (payload) => dispatch(saveTimerAction(payload)),
+});
+
+export default connect(null, mapDispatchToProps)(Timer);

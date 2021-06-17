@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import styles from './game.module.css';
 import Header from '../components/Header';
 import Questions from '../components/Questions';
 import { getQuestionsThunk, getTokenThunk } from '../redux/actions';
@@ -19,13 +18,12 @@ class Game extends Component {
   }
 
   render() {
+    const { history } = this.props;
     return (
-      <>
+      <main>
         <Header />
-        <div className={ styles.question__container }>
-          <Questions />
-        </div>
-      </>
+        <Questions history={ history } />
+      </main>
     );
   }
 }
@@ -43,5 +41,8 @@ export default connect(mapStateToProps, mapDispatchToProps)(Game);
 
 Game.propTypes = {
   getQuestions: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
   // token: PropTypes.string.isRequired,
 };
