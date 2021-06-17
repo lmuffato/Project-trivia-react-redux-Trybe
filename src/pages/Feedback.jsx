@@ -23,6 +23,9 @@ class Feedback extends Component {
             Ver Ranking
           </button>
         </Link>
+        <p data-testid="feedback-text">
+          Mandou bem
+        </p>
       </>
     );
   }

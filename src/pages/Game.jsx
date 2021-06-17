@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import md5 from 'crypto-js/md5';
 
+import { Redirect } from 'react-router-dom';
 import Question from '../components/Question';
 import getTriviaQuestions from '../utils/triviaApi';
 import { updateLocalStorage, updateUserScore } from '../utils/functions';
@@ -24,10 +25,12 @@ class Game extends Component {
       currentQuestionId: 0,
       isLoading: false,
       timeLeft: 30,
+      shouldRedirect: false,
     };
 
     this.timer = 0;
 
+    this.handleNextButton = this.handleNextButton.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.fetchApi = this.fetchApi.bind(this);
     this.countDown = this.countDown.bind(this);
@@ -69,6 +72,7 @@ class Game extends Component {
 
   stopTimer() {
     clearInterval(this.timer);
+    this.timer = 0;
   }
 
   handleClick(difficulty) {
@@ -79,6 +83,22 @@ class Game extends Component {
         score: player.score + updateUserScore(timeLeft, difficulty),
       },
     }));
+  }
+
+  handleNextButton() {
+    const { currentQuestionId } = this.state;
+    const maxQuestions = 4;
+
+    if (currentQuestionId >= maxQuestions) {
+      this.setState({
+        shouldRedirect: true,
+      });
+    }
+    this.setState((prevState) => ({
+      currentQuestionId: prevState.currentQuestionId + 1,
+      timeLeft: 30,
+    }));
+    this.startTimer();
   }
 
   fetchApi() {
@@ -113,6 +133,7 @@ class Game extends Component {
     const {
       questions,
       currentQuestionId,
+      shouldRedirect,
       isLoading,
       timeLeft,
       player: { score },
@@ -120,6 +141,8 @@ class Game extends Component {
     const currentQuestion = questions[currentQuestionId];
 
     if (isLoading) return (<p>Loading...</p>);
+
+    if (shouldRedirect) return <Redirect to="/feedback" />;
 
     return (
       <>
@@ -132,6 +155,10 @@ class Game extends Component {
           <p data-testid="header-player-name">{`Jogador ${name}`}</p>
           <p data-testid="header-score">{ score }</p>
         </header>
+        <p>
+          tempo:
+          { timeLeft }
+        </p>
         <p>Questão:</p>
         {(currentQuestion)
           && <Question
@@ -140,6 +167,8 @@ class Game extends Component {
             currQuestion={ currentQuestion }
             timeLeft={ timeLeft }
             handleClick={ this.handleClick }
+            clickNextButton={ this.handleNextButton }
+            currQuestionId={ currentQuestionId }
           />}
         <p>Jogo</p>
       </>
