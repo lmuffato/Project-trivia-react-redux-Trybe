@@ -2,15 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import requestAPIthunk from '../actions';
-// import logo from './trivia.png';
-// import { token, emailHash, questionAPI } from '../services/API';
 
 class Login extends Component {
   constructor(props) {
     super(props);
 
     this.handleValidation = this.handleValidation.bind(this);
-    // this.handleClick = this.handleClick.bind(this);
 
     this.state = {
       usuario: '',
@@ -18,7 +15,6 @@ class Login extends Component {
       disabled: true,
     };
   }
-
   handleValidation({ target }) {
     const { name, value } = target;
     const { usuario, email } = this.state;
@@ -27,13 +23,6 @@ class Login extends Component {
       this.setState({ disabled: false });
     }
   }
-
-  /* handleClick() {
-    const { usuario, email } = this.state;
-    token();
-    emailHash(usuario, email);
-    questionAPI();
-  } */
 
   render() {
     const { disabled } = this.state;
@@ -50,7 +39,7 @@ class Login extends Component {
               data-testid="input-player-name"
               name="usuario"
               id="name"
-              onChange={ this.handleValidation }
+              onChange={this.handleValidation}
             />
           </label>
           <label htmlFor="email">
@@ -59,15 +48,15 @@ class Login extends Component {
               data-testid="input-gravatar-email"
               name="email"
               id="email"
-              onChange={ this.handleValidation }
+              onChange={this.handleValidation}
             />
           </label>
           <Link to="/game">
             <button
               type="button"
               data-testid="btn-play"
-              disabled={ disabled }
-              onClick={ handleClick }
+              disabled={disabled}
+              onClick={handleClick}
             >
               Jogar
             </button>
@@ -80,9 +69,7 @@ class Login extends Component {
     );
   }
 }
-
 const mapDispatchToProps = (dispatch) => ({
   handleClick: () => dispatch(requestAPIthunk()),
 });
-
 export default connect(null, mapDispatchToProps)(Login);
