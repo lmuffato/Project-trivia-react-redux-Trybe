@@ -13,7 +13,7 @@ const INITIAL_STATE = {
   },
   loading: false,
   results: [],
-  time: 0,
+  time: 30,
 };
 
 const jogoReducer = (state = INITIAL_STATE, action) => {

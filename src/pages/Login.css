@@ -4,6 +4,12 @@
   font-family: sans-serif;
 }
 
+body {
+  background-image: url('https://quizmaster.tv/sites/default/files/b028a2493053bcd5537605a92d15593e.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 .form-container {
   align-self: center;
   background-color: #ee4d38;
