@@ -2,22 +2,38 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Proptypes from 'prop-types';
 import Header from '../components/Header';
-import { fetchAPIThunk, timeOut } from '../actions/index';
+import { calculateScore, fetchAPIThunk, timeOut } from '../actions/index';
 import Timer from '../components/Timer';
 import RenderQuestions from '../components/RenderQuestions';
+import { getItemFromLocalStorage, setToLocalStorage } from '../services/storage';
 
 class Game extends Component {
   constructor() {
     super();
     this.state = {
       questionNumber: 0,
-      // score: 0,
+      // questionAnswered: false,
     };
+    this.checkAnswer = this.checkAnswer.bind(this);
   }
 
   componentDidMount() {
     const { fetchAPI } = this.props;
     fetchAPI();
+  }
+
+  checkAnswer(event, questionLevel) {
+    const { addScore, timesUp } = this.props;
+    const DEFAULT_POINTS = 10;
+    const getTime = Number(document.getElementById('timer').innerHTML);
+    const attribute = event.target.getAttribute('data-testid');
+    const state = getItemFromLocalStorage('state');
+    if (attribute !== 'correct-answer') return timesUp();
+    const points = DEFAULT_POINTS + (getTime * questionLevel);
+    state.player.score = points;
+    setToLocalStorage('state', state);
+    timesUp();
+    return addScore(points);
   }
 
   render() {
@@ -32,7 +48,10 @@ class Game extends Component {
           <Timer />
           segundos
         </span>
-        <RenderQuestions question={ questionNumber } />
+        <RenderQuestions
+          checkAnswer={ this.checkAnswer }
+          question={ questionNumber }
+        />
         <button type="button">PRÓXIMA</button>
       </div>
     );
@@ -40,7 +59,8 @@ class Game extends Component {
 }
 const mapDispatchToProps = (dispatch) => ({
   fetchAPI: () => dispatch(fetchAPIThunk()),
-  timeOut: () => dispatch(timeOut()),
+  timesUp: () => dispatch(timeOut()),
+  addScore: (score) => dispatch(calculateScore(score)),
 });
 
 const mapStateToProps = ({ apiResponse: { isLoading } }) => ({
@@ -48,8 +68,10 @@ const mapStateToProps = ({ apiResponse: { isLoading } }) => ({
 });
 
 Game.propTypes = {
-  fetchAPI: Proptypes.func.isRequired,
-  isLoading: Proptypes.bool.isRequired,
-};
+  fetchAPI: Proptypes.func,
+  isLoading: Proptypes.bool,
+  timesUp: Proptypes.func,
+  addScore: Proptypes.func,
+}.isRequired;
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);
