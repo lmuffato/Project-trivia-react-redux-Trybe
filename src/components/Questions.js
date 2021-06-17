@@ -56,18 +56,20 @@ class Question extends React.Component {
   checkAnswer(e, timer, difficulty) {
     const { setPointsRedux, name, email } = this.props;
     const { assertions, score } = this.state;
+    let actAss = assertions;
     changeColors();
     this.setState({ nextBtn: true });
     const points = setPoints(e, timer, difficulty);
     if (points !== 0) {
-      setPointsRedux({ placar: points });
       this.setState({ assertions: assertions + 1 });
-      this.setState({ score: score + points });
+      setPointsRedux({ placar: points });
+      this.setState({ score: score + +points });
+      actAss = assertions + 1;
     }
     const player = {
       player: {
         name,
-        assertions,
+        assertions: actAss,
         score: score + points,
         gravatarEmail: email,
       },
@@ -178,7 +180,8 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 Question.propTypes = {
-  results: PropTypes.shape.isRequired,
+  results: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.array, PropTypes.func]))
+    .isRequired,
   setPointsRedux: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
