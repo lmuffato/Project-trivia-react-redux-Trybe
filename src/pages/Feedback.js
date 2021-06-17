@@ -1,5 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import propTypes from 'prop-types';
+// import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 
 class Feedback extends React.Component {
@@ -20,9 +22,9 @@ class Feedback extends React.Component {
   }
 
   render() {
-    const { history } = this.props;
-    const result = 3;
-    const placar = 45;
+    const { history, assertionsStore, scoreStore } = this.props;
+    const result = assertionsStore;
+    const placar = scoreStore;
     const three = 3;
     return (
       <div>
@@ -50,8 +52,13 @@ class Feedback extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  assertionsStore: state.player.assertions,
+  scoreStore: state.player.score,
+});
+
 Feedback.propTypes = {
   history: propTypes.shape(),
 }.isRequired;
 
-export default Feedback;
+export default connect(mapStateToProps)(Feedback);
