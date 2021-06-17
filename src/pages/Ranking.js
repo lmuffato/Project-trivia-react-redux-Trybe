@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class Ranking extends Component {
   render() {
@@ -13,6 +14,7 @@ class Ranking extends Component {
               <p data-testid={ `player-score-${index}` }>{item.score}</p>
             </li>)).sort((a, b) => a.score - b.score)}
         </ol>
+        <Link to="/"><button data-testid="btn-go-home" type="button">Home</button></Link>
       </section>
     );
   }
