@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 
-class Ranking extends Component {
+class Raking extends Component {
   render() {
     return (
       <section>
-        <h2 data-testid="ranking-tite">Ranking</h2>
+        <h2 data-testid="ranking-title">Ranking</h2>
       </section>
     );
   }
 }
 
-export default Ranking;
+export default Raking;
