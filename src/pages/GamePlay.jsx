@@ -22,7 +22,8 @@ class GamePlay extends React.Component {
 
   componentDidMount() {
     const { token, fecthQuestionsAction, filters } = this.props;
-    fecthQuestionsAction(token, filters);
+    const ONE_SECOND = 1000;
+    setTimeout(() => fecthQuestionsAction(token, filters), ONE_SECOND);
   }
 
   handleClick(value) {

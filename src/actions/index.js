@@ -51,13 +51,18 @@ export const fetchToken = () => async (dispatch) => {
   }
 };
 
-export const fetchQuestions = (token) => async (dispatch) => {
+export const fetchQuestions = (token, filter) => async (dispatch) => {
   dispatch(requestQuestions());
   try {
     const url = `https://opentdb.com/api.php?amount=5&token=${token}`;
-    // const urlArray = [`${url}${filter}`];
-    // const newUrl = urlArray.join(' ');
-    console.log(url);
+    if (filter) {
+      const urlArray = [`${url}${filter}`];
+      const newUrl = urlArray.join(' ');
+      console.log(newUrl);
+      const response = await fetch(newUrl);
+      const questions = await response.json();
+      return dispatch(requestQuestionsSuccess(questions.results));
+    }
     const response = await fetch(url);
     const questions = await response.json();
     return dispatch(requestQuestionsSuccess(questions.results));

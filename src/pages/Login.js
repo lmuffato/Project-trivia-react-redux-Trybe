@@ -34,10 +34,11 @@ class Login extends React.Component {
 
   async startGame() {
     const { state } = this;
+    const ONE_SECOND = 1000;
     const { loginAction, requestTokenAction, history } = this.props;
     await requestTokenAction();
     loginAction(state);
-    history.push('/gameplay');
+    setTimeout(() => history.push('/gameplay'), ONE_SECOND);
   }
 
   renderInputs() {
