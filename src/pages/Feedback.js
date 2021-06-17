@@ -4,6 +4,22 @@ import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 
 class Feedback extends React.Component {
+  renderLessThenThree() {
+    return (
+      <>
+        Podia ser melhor...
+      </>
+    );
+  }
+
+  renderThreeOrMore() {
+    return (
+      <>
+        Mandou bem!
+      </>
+    );
+  }
+
   render() {
     // const { history } = this.props;
     return (
