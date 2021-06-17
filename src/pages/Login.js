@@ -1,9 +1,7 @@
-/* eslint-disable max-lines-per-function */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { loginAction } from '../redux/actions';
-import requestToken from '../services/requestToken';
+import { loginAction, getTokenThunk } from '../redux/actions';
 import styles from './login.module.css';
 import Header from '../components/Login/Header';
 
@@ -42,8 +40,11 @@ class Login extends Component {
     this.checkInputs();
   }
 
-  async handleClick() {
-    await requestToken();
+  handleClick() {
+    const { getToken, token } = this.props;
+    if (token === null) {
+      getToken();
+    }
     const { state: { name, email }, props: { loginProps, history } } = this;
     loginProps({ name, email });
     history.push('/game');
@@ -99,11 +100,18 @@ class Login extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   loginProps: (payload) => dispatch(loginAction(payload)),
+  getToken: () => dispatch(getTokenThunk()),
 });
 
-export default connect(null, mapDispatchToProps)(Login);
+const mapStateToProps = (state) => ({
+  token: state.tokenReducer.data,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
 
 Login.propTypes = {
+  getToken: PropTypes.func.isRequired,
+  token: PropTypes.string.isRequired,
   loginProps: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,

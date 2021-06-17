@@ -4,13 +4,17 @@ import PropTypes from 'prop-types';
 import styles from './game.module.css';
 import Header from '../components/Header';
 import Questions from '../components/Questions';
-import { getQuestionsThunk } from '../redux/actions';
+import { getQuestionsThunk, getTokenThunk } from '../redux/actions';
+import requestToken from '../services/requestToken';
 
 class Game extends Component {
   componentDidMount() {
-    const token = localStorage.getItem('token');
-    console.log(typeof token);
+    this.getTokenQuestions();
+  }
+
+  async getTokenQuestions() {
     const { getQuestions } = this.props;
+    const token = await requestToken();
     getQuestions(token);
   }
 
@@ -28,10 +32,16 @@ class Game extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   getQuestions: (token) => dispatch(getQuestionsThunk(token)),
+  getToken: () => dispatch(getTokenThunk()),
 });
 
-export default connect(null, mapDispatchToProps)(Game);
+const mapStateToProps = (state) => ({
+  token: state.tokenReducer.data,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Game);
 
 Game.propTypes = {
   getQuestions: PropTypes.func.isRequired,
+  // token: PropTypes.string.isRequired,
 };
