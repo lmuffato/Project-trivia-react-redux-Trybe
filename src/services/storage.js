@@ -1,7 +1,8 @@
-export const setToLocalStorage = (element, value) => localStorage
-  .setItem(element, JSON.stringify(value));
+export const setToLocalStorage = (element, key) => localStorage
+  .setItem(element, JSON.stringify(key));
+
 export const getItemFromLocalStorage = (key) => {
   const localLenght = localStorage.length;
-  if (localLenght < 1) return [];
+  if (localLenght < 1) return;
   return JSON.parse(localStorage.getItem(key));
 };

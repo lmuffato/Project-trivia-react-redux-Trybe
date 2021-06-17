@@ -16,10 +16,11 @@ class Timer extends Component {
     const { time } = this.state;
     const ONE_SECOND = 1000;
     const currTime = setInterval(() => {
+      const { timesUp } = this.props;
       if (time > 1) {
         this.timer();
       }
-      if (time === 1) clearInterval(currTime);
+      if (time === 1 || timesUp) clearInterval(currTime);
     }, ONE_SECOND);
   }
 
@@ -35,10 +36,14 @@ class Timer extends Component {
   render() {
     const { time } = this.state;
     return (
-      <p>{ time }</p>
+      <p id="timer">{ time }</p>
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  timesUp: state.player.timeOut,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   currentTime: () => dispatch(timeOut()),
@@ -48,4 +53,4 @@ Timer.propTypes = {
   currentTime: Proptypes.func,
 }.isRequired;
 
-export default connect(null, mapDispatchToProps)(Timer);
+export default connect(mapStateToProps, mapDispatchToProps)(Timer);

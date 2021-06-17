@@ -3,6 +3,11 @@ import { connect } from 'react-redux';
 import Proptypes from 'prop-types';
 
 class RenderQuestions extends Component {
+  constructor() {
+    super();
+    this.dificultyLevel = this.dificultyLevel.bind(this);
+  }
+
   sortArr(arr) {
     const outPut = arr;
     for (let index = outPut.length; index > 0; index -= 1) {
@@ -14,7 +19,23 @@ class RenderQuestions extends Component {
     return outPut;
   }
 
-  handleAnswerClick() {
+  dificultyLevel(string) {
+    const LEVEL_MAX = 3;
+    switch (string) {
+    case 'easy':
+      return 1;
+    case 'medium':
+      return 2;
+    case 'hard':
+      return LEVEL_MAX;
+    default:
+      break;
+    }
+  }
+
+  handleAnswerClick(event, questionLevel) {
+    const { checkAnswer } = this.props;
+    checkAnswer(event, questionLevel);
     const correct = document.getElementsByClassName('correct-answer');
     correct[0].style.border = '3px solid rgb(6, 240, 15)';
     const incorrect = document.querySelectorAll('.wrong-answer');
@@ -28,13 +49,15 @@ class RenderQuestions extends Component {
     const { results } = apiResult;
     if (results === undefined) return;
     const currQuestion = results[question];
+    const { difficulty } = currQuestion;
+    const questionLevel = this.dificultyLevel(difficulty);
     const correctQuestion = (
       <button
         disabled={ timeOut }
         key={ 5 }
         type="button"
         data-testid="correct-answer"
-        onClick={ this.handleAnswerClick }
+        onClick={ (event) => this.handleAnswerClick(event, questionLevel) }
         className="correct-answer"
       >
         {currQuestion.correct_answer}
@@ -46,7 +69,7 @@ class RenderQuestions extends Component {
           key={ index }
           disabled={ timeOut }
           data-testid={ `wrong-answer-${index}` }
-          onClick={ this.handleAnswerClick }
+          onClick={ (event) => this.handleAnswerClick(event, questionLevel) }
           className="wrong-answer"
         >
           { answer }
