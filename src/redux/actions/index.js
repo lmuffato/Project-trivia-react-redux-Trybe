@@ -5,8 +5,10 @@ export const LOGIN = 'LOGIN';
 
 export const loginAction = (payload) => ({ type: LOGIN, payload });
 
-// Questions
+export const UPDATE_SCORE = 'UPDATE_SCORE';
+export const updateScoreAction = (payload) => ({ type: UPDATE_SCORE, payload });
 
+// questions
 export const GET_QUESTIONS = 'GET_QUESTIONS';
 export const getQuestions = () => ({ type: GET_QUESTIONS });
 
@@ -52,6 +54,14 @@ export const getQuestionsThunk = (token) => (dispatch) => {
     .catch((error) => dispatch(getQuestionsError(error.message)));
 };
 
+export const SAVE_TIMER = 'SAVE_TIMER';
+export const saveTimerAction = (payload) => ({ type: SAVE_TIMER, payload });
+
+export const CALC_POINTS = 'CALC_POINTS';
+export const calcPointsAction = () => ({ type: CALC_POINTS });
+
+export const SET_DIFFICULTY = 'SET_DIFFICULTY';
+export const setDifficultyAction = (payload) => ({ type: SET_DIFFICULTY, payload });
 // middleware localStorage
 export const localStorage = () => (next) => (action) => {
   if (action.localStorage !== undefined) {

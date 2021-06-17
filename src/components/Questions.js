@@ -5,6 +5,11 @@ import styles from '../pages/game.module.css';
 import Loading from './Loading';
 import Timer from './Timer';
 import './questions.css';
+import {
+  setDifficultyAction,
+  updateScoreAction,
+  calcPointsAction,
+} from '../redux/actions/index';
 
 class Questions extends Component {
   constructor(props) {
@@ -23,6 +28,14 @@ class Questions extends Component {
     this.redirectFeedback = this.redirectFeedback.bind(this);
   }
 
+  componentDidUpdate() {
+    const { calc } = this.props;
+    if (calc) {
+      this.addPoints();
+      this.addToLocalStorage();
+    }
+  }
+
   redirectFeedback() {
     const { history } = this.props;
     const { questionsIndex } = this.state;
@@ -30,6 +43,37 @@ class Questions extends Component {
     if (questionsIndex === numberOfTheQuestionsEnd) {
       history.push('/feedback');
     }
+    this.resetDifficulty = this.resetDifficulty.bind(this);
+  }
+
+  addPoints() {
+    const { updateScoreProps, timer, difficulty } = this.props;
+    let questionDif = 0;
+    const pointsForDifficultyHard = 3;
+    if (difficulty) {
+      switch (difficulty) {
+      case 'easy':
+        questionDif = 1;
+        break;
+      case 'medium':
+        questionDif = 2;
+        break;
+      case 'hard':
+        questionDif = pointsForDifficultyHard;
+        break;
+      default:
+        questionDif = 0;
+      }
+    }
+    let points = 0;
+    let assertions = 0;
+    if (timer !== 0 && questionDif !== 0) {
+      const value = 10;
+      points = value + timer * questionDif;
+      assertions = 1;
+      updateScoreProps({ points, assertions });
+    }
+    this.resetDifficulty();
   }
 
   nextQuestion(NumberOfQuestions) {
@@ -44,7 +88,13 @@ class Questions extends Component {
     this.redirectFeedback();
   }
 
-  handleClickAnswer() {
+  resetDifficulty() {
+    const { setDifficultyProps } = this.props;
+    const difficulty = '';
+    setDifficultyProps({ difficulty });
+  }
+
+  handleClickAnswer(e) {
     const alternatives = Array.from(document
       .getElementsByClassName(styles.question__alternatives));
     const classAnswerCorrect = 'question__alternatives__correct';
@@ -61,6 +111,17 @@ class Questions extends Component {
       }
     });
     this.setState({ isVisible: 'true', stop: true, reset: false, disabled: true });
+    if (e && e.target.getAttribute('data-testid') === 'correct-answer') {
+      const difficulty = e.target.getAttribute('difficulty');
+      const { setDifficultyProps } = this.props;
+      setDifficultyProps({ difficulty });
+    }
+  }
+
+  addToLocalStorage() {
+    const { name, email, score, assertions } = this.props;
+    const player = { name, email, score, assertions };
+    localStorage.setItem('state', JSON.stringify({ player }));
   }
 
   handleZero() {
@@ -71,6 +132,7 @@ class Questions extends Component {
     const { borderColor, isVisible, questionsIndex, reset, stop, disabled } = this.state;
     const { loading, questions } = this.props;
     const questionsFiltered = questions[questionsIndex];
+    console.log(questionsFiltered);
     if (loading || questions.length < 1) {
       return <Loading />;
     }
@@ -91,6 +153,7 @@ class Questions extends Component {
                     .question__alternatives, borderColor[index]].join(' ') }
                   data-testid={ Object.values(question) }
                   disabled={ disabled }
+                  difficulty={ questionsFiltered.difficulty }
                 >
                   {Object.keys(question)}
                 </button>
@@ -118,20 +181,43 @@ class Questions extends Component {
 const mapStateToProps = (state) => ({
   questions: state.questionsReducer.data,
   loading: state.questionsReducer.loading,
+  timer: state.timerReducer.timer,
+  difficulty: state.timerReducer.difficulty,
+  calc: state.timerReducer.calc,
+  name: state.playerReducer.name,
+  email: state.playerReducer.email,
+  score: state.playerReducer.score,
+  assertions: state.playerReducer.assertions,
 });
 
-export default connect(mapStateToProps)(Questions);
+const mapDispatchToProps = (dispatch) => ({
+  setDifficultyProps: (payload) => dispatch(setDifficultyAction(payload)),
+  updateScoreProps: (payload) => dispatch(updateScoreAction(payload)),
+  calcPointsProps: () => dispatch(calcPointsAction()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Questions);
 
 Questions.propTypes = {
   questions: PropTypes.arrayOf(PropTypes.shape({
     category: PropTypes.string.isRequired,
     question: PropTypes.string.isRequired,
     alternatives: PropTypes.arrayOf(PropTypes.object),
+    difficulty: PropTypes.string.isRequired,
   })).isRequired,
   loading: PropTypes.bool,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
+  setDifficultyProps: PropTypes.func.isRequired,
+  calc: PropTypes.bool.isRequired,
+  name: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
+  score: PropTypes.number.isRequired,
+  assertions: PropTypes.number.isRequired,
+  updateScoreProps: PropTypes.func.isRequired,
+  timer: PropTypes.number.isRequired,
+  difficulty: PropTypes.string.isRequired,
 };
 
 Questions.defaultProps = {
