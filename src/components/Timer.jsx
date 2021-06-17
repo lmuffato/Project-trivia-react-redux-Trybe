@@ -11,6 +11,7 @@ class Timer extends Component {
     this.state = {
       timer: null,
     };
+    this.setInitialTime = this.setInitialTime.bind(this);
   }
 
   componentDidMount() {
@@ -29,7 +30,10 @@ class Timer extends Component {
   }
 
   setInitialTime() {
+    const { remainingTime } = this.props;
     this.setState({ timer: 30 });
+    const { timer } = this.state;
+    remainingTime(timer);
   }
 
   render() {
