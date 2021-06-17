@@ -16,25 +16,26 @@ class Questions extends Component {
   }
 
   answerClick(event) {
-    const { index } = this.state
+    const { index, chosedQuestion } = this.state
     const { questions } = this.props;
     if (event.target.value === questions[index].correct_answer) {
       // Correct Event
-      console.log("você acerto");
       this.setState({
         index: 1,
         chosedQuestion: true,
       })
-      console.log(index);
+      console.log(chosedQuestion);
     } else {
-      console.log("Xablau");
+      this.setState({
+        index: 1,
+        chosedQuestion: true,
+      })
     }
   }
 
   render() {
     const { questions, loading } = this.props;
     const { index, chosedQuestion } = this.state;
-    // console.log(questions);
     return (
       <div>
         {loading === true ? <p>carregando...</p>
@@ -48,6 +49,7 @@ class Questions extends Component {
               onClick={this.answerClick}
               value={questions[index].correct_answer}
               className={ chosedQuestion ? 'correct' : null }
+              disabled={ chosedQuestion }
             >
               {questions[index].correct_answer}
             </button>
@@ -60,6 +62,7 @@ class Questions extends Component {
                   onClick={this.answerClick}
                   value={ia}
                   className={ chosedQuestion ? 'incorrect' : null }
+                  disabled={ chosedQuestion }
                 >
                   {ia}
                 </button>
