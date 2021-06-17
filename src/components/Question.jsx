@@ -15,7 +15,8 @@ class Question extends Component {
     };
     this.shuffleArr = this.shuffleArr.bind(this);
     this.handleStyle = this.handleStyle.bind(this);
-    // this.handleCorrectAnswer = this.handleCorrectAnswer.bind(this);
+    this.handleCorrectAnswer = this.handleCorrectAnswer.bind(this);
+    this.handleScore = this.handleScore.bind(this);
   }
 
   shuffleArr(answersArray) {
@@ -113,7 +114,7 @@ class Question extends Component {
               key={ answer }
               className="correct"
               dataTestid="correct-answer"
-              onClick={ this.handleStyle }
+              onClick={ this.handleCorrectAnswer }
               disabled={ isButtonDisabled }
             >
               { answer }

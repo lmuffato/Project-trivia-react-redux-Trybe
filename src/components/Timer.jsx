@@ -4,7 +4,7 @@ class Timer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      time: 3, // 30
+      time: 30, // 30
       second: 1000,
       timeOk: false,
     };
@@ -14,7 +14,7 @@ class Timer extends React.Component {
   }
 
   componentDidMount() {
-    this.runCountdown();
+    this.runTimer();
   }
 
   // componentWillUnmount() {
@@ -96,11 +96,11 @@ class Timer extends React.Component {
   }
 
   render() {
-    const { second } = this.state;
+    const { time } = this.state;
     return (
       <div>
         Tempo:
-        { second }
+        { time }
       </div>
     );
   }
