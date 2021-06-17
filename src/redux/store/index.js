@@ -7,7 +7,7 @@ const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk
 
 store.subscribe(() => {
   const json = JSON.stringify(store.getState().loginReducer);
-  localStorage.setItem('player', json);
+  localStorage.setItem('state', json);
 });
 
 export default store;
