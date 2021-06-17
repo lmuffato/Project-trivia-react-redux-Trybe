@@ -21,6 +21,7 @@ class Feedback extends Component {
         <h2 data-testid="feedback-total-score">{score}</h2>
         <h2 data-testid="feedback-total-question">{ assertions }</h2>
         <Link to="/" data-testid="btn-play-again">Jogar novamente</Link>
+        <Link to="/ranking" data-testid="btn-ranking">Ver Ranking</Link>
       </div>
     );
   }
