@@ -6,7 +6,9 @@ export const REQUEST_TOKEN = 'REQUEST_TOKEN';
 export const REQUEST_QUESTION_SUCESS = 'REQUEST_QUESTION_SUCESS';
 export const REQUEST_QUESTION_FAIL = 'REQUEST_QUESTION_FAIL';
 export const GET_PLAYER = 'GET_PLAYER';
+export const UPDATE_SCORE = 'UPDATE_SCORE';
 export const DISABLE_ANS = 'DISABLE_ANS';
+export const UPDATE_TIME = 'UPDATE_TIME';
 
 export function requestApi() {
   return {
@@ -45,7 +47,6 @@ export function questionsFail(payload) {
 // };
 
 export const getQuestion = (token) => async (dispatch) => {
-  console.log(token);
   dispatch(requestApi());
   questionsFetch(token).then((questions) => dispatch(questionsSuccess(questions)));
 };
@@ -56,6 +57,18 @@ export const getToken = (callback) => (dispatch) => {
     .then(() => {
       callback();
     });
+};
+
+export function updateScore(score) {
+  return {
+    type: UPDATE_SCORE,
+    payload: score,
+  };
+}
+
+export const updateStorageThunk = (score, callback) => async (dispatch) => {
+  await dispatch(updateScore(score));
+  callback();
 };
 
 // export function getName(namePlayer) {
@@ -77,4 +90,8 @@ export function disableAnswer(payload) {
     type: DISABLE_ANS,
     payload,
   };
+}
+
+export function updateTime(time) {
+  return { type: UPDATE_TIME, payload: time };
 }

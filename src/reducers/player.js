@@ -1,4 +1,4 @@
-import { GET_PLAYER } from '../actions';
+import { GET_PLAYER, UPDATE_SCORE } from '../actions';
 
 const INITIAL_STATE = {
   playerName: '',
@@ -11,12 +11,16 @@ const player = (state = INITIAL_STATE, action) => {
   const { payload } = action;
   switch (action.type) {
   case GET_PLAYER:
-    return ({
+    return {
       ...state,
       playerName: payload.name,
       gravatarEmail: payload.email,
-    });
-
+    };
+  case UPDATE_SCORE:
+    return {
+      ...state,
+      score: state.score + payload,
+    };
   default:
     return state;
   }

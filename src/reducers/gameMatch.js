@@ -1,7 +1,8 @@
-import { DISABLE_ANS } from '../actions';
+import { DISABLE_ANS, UPDATE_TIME } from '../actions';
 
 const INITIAL_STATE = {
   timesUp: false,
+  timer: 30,
 };
 
 const gameMatch = (state = INITIAL_STATE, action) => {
@@ -11,7 +12,11 @@ const gameMatch = (state = INITIAL_STATE, action) => {
       ...state,
       timesUp: action.payload,
     });
-
+  case UPDATE_TIME:
+    return {
+      ...state,
+      timer: action.payload,
+    };
   default:
     return state;
   }
