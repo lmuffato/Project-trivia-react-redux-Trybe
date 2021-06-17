@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import HeaderTriviaGame from '../components/HeaderTriviaGame';
@@ -14,6 +15,7 @@ class TriviaGame extends Component {
 
     this.state = {
       index: 0,
+      feedback: false,
     };
     this.handleIndexIncrementOnClick = this.handleIndexIncrementOnClick.bind(this);
     this.changeBorder = this.changeBorder.bind(this);
@@ -38,6 +40,14 @@ class TriviaGame extends Component {
   }
 
   handleIndexIncrementOnClick() {
+    const { index } = this.state;
+    const maxQuestions = 4;
+    if (index === maxQuestions) {
+      this.setState({
+        feedback: true,
+      });
+      return;
+    }
     this.setState((oldState) => ({
       index: oldState.index + 1,
     }));
@@ -50,11 +60,13 @@ class TriviaGame extends Component {
       const correct = {
         answer: questions[index].correct_answer,
         dataTestId: 'correct-answer',
+        difficulty: questions[index].difficulty,
       };
 
       const incorrect = questions[index].incorrect_answers.map((incorrectAnswer, i) => ({
         answer: incorrectAnswer,
         dataTestId: `wrong-answer-${i}`,
+        difficulty: questions[index].difficulty,
       }));
 
       const answers = [...incorrect,
@@ -65,8 +77,9 @@ class TriviaGame extends Component {
 
   render() {
     const { questions } = this.props;
-    const { index } = this.state;
+    const { index, feedback } = this.state;
     const questionsRandom = questions.length ? this.answersRandom(index) : 'xablau';
+    if (feedback) return (<Redirect to="/feedback" />);
     return (
       <div>
         <HeaderTriviaGame />
