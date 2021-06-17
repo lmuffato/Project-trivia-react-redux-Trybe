@@ -8,6 +8,7 @@ export const ADD_USER_LOGIN = 'ADD_USER_LOGIN';
 export const CALCULATE_SCORE = 'CALCULATE_SCORE';
 export const GET_ASSERTIONS = 'GET_ASSERTIONS';
 export const TIMEOUT = 'TIMEOUT';
+export const TIMEIN = 'TIMEIN';
 
 export const getQuestions = () => ({
   type: GET_QUESTIONS,
@@ -40,6 +41,10 @@ export const getAssertions = (payload) => ({
 
 export const timeOut = () => ({
   type: TIMEOUT,
+});
+
+export const timein = () => ({
+  type: TIMEIN,
 });
 
 export const fetchAPIThunk = () => async (dispatch) => {

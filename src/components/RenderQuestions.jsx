@@ -9,6 +9,8 @@ class RenderQuestions extends Component {
   }
 
   sortArr(arr) {
+    const { timeOut } = this.props;
+    if (timeOut) return arr;
     const outPut = arr;
     for (let index = outPut.length; index > 0; index -= 1) {
       const index2 = Math.floor(Math.random() * (index));
