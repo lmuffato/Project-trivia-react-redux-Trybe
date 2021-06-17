@@ -1,9 +1,10 @@
-import { USER_EMAIL, USER_LOGIN, USER_SCORE } from '../../common/def';
+import { USER_EMAIL, USER_LOGIN, USER_SCORE, ASSERTION } from '../../common/def';
 
 const INITIAL_STATE = {
   email: '',
-  user: '',
+  name: '',
   score: 0,
+  assertions: 0,
 };
 
 export default function loginReducer(state = INITIAL_STATE, action) {
@@ -16,12 +17,17 @@ export default function loginReducer(state = INITIAL_STATE, action) {
   case USER_LOGIN:
     return {
       ...state,
-      user: action.payload,
+      name: action.payload,
     };
   case USER_SCORE:
     return {
       ...state,
-      score: action.payload,
+      score: state.score + action.payload,
+    };
+  case ASSERTION:
+    return {
+      ...state,
+      assertions: state.assertions + 1,
     };
   default:
     return state;
