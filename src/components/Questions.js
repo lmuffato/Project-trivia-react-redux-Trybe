@@ -2,6 +2,25 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 class Questions extends Component {
+  constructor() {
+    super();
+    this.addBorderOnClick = this.addBorderOnClick.bind(this);
+    this.createAlternativesButtons = this.createAlternativesButtons.bind(this);
+    this.mockAlternatives = this.mockAlternatives.bind(this);
+  }
+
+  addBorderOnClick() {
+    const altButtons = document.querySelectorAll('.alternative-button');
+    altButtons.forEach((button) => {
+      const isCorrect = button.getAttribute('data-testid') === 'correct-answer';
+      if (isCorrect) {
+        button.classList.add('correct-color');
+      } else {
+        button.classList.add('wrong-color');
+      }
+    });
+  }
+
   createAlternativesButtons(question) {
     const altArray = [...question.incorrect_answers, question.correct_answer];
     const randomNumber = 0.5;
@@ -13,6 +32,8 @@ class Questions extends Component {
           key={ index }
           type="button"
           data-testid={ isCorrect ? 'correct-answer' : `wrong-answer-${index}` }
+          className="alternative-button"
+          onClick={ this.addBorderOnClick }
         >
           {alt}
         </button>
