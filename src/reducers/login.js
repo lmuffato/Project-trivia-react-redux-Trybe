@@ -21,6 +21,8 @@ export default function login(state = INITIAL_STATE, action) {
       score: state.score + action.score,
       correct: state.correct + 1,
     };
+  case 'CLEAR_USER_DATA':
+    return INITIAL_STATE;
   default:
     return state;
   }

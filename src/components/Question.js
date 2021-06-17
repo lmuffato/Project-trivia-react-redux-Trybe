@@ -68,7 +68,6 @@ class Question extends React.Component {
   buttonNext() {
     const { nextQuestion, dispatchTimer } = this.props;
     const INITIAL_TIME = 30;
-    // const { initialTimer } = this.state;
     this.setState({ addClass: false, disabled: false, stopTime: false });
     nextQuestion();
     dispatchTimer(INITIAL_TIME);
