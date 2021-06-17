@@ -10,6 +10,9 @@ class Questions extends React.Component {
       loading: true,
       questionsPosition: 0,
       questions: [],
+      showBtn: false,
+      canUpdate: true,
+      randomNumber: '',
     };
 
     this.onClick = this.onClick.bind(this);
@@ -17,6 +20,7 @@ class Questions extends React.Component {
     this.boolean = this.boolean.bind(this);
     this.multiple = this.multiple.bind(this);
     this.btnStyle = this.btnStyle.bind(this);
+    this.getRandom = this.getRandom.bind(this);
   }
 
   componentDidMount() {
@@ -29,12 +33,26 @@ class Questions extends React.Component {
 
     this.setState((previous) => ({
       questionsPosition: previous.questionsPosition + 1,
+      showBtn: false,
+      canUpdate: true,
     }));
 
     correctBtn.style.border = '';
     incorrectBtns.forEach((btn) => {
       btn.style.border = '';
     });
+  }
+
+  getRandom() {
+    const { canUpdate } = this.state;
+    if (canUpdate) {
+      const QUESTIONS_LENGTH = 4;
+      const random = Math.floor(
+        Math.random() * (QUESTIONS_LENGTH),
+      );
+      this.setState({ canUpdate: false, randomNumber: random });
+      return random;
+    }
   }
 
   async requisitions() {
@@ -44,7 +62,6 @@ class Questions extends React.Component {
       `https://opentdb.com/api.php?amount=5&token=${token}`,
     );
     const data = await response.json();
-    console.log(data.results);
     this.setState({ loading: false, questions: data.results });
     getQuestions(data.results);
   }
@@ -53,6 +70,7 @@ class Questions extends React.Component {
     const correctBtn = document.querySelector('.correct-answer');
     const incorrectBtns = document.querySelectorAll('.incorrect-answer');
 
+    this.setState({ showBtn: true });
     correctBtn.style.border = '3px solid rgb(6, 240, 15)';
     incorrectBtns.forEach((btn) => {
       btn.style.border = '3px solid rgb(255, 0, 0)';
@@ -102,17 +120,15 @@ class Questions extends React.Component {
   }
 
   multiple() {
-    const { questions, questionsPosition } = this.state;
+    const { questions, questionsPosition, randomNumber } = this.state;
     const dataTestIdCorrect = 'correct-answer';
     const dataTestIdIncorrect = 'incorrect-answer';
     const incorrectAnswers = [
       ...questions[questionsPosition].incorrect_answers,
     ];
-    const randomIndex = Math.floor(
-      Math.random() * (incorrectAnswers.length + 1),
-    );
+    this.getRandom();
     incorrectAnswers.splice(
-      randomIndex,
+      randomNumber,
       0,
       questions[questionsPosition].correct_answer,
     );
@@ -126,7 +142,7 @@ class Questions extends React.Component {
           {questions[questionsPosition].question}
         </h3>
         {incorrectAnswers.map((question, index) => {
-          const dataTestId3 = index === randomIndex
+          const dataTestId3 = index === randomNumber
             ? dataTestIdCorrect : `wrong-answer-${index}`;
           return (
             <button
@@ -148,7 +164,7 @@ class Questions extends React.Component {
   }
 
   render() {
-    const { questions, loading, questionsPosition } = this.state;
+    const { questions, loading, questionsPosition, showBtn } = this.state;
     console.log(questions);
     if (loading) {
       return 'Carregando...';
@@ -158,13 +174,16 @@ class Questions extends React.Component {
         {questions[questionsPosition].type === 'multiple'
           ? this.multiple()
           : this.boolean()}
-        <button
-          type="button"
-          data-testid="btn-next"
-          onClick={ this.onClick }
-        >
-          Próxima pergunta
-        </button>
+        {showBtn
+          ? (
+            <button
+              type="button"
+              data-testid="btn-next"
+              onClick={ this.onClick }
+            >
+              Próxima pergunta
+            </button>
+          ) : null}
       </div>
     );
   }
