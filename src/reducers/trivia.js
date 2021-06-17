@@ -1,14 +1,13 @@
-import { TOKEN } from '../actions';
+import { GAME_TRIVIA } from '../actions';
 
 const INITIAL_STATE = {
-  token: '',
+  trivia: [],
 };
 
 const trivia = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-  case TOKEN:
-    localStorage.setItem('token', action.payload);
-    return { ...state, token: action.payload };
+  case GAME_TRIVIA:
+    return { ...state, trivia: action.payload };
   default:
     return state;
   }
