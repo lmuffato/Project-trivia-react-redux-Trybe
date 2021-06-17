@@ -12,10 +12,13 @@ class Feedback extends Component {
   }
 
   render() {
+    const { assertions, score } = this.props;
     return (
       <div>
         <Header />
         <h1 data-testid="feedback-text">{ this.conditional() }</h1>
+        <h2 data-testid="feedback-total-score">{score}</h2>
+        <h2 data-testid="feedback-total-question">{ assertions }</h2>
       </div>
     );
   }
@@ -23,10 +26,12 @@ class Feedback extends Component {
 
 const mapStateToProps = (state) => ({
   assertions: state.loginReducer.player.assertions,
+  score: state.loginReducer.player.score,
 });
 
 Feedback.propTypes = {
   assertions: propTypes.number.isRequired,
+  score: propTypes.number.isRequired,
 };
 
 export default connect(mapStateToProps, null)(Feedback);
