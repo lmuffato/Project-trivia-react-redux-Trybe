@@ -12,13 +12,64 @@ class Questions extends Component {
       displayBtn: false,
       currentTime: 30,
       disableButton: false,
+      assertions: 0,
     };
     this.setTime = this.setTime.bind(this);
+    this.setStorage = this.setStorage.bind(this);
+    this.getDifficulty = this.getDifficulty.bind(this);
   }
 
   componentDidMount() {
     this.getQuestions();
     setInterval(() => this.setTime(), second);
+  }
+
+  setStorage(mult) {
+    const { currentTime, assertions } = this.state;
+    const { name, gravatarEmail } = this.props;
+    const grade = 10;
+    const currentScore = grade + (currentTime * mult);
+    console.log(currentScore);
+    let state = {
+      player: {
+        name,
+        assertions: assertions + 1,
+        score: currentScore,
+        gravatarEmail,
+      },
+    };
+    if (localStorage.getItem('state') !== null) {
+      state = JSON.parse(localStorage.getItem('state'));
+      state = {
+        player: {
+          ...state.player,
+          assertions: state.player.assertions + 1,
+          score: state.player.score + currentScore,
+        },
+      };
+      localStorage.setItem('state', JSON.stringify(state));
+    } else {
+      localStorage.setItem('state', JSON.stringify(state));
+    }
+  }
+
+  getDifficulty(difficulty, condition) {
+    const { assertions } = this.state;
+    if (condition === 'correct') {
+      this.setState({ assertions: assertions + 1 });
+    }
+    let mult;
+    switch (difficulty) {
+    case 'easy':
+      mult = 1;
+      break;
+    case 'medium':
+      mult = 2;
+      break;
+    default:
+      mult = 2 + 1;
+    }
+    this.setStorage(mult);
   }
 
   setTime() {
@@ -40,7 +91,7 @@ class Questions extends Component {
     this.setState({ questions });
   }
 
-  handleClick() {
+  handleClick(difficulty, condition) {
     const green = '3px solid rgb(6, 240, 15)';
     const red = '3px solid rgb(255, 0, 0)';
     const right = document.getElementById('correct-answer');
@@ -52,6 +103,7 @@ class Questions extends Component {
       return button.style.border;
     });
     this.setState({ displayBtn: true });
+    this.getDifficulty(difficulty, condition);
   }
 
   nextButton() {
@@ -96,7 +148,7 @@ class Questions extends Component {
             data-testid="correct-answer"
             disabled={ disableButton }
             id="correct-answer"
-            onClick={ () => this.handleClick() }
+            onClick={ () => this.handleClick(question.difficulty, 'correct') }
           >
             {question.correct_answer}
           </button>
@@ -107,7 +159,7 @@ class Questions extends Component {
               data-testid={ `wrong-answer-${index}` }
               disabled={ disableButton }
               className="wrong-answer"
-              onClick={ () => this.handleClick() }
+              onClick={ () => this.handleClick(question.difficulty, 'wrong') }
             >
               {incorrect}
             </button>
@@ -119,4 +171,9 @@ class Questions extends Component {
   }
 }
 
-export default connect(null, null)(Questions);
+const mapStateToProps = (state) => ({
+  gravatarEmail: state.login.gravatarEmail,
+  name: state.login.name,
+});
+
+export default connect(mapStateToProps, null)(Questions);
