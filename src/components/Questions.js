@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import './Questions.css';
+import Timer from './Timer';
 
 class Questions extends Component {
   constructor() {
@@ -8,6 +10,8 @@ class Questions extends Component {
     this.addBorderOnClick = this.addBorderOnClick.bind(this);
     this.createAlternativesButtons = this.createAlternativesButtons.bind(this);
     this.mockAlternatives = this.mockAlternatives.bind(this);
+    this.stopCountdown = this.stopCountdown.bind(this);
+    this.disableAlternativeButtons = this.disableAlternativeButtons.bind(this);
   }
 
   addBorderOnClick() {
@@ -19,6 +23,13 @@ class Questions extends Component {
       } else {
         button.classList.add('wrong-color');
       }
+    });
+  }
+
+  disableAlternativeButtons() {
+    const altButtons = document.querySelectorAll('.alternative-button');
+    altButtons.forEach((button) => {
+      button.setAttribute('disabled', true);
     });
   }
 
@@ -34,7 +45,7 @@ class Questions extends Component {
           type="button"
           data-testid={ isCorrect ? 'correct-answer' : `wrong-answer-${index}` }
           className="alternative-button"
-          onClick={ this.addBorderOnClick }
+          onClick={ this.stopCountdown }
         >
           {alt}
         </button>
@@ -51,12 +62,28 @@ class Questions extends Component {
     );
   }
 
+  stopCountdown() {
+    const { props: { timerID }, addBorderOnClick, disableAlternativeButtons } = this;
+    clearInterval(timerID);
+    addBorderOnClick();
+    disableAlternativeButtons();
+  }
+
   render() {
-    const { props: { questions }, createAlternativesButtons, mockAlternatives } = this;
+    const {
+      props: { questions },
+      createAlternativesButtons,
+      mockAlternatives,
+      addBorderOnClick,
+      stopCountdown } = this;
     const validQuestions = questions.length > 0;
 
     return (
       <div>
+        <Timer
+          addBorderOnClick={ addBorderOnClick }
+          stopCountdown={ stopCountdown }
+        />
         <p data-testid="question-category">
           {validQuestions ? questions[0].category : 'carregando...'}
         </p>
@@ -69,6 +96,10 @@ class Questions extends Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  timerID: state.timer.timerID,
+});
+
 Questions.propTypes = {
   questions: PropTypes.arrayOf(PropTypes.shape({
     category: PropTypes.string,
@@ -80,4 +111,4 @@ Questions.propTypes = {
   })),
 }.isRequired;
 
-export default Questions;
+export default connect(mapStateToProps, null)(Questions);
