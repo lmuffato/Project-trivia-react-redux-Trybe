@@ -8,6 +8,17 @@ class Game extends React.Component {
   constructor() {
     super();
     this.handlePosition = this.handlePosition.bind(this);
+    this.handlePosition = this.handlePosition.bind(this);
+  }
+
+  changeBorders() {
+    const correctAnswer = document.getElementsByClassName('correct-answer');
+    correctAnswer[0].style.border = '3px solid rgb(6, 240, 15)';
+
+    const incorrectAnswer = document.querySelectorAll('.wrong-answer');
+    for (let index = 0; index < incorrectAnswer.length; index += 1) {
+      incorrectAnswer[index].style.border = '3px solid rgb(255, 0, 0)';
+    }
   }
 
   handlePosition() {
@@ -29,16 +40,20 @@ class Game extends React.Component {
         {category.incorrect_answers.map((incorrect, index) => (
           <button
             data-testid={ `wrong-answer-${index}` }
+            className="wrong-answer"
             key={ index }
             type="button"
+            onClick={ this.changeBorders }
           >
             {incorrect}
 
           </button>
         ))}
         <button
+          className="correct-answer"
           data-testid="correct-answer"
           type="button"
+          onClick={ this.changeBorders }
         >
           {category.correct_answer}
 
