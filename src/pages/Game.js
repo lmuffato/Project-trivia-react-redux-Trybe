@@ -17,14 +17,13 @@ class Game extends React.Component {
     this.requestApi = this.requestApi.bind(this);
     this.renderQuestions = this.renderQuestions.bind(this);
     this.ramdomizeQuestions = this.ramdomizeQuestions.bind(this);
-    this.handleTime = this.handleTime.bind(this);
+    this.runTimer = this.runTimer.bind(this);
   }
 
   componentDidMount() {
     this.requestApi();
-    this.handleTime();
   }
-// teste commit
+
   requestApi() {
     const token = JSON.parse(localStorage.getItem('token'));
     api.fetchQuest(token).then((res) => {
@@ -33,6 +32,7 @@ class Game extends React.Component {
         loading: false,
       });
       this.ramdomizeQuestions();
+      this.runTimer();
     });
   }
 
@@ -41,13 +41,18 @@ class Game extends React.Component {
       ? 'ok' : 'fail';
   }
 
-  handleTime() {
-    const magicNumber = 990;
+  runTimer() {
+    const oneSec = 1000;
     setInterval(() => {
-      this.setState((prev) => ({
-        timer: prev.timer - 1,
-      }));
-    }, magicNumber);
+      this.setState((prev) => {
+        if (prev.timer <= 0 || prev.userAnswer === true) {
+          this.setState({
+            timer: 30,
+            userAnswer: true });
+        }
+        return { timer: prev.timer - 1 };
+      });
+    }, oneSec);
   }
 
   ramdomizeQuestions() {
@@ -98,7 +103,7 @@ class Game extends React.Component {
           onClick={
             () => this.setState((prevState) => (
               { indice: prevState.indice + 1, userAnswer: false }
-            ), () => this.handleTime())
+            ), () => this.runTimer())
           }
         >
           Próximo
