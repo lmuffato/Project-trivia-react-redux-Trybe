@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import { Redirect } from 'react-router-dom';
 import Question from '../components/Question';
 import getTriviaQuestions from '../utils/triviaApi';
 import Header from '../components/Header';
@@ -24,6 +25,7 @@ class Game extends Component {
 
     this.timer = 0;
 
+    this.handleNextButton = this.handleNextButton.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.fetchApi = this.fetchApi.bind(this);
     this.countDown = this.countDown.bind(this);
@@ -65,6 +67,7 @@ class Game extends Component {
 
   stopTimer() {
     clearInterval(this.timer);
+    this.timer = 0;
   }
 
   handleClick(difficulty) {
@@ -75,6 +78,22 @@ class Game extends Component {
         score: player.score + updateUserScore(timeLeft, difficulty),
       },
     }));
+  }
+
+  handleNextButton() {
+    const { currentQuestionId } = this.state;
+    const maxQuestions = 4;
+
+    if (currentQuestionId === maxQuestions) {
+      return (
+        <Redirect to="/feedback" />
+      );
+    }
+    this.setState(({ currentQuestionId }) => ({
+      currentQuestionId: currentQuestionId + 1,
+      timeLeft: 30,
+    }));
+    this.startTimer();
   }
 
   fetchApi() {
@@ -106,6 +125,10 @@ class Game extends Component {
     return (
       <>
         <Header score={ score } />
+        <p>
+          tempo:
+          { timeLeft }
+        </p>
         <p>Questão:</p>
         {(currentQuestion)
           && <Question
@@ -113,6 +136,7 @@ class Game extends Component {
             currQuestion={ currentQuestion }
             timeLeft={ timeLeft }
             handleClick={ this.handleClick }
+            clickNextButton={ this.handleNextButton }
           />}
 
         <Header />
