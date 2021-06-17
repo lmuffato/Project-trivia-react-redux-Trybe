@@ -9,6 +9,7 @@ import Header from '../components/Header';
 import Button from '../components/Button';
 import Question from '../components/Question';
 import Loading from '../components/Loading';
+import Timer from '../components/Timer';
 
 class GamePage extends React.Component {
   constructor(props) {
@@ -22,21 +23,25 @@ class GamePage extends React.Component {
 
     this.fetchApi = this.fetchApi.bind(this);
     this.getNextQuestion = this.getNextQuestion.bind(this);
+    this.renderTimer = this.renderTimer.bind(this);
   }
 
   componentDidMount() {
     this.fetchApi();
   }
 
+  // componentWillUnmount() {
+  //   this.runTimer();
+  // }
+
   // renderiza uma pergunta por vez do array de perguntas
   // controla o index do array de perguntas
   getNextQuestion() {
-    const four = 4;
-    const { index } = this.state;
-    if (index < four) {
+    const { index, questions } = this.state;
+    if (index < questions.length - 1) {
       this.setState({ index: index + 1 });
     }
-    if (index === four) {
+    if (index === questions.length - 1) {
       this.setState({ shouldRedirect: true });
     }
   }
@@ -58,8 +63,13 @@ class GamePage extends React.Component {
     }
   }
 
+  renderTimer() {
+    const { time } = this.state;
+    return (<span>{ time }</span>);
+  }
+
   render() {
-    const { loading, index, questions, shouldRedirect } = this.state;
+    const { loading, index, questions, shouldRedirect, time, timerActive } = this.state;
 
     if (loading) {
       return <Loading />;
@@ -72,6 +82,7 @@ class GamePage extends React.Component {
     return (
       <>
         <Header />
+        <Timer time={ time } timerActive={ timerActive } />
         <div>
           <Question quiz={ questions[index] } />
         </div>
