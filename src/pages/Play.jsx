@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { fetchQuestion, updateScore } from '../redux/actions';
 import Header from '../components/Header';
 
+const correctAnswerId = 'correct-answer';
+
 class Play extends Component {
   constructor(props) {
     super(props);
@@ -21,6 +23,7 @@ class Play extends Component {
     this.calcScore = this.calcScore.bind(this);
     this.changeColor = this.changeColor.bind(this);
     this.createOptions = this.createOptions.bind(this);
+    this.finishingRound = this.finishingRound.bind(this);
   }
 
   async componentDidMount() {
@@ -41,6 +44,14 @@ class Play extends Component {
     callUpdateScore(newScore);
   }
 
+  finishingRound({ target = { className: '' } }) {
+    console.log('entrou na funishingRound');
+    this.setState({
+      answered: true,
+    });
+    if (target.className === correctAnswerId) this.calcScore();
+  }
+
   createOptions() {
     const { questions } = this.props;
     const { questionNumber } = this.state;
@@ -48,37 +59,26 @@ class Play extends Component {
       incorrect_answers: incorrectAnswers,
       correct_answer: correctAnswer,
     } = questions[questionNumber];
-    const { answered } = this.state;
     let options = incorrectAnswers.map((answer, index) => (
-      <label htmlFor={ index } key={ index }>
-        <input
-          id={ index }
-          className="wrong-answer"
-          type="button"
-          name="answer"
-          disabled={ answered }
-          value={ answer }
-          onClick={ this.changeColor }
-          style={ { border: answered ? '3px solid rgb(255, 0, 0)' : '' } }
-          data-testid={ `wrong-answer-${index}` }
-        />
-      </label>
-    ));
-
+      {
+        id: index,
+        className: 'wrong-answer',
+        type: 'button',
+        name: 'answer',
+        value: answer,
+        'data-testid': `wrong-answer-${index}`,
+        onClick: this.finishingRound,
+      }));
     options.push(
-      <label htmlFor="correct-answer" key="correct-answer">
-        <input
-          data-testid="correct-answer"
-          id="correct-answer"
-          type="button"
-          name="answer"
-          className="correct-answer"
-          value={ correctAnswer }
-          disabled={ answered }
-          onClick={ this.changeColor }
-          style={ { border: answered ? '3px solid rgb(6, 240, 15)' : '' } }
-        />
-      </label>,
+      {
+        id: correctAnswerId,
+        className: correctAnswerId,
+        type: 'button',
+        name: 'answer',
+        value: correctAnswer,
+        'data-testid': correctAnswerId,
+        onClick: this.finishingRound,
+      },
     );
     const probToChange = 0.5;
     options = options.sort(() => Math.random() - probToChange);
@@ -107,11 +107,9 @@ class Play extends Component {
     });
   }
 
-  changeColor({ target = { className: '' } }) {
-    this.setState({
-      answered: true,
-    }, () => this.mountRound());
-    if (target.className === 'correct-answer') this.calcScore();
+  changeColor() {
+    const { answered } = this.state;
+    return answered;
   }
 
   nextQuestion() {
@@ -138,7 +136,7 @@ class Play extends Component {
     const counter = setInterval(() => {
       this.setState((previousState) => {
         if (previousState.time === minTime || previousState.answered) {
-          this.changeColor({});
+          this.finishingRound({});
           clearInterval(counter);
         } else {
           return ({ time: previousState.time - 1 });
@@ -149,13 +147,27 @@ class Play extends Component {
 
   render() {
     const { questionOfRound, isLoading, time, answersOfRound, answered } = this.state;
+    const color = {
+      'wrong-answer': '3px solid rgb(255, 0, 0)',
+      'correct-answer': '3px solid rgb(6, 240, 15)',
+    };
+    const { changeColor } = this;
     return (
       <main>
         <Header />
         {questionOfRound}
         <span>{time}</span>
         <aside>
-          {isLoading ? <div>Carregando...</div> : answersOfRound}
+          {isLoading
+            ? <div>Carregando...</div>
+            : answersOfRound.map((answer) => (
+              <input
+                { ...answer }
+                key={ answer.id }
+                disabled={ changeColor() }
+                style={ { border: changeColor() ? color[answer.className] : '' } }
+              />
+            ))}
         </aside>
 
         <button
