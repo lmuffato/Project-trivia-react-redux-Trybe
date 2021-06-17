@@ -27,6 +27,8 @@ class Header extends React.Component {
   render() {
     const { Gravatar } = this.state;
     const { getEmail: { name }, score } = this.props;
+    console.log('header score');
+    console.log(score);
 
     return (
       <section>

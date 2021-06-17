@@ -7,14 +7,6 @@ const INITIAL_STATE = {
   gravatar: {},
 };
 
-const objState = {
-  player: {
-    name: '',
-    assertions: 0,
-    score: 0,
-    gravatarEmail: '',
-  },
-};
 
 const ArrState = [
   {
@@ -35,8 +27,8 @@ export default function PlayerReducer(state = INITIAL_STATE, action) {
     };
   case 'SUCCESS_REQUEST':
     localStorage.setItem('token', JSON.stringify(action.data.token));
-    localStorage.setItem('state', JSON.stringify(objState));
     localStorage.setItem('ranking', JSON.stringify(ArrState));
+    localStorage.setItem('state', JSON.stringify(action.objState));
     return {
       ...state, user: action.data,
     };

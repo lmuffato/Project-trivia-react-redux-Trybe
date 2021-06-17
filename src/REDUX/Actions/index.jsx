@@ -23,9 +23,17 @@ export const errorRequest = (error) => ({
   error,
 });
 
-export const successRequest = (data) => ({
+export const successRequest = ({ data, name, email }) => ({
   type: 'SUCCESS_REQUEST',
   data,
+  objState: {
+    player: {
+      name,
+      assertions: 0,
+      score: 0,
+      gravatarEmail: email,
+    },
+  },
 });
 
 export const successQuestions = (data) => ({
@@ -79,6 +87,6 @@ export const ThunkAPI = (name, email) => async (dispatch) => {
     .then((response) => (response.json()))
     .then((data) => {
       dispatch(ThunkTrivia(data.token));
-      dispatch(successRequest(data));
+      dispatch(successRequest({ data, name, email }));
     });
 };
