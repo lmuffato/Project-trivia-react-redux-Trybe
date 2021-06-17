@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { user, token } from '../../actions';
 import { tokenAPI } from '../../services/api';
 import logo from '../../images/trivia.png';
+import engrenagem from '../../images/engrenagem.png';
 import './styles.css';
 
 class Login extends Component {
@@ -85,7 +86,9 @@ class Login extends Component {
           </button>
         </form>
         <Link to="/settings">
-          <button type="button" data-testid="btn-settings">Configurações</button>
+          <button className="config" type="button" data-testid="btn-settings">
+            <img src={ engrenagem } className="engrenagem" alt="engrenagem" />
+          </button>
         </Link>
       </div>
     );

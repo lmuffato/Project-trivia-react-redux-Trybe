@@ -19,14 +19,16 @@ class Header extends React.Component {
           data-testid="header-profile-picture"
           alt="Avatar"
         />
-        <span data-testid="header-player-name">
-          Player name:
-          { userName }
-        </span>
-        <span data-testid="header-score">
-          Score:
-          { score }
-        </span>
+        <div>
+          <span data-testid="header-player-name">
+            { userName }
+            <p> </p>
+          </span>
+          <span data-testid="header-score">
+            Score:
+            { score }
+          </span>
+        </div>
       </header>
     );
   }

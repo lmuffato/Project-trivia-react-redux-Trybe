@@ -1,0 +1,27 @@
+*{
+  margin: 0;
+  padding: 3px;
+}
+
+.root{
+  margin-top: 100px;
+  width: 75%;
+  max-width: 500px;
+  height: 75%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.respostas{
+  margin-top: 0;
+}
+
+.categoria{
+  position: absolute;
+  top: -90px;
+  right: -10vw;
+  font-size: 35px;
+  font-family: Arial, Helvetica, sans-serif;
+}

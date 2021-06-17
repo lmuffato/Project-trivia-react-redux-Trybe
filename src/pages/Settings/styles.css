@@ -1,0 +1,9 @@
+.voltar{
+  position: absolute;
+  width: 35px;
+  height: 35px;
+  top: 2%;
+  left: 90%;
+  background: transparent;
+  border: none;
+}

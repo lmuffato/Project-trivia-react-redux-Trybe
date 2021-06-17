@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { questionsApi, setScore } from '../../actions';
 import { triviaAPI } from '../../services/api';
 import Header from '../../components/Header';
+import './styles.css';
 
 class DisplayGame extends React.Component {
   constructor(props) {
@@ -131,15 +132,15 @@ class DisplayGame extends React.Component {
 
     return (
       <>
-        <Header />
-        <div>
-          <span data-testid="question-category">{ category }</span>
+        <div className="root">
+          <span className="categoria" data-testid="question-category">{ category }</span>
           <h2 data-testid="question-text">{ question }</h2>
-          <div>
+          <div className="respostas">
             { this.createAnswers(questionsApiGames[questionIndex]) }
           </div>
           { displayNextButton ? this.nextButton() : 0 }
         </div>
+        <Header />
       </>
     );
   }
