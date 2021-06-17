@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Timer from '../components/Timer';
 import { fetchQuestions } from '../actions';
+import { conditionScore } from '../services/score';
 import Header from '../components/Header';
 import './GamePlay.css';
 
@@ -13,7 +14,6 @@ class GamePlay extends React.Component {
       index: 0,
       disable: false,
       visible: false,
-      lastTime: 0,
       stop: false,
       dificuldade: {
         hard: {
@@ -31,12 +31,12 @@ class GamePlay extends React.Component {
       },
       correctClass: 'answer',
       wrongClass: 'answer',
-      // player: {
-      //   name: '',
-      //   assertions: 0,
-      //   score: 0,
-      //   gravatarEmail: '',
-      // },
+      player: {
+        name: '',
+        assertions: 0,
+        score: 0,
+        gravatarEmail: '',
+      },
     };
     this.renderQuestions = this.renderQuestions.bind(this);
     this.showNextQuestionBtn = this.showNextQuestionBtn.bind(this);
@@ -45,18 +45,12 @@ class GamePlay extends React.Component {
     this.showNextQuestionBtn = this.showNextQuestionBtn.bind(this);
     this.handleAlternativeClick = this.handleAlternativeClick.bind(this);
     this.timeCondition = this.timeCondition.bind(this);
-    this.getSeconds = this.getSeconds.bind(this);
+    // this.sendLocalStorage = this.sendLocalStorage.bind(this);
   }
 
   componentDidMount() {
     const { token, fecthQuestionsAction } = this.props;
     fecthQuestionsAction(token);
-  }
-
-  getSeconds(seconds) {
-    this.setState({
-      lastTime: seconds,
-    });
   }
 
   timeCondition() {
@@ -80,31 +74,33 @@ class GamePlay extends React.Component {
     }
   }
 
+  sendLocalStorage(points, props) {
+    const { nameStore, emailStore } = props;
+    const { player } = this.state;
+
+    let correctAnswer;
+    correctAnswer = 0;
+    correctAnswer += 1;
+    points += points;
+
+    this.setState({
+      player: {
+        name: nameStore,
+        assertions: correctAnswer,
+        score: points,
+        gravatarEmail: emailStore,
+      },
+    });
+
+    console.log(player);
+  }
+
   score(difficulty) {
-    const { dificuldade, lastTime } = this.state;
-    const { hard, medium, easy } = dificuldade;
-    const number = 10;
-    let score;
-
-    console.log(difficulty);
-    console.log('tempo', lastTime);
-
-    switch (difficulty) {
-    case (hard.name):
-      score = number + (lastTime * hard.value);
-      console.log(score);
-      break;
-    case (medium.name):
-      score = number + (lastTime * medium.value);
-      console.log(score);
-      break;
-    case (easy.name):
-      score = number + (lastTime * easy.value);
-      console.log(score);
-      break;
-    default:
-      return 'Deu ruim !';
-    }
+    const { props, state } = this;
+    const { dificuldade } = state;
+    const points = conditionScore(difficulty, dificuldade, props);
+    console.log(points);
+    // sendLocalStorage(points, props);
   }
 
   showNextQuestionBtn(difficulty) {
@@ -113,9 +109,10 @@ class GamePlay extends React.Component {
   }
 
   timerComponent() {
-    const { stop } = this.state;
+    const { stop, seconds } = this.state;
     return (
       <Timer
+        seconds={ seconds }
         timeCondition={ this.timeCondition }
         getSeconds={ this.getSeconds }
         stop={ stop }
@@ -207,8 +204,11 @@ class GamePlay extends React.Component {
 
 const mapStateToProps = (state) => ({
   token: state.player.token,
+  nameStore: state.player.name,
+  emailStore: state.player.playerEmail,
   questions: state.triviaReducer.questions,
   loading: state.triviaReducer.isLoading,
+  secondsStore: state.triviaReducer.seconds,
 });
 
 const mapDispatchToProps = (dispatch) => ({

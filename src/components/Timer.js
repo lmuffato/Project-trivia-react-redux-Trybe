@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { getSeconds } from '../actions';
 
 // referencia https://betterprogramming.pub/building-a-simple-countdown-timer-with-react-4ca32763dda7
 
@@ -15,7 +17,6 @@ class Timer extends Component {
   }
 
   componentDidMount() {
-    console.log('Did Mount');
     this.setTime();
   }
 
@@ -28,18 +29,18 @@ class Timer extends Component {
 
     this.timer = setInterval(() => {
       const { seconds } = this.state;
-      const { timeCondition, stop, getSeconds } = this.props;
+      const { timeCondition, stop, sendSeconds } = this.props;
 
       if (seconds === 0 || stop) {
+        console.log('Segundos que vem do Timer', seconds);
         timeCondition();
-        getSeconds(seconds);
-        console.log(seconds);
         clearInterval(this.timer);
       } else if (seconds > 0) {
         this.setState((prevState) => ({
           seconds: prevState.seconds - 1,
         }));
       }
+      sendSeconds(seconds);
     }, UM_SEGUNDO);
   }
 
@@ -71,9 +72,13 @@ class Timer extends Component {
   }
 }
 
+const mapDispatchToProps = (dispatch) => ({
+  sendSeconds: (seconds) => dispatch(getSeconds(seconds)),
+});
+
 Timer.propTypes = {
   timeCondition: PropTypes.func,
   getSeconds: PropTypes.func,
 }.isRequired;
 
-export default Timer;
+export default connect(null, mapDispatchToProps)(Timer);
