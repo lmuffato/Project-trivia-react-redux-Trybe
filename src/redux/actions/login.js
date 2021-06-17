@@ -9,5 +9,6 @@ const dispatchToken = (obj) => ({
 
 export const setToken = () => async (dispatch) => {
   const token = await getToken();
+  localStorage.setItem('token', JSON.stringify(token));
   dispatch(dispatchToken(token));
 };

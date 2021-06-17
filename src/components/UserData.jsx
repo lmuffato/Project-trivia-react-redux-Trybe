@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 
-// vamo que vamo
-
 class UserData extends Component {
   render() {
     const state = JSON.parse(localStorage.getItem('state')) || 0;
@@ -25,7 +23,7 @@ class UserData extends Component {
 
 const mapStateToProps = (state) => ({
   userEmail: state.userData.email,
-  userName: state.userData.name,
+  userName: state.userData.userName,
 });
 
 UserData.propTypes = {

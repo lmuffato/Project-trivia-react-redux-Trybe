@@ -3,6 +3,7 @@ import { Redirect, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { sendUser } from '../redux/actions';
+import { setToken } from '../redux/actions/login';
 
 class Login extends Component {
   constructor() {
@@ -35,19 +36,12 @@ class Login extends Component {
     this.handleAuth();
   }
 
-  async tokenRequest() {
-    const request = await fetch('https://opentdb.com/api_token.php?command=request');
-    const response = await request.json();
-    const { token } = response;
-    localStorage.setItem('token', token);
-  }
-
   dispatchButton() {
-    const { sendDataUser } = this.props;
+    const { sendDataUser, sendToken } = this.props;
     const { userEmail, userName } = this.state;
     const userData = { userEmail, userName };
     sendDataUser(userData);
-    this.tokenRequest();
+    sendToken();
     this.setState({
       redirect: true,
     });
@@ -118,6 +112,7 @@ class Login extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   sendDataUser: (data) => dispatch(sendUser(data)),
+  sendToken: () => dispatch(setToken()),
 });
 
 Login.propTypes = {
