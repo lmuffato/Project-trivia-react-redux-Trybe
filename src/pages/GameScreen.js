@@ -4,7 +4,6 @@ import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import QuestCard from '../components/QuestCard';
-import Timer from '../components/Timer';
 import { updateScoreAction } from '../redux/actions';
 
 class GameScreen extends React.Component {
@@ -24,6 +23,13 @@ class GameScreen extends React.Component {
     this.updateUserScore = this.updateUserScore.bind(this);
     this.calcDifficulty = this.calcDifficulty.bind(this);
     this.onNextClick = this.onNextClick.bind(this);
+    this.runTimer = this.runTimer.bind(this);
+    this.resetTimer = this.resetTimer.bind(this);
+  }
+
+  componentDidMount() {
+    const { time } = this.state;
+    this.runTimer(time);
   }
 
   onNextClick() {
@@ -32,6 +38,7 @@ class GameScreen extends React.Component {
     if (actualQuestion < questions.length - 1) {
       actualQuestion += 1;
       this.setState({ actualQuestion });
+      this.resetTimer();
     } else {
       this.setState({ toFeedback: () => <Redirect to="/feedback" /> });
     }
@@ -43,6 +50,27 @@ class GameScreen extends React.Component {
     this.updateUserScore(validation, questionDifficulty, time);
     answer.push({ ...response, time });
     this.setState({ answer, answered: true });
+  }
+
+  runTimer(time) {
+    const oneSec = 1000;
+    const interval = setInterval(() => {
+      if (time > 0) {
+        time -= 1;
+      } else {
+        clearInterval(interval);
+        const buttons = document.querySelectorAll('button');
+        buttons.forEach((button) => { button.disabled = true; });
+      }
+      this.setState({ time });
+      this.stopTimer(interval, time);
+    }, oneSec);
+  }
+
+  resetTimer() {
+    const { time } = this.props;
+    this.setState({ time, answered: false });
+    this.runTimer(time);
   }
 
   calcDifficulty(difficulty) {
@@ -79,12 +107,12 @@ class GameScreen extends React.Component {
   }
 
   render() {
-    const { questions, time } = this.props;
-    const { actualQuestion, toFeedback } = this.state;
+    const { questions } = this.props;
+    const { actualQuestion, toFeedback, time } = this.state;
     return (
       <>
         <Header />
-        <Timer time={ time } stopTimer={ this.stopTimer } />
+        <h1>{ time }</h1>
         <section>
           { questions === '' ? this.loading() : <QuestCard
             question={ questions[actualQuestion] }
