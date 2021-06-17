@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import Header from '../components/Header';
 // import { ThunkTrivia } from '../REDUX/Actions';
 
@@ -14,6 +15,7 @@ class Game extends React.Component {
       index: 0,
       time: 30,
       globalScore: 0,
+      redirect: false,
     };
     this.handleindex = this.handleindex.bind(this);
     this.HandleTime = this.HandleTime.bind(this);
@@ -54,7 +56,11 @@ class Game extends React.Component {
   }
 
   handleindex() {
-    // const { index } = this.state;
+    const { index } = this.state;
+    const maxQuestion = 4;
+    if (index === maxQuestion) {
+      return this.setState({ redirect: true });
+    }
     this.setState((prevState) => ({
       index: prevState.index + 1,
       time: 30,
@@ -166,7 +172,7 @@ class Game extends React.Component {
   }
 
   render() {
-    const { index, time, nextBtnVisible, globalScore } = this.state;
+    const { index, time, nextBtnVisible, globalScore, redirect } = this.state;
     const { questions, isLoading } = this.props;
 
     let nextbtnvisible2 = nextBtnVisible;
@@ -175,6 +181,9 @@ class Game extends React.Component {
       nextbtnvisible2 = '';
     }
 
+    if (redirect === true) {
+      return (<Redirect to="/feedback" />);
+    }
     if (isLoading === false) {
       return (
         <section>
