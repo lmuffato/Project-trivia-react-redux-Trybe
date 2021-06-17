@@ -10,10 +10,27 @@ class Game extends React.Component {
     this.handlePosition = this.handlePosition.bind(this);
     this.getUserRanking = this.getUserRanking.bind(this);
     this.updateLocalStorage = this.updateLocalStorage.bind(this);
+    this.setTimer = this.setTimer.bind(this);
+    this.changeBorders = this.changeBorders.bind(this);
+  }
+
+  componentDidMount() {
+    this.setTimer();
+  }
+
+  setTimer() {
+    const time = {
+      seconds: 30,
+      milliseconds: 1000,
+    };
+    const countDown = setTimeout(() => {
+      time.seconds -= 1;
+      if (time.seconds === 0) clearInterval(countDown);
+    }, time.milliseconds);
+    return countDown;
   }
 
   getUserRanking(difficulty) {
-    const { getScore } = this.props;
     const fixedPoint = 10;
     let finalPoint = 0;
     let difficultyPoint = 0;
@@ -29,16 +46,27 @@ class Game extends React.Component {
       difficultyPoint = hard;
     }
     finalPoint += fixedPoint + (timer * difficultyPoint);
-    getScore(finalPoint);
+    this.changeBorders();
     this.updateLocalStorage(finalPoint);
   }
 
+  changeBorders() {
+    const correctAnswer = document.getElementsByClassName('correct-answer');
+    correctAnswer[0].style.border = '3px solid rgb(6, 240, 15)';
+
+    const incorrectAnswer = document.querySelectorAll('.wrong-answer');
+    for (let index = 0; index < incorrectAnswer.length; index += 1) {
+      incorrectAnswer[index].style.border = '3px solid rgb(255, 0, 0)';
+    }
+  }
+
   updateLocalStorage(score) {
-    const { getName, getUrl } = this.props;
+    const { getName, getUrl, getScore } = this.props;
     const ranking = [
       { name: getName, score, picture: getUrl },
     ];
     localStorage.setItem('ranking', JSON.stringify(ranking));
+    getScore(score);
   }
 
   handlePosition() {
@@ -47,7 +75,6 @@ class Game extends React.Component {
       return;
     }
     const categoryFilter = results.filter((category) => results.indexOf(category) === 0);
-    console.log(categoryFilter);
     return categoryFilter.map((category) => (
       <div key={ category }>
         <h3 data-testid="question-category">
@@ -63,6 +90,8 @@ class Game extends React.Component {
             data-testid={ `wrong-answer-${index}` }
             key={ index }
             type="button"
+            onClick={ this.changeBorders }
+            className="wrong-answer"
           >
             {incorrect}
 
@@ -72,6 +101,7 @@ class Game extends React.Component {
           data-testid="correct-answer"
           type="button"
           onClick={ () => this.getUserRanking(category.difficulty) }
+          className="correct-answer"
         >
           {category.correct_answer}
 
@@ -81,6 +111,7 @@ class Game extends React.Component {
   }
 
   render() {
+    console.log(this.setTimer());
     return (
       <>
         <Header />
