@@ -3,7 +3,7 @@ import Header from '../components/Header';
 
 class Feedback extends React.Component {
   render() {
-/*     const { correctAnswers } = this.props;
+    /*     const { correctAnswers } = this.props;
     const message = '';
     if (correctAnswers < 3) {
 
@@ -13,7 +13,7 @@ class Feedback extends React.Component {
     return (
       <div>
         <Header />
-{/*         <p data-testid="feedback-text">{ message }</p>
+        {/*         <p data-testid="feedback-text">{ message }</p>
         <div>
           <p>Placar final</p>
           <p>Total de pontos: $</p>
