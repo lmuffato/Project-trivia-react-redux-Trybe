@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Timer from '../components/Timer';
-import { fetchQuestions } from '../actions';
+import { fetchQuestions, shouldTimerRestartAction } from '../actions';
+import { conditionScore } from '../services/score';
 import Header from '../components/Header';
 import './GamePlay.css';
 
@@ -11,13 +12,40 @@ class GamePlay extends React.Component {
     super(props);
     this.state = {
       index: 0,
+      disable: false,
       visible: false,
+      stop: false,
+      dificuldade: {
+        hard: {
+          value: 3,
+          name: 'hard',
+        },
+        medium: {
+          value: 2,
+          name: 'medium',
+        },
+        easy: {
+          value: 1,
+          name: 'easy',
+        },
+      },
       correctClass: 'answer',
       wrongClass: 'answer',
+      player: {
+        name: '',
+        assertions: 0,
+        score: 0,
+        gravatarEmail: '',
+      },
     };
     this.renderQuestions = this.renderQuestions.bind(this);
     this.showNextQuestionBtn = this.showNextQuestionBtn.bind(this);
+    this.score = this.score.bind(this);
+    this.renderQuestions = this.renderQuestions.bind(this);
+    this.showNextQuestionBtn = this.showNextQuestionBtn.bind(this);
     this.handleAlternativeClick = this.handleAlternativeClick.bind(this);
+    this.timeCondition = this.timeCondition.bind(this);
+    // this.sendLocalStorage = this.sendLocalStorage.bind(this);
   }
 
   componentDidMount() {
@@ -25,33 +53,92 @@ class GamePlay extends React.Component {
     fecthQuestionsAction(token);
   }
 
+  timeCondition(bool) {
+    this.setState({
+      disable: bool,
+      visible: bool,
+      stop: bool,
+    });
+  }
+
   handleClick(value) {
-    const { history } = this.props;
     const four = 4;
-    this.setState({ index: value, visible: false });
+    const { history, makeTimerRestart } = this.props;
+    this.setState({
+      index: value,
+      correctClass: 'answer',
+      wrongClass: 'answer',
+    });
+
     if (value > four) {
-      history.push('/feedback');
+      return history.push('/feedback');
     }
+
+    makeTimerRestart(true);
   }
 
-  showNextQuestionBtn() {
+  sendLocalStorage(points, props) {
+    const { nameStore, emailStore } = props;
+    const { player } = this.state;
+
+    let correctAnswer;
+    correctAnswer = 0;
+    correctAnswer += 1;
+    points += points;
+
+    this.setState({
+      player: {
+        name: nameStore,
+        assertions: correctAnswer,
+        score: points,
+        gravatarEmail: emailStore,
+      },
+    });
+
+    console.log(player);
+  }
+
+  score(difficulty) {
+    const { props, state } = this;
+    const { dificuldade } = state;
+    const points = conditionScore(difficulty, dificuldade, props);
+    console.log(points);
+    // sendLocalStorage(points, props);
+  }
+
+  showNextQuestionBtn(difficulty) {
     this.setState({ visible: true });
+    this.score(difficulty);
   }
 
-  handleAlternativeClick() {
+  timerComponent() {
+    const { stop, seconds } = this.state;
+    return (
+      <Timer
+        seconds={ seconds }
+        timeCondition={ this.timeCondition }
+        getSeconds={ this.getSeconds }
+        stop={ stop }
+      />
+    );
+  }
+
+  handleAlternativeClick(difficulty) {
     // Adição de classe em React baseada em pesquisa no StackOverflow no link:
     // https://stackoverflow.com/questions/28732253/how-to-add-or-remove-a-classname-on-event-in-reactjs
     this.setState((prevState) => ({
       correctClass: `${prevState.correctClass} correct`,
       wrongClass: `${prevState.wrongClass} wrong`,
+      stop: true,
     }));
-    this.showNextQuestionBtn();
+    this.showNextQuestionBtn(difficulty);
   }
 
   renderQuestion(question) {
-    const { correct_answer: correctAnswer,
+    const { difficulty, correct_answer: correctAnswer,
       incorrect_answers: incorrectAnswers } = question;
-    const { correctClass, wrongClass } = this.state;
+    const { correctClass, wrongClass, disable } = this.state;
+    const isDisabled = disable;
     return (
       <div>
         <p data-testid="question-category">{question.category}</p>
@@ -59,8 +146,9 @@ class GamePlay extends React.Component {
         <button
           type="button"
           data-testid="correct-answer"
+          disabled={ isDisabled }
+          onClick={ () => this.handleAlternativeClick(difficulty) }
           className={ correctClass }
-          onClick={ this.handleAlternativeClick }
         >
           { correctAnswer }
         </button>
@@ -69,9 +157,10 @@ class GamePlay extends React.Component {
             <button
               key={ index }
               type="button"
+              disabled={ isDisabled }
               data-testid={ `wrong-answer-${index}` }
+              onClick={ () => this.handleAlternativeClick() }
               className={ wrongClass }
-              onClick={ this.handleAlternativeClick }
             >
               {e}
             </button>
@@ -102,10 +191,12 @@ class GamePlay extends React.Component {
 
   render() {
     const { loading } = this.props;
+
     return (
       <>
         <Header />
-        <Timer />
+        { loading ? ''
+          : this.timerComponent() }
         <main>
           { loading ? 'Loading' : this.renderQuestions() }
         </main>
@@ -116,16 +207,21 @@ class GamePlay extends React.Component {
 
 const mapStateToProps = (state) => ({
   token: state.player.token,
+  nameStore: state.player.name,
+  emailStore: state.player.playerEmail,
   questions: state.triviaReducer.questions,
   loading: state.triviaReducer.isLoading,
+  secondsStore: state.triviaReducer.seconds,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   fecthQuestionsAction: (token) => dispatch(fetchQuestions(token)),
+  makeTimerRestart: (bool) => dispatch(shouldTimerRestartAction(bool)),
 });
 
 GamePlay.propTypes = {
   loading: PropTypes.bool,
+  makeTimerRestart: PropTypes.func,
 }.isRequired;
 
 export default connect(mapStateToProps, mapDispatchToProps)(GamePlay);
