@@ -11,9 +11,10 @@ class Settings extends React.Component {
       type: 'multiple',
     };
   }
+  // modelo a chamada da api com 10 perguntas, token, dificuldade e tipo escolhidos
+  // https://opentdb.com/api.php?amount=10&token=ebd0170c54be4d2c314a83b89a030b5137d6c44543d3ac35bf8fc97ae36d4ced&category=26&difficulty=easy&type=multiple
 
   handleChange({ target: { id, value } }) {
-    // const { id, value } = target;
     this.setState({ [id]: value });
   }
 
