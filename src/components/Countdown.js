@@ -27,7 +27,7 @@ class Countdown extends Component {
   render() {
     const { time } = this.props;
     const { intervalControlSate: intervalTimer } = this.state;
-    console.log(time);
+    // console.log(time);
     if (time <= 0) { clearInterval(intervalTimer); }
     return (
       <div>
