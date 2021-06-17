@@ -17,3 +17,9 @@ export const updateUserScore = (timer, difficulty) => {
   };
   return POINT_BASE + (timer * pointDifficulty[difficulty]);
 };
+
+export const showFeedbackMessage = (score) => {
+  const minAssertion = 3;
+  if (score < minAssertion) return 'Podia ser melhor...';
+  return 'Mandou bem!';
+};

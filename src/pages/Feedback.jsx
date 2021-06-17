@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { string, shape } from 'prop-types';
 
 import md5 from 'crypto-js/md5';
+import { showFeedbackMessage } from '../utils/functions';
 
 class Feedback extends Component {
   render() {
@@ -17,9 +18,7 @@ class Feedback extends Component {
           <p data-testid="header-player-name">{`Jogador ${name}`}</p>
           <p data-testid="header-score">{ storage.player.score }</p>
         </header>
-        <p data-testid="feedback-text">
-          Mandou bem
-        </p>
+        <p data-testid="feedback-text">{showFeedbackMessage(storage.player.score)}</p>
       </>
     );
   }
