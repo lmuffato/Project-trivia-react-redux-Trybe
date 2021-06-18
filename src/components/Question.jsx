@@ -1,108 +1,156 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Button from './Button';
+import Timer from './Timer';
+// import { shuffleListOfAnswers } from '../services/shuffle';
+import { scoreAndAssertionsAction, isTimerActiveAction } from '../actions';
 
 class Question extends Component {
   constructor() {
     super();
     this.state = {
       isButtonDisabled: false,
+      hideButton: 'hide-button',
+      resetTimer: false,
+      red: '',
+      green: '',
     };
-    this.shuffleArr = this.shuffleArr.bind(this);
     this.handleStyle = this.handleStyle.bind(this);
-    // this.handleCorrectAnswer = this.handleCorrectAnswer.bind(this);
+    this.handleScore = this.handleScore.bind(this);
+    this.handleResetColors = this.handleResetColors.bind(this);
+    this.restoreTimer = this.restoreTimer.bind(this);
   }
 
-  shuffleArr(answersArray) {
-    const answers = answersArray;
-    const randomizedArray = [];
-    while (answers.length > 0) {
-      const randomIndex = Math.floor(Math.random() * answers.length);
-      randomizedArray.push(answers[randomIndex]);
-      answers.splice(randomIndex, 1);
-    }
-    return randomizedArray;
+  restoreTimer() {
+    const { setTimer } = this.props;
+    setTimer(true);
+    this.setState({ resetTimer: false });
   }
 
-  // Tive que alterar aqui, pois estava mudando a cor da borda do botão de próxima pergunta,
-  // toda vez que mudava a pergunta do array
   handleStyle() {
-    const btnAnswers = document.getElementsByTagName('button');
-    [...btnAnswers].map((btn) => {
-      if (btn.getAttribute('data-testid') === 'correct-answer') {
-        btn.classList.add('green');
-      }
-      if (btn.getAttribute('data-testid').includes('wrong-answer')) {
-        btn.classList.add('red');
-      }
-      this.setState({ isButtonDisabled: true });
-      const element = document.querySelector('.hide-button');
-      if (element) {
-        return element.setAttribute('class', 'flex');
-      }
-      return '';
+    this.setState({
+      green: 'green',
+      red: 'red',
+      resetTimer: true,
+      hideButton: '',
+      isButtonDisabled: true,
     });
   }
 
-  // handleCorrectAnswer() {
-  //   const btnAssertion = document.querySelector('.correct');
-  //   const btnError = document.querySelectorAll('.incorrect');
-  //   if (btnAssertion.getAttribute('class') === 'correct') {
-  //     console.log('Você acertou!!');
-  //     btnAssertion.classList.add('green');
-  //     return btnError.map((btn) => btn.classList.add('red'));
-  //   }
-  // }
+  // nextButtonReset
+  handleResetColors() {
+    this.setState({ isButtonDisabled: false, green: '', red: '', resetTimer: true });
+  }
+
+  handleLocalStorage() {
+    const { userReducer } = this.props;
+    const { email, user, score, assertions } = userReducer;
+    const userObject = {
+      player: {
+        name: user,
+        assertions,
+        score,
+        gravatarEmail: email,
+      },
+    };
+    localStorage.setItem('state', JSON.stringify(userObject));
+  }
+
+  handleScore() {
+    const { quiz, time } = this.props;
+    const ten = 10;
+    const three = 3;
+    this.handleLocalStorage();
+    switch (quiz.difficulty) {
+    case 'hard':
+      return ten + (time * three);
+    case 'medium':
+      return ten + (time * 2);
+    default:
+      return ten + (time * 1);
+    }
+  }
 
   render() {
-    const { quiz } = this.props;
-    const { correct_answer: correctAnswer } = quiz;
-    const { incorrect_answers: incorrectAnswers } = quiz;
-    const { isButtonDisabled } = this.state;
-    const answers = [...incorrectAnswers, correctAnswer];
-    const shuffledAnswers = this.shuffleArr(answers);
-
+    const { quiz, getNextQuestion, setScore } = this.props;
+    const { correct_answer: correctAnswer, incorrect_answers: incorrectAnswers } = quiz;
+    const { isButtonDisabled, resetTimer, red, green, hideButton } = this.state;
+    const answers = [correctAnswer].concat(incorrectAnswers).sort();
+    const verifyScore = this.handleScore();
     return (
-      <div>
+      <>
+        <Timer
+          resetTimer={ resetTimer }
+          handleStyle={ this.handleStyle }
+          handleRestartTimer={ this.handleResetColors }
+          restoreTimer={ this.restoreTimer }
+        />
+        <h4 data-testid="question-category">{ quiz.category }</h4>
+        <h5>{ quiz.difficulty }</h5>
+        <p data-testid="question-text">{ quiz.question }</p>
+        { answers.map((answer, index) => (answer === correctAnswer ? (
+          <Button
+            key={ answer }
+            className={ green }
+            dataTestid="correct-answer"
+            onClick={ () => { this.handleStyle(); setScore(verifyScore); } }
+            disabled={ isButtonDisabled }
+          >
+            { answer }
+          </Button>
+        ) : (
+          <Button
+            key={ answer }
+            className={ red }
+            dataTestid={ `wrong-answer-${index}` }
+            onClick={ this.handleStyle }
+            disabled={ isButtonDisabled }
+          >
+            { answer }
+          </Button>
+        )))}
         <div>
-          <h4 data-testid="question-category">
-            { quiz.category }
-          </h4>
-          <h5>{ quiz.difficulty }</h5>
-          <p data-testid="question-text">{ quiz.question }</p>
-          { shuffledAnswers.map((answer, index) => (answer === correctAnswer ? (
-            <Button
-              key={ answer }
-              className="correct"
-              dataTestid="correct-answer"
-              onClick={ this.handleStyle }
-              disabled={ isButtonDisabled }
-            >
-              { answer }
-            </Button>
-          ) : (
-            <Button
-              key={ answer }
-              className="incorrect"
-              dataTestid={ `wrong-answer-${index}` }
-              onClick={ this.handleStyle }
-              disabled={ isButtonDisabled }
-            >
-              { answer }
-            </Button>
-          )))}
+          <Button
+            dataTestid="btn-next"
+            className={ hideButton }
+            onClick={ () => { getNextQuestion(); this.handleResetColors(); } }
+          >
+            Próxima
+          </Button>
         </div>
-      </div>
+      </>
     );
   }
 }
 
 Question.defaultProps = {
   quiz: {},
+  userReducer: {},
 };
 
 Question.propTypes = {
   quiz: PropTypes.shape(),
+  setScore: PropTypes.func.isRequired,
+  getNextQuestion: PropTypes.func.isRequired,
+  time: PropTypes.number.isRequired,
+  userReducer: PropTypes.shape(),
+  setTimer: PropTypes.func.isRequired,
 };
 
-export default Question;
+const mapStateToProps = (state) => ({
+  time: state.userReducer.time,
+  userReducer: state.userReducer,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  setScore: (score) => dispatch(scoreAndAssertionsAction(score)),
+  setTimer: (payload) => dispatch(isTimerActiveAction(payload)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Question);
+
+// Referências:
+// Para resolver problema de assincronicidade nas funções que adicionam pontos e acertos ao localStorage e de onde surgiu a ideia de setar as classNames dos buttons via estado do componente:
+// ---> PR do grupo 21 - turma 7: https://github.com/tryber/sd-07-project-trivia-react-redux/pull/545/files
+// Refactoring da função que embaralha o array de respostas: https://github.com/tspeed90/quiz-game/blob/master/src/components/timer.js
