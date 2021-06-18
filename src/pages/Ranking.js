@@ -22,7 +22,10 @@ class Ranking extends React.Component {
       arr.map((e, i) => {
         const { name, score, index, picture } = e;
         return (
-          <li key={ i } className="list-unstyled row">
+          <li
+            key={ i }
+            className="list-unstyled row p-3 text-center justify-content-center"
+          >
             <img
               style={ { width: '150px' } }
               src={ picture }
@@ -30,13 +33,17 @@ class Ranking extends React.Component {
               data-testid="ranking-profile-picture"
             />
             <p
-              className="display-6 col"
+              className="display-4 col"
               data-testid={ `player-name-${index}` }
             >
               { name }
-
             </p>
-            <p className="display-6 col " data-testid={ `player-score-${index}` }>{ score }</p>
+            <p
+              className="display-4 col"
+              data-testid={ `player-score-${index}` }
+            >
+              { score }
+            </p>
           </li>
         );
       }));
@@ -44,20 +51,24 @@ class Ranking extends React.Component {
 
   render() {
     return (
-      <div className="container">
-        <h1
-          data-testid="ranking-title"
-          className="h1 row justify-content-center"
-        >
-          Ranking
-        </h1>
-        <ul>
-          { this.rankingMap(this.rankingSort()) }
-        </ul>
-        <div className="justify-content-center">
+      <div className="container d-grid gap-4 p-3 text-white">
+        <div>
+          <h1
+            data-testid="ranking-title row "
+            className="display-2 row justify-content-center"
+          >
+            Ranking
+          </h1>
+        </div>
+        <div className="container d-grid p-3">
+          <ul>
+            { this.rankingMap(this.rankingSort()) }
+          </ul>
+        </div>
+        <div className="input-group justify-content-center">
           <Link to="/">
             <button
-              className="btn btn-primary row"
+              className="btn btn-secondary row"
               data-testid="btn-go-home"
               type="button"
             >
