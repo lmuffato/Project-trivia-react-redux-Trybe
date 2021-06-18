@@ -41,13 +41,13 @@ class Feedback extends React.Component {
     return (
       <div data-testid="feedback-text">
         <p data-testid="feedback-text">{ this.mensage() }</p>
-        <p data-testid="feedback-total-score">
+        <p>
           Placar final:
-          { score }
+          <span data-testid="feedback-total-score">{ score }</span>
         </p>
-        <p data-testid="feedback-total-question">
-          Acerto:
-          { assertions }
+        <p>
+          Acertos:
+          <span data-testid="feedback-total-question">{ assertions }</span>
         </p>
         <button
           data-testid="btn-play-again"
