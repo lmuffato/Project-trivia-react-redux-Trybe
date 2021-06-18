@@ -8,10 +8,12 @@ class Header extends Component {
     super();
 
     this.updateState = this.updateState.bind(this);
+    this.getScore = this.getScore.bind(this);
 
     this.state = {
       name: '',
       img: '',
+      score: 0,
     };
   }
 
@@ -19,6 +21,17 @@ class Header extends Component {
     const { email } = this.props;
     const emailConvert = md5(email).toString();
     this.updateState(emailConvert);
+  }
+
+  componentDidUpdate() {
+    this.getScore();
+  }
+
+  getScore() {
+    const { score } = this.props;
+    this.setState({
+      score,
+    });
   }
 
   updateState(email) {
@@ -31,12 +44,11 @@ class Header extends Component {
 
   render() {
     const { img, name } = this.state;
-
     return (
       <div>
         <img src={ `https://www.gravatar.com/avatar/${img} ` } alt="avatar" data-testid="header-profile-picture" />
         <h2 data-testid="header-player-name">{ name }</h2>
-        <p data-testid="header-score">0</p>
+        <p data-testid="header-score">{ this.state.score }</p>
       </div>
     );
   }
@@ -45,6 +57,7 @@ class Header extends Component {
 const mapStateToProps = (state) => ({
   email: state.playerReducer.email,
   name: state.playerReducer.name,
+  score: state.playerReducer.score,
 });
 
 export default connect(mapStateToProps, null)(Header);

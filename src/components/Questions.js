@@ -202,7 +202,7 @@ Questions.propTypes = {
   score: PropTypes.number.isRequired,
   assertions: PropTypes.number.isRequired,
   updateScoreProps: PropTypes.func.isRequired,
-  timer: PropTypes.number.isRequired,
+  timer: PropTypes.string.isRequired,
   difficulty: PropTypes.string.isRequired,
 };
 
