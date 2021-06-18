@@ -50,21 +50,6 @@ export const timeIn = () => ({
   type: TIMEIN,
 });
 
-export const categoryAction = (payload) => ({
-  type: SELECT_CATEGORY,
-  payload,
-});
-
-export const dificulteAction = (payload) => ({
-  type: SELECT_DIFICULTE,
-  payload,
-});
-
-export const typeAction = (payload) => ({
-  type: SELECT_TYPE,
-  payload,
-});
-
 export const reset = () => ({
   type: RESET,
 });

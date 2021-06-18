@@ -25,10 +25,14 @@ export const getToken = async () => {
 };
 
 export async function fetchAPI(token, category, dificulty, type) {
-  const cat = `category=${category}`;
-  const df = `difficulty=${dificulty}`;
-  const tp = `type=${type}`;
-  const URL = `https://opentdb.com/api.php?amount=5&${cat}&${df}&${tp}&token=${token}`;
+  let cat = `&category=${category}`;
+  let df = `&difficulty=${dificulty}`;
+  let tp = `&type=${type}`;
+  if (category === null) cat = '';
+  if (dificulty === null) df = '';
+  if (type === null) tp = '';
+  const URL = `https://opentdb.com/api.php?amount=5${cat}${df}${tp}&token=${token}`;
+  console.log(URL);
   try {
     const fetchApi = await fetch(URL);
     const apiJson = await fetchApi.json();
