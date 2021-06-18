@@ -37,7 +37,6 @@ class Ranking extends Component {
 
         </center>
 
-      
       </div>
     );
   }
