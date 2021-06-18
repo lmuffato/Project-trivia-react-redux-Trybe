@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import '../App.css';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import trivia from '../trivia.png';
 import { login, fetchToken } from '../actions';
@@ -15,6 +14,8 @@ class Login extends React.Component {
     this.state = {
       name: '',
       email: '',
+      score: 0,
+      assertions: 0,
       playButton: false,
     };
   }
@@ -35,7 +36,7 @@ class Login extends React.Component {
 
   startGame() {
     const { name, email } = this.state;
-    const { loginAction, requestTokenAction } = this.props;
+    const { loginAction, requestTokenAction, history } = this.props;
     requestTokenAction();
     loginAction(this.state);
 
@@ -48,10 +49,12 @@ class Login extends React.Component {
 
     const playerStorage = JSON.stringify(state);
     localStorage.setItem('state', playerStorage);
+    history.push('/gameplay');
   }
 
   renderInputs() {
     const { name, email, playButton } = this.state;
+    const { history } = this.props;
     return (
       <>
         <label htmlFor="name">
@@ -74,24 +77,21 @@ class Login extends React.Component {
             onChange={ this.handleChange }
           />
         </label>
-        <Link to="/gameplay">
-          <button
-            type="button"
-            data-testid="btn-play"
-            disabled={ !playButton }
-            onClick={ this.startGame }
-          >
-            Jogar
-          </button>
-        </Link>
-        <Link to="/settings">
-          <button
-            type="button"
-            data-testid="btn-settings"
-          >
-            Configurações
-          </button>
-        </Link>
+        <button
+          type="button"
+          data-testid="btn-play"
+          disabled={ !playButton }
+          onClick={ this.startGame }
+        >
+          Jogar
+        </button>
+        <button
+          type="button"
+          data-testid="btn-settings"
+          onClick={ () => history.push('/settings') }
+        >
+          Configurações
+        </button>
       </>
     );
   }

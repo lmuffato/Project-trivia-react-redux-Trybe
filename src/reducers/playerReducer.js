@@ -16,6 +16,8 @@ const player = (state = INITIAL_STATE, action) => {
       ...state,
       name: action.payload.name,
       playerEmail: action.payload.email,
+      assertions: action.payload.assertions,
+      score: action.payload.score,
     };
   case REQUEST_TOKEN:
     return {
