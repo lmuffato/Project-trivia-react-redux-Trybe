@@ -2,7 +2,7 @@ import { DISABLE_ANS, UPDATE_TIME, VERIFY_ANSWERED } from '../actions';
 
 const INITIAL_STATE = {
   timesUp: false,
-  timer: 30,
+  timer: 70,
   isAnswered: true,
 };
 

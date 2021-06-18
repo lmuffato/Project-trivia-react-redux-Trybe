@@ -11,6 +11,7 @@ export const UPDATE_ASSERTIONS = 'UPDATE_ASSERTIONS';
 export const DISABLE_ANS = 'DISABLE_ANS';
 export const UPDATE_TIME = 'UPDATE_TIME';
 export const VERIFY_ANSWERED = 'VERIFY_ANSWERED';
+export const CLEAR_PLAYER_STATE = 'CLEAR_PLAYER_STATE';
 
 export function requestApi() {
   return {
@@ -112,4 +113,8 @@ export function disableAnswer(payload) {
 
 export function updateTime(time) {
   return { type: UPDATE_TIME, payload: time };
+}
+
+export function clearPlayerState(payload) {
+  return { type: CLEAR_PLAYER_STATE, payload };
 }
