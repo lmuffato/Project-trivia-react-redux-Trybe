@@ -5,7 +5,7 @@ import Header from '../components/Header';
 
 class Feedback extends React.Component {
   render() {
-    const { assertions } = this.props;
+    const { assertions, score } = this.props;
     const Rate = 3;
     return (
       <div>
@@ -13,6 +13,14 @@ class Feedback extends React.Component {
         <h1 data-testid="feedback-text">
           {assertions >= Rate ? 'Mandou bem!' : 'Podia ser melhor...'}
         </h1>
+        <span>Você acertou:</span>
+        <span data-testid="feedback-total-question">
+          {assertions}
+        </span>
+        <span>Seus pontos totais são:</span>
+        <span data-testid="feedback-total-score">
+          {score}
+        </span>
       </div>
     );
   }
@@ -20,6 +28,7 @@ class Feedback extends React.Component {
 
 const mapStateToProps = (state) => ({
   assertions: state.player.assertions,
+  score: state.player.score,
 });
 
 Feedback.propTypes = {
