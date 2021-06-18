@@ -29,8 +29,8 @@ class Game extends Component {
   }
 
   componentDidMount() {
-    const { fetchAPI } = this.props;
-    fetchAPI();
+    const { fetchAPI, stateCategory, stateDificulte, stateType } = this.props;
+    fetchAPI(stateCategory, stateDificulte, stateType);
   }
 
   componentWillUnmount() {
@@ -116,17 +116,20 @@ class Game extends Component {
   }
 }
 const mapDispatchToProps = (dispatch) => ({
-  fetchAPI: () => dispatch(fetchAPIThunk()),
+  fetchAPI: (cat, df, tp) => dispatch(fetchAPIThunk(cat, df, tp)),
   timesUp: () => dispatch(timeOut()),
   addScore: (score) => dispatch(calculateScore(score)),
   next: () => dispatch(timeIn()),
   addAssertions: () => dispatch(sumAssertions()),
 });
 
-const mapStateToProps = ({ apiResponse: { isLoading, apiResult }, player }) => ({
+const mapStateToProps = ({ apiResponse: { isLoading, apiResult }, player, filters }) => ({
   isLoading,
   questionAnswered: player.timeOut,
   apiResult,
+  stateCategory: filters.category,
+  stateDificulte: filters.dificulte,
+  stateType: filters.type,
 });
 
 Game.propTypes = {
@@ -134,6 +137,9 @@ Game.propTypes = {
   isLoading: Proptypes.bool,
   timesUp: Proptypes.func,
   addScore: Proptypes.func,
+  stateCategory: Proptypes.string,
+  stateDificulte: Proptypes.string,
+  stateType: Proptypes.string,
   next: Proptypes.func,
 }.isRequired;
 

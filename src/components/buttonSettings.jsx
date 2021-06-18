@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useLayer, Arrow } from 'react-laag';
+import Settings from '../services/Settings';
 
 export default function Tooltip() {
   const [isOpen, setOpen] = React.useState(false);
@@ -31,7 +32,10 @@ export default function Tooltip() {
             { ...layerProps }
             className="tooltip"
           >
-            <h1 data-testid="settings-title">Configurações</h1>
+            <div>
+              <h1 data-testid="settings-title">Configurações</h1>
+              <Settings />
+            </div>
             <Arrow { ...arrowProps } size={ 15 } roundness={ 0 } />
           </div>,
         )}

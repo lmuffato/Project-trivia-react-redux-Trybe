@@ -9,6 +9,9 @@ export const CALCULATE_SCORE = 'CALCULATE_SCORE';
 export const ADD_ASSERTIONS = 'ADD_ASSERTIONS';
 export const TIMEOUT = 'TIMEOUT';
 export const TIMEIN = 'TIMEIN';
+export const SELECT_CATEGORY = 'SELECT_CATEGORY';
+export const SELECT_TYPE = 'SELECT_TYPE';
+export const SELECT_DIFICULTE = 'SELECT_DIFICULTE';
 export const RESET = 'RESET';
 
 export const getQuestions = () => ({
@@ -47,16 +50,31 @@ export const timeIn = () => ({
   type: TIMEIN,
 });
 
+export const categoryAction = (payload) => ({
+  type: SELECT_CATEGORY,
+  payload,
+});
+
+export const dificulteAction = (payload) => ({
+  type: SELECT_DIFICULTE,
+  payload,
+});
+
+export const typeAction = (payload) => ({
+  type: SELECT_TYPE,
+  payload,
+});
+
 export const reset = () => ({
   type: RESET,
 });
 
-export const fetchAPIThunk = () => async (dispatch) => {
+export const fetchAPIThunk = (category, dificulty, type) => async (dispatch) => {
   // dispatch(getQuestions());
   try {
     const token = getItemFromLocalStorage('token');
 
-    const apiData = await fetchAPI(token);
+    const apiData = await fetchAPI(token, category, dificulty, type);
     dispatch(addQuestionSuccess(apiData));
   } catch (error) {
     dispatch(addQuestionError({

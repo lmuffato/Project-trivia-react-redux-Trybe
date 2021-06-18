@@ -47,7 +47,13 @@ class RenderQuestions extends Component {
   }
 
   renderQuestion() {
-    const { apiResult, question, timeOut } = this.props;
+    const { apiResult, question, timeOut, stateDificulte } = this.props;
+    const renderDificulty = (
+      <p>
+        Dificulty Selected:
+        { stateDificulte }
+      </p>
+    );
     const { results } = apiResult;
     if (results === undefined) return;
     const currQuestion = results[question];
@@ -82,6 +88,7 @@ class RenderQuestions extends Component {
     return (
       <div>
         <p data-testid="question-category">{currQuestion.category}</p>
+        {stateDificulte !== '' ? renderDificulty : ''}
         <h2 data-testid="question-text">{currQuestion.question}</h2>
         { arrsort }
       </div>
@@ -96,13 +103,20 @@ class RenderQuestions extends Component {
     );
   }
 }
-const mapStateToProps = ({ apiResponse: { apiResult }, player: { timeOut } }) => ({
+
+const mapStateToProps = (
+  { apiResponse: { apiResult }, player: { timeOut }, filters },
+) => ({
   apiResult,
   timeOut,
+  stateDificulte: filters.dificulte,
+  stateType: filters.type,
 });
 
 RenderQuestions.propTypes = {
   apiResult: Proptypes.arrayOf(Object),
+  stateDificulte: Proptypes.string,
+  stateType: Proptypes.string,
 }.isRequired;
 
 export default connect(mapStateToProps)(RenderQuestions);
