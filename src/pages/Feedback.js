@@ -40,7 +40,8 @@ class Feedback extends React.Component {
             { `Placar: ${placar}` }
           </h3>
           <h3 data-testid="feedback-total-question">
-            { `Acertos: ${result}` }
+            { result === 0 ? 'Não acertou nenhuma pergunta'
+              : `Acertou ${result} perguntas ` }
           </h3>
         </main>
         <button
