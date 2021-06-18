@@ -1,4 +1,5 @@
 import { GET_QUESTIONS, GET_QUESTIONS_SUCCESS,
+  GET_RANKING,
   GET_TOKEN, GET_TOKEN_SUCCESS } from '../actions';
 
 const INITIAL_STATE = {
@@ -32,6 +33,11 @@ const game = (state = INITIAL_STATE, action) => {
       ...state,
       token: action.payload.token,
       loadingToken: false,
+    };
+  case GET_RANKING:
+    return {
+      ...state,
+      ranking: [...state.ranking, action.payload.player],
     };
   default:
     return state;

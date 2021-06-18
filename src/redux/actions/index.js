@@ -8,6 +8,14 @@ export const GET_TOKEN_SUCCESS = 'GET_TOKEN_SUCCESS';
 export const GET_QUESTIONS_SUCCESS = 'GET_QUESTIONS_SUCCESS';
 export const GET_SCORE = 'GET_SCORE';
 export const GET_ASSERTIONS = 'GET_ASSERTIONS';
+export const GET_RANKING = 'GET_RANKING';
+
+export const getRanking = (player) => ({
+  type: GET_RANKING,
+  payload: {
+    player,
+  },
+});
 
 export const login = (name, gravatarEmail) => ({
   type: LOGIN,
