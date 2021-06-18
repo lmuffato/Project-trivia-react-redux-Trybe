@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Proptypes from 'prop-types';
+import { decode } from 'he';
 
 class RenderAnswers extends Component {
   constructor(props) {
@@ -67,7 +68,7 @@ class RenderAnswers extends Component {
         onClick={ (event) => this.handleAnswerClick(event, questionLevel) }
         className="correct-answer"
       >
-        {currQuestion.correct_answer}
+        {decode(currQuestion.correct_answer)}
       </button>);
     const arrayInCorretAnswers = currQuestion.incorrect_answers
       .map((answer, index) => (
@@ -79,7 +80,7 @@ class RenderAnswers extends Component {
           onClick={ (event) => this.handleAnswerClick(event, questionLevel) }
           className="wrong-answer"
         >
-          { answer }
+          { decode(answer) }
         </button>
       ));
     const arrayAllAnswers = arrayInCorretAnswers.concat(correctQuestion);
@@ -88,7 +89,7 @@ class RenderAnswers extends Component {
       <div>
         <p data-testid="question-category">{currQuestion.category}</p>
         <p>{currQuestion.difficulty}</p>
-        <h2 data-testid="question-text">{currQuestion.question}</h2>
+        <h2 data-testid="question-text">{decode(currQuestion.question)}</h2>
         { arrsort }
       </div>
     );
