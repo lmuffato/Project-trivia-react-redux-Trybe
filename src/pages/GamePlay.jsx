@@ -48,7 +48,7 @@ class GamePlay extends React.Component {
     this.sendLocalStorage = this.sendLocalStorage.bind(this);
   }
 
-  async componentDidUpdate() {
+  async componentDidMount() {
     const { token, questions, fecthQuestionsAction, filters } = this.props;
     if (questions.length === 0) await fecthQuestionsAction(token, filters);
   }

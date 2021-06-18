@@ -16,6 +16,8 @@ class Login extends React.Component {
       name: '',
       email: '',
       playButton: false,
+      score: 0,
+      assertions: 0,
     };
   }
 
@@ -36,9 +38,10 @@ class Login extends React.Component {
   async startGame() {
     const { name, email } = this.state;
     const { loginAction, requestTokenAction, history } = this.props;
+    const ONE_SECOND = 1000;
     await requestTokenAction();
     loginAction(this.state);
-    history.push('/gameplay');
+    setTimeout(() => history.push('/gameplay'), ONE_SECOND);
     const state = { player: {
       name,
       assertions: 0,
