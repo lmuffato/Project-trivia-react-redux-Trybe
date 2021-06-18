@@ -24,7 +24,27 @@ class Header extends React.Component {
     const { name, score } = this.props;
     const { gravatar } = this.state;
     return (
-      <>
+      <div className="container">
+        <div className="row">
+          <div className="col">
+            1 of 2
+          </div>
+          <div className="col">
+            2 of 2
+          </div>
+        </div>
+        <div className="row">
+          <div className="col">
+            1 of 3
+          </div>
+          <div className="col">
+            2 of 3
+          </div>
+          <div className="col">
+            3 of 3
+          </div>
+        </div>
+
         <img
           src={ gravatar }
           alt="User"
@@ -32,7 +52,7 @@ class Header extends React.Component {
         />
         <p data-testid="header-player-name">{ name }</p>
         <p data-testid="header-score">{score}</p>
-      </>
+      </div>
     );
   }
 }
