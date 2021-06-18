@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import md5 from 'crypto-js/md5';
 import './Header.css';
+import { Link } from 'react-router-dom';
 import { setUrlAction } from '../actions/index';
 
 class Header extends Component {
@@ -40,6 +41,9 @@ class Header extends Component {
           {' '}
           { getScore }
         </h3>
+        <Link to="/ranking">
+          <button type="button">Ver Ranking</button>
+        </Link>
       </div>
     );
   }
