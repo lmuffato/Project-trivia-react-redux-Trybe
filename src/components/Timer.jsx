@@ -35,7 +35,6 @@ class Timer extends Component {
       return currentTime();
     }
     if (!timesUp) this.setState((previousState) => ({ time: previousState.time - 1 }));
-
   }
 
   render() {

@@ -3,9 +3,19 @@ import { connect } from 'react-redux';
 import Proptypes from 'prop-types';
 
 class RenderAnswers extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.dificultyLevel = this.dificultyLevel.bind(this);
+    this.paintBorder = this.paintBorder.bind(this);
+  }
+
+  paintBorder() {
+    const correct = document.getElementsByClassName('correct-answer');
+    correct[0].style.border = '3px solid rgb(6, 240, 15)';
+    const incorrect = document.querySelectorAll('.wrong-answer');
+    for (let i = 0; i < incorrect.length; i += 1) {
+      incorrect[i].style.border = '3px solid rgb(255, 0, 0)';
+    }
   }
 
   sortArr(arr) {
@@ -38,12 +48,7 @@ class RenderAnswers extends Component {
   handleAnswerClick(event, questionLevel) {
     const { checkAnswer } = this.props;
     checkAnswer(event, questionLevel);
-    const correct = document.getElementsByClassName('correct-answer');
-    correct[0].style.border = '3px solid rgb(6, 240, 15)';
-    const incorrect = document.querySelectorAll('.wrong-answer');
-    for (let i = 0; i < incorrect.length; i += 1) {
-      incorrect[i].style.border = '3px solid rgb(255, 0, 0)';
-    }
+    this.paintBorder(true);
   }
 
   renderQuestion() {
@@ -96,6 +101,13 @@ class RenderAnswers extends Component {
   }
 
   render() {
+    const { timeOut } = this.props;
+    if (!timeOut) {
+      const buttons = document.querySelectorAll('button');
+      for (let i = 0; i < buttons.length; i += 1) {
+        buttons[i].style.border = 'none';
+      }
+    }
     return (
       <div>
         {this.renderQuestion()}
