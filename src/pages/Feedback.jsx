@@ -30,6 +30,9 @@ class Feedback extends Component {
         <h1> Feedback </h1>
         <div>{ score }</div>
         <div>{ this.assertion }</div>
+        <form action="/ranking">
+          <button data-testid="btn-ranking" type="submit">Ranking</button>
+        </form>
         <form action="/">
           <button
             type="submit"

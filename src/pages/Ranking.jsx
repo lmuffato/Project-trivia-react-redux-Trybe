@@ -6,7 +6,7 @@ class Ranking extends Component {
       <>
         <h1> Ranking </h1>
         <form action="/">
-          <button type="submit" data-testeid="btn-go-home">Jogar novamente</button>
+          <button type="submit" data-testid="btn-go-home">Jogar novamente</button>
         </form>
       </>
     );
