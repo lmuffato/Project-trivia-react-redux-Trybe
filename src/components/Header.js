@@ -14,6 +14,7 @@ class Header extends React.Component {
 
   render() {
     const { nameStore, scoreStore, emailHash } = this.props;
+    console.log(scoreStore);
     this.requestAvatar();
     return (
       <header>
