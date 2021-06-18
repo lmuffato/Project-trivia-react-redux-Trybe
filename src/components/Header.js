@@ -12,7 +12,16 @@ class Header extends React.Component {
   }
 
   componentDidMount() {
-    const { email } = this.props;
+    const { email, nome } = this.props;
+    const state = { player: {
+      name: nome,
+      assertions: 0,
+      score: 0,
+      gravatarEmail: email,
+    } };
+    if (!localStorage.getItem('state')) {
+      localStorage.setItem('state', JSON.stringify(state));
+    }
     api.fetchGravatar(email).then((imgUrl) => this.setState({ imgUrl }));
   }
 
