@@ -31,8 +31,11 @@ class Game extends Component {
   }
 
   componentDidMount() {
-    const { fetchAPI, stateCategory, stateDificulte, stateType } = this.props;
-    fetchAPI(stateCategory, stateDificulte, stateType);
+    const { fetchAPI } = this.props;
+    const category = getItemFromLocalStorage('category');
+    const difficulty = getItemFromLocalStorage('difficulty');
+    const type = getItemFromLocalStorage('type');
+    fetchAPI(category, difficulty, type);
   }
 
   componentWillUnmount() {
@@ -136,14 +139,11 @@ const mapDispatchToProps = (dispatch) => ({
   addAssertions: () => dispatch(sumAssertions()),
 });
 
-const mapStateToProps = ({ apiResponse: { isLoading, apiResult }, player, filters }) => ({
+const mapStateToProps = ({ apiResponse: { isLoading, apiResult }, player }) => ({
   isLoading,
   player,
   questionAnswered: player.timeOut,
   apiResult,
-  stateCategory: filters.category,
-  stateDificulte: filters.dificulte,
-  stateType: filters.type,
 });
 
 Game.propTypes = {

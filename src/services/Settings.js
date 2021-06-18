@@ -1,7 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { categoryAction, dificulteAction, typeAction } from '../actions/index';
+import { setToLocalStorage } from './storage';
 
 class Settings extends React.Component {
   constructor() {
@@ -11,10 +9,25 @@ class Settings extends React.Component {
     };
     this.APIfetch = this.APIfetch.bind(this);
     this.selectId = this.selectId.bind(this);
+    this.setCategory = this.setCategory.bind(this);
+    this.setDificulte = this.setDificulte.bind(this);
+    this.setType = this.setType.bind(this);
   }
 
   componentDidMount() {
     this.APIfetch();
+  }
+
+  setCategory(event) {
+    setToLocalStorage('category', event.target.value);
+  }
+
+  setDificulte(event) {
+    setToLocalStorage('difficulty', event.target.value);
+  }
+
+  setType(event) {
+    setToLocalStorage('type', event.target.value);
   }
 
   async APIfetch() {
@@ -24,12 +37,11 @@ class Settings extends React.Component {
   }
 
   selectId() {
-    const { selectCategory } = this.props;
     const { categories } = this.state;
     const arrayCategoiries = categories.trivia_categories;
     if (arrayCategoiries !== undefined) {
       return (
-        <select onChange={ (event) => selectCategory(event.target.value) }>
+        <select onChange={ this.setCategory }>
           {
             arrayCategoiries.map((category) => {
               const { id, name } = category;
@@ -43,17 +55,16 @@ class Settings extends React.Component {
   }
 
   render() {
-    const { selectDificulte, selectType } = this.props;
     return (
       <form>
         {this.selectId()}
-        <select onChange={ (event) => selectDificulte(event.target.value) }>
-          <option value="">Any Difficulty</option>
+        <select onChange={ this.setDificulte }>
+          <option>Any Difficulty</option>
           <option value="easy">Easy</option>
           <option value="medium">Medium</option>
           <option value="hard">Hard</option>
         </select>
-        <select onChange={ (event) => selectType(event.target.value) }>
+        <select onChange={ this.setType }>
           <option>Any Type</option>
           <option value="multiple">Multiple Choice</option>
           <option value="boolean">True / False</option>
@@ -63,16 +74,4 @@ class Settings extends React.Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  selectCategory: (payload) => dispatch(categoryAction(payload)),
-  selectDificulte: (payload) => dispatch(dificulteAction(payload)),
-  selectType: (payload) => dispatch(typeAction(payload)),
-});
-
-Settings.propTypes = {
-  selectCategory: PropTypes.func.isRequired,
-  selectDificulte: PropTypes.func.isRequired,
-  selectType: PropTypes.func.isRequired,
-};
-
-export default connect(null, mapDispatchToProps)(Settings);
+export default Settings;
