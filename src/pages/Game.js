@@ -2,24 +2,23 @@ import React, { Component } from 'react';
 import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getQuestions } from '../services/dataApi';
 import '../styles/Game.css';
 import Timer from '../components/Timer';
 import {
   clockStoper,
   disable,
-  changeTrueOrFalse,
+  resetTimer,
   hidden,
   resetCurrentTime,
   changeScore,
 } from '../actions';
+import { requestQuestionsThunk } from '../actions/requestQuestions';
 
 class Game extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      questions: [],
       index: 0,
       shuffle: [],
     };
@@ -43,11 +42,8 @@ class Game extends Component {
   }
 
   fetchQuestions() {
-    const { token } = this.props;
-    return getQuestions(token)
-      .then((data) => this.setState({
-        questions: data.results,
-      }));
+    const { token, getQuestions } = this.props;
+    return getQuestions(token);
   }
 
   removeButtonBorder() {
@@ -69,12 +65,14 @@ class Game extends Component {
   }
 
   shuffleArray() {
-    // Função baseada em um dos exemplos da página a seguir: https://www.delftstack.com/pt/howto/javascript/shuffle-array-javascript/
-    const { questions, index } = this.state;
+    const { index } = this.state;
+    const { questions } = this.props;
+    console.log(questions);
     const sortControl = 0.5;
     const answers = [questions[index].correct_answer,
       ...questions[index].incorrect_answers,
     ];
+    // Função baseada em um dos exemplos da página a seguir: https://www.delftstack.com/pt/howto/javascript/shuffle-array-javascript/
     const shuffle = answers.sort(() => Math.random() - sortControl);
     this.setState({
       shuffle,
@@ -84,7 +82,7 @@ class Game extends Component {
   saveScore() {
     let multiplier = 0;
     const factors = { null: 0, easy: 1, medium: 2, hard: 3, increment: 10 };
-    const { state: { questions, index }, props: { currentTime, editScore } } = this;
+    const { state: { index }, props: { questions, currentTime, editScore } } = this;
     switch (questions[index].difficulty) {
     case 'easy':
       multiplier = factors.easy;
@@ -104,7 +102,7 @@ class Game extends Component {
   }
 
   createAnswersButtons(answer, i) {
-    const { state: { questions, index }, props: { disableAnswer } } = this;
+    const { state: { index }, props: { questions, disableAnswer } } = this;
     // console.log(questions);
     if (answer === questions[index].correct_answer) {
       console.log(questions[index].correct_answer);
@@ -160,11 +158,11 @@ class Game extends Component {
       editDisable,
       editClockStoper,
       editCurrentTime,
-      editTrueOrFalse,
+      editResetTimer,
     } = this.props;
     editCurrentTime();
     editClockStoper(false);
-    editTrueOrFalse(true);
+    editResetTimer(true);
     editDisable(false);
     editHidden(true);
   }
@@ -183,8 +181,8 @@ class Game extends Component {
   }
 
   render() {
-    const { state: { questions, index, shuffle },
-      props: { emailDoUsuario, nomeDoUsuario, hiddenBtnNext, score } } = this;
+    const { state: { index, shuffle },
+      props: { emailDoUsuario, nomeDoUsuario, hiddenBtnNext, score, questions } } = this;
     const hashGerada = md5(emailDoUsuario).toString();
     if (questions.length === 0) return <h2>loading...</h2>;
     return (
@@ -220,6 +218,7 @@ class Game extends Component {
 const mapStateToProps = ({
   player: { email, name, token },
   gameReducer: { disableAnswer, hiddenBtnNext, currentTime, score },
+  questionsReducer: { questions },
 }) => ({
   emailDoUsuario: email,
   nomeDoUsuario: name,
@@ -228,6 +227,7 @@ const mapStateToProps = ({
   hiddenBtnNext,
   currentTime,
   score,
+  questions,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -235,8 +235,9 @@ const mapDispatchToProps = (dispatch) => ({
   editHidden: (payload) => dispatch(hidden(payload)),
   editClockStoper: (payload) => dispatch(clockStoper(payload)),
   editCurrentTime: () => dispatch(resetCurrentTime()),
-  editTrueOrFalse: (payload) => dispatch(changeTrueOrFalse(payload)),
+  editResetTimer: (payload) => dispatch(resetTimer(payload)),
   editScore: (payload) => dispatch(changeScore(payload)),
+  getQuestions: (payload) => dispatch(requestQuestionsThunk(payload)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);

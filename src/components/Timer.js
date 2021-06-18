@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { func } from 'prop-types';
-import { currentTime, disable, changeTrueOrFalse, hidden } from '../actions';
+import { currentTime, disable, resetTimer, hidden } from '../actions';
 
 class Timer extends Component {
   constructor(props) {
@@ -14,10 +14,10 @@ class Timer extends Component {
   }
 
   componentDidUpdate() {
-    const { trueOrFalse, editTrueOrFalse } = this.props;
-    if (trueOrFalse) {
+    const { resetCurrentTimer, editResetTimer } = this.props;
+    if (resetCurrentTimer) {
       this.tick();
-      editTrueOrFalse(false);
+      editResetTimer(false);
     }
     const {
       editDisable,
@@ -57,13 +57,13 @@ const mapDispatchToProps = (dispatch) => ({
   editDisable: (payload) => dispatch(disable(payload)),
   editHidden: (payload) => dispatch(hidden(payload)),
   editCurrentTime: (payload) => dispatch(currentTime(payload)),
-  editTrueOrFalse: (payload) => dispatch(changeTrueOrFalse(payload)),
+  editResetTimer: (payload) => dispatch(resetTimer(payload)),
 });
 
-const mapStateToProps = (state) => ({
-  currentTimeValue: state.gameReducer.currentTime,
-  clockStoper: state.gameReducer.clockStoper,
-  trueOrFalse: state.gameReducer.changeTrueOrFalse,
+const mapStateToProps = ({ gameReducer }) => ({
+  currentTimeValue: gameReducer.currentTime,
+  clockStoper: gameReducer.clockStoper,
+  resetCurrentTimer: gameReducer.resetTimer,
 });
 
 Timer.propTypes = {
