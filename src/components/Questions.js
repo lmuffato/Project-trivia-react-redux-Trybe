@@ -16,11 +16,17 @@ class Questions extends Component {
     this.alternativeClick = this.alternativeClick.bind(this);
     this.createAlternativesButtons = this.createAlternativesButtons.bind(this);
     this.mockAlternatives = this.mockAlternatives.bind(this);
+    this.createButtonNext = this.createButtonNext.bind(this);
+    this.setEnableNextButton = this.setEnableNextButton.bind(this);
+    this.state = {
+      enableNextButton: false,
+    };
   }
 
-  stopCountdown() {
-    const { props: { timerID } } = this;
-    clearInterval(timerID);
+  setEnableNextButton() {
+    this.setState({
+      enableNextButton: true,
+    });
   }
 
   addBorderOnClick() {
@@ -59,6 +65,17 @@ class Questions extends Component {
     localStorage.setItem('state', JSON.stringify({ player: updatedPlayer }));
   }
 
+  createButtonNext() {
+    return (
+      <button
+        data-testid="btn-next"
+        type="button"
+      >
+        Próximo
+      </button>
+    );
+  }
+
   alternativeClick(event) {
     event.persist();
     const {
@@ -66,8 +83,8 @@ class Questions extends Component {
       stopCountdown,
       addBorderOnClick,
       disableAlternativeButtons,
-      updateScoreToLS } = this;
-
+      updateScoreToLS,
+      setEnableNextButton } = this;
     stopCountdown();
     addBorderOnClick();
     disableAlternativeButtons();
@@ -77,6 +94,7 @@ class Questions extends Component {
     if (isCorrect) {
       updateScoreToLS(seconds, questions[0].difficulty);
     }
+    setEnableNextButton();
   }
 
   createAlternativesButtons(question) {
@@ -106,6 +124,11 @@ class Questions extends Component {
     );
   }
 
+  stopCountdown() {
+    const { props: { timerID } } = this;
+    clearInterval(timerID);
+  }
+
   render() {
     const {
       props: { questions },
@@ -113,15 +136,18 @@ class Questions extends Component {
       mockAlternatives,
       stopCountdown,
       addBorderOnClick,
-      disableAlternativeButtons } = this;
+      disableAlternativeButtons,
+      createButtonNext,
+      setEnableNextButton,
+      state: { enableNextButton } } = this;
     const validQuestions = questions.length > 0;
-
     return (
       <div>
         <Timer
           stopCountdown={ stopCountdown }
           addBorderOnClick={ addBorderOnClick }
           disableAlternativeButtons={ disableAlternativeButtons }
+          setEnableNextButton={ setEnableNextButton }
         />
         <p data-testid="question-category">
           {validQuestions ? questions[0].category : 'carregando...'}
@@ -130,6 +156,7 @@ class Questions extends Component {
           {validQuestions ? questions[0].question : 'carrengando...'}
         </p>
         {validQuestions ? createAlternativesButtons(questions[0]) : mockAlternatives()}
+        { enableNextButton ? createButtonNext() : null }
       </div>
     );
   }

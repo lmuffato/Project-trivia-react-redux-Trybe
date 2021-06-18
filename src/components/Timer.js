@@ -22,18 +22,19 @@ class Timer extends Component {
       saveSecondsToGlobal,
       stopCountdown,
       addBorderOnClick,
-      disableAlternativeButtons } } = this;
+      disableAlternativeButtons,
+      setEnableNextButton } } = this;
     this.setState(
       (prevState) => ({ seconds: prevState.seconds - 1 }),
       () => {
         const { state: { seconds } } = this;
         // salvar seconds no redux
         saveSecondsToGlobal(seconds);
-
         if (seconds === 0) {
           stopCountdown();
           addBorderOnClick();
           disableAlternativeButtons();
+          setEnableNextButton();
         }
       },
     );
