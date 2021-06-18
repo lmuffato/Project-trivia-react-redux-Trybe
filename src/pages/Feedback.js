@@ -10,11 +10,12 @@ class Feedback extends React.Component {
   }
 
   mensage() {
-    const { player: assertions } = localStorage.state;
-    const Assertions = localStorage.getItem(assertions);
+    const state = localStorage.getItem('state');
+    const a = JSON.parse(state);
+    const { player: { assertions } } = a;
     const ThreeCorrectAnswer = 3;
     let mensage;
-    if (Assertions < ThreeCorrectAnswer) {
+    if (assertions < ThreeCorrectAnswer) {
       mensage = 'Podia ser melhor...';
     } else {
       mensage = 'Mandou bem!';
