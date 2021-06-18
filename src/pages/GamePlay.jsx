@@ -180,7 +180,6 @@ class GamePlay extends React.Component {
         { this.renderQuestion(questions[index]) }
         <button
           type="button"
-          // disabled={ !nextQuestionBtn }
           className={ visible ? 'show-btn' : 'hide-btn' }
           data-testid="btn-next"
           onClick={ () => this.handleClick(index + 1) }
