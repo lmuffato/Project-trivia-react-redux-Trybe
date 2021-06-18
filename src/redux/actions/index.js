@@ -86,7 +86,7 @@ export function fetchToken() {
         dispatch(addToken(response.token));
         return response.token;
       })
-      // .then((token) => fetchQuestion(token));
+      .then((token) => fetchQuestion(token));
   };
 }
 // Actions Relacionadas ao gravatar
