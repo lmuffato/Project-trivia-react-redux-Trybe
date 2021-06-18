@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Header from '../components/Header';
 
 class Feedback extends React.Component {
   constructor(props) {
@@ -40,6 +41,7 @@ class Feedback extends React.Component {
 
     return (
       <div data-testid="feedback-text">
+        <Header />
         <p data-testid="feedback-text">{ this.mensage() }</p>
         <p>
           Placar final:
