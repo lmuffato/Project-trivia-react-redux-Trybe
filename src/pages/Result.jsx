@@ -31,6 +31,13 @@ class Result extends Component {
         >
           Jogar Novamente
         </button>
+        <button
+          data-testid="btn-ranking"
+          onClick={ () => redirect.call(this, '/ranking') }
+          type="button"
+        >
+          Jogar Novamente
+        </button>
       </div>
     );
   }
