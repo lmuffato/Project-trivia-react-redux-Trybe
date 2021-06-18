@@ -23,7 +23,10 @@ class Header extends React.Component {
           data-testid="header-profile-picture"
         />
         <h3 data-testid="header-player-name">{name}</h3>
-        <h3 data-testid="header-score">{` Score: ${score} `}</h3>
+        <h3>
+          Score:
+          <span data-testid="header-score">{score}</span>
+        </h3>
       </>
     );
   }

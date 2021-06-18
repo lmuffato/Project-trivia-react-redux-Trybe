@@ -142,11 +142,10 @@ class Questions extends Component {
   handleClick(difficulty, condition) {
     const { clicks } = this.state;
     this.getDifficulty(difficulty, condition);
-    this.setState(
-      { displayBtn: true,
-        showAsnwer: true,
-        clicks: clicks + 1 },
-    );
+    this.setState({ displayBtn: true,
+      showAsnwer: true,
+      clicks: clicks + 1,
+      disableButton: true });
   }
 
   nextButton() {
