@@ -94,8 +94,8 @@ class Play extends Component {
     } = questions[questionNumber];
     const questionOfRound = (
       <aside key="question_field">
-        <h3 key="category" data-testid="question-category">{`Categoria: ${category}`}</h3>
-        <h3 key="question" data-testid="question-text">{question}</h3>
+        <input key="category" data-testid="question-category" value={ category } />
+        <input key="question" data-testid="question-text" value={ question } />
       </aside>
     );
 
