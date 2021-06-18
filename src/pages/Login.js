@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { loginAction, getTokenThunk } from '../redux/actions';
 import styles from './login.module.css';
 import Header from '../components/Login/Header';
+import Footer from '../components/Login/Footer';
 
 class Login extends Component {
   constructor(props) {
@@ -59,9 +60,10 @@ class Login extends Component {
     return (
       <main className={ styles.login_container }>
         <Header />
+
         <div className={ styles.login_title }>
           <h1>Trivia Online</h1>
-          <p>Autentique-se utilizando um e-mail do gravatar e jogue agora mesmo!</p>
+          <p>Utilize um e-mail do gravatar e jogue agora mesmo!</p>
         </div>
 
         <div className={ styles.login__form__container }>
@@ -96,6 +98,8 @@ class Login extends Component {
             </button>
           </form>
         </div>
+
+        <Footer />
       </main>
     );
   }

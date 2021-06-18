@@ -65,7 +65,6 @@ export const setDifficultyAction = (payload) => ({ type: SET_DIFFICULTY, payload
 // middleware localStorage
 export const localStorage = () => (next) => (action) => {
   if (action.localStorage !== undefined) {
-    console.log('entrou!');
     window.localStorage.setItem(
       action.localStorage,
       JSON.stringify(action.payload),
@@ -73,9 +72,3 @@ export const localStorage = () => (next) => (action) => {
   }
   return next(action);
 };
-
-// export const logger = (store) => (next) => (action) => {
-//   console.log(`action: ${action}`);
-
-//   return next(action);
-// };

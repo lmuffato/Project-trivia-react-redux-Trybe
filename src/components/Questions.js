@@ -132,34 +132,36 @@ class Questions extends Component {
     const { borderColor, isVisible, questionsIndex, reset, stop, disabled } = this.state;
     const { loading, questions } = this.props;
     const questionsFiltered = questions[questionsIndex];
-    console.log(questionsFiltered);
     if (loading || questions.length < 1) {
       return <Loading />;
     }
     return (
-      <div className={ styles.question__container }>
-        <div>
-          <h2 data-testid="question-category">{questionsFiltered.category}</h2>
-          <p data-testid="question-text">{questionsFiltered.question}</p>
-        </div>
-        <div className={ styles.question__card }>
-          <ul className={ styles.question__list }>
-            {questionsFiltered.alternatives.map((question, index) => (
-              <li key={ index }>
-                <button
-                  onClick={ this.handleClickAnswer }
-                  type="button"
-                  className={ [styles
-                    .question__alternatives, borderColor[index]].join(' ') }
-                  data-testid={ Object.values(question) }
-                  disabled={ disabled }
-                  difficulty={ questionsFiltered.difficulty }
-                >
-                  {Object.keys(question)}
-                </button>
-              </li>
-            ))}
-          </ul>
+      <>
+        <div className={ styles.question__container }>
+          <div className={ styles.question__card }>
+            <div>
+              <h2 data-testid="question-category">{questionsFiltered.category}</h2>
+              <p data-testid="question-text">{questionsFiltered.question}</p>
+            </div>
+            <ul className={ styles.question__list }>
+              {questionsFiltered.alternatives.map((question, index) => (
+                <li key={ index }>
+                  <button
+                    onClick={ this.handleClickAnswer }
+                    type="button"
+                    className={ [styles
+                      .question__alternatives, borderColor[index]].join(' ') }
+                    data-testid={ Object.values(question) }
+                    disabled={ disabled }
+                    difficulty={ questionsFiltered.difficulty }
+                  >
+                    {Object.keys(question)}
+                  </button>
+                </li>
+              ))}
+            </ul>
+            <Timer reset={ reset } stop={ stop } handleZero={ this.handleZero } />
+          </div>
         </div>
         <button
           type="button"
@@ -172,8 +174,7 @@ class Questions extends Component {
         >
           Próxima
         </button>
-        <Timer reset={ reset } stop={ stop } handleZero={ this.handleZero } />
-      </div>
+      </>
     );
   }
 }

@@ -1,7 +1,7 @@
 import { SAVE_TIMER, SET_DIFFICULTY, CALC_POINTS } from '../actions';
 
 const INITIAL_STATE = {
-  timer: '',
+  timer: 0,
   difficulty: '',
   calc: false,
 };
