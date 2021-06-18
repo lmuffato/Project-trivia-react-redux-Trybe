@@ -21,7 +21,6 @@ class Feedback extends React.Component {
 
   render() {
     const { assertions, score } = this.props;
-    console.log(typeof (assertions));
     return (
       <>
         <Header />
@@ -46,6 +45,14 @@ class Feedback extends React.Component {
             data-testid="btn-play-again"
           >
             Play again
+          </button>
+        </Link>
+        <Link to="/ranking">
+          <button
+            type="button"
+            data-testid="btn-ranking"
+          >
+            Ranking
           </button>
         </Link>
       </>
