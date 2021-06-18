@@ -1,28 +1,27 @@
 import { SET_QUESTIONS, GAME_TIMEOUT,
-  SET_CURRENT_QUESTION_TIME, REQUEST_QUESTIONS, UPDATE_SCORE } from '../constants';
+  REQUEST_QUESTIONS, UPDATE_SCORE } from '../constants';
 
 const INITIAL_STATE = {
+  isLoading: true,
   questions: [],
   timeExpired: false,
-  currentQuestionTime: 30,
-  isLoading: true,
   score: 0,
+  correctAnswers: 0,
 };
 
 const trivia = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+  case REQUEST_QUESTIONS:
+    return { ...state, isLoading: true };
   case SET_QUESTIONS:
     return { ...state,
       isLoading: false,
-      questions: [...state.questions, ...action.payload.results] };
+      questions: [...state.questions, ...action.payload.results],
+      correctAnswers: 0 };
   case GAME_TIMEOUT:
     return { ...state, timeExpired: true };
-  case SET_CURRENT_QUESTION_TIME:
-    return { ...state, currentQuestionTime: action.payload };
-  case REQUEST_QUESTIONS:
-    return { ...state, isLoading: true };
   case UPDATE_SCORE:
-    return { ...state, score: action.payload };
+    return { ...state, score: action.payload, correctAnswers: state.correctAnswers + 1 };
   default:
     return state;
   }

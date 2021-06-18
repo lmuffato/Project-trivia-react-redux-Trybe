@@ -1,7 +1,7 @@
 import { MD5 } from 'crypto-js';
 import { LOGIN, SET_QUESTIONS,
   API_GRAVATAR, SET_GRAVATAR, API_TRIVIA_QUESTIONS, GAME_TIMEOUT,
-  SET_CURRENT_QUESTION_TIME, REQUEST_QUESTIONS, UPDATE_SCORE } from '../constants';
+  REQUEST_QUESTIONS, UPDATE_SCORE } from '../constants';
 
 export const login = (payload) => ({ type: LOGIN, payload });
 
@@ -11,8 +11,6 @@ export const getGravatarImage = (email) => ({
 });
 
 export const gameTimeout = () => ({ type: GAME_TIMEOUT });
-export const currentQuestionTime = (payload) => (
-  { type: SET_CURRENT_QUESTION_TIME, payload });
 
 const setQuestions = (payload) => ({ type: SET_QUESTIONS, payload });
 const requestAPIQuestions = () => ({ type: REQUEST_QUESTIONS });

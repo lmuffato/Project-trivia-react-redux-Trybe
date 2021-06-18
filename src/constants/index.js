@@ -8,7 +8,6 @@ export const SET_QUESTIONS = 'SET_QUESTIONS';
 export const QUESTIONS_AMOUNT = '5';
 export const ONE_SECOND = 1000;
 export const GAME_TIMEOUT = 'GAME_TIMEOUT';
-export const SET_CURRENT_QUESTION_TIME = 'SET_CURRENT_QUESTION_TIME';
 export const REQUEST_QUESTIONS = 'REQUEST_QUESTIONS';
 export const BASE_SCORE = 10;
 export const UPDATE_SCORE = 'UPDATE_SCORE';
