@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Proptypes from 'prop-types';
 import md5 from 'crypto-js/md5';
 import Header from '../components/Header';
+import '../services/feedback.css';
 
 class Feedback extends Component {
   updateRanking() {
@@ -19,28 +20,79 @@ class Feedback extends Component {
     }
   }
 
+  styleSpan() {
+    return (
+      <span
+        className="title is-4"
+        data-testid="feedback-text"
+      >
+        Podia ser melhor...
+      </span>);
+  }
+
+  styleSpan2() {
+    return (
+      <span
+        className="title is-4"
+        data-testid="feedback-text"
+      >
+        Mandou bem!
+      </span>);
+  }
+
+  styleScore() {
+    const { userAssertions } = this.props;
+    return (
+      <div className="inline">
+        <h3 className="title is-4">Quantidades de respostas corretas:</h3>
+        <span
+          className="title is-4"
+          data-testid="feedback-total-question"
+        >
+          { userAssertions }
+        </span>
+      </div>
+    );
+  }
+
   render() {
     const { userAssertions, userScore } = this.props;
     const minScore = 3;
     this.updateRanking();
+
     return (
       <>
         <Header />
-        <section>
+        <section className="xablau">
+          <h3 className="title">A sua pontuação total foi: </h3>
           {(userAssertions < minScore)
-            ? <span data-testid="feedback-text">Podia ser melhor...</span>
-            : <span data-testid="feedback-text">Mandou bem!</span> }
-          <h3>A sua pontuação total foi: </h3>
-          <span data-testid="feedback-total-score">
+            ? this.styleSpan()
+            : this.stylespan2() }
+          <span
+            className="title is-4"
+            data-testid="feedback-total-score"
+          >
             {userScore}
           </span>
-          <h3>Quantidades de respostas corretas: </h3>
-          <span data-testid="feedback-total-question">{ userAssertions }</span>
+          {this.styleScore()}
+
           <Link to="/ranking">
-            <button type="button" data-testid="btn-ranking">Ver Ranking</button>
+            <button
+              className="button"
+              type="button"
+              data-testid="btn-ranking"
+            >
+              Ver Ranking
+            </button>
           </Link>
           <Link to="/">
-            <button type="button" data-testid="btn-play-again">Jogar novamente</button>
+            <button
+              className="button"
+              type="button"
+              data-testid="btn-play-again"
+            >
+              Jogar novamente
+            </button>
           </Link>
         </section>
 
