@@ -34,7 +34,6 @@ class Timer extends React.Component {
     const { timer, timerInterval } = this.props;
     if (timer === 0) {
       clearInterval(timerInterval);
-      console.log(clearInterval);
     }
   }
 
