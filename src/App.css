@@ -1,3 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+body {
+  font-family: Roboto, sans-serif;
+}
+
+.badge {
+  text-align: left;
+}
+
+.flex-block {
+  flex-flow: column;
+}
+
+.bold {
+  font-weight: bold;
+}
+
 .btn-config {
   margin-bottom: 20px;
 }

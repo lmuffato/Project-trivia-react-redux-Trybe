@@ -12,14 +12,35 @@ class Header extends Component {
   render() {
     const { player: { name, gravatarEmail, score } } = this.props;
     return (
-      <header>
-        <img
-          src={ this.convertEmailToHash(gravatarEmail) }
-          alt="Avatar do Player"
-          data-testid="header-profile-picture"
-        />
-        <p data-testid="header-player-name">{ name }</p>
-        <p data-testid="header-score">{ score }</p>
+      <header className="w-100 bg-dark text-white">
+        <div className="container d-flex align-items-center justify-content-between p-3">
+          <img
+            src={ this.convertEmailToHash(gravatarEmail) }
+            alt="Avatar do Player"
+            className="rounded-circle"
+            data-testid="header-profile-picture"
+          />
+          <div className="d-flex flex-block">
+            <div className="badge bg-primary mb-2">
+              <span>Jogador </span>
+              <span
+                className="bold badge bg-dark"
+                data-testid="header-player-name"
+              >
+                { name }
+              </span>
+            </div>
+            <div className="badge bg-primary">
+              <span>Score </span>
+              <span
+                className="bold badge bg-dark"
+                data-testid="header-score"
+              >
+                { score }
+              </span>
+            </div>
+          </div>
+        </div>
       </header>
     );
   }
