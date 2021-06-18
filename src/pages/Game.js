@@ -11,8 +11,9 @@ import {
   addAssertions as sumAssertions,
 } from '../actions/index';
 import Timer from '../components/Timer';
-import RenderQuestions from '../components/RenderQuestions';
+import RenderAnswers from '../components/RenderAnswers';
 import { getItemFromLocalStorage, setToLocalStorage } from '../services/storage';
+import Alert from '../components/Alert';
 
 class Game extends Component {
   constructor() {
@@ -26,6 +27,7 @@ class Game extends Component {
     this.nextQuestion = this.nextQuestion.bind(this);
     this.resetChangedQuestion = this.resetChangedQuestion.bind(this);
     this.reset = this.reset.bind(this);
+    this.checkLogin = this.checkLogin.bind(this);
   }
 
   componentDidMount() {
@@ -68,6 +70,11 @@ class Game extends Component {
     this.setState({ changedQuestion: false });
   }
 
+  checkLogin() {
+    const { player: { isLogged } } = this.props;
+    return isLogged;
+  }
+
   checkAnswer(event, questionLevel) {
     const { addScore, timesUp, addAssertions } = this.props;
     const DEFAULT_POINTS = 10;
@@ -76,7 +83,7 @@ class Game extends Component {
     const state = getItemFromLocalStorage('state');
     if (attribute !== 'correct-answer') return timesUp();
     const points = DEFAULT_POINTS + (getTime * questionLevel);
-    state.player.score = points;
+    state.player.score += points;
     state.player.assertions += 1;
     setToLocalStorage('state', state);
     addAssertions();
@@ -86,10 +93,16 @@ class Game extends Component {
 
   render() {
     const { isLoading, questionAnswered } = this.props;
-
     const { questionNumber, shouldRedirect, changedQuestion } = this.state;
     if (isLoading) return <h2>Loading...</h2>;
     if (shouldRedirect) return <Redirect to="/feedback" />;
+    if (!this.checkLogin()) {
+      return (
+        <Alert>
+          <h1>Você precisa estar logado para jogar!</h1>
+        </Alert>
+      );
+    }
     return (
       <div>
         <Header />
@@ -101,7 +114,7 @@ class Game extends Component {
           />
           segundos
         </span>
-        <RenderQuestions
+        <RenderAnswers
           checkAnswer={ this.checkAnswer }
           question={ questionNumber }
         />
@@ -128,6 +141,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = ({ apiResponse: { isLoading, apiResult }, player }) => ({
   isLoading,
+  player,
   questionAnswered: player.timeOut,
   apiResult,
 });

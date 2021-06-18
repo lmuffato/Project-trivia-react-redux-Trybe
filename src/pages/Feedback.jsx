@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Proptypes from 'prop-types';
 import Header from '../components/Header';
 import { getItemFromLocalStorage, setToLocalStorage } from '../services/storage';
-import { reset, timeIn } from '../actions';
+import { logoff, reset, timeIn } from '../actions';
 
 class Feedback extends Component {
   constructor() {
     super();
     this.saveInfoPlayer = this.saveInfoPlayer.bind(this);
     this.orderArrayByScore = this.orderArrayByScore.bind(this);
+    this.checkLogin = this.checkLogin.bind(this);
   }
 
   componentDidMount() {
@@ -18,7 +19,8 @@ class Feedback extends Component {
   }
 
   componentWillUnmount() {
-    const { init, restart } = this.props;
+    const { init, restart, logOff } = this.props;
+    logOff();
     init();
     restart();
   }
@@ -31,23 +33,33 @@ class Feedback extends Component {
     return b;
   }
 
+  checkLogin() {
+    const { isLogged } = this.props;
+    return isLogged;
+  }
+
   saveInfoPlayer() {
     const { name, score, gravatarEmail } = this.props;
-    const currUser = {
-      name,
-      score,
-      gravatarEmail,
-    };
-    const firstUser = [];
-    if (!localStorage.ranking) {
-      setToLocalStorage('ranking', firstUser);
+    if (name.length > 0) {
+      const currUser = {
+        name,
+        score,
+        gravatarEmail,
+      };
+      const firstUser = [];
+      if (!localStorage.ranking) {
+        setToLocalStorage('ranking', firstUser);
+      }
+      const currUserlocal = getItemFromLocalStorage('ranking');
+      const orderArray = currUserlocal.concat(currUser).sort(this.orderArrayByScore);
+      setToLocalStorage('ranking', orderArray);
     }
-    const currUserlocal = getItemFromLocalStorage('ranking');
-    const orderArray = currUserlocal.concat(currUser).sort(this.orderArrayByScore);
-    setToLocalStorage('ranking', orderArray);
   }
 
   render() {
+    if (!this.checkLogin()) {
+      return <Redirect to="/" />;
+    }
     const { player } = getItemFromLocalStorage('state');
     const { assertions, score } = player;
     const minCorrect = 3;
@@ -85,15 +97,17 @@ class Feedback extends Component {
   }
 }
 
-const mapStateToProps = ({ player: { name, score, gravatarEmail } }) => ({
+const mapStateToProps = ({ player: { name, score, gravatarEmail, isLogged } }) => ({
   name,
   score,
   gravatarEmail,
+  isLogged,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   init: () => dispatch(timeIn()),
   restart: () => dispatch(reset()),
+  logOff: () => dispatch(logoff()),
 });
 
 Feedback.propTypes = {

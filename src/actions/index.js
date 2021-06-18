@@ -13,9 +13,14 @@ export const SELECT_CATEGORY = 'SELECT_CATEGORY';
 export const SELECT_TYPE = 'SELECT_TYPE';
 export const SELECT_DIFICULTE = 'SELECT_DIFICULTE';
 export const RESET = 'RESET';
+export const LOGOFF = 'LOGOFF';
 
 export const getQuestions = () => ({
   type: GET_QUESTIONS,
+});
+
+export const logoff = () => ({
+  type: LOGOFF,
 });
 
 export const addQuestionSuccess = (payload) => ({
