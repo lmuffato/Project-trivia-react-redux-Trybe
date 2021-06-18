@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router';
 import { setQuestions } from '../redux/actions/setQuestions';
+import './GameQuestion.css';
 
 class GameQuestions extends Component {
   constructor(props) {
