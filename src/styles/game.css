@@ -1,0 +1,74 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  box-sizing: border-box;
+}
+
+/* Contener game */
+.content-game {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* Header da pagina Gamer */
+.header-game {
+  background-color: var(--purple-color-800);
+  color: var(--cream-color-400);
+  display: flex;
+  height: 60px;
+  justify-content: space-between;
+  padding: 0 10px;
+  width: 100%;
+}
+
+/* Contener do player ( Lado esquerdo ) */
+.content-player {
+  align-items: center;
+  display: flex;
+  width: 40px;
+}
+
+.gravatar-img-game {
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+}
+
+.content-group-player {
+  margin-right: 3px;
+}
+
+.player-name {
+  font-size: 12px;
+  padding-left: 5px;
+}
+
+.player-email {
+  font-size: 8px;
+  padding-left: 5px;
+}
+
+/* Contener pontuação e acertos (Lado direito) */
+.content-score-assertions {
+  margin-top: 15px;
+}
+
+/* Estilização do tempo */
+.content-timer {
+  align-items: center;
+  background-color: var(--cream-color-400);
+  border-radius: 50%;
+  color: var(--purple-color-800);
+  display: flex;
+  font-size: 20px;
+  font-weight: 700;
+  height: 50px;
+  justify-content: center;
+  margin: 20px 0;
+  width: 50px;
+}

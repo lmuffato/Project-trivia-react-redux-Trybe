@@ -7,6 +7,8 @@ import Login from './pages/Login';
 import Feedback from './pages/Feedback';
 import Ranking from './pages/Ranking';
 
+import './global.css';
+
 export default function App() {
   return (
     <Switch>
