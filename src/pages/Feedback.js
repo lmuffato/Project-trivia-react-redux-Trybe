@@ -12,6 +12,28 @@ class Feedback extends React.Component {
     this.renderGoodScoore = this.renderGoodScoore.bind(this);
   }
 
+  componentDidMount() {
+    this.rankingLocalStorage();
+  }
+
+  rankingLocalStorage() {
+    const rankingOne = [];
+    const oldRanking = JSON.parse(localStorage.getItem('ranking'));
+    const { user, score, image } = this.props;
+    const rankingObject = {
+      name: user,
+      score,
+      picture: image,
+    };
+    if (oldRanking) {
+      const rankingArray = [...oldRanking, rankingObject];
+      localStorage.setItem('ranking', JSON.stringify(rankingArray));
+    } else {
+      const newRanking = [...rankingOne, rankingObject];
+      localStorage.setItem('ranking', JSON.stringify(newRanking));
+    }
+  }
+
   renderGoodScoore() { return (<h1 data-testid="feedback-text">Mandou bem!</h1>); }
 
   renderBadScore() { return (<h1 data-testid="feedback-text">Podia ser melhor...</h1>); }
@@ -57,11 +79,15 @@ class Feedback extends React.Component {
 const mapStateToProps = (state) => ({
   score: state.userReducer.score,
   assertions: state.userReducer.assertions,
+  image: state.userReducer.image,
+  user: state.userReducer.user,
 });
 
 Feedback.propTypes = {
   score: PropTypes.number.isRequired,
   assertions: PropTypes.number.isRequired,
+  image: PropTypes.string.isRequired,
+  user: PropTypes.string.isRequired,
 };
 
 export default connect(mapStateToProps)(Feedback);

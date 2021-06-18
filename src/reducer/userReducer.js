@@ -1,5 +1,5 @@
 import { USER_LOGIN,
-  USER_NAME, SCORE_ADD, SAVE_TIME_LEFT, SET_TIMER_ACTIVE } from '../actions';
+  USER_NAME, SCORE_ADD, SAVE_TIME_LEFT, SET_TIMER_ACTIVE, USER_IMAGE } from '../actions';
 
 const INITIAL_STATE = {
   email: '',
@@ -8,6 +8,8 @@ const INITIAL_STATE = {
   assertions: 0,
   time: 0,
   isTimerActive: true,
+  image: '',
+  scoreLocalStorage: 0,
 };
 
 const userReducer = (state = INITIAL_STATE, { type, payload }) => {
@@ -32,6 +34,11 @@ const userReducer = (state = INITIAL_STATE, { type, payload }) => {
     return {
       ...state,
       isTimerActive: payload,
+    };
+  case USER_IMAGE:
+    return {
+      ...state,
+      image: payload,
     };
   default:
     return state;
