@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+
 import { sortRankingArray } from '../utils/functions';
+
+import '../styles/ranking.css';
 
 class Ranking extends Component {
   constructor(props) {
@@ -22,8 +25,23 @@ class Ranking extends Component {
               src={ player.picture }
               alt={ player.name }
             />
-            <span data-testid={ `player-name-${index}` }>{ player.name }</span>
-            <span data-testid={ `player-score-${index}` }>{ player.score }</span>
+            <div className="ranking-texts">
+              <span
+                data-testid={ `player-name-${index}` }
+                className="ranking-player-name"
+              >
+                { player.name }
+
+              </span>
+              <span
+                data-testid={ `player-score-${index}` }
+                className="ranking-player-score"
+              >
+                { player.score }
+                {' '}
+                Pontos
+              </span>
+            </div>
           </li>
         )) }
       </ol>
@@ -32,17 +50,19 @@ class Ranking extends Component {
 
   render() {
     return (
-      <section>
-        <h2 data-testid="ranking-title">Ranking</h2>
-        {this.renderRankingList()}
-        <Link to="/">
-          <button
-            type="button"
-            data-testid="btn-go-home"
-          >
-            Voltar
-          </button>
-        </Link>
+      <section className="ranking-page">
+        <div className="ranking-content">
+          <Link to="/">
+            <button
+              type="button"
+              data-testid="btn-go-home"
+            >
+              Voltar
+            </button>
+          </Link>
+          <h2 data-testid="ranking-title">Ranking</h2>
+          {this.renderRankingList()}
+        </div>
       </section>
     );
   }
