@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Header from '../components/Header';
 import * as api from '../services/datasApi';
 
@@ -14,11 +14,13 @@ class Game extends React.Component {
       userAnswer: false,
       timer: 30,
       isVisible: true,
+      score: 0,
     };
     this.requestApi = this.requestApi.bind(this);
     this.renderQuestions = this.renderQuestions.bind(this);
     this.ramdomizeQuestions = this.ramdomizeQuestions.bind(this);
     this.runTimer = this.runTimer.bind(this);
+    this.checkAnswer = this.checkAnswer.bind(this);
   }
 
   componentDidMount() {
@@ -56,6 +58,21 @@ class Game extends React.Component {
     });
   }
 
+  checkAnswer(correctAnswer, event) {
+    console.log('e');
+    event.preventDefault();
+    this.setState({ userAnswer: true });
+    const state = JSON.parse(localStorage.getItem('state'));
+    if (event.target.innerText === correctAnswer) {
+      console.log('a');
+      const { assertions, score } = state.player;
+      state.player.score = score + this.getScore();
+      state.player.assertions = assertions + 1;
+      localStorage.setItem('state', JSON.stringify(state));
+      this.setState({ score: state.player.score });
+    }
+  }
+
   changeAnswer(alternative, crrQuestion) {
     return alternative === crrQuestion.correct_answer
       ? 'ok' : 'fail';
@@ -89,11 +106,11 @@ class Game extends React.Component {
 
   renderQuestions() {
     const { quests, indice, userAnswer, alternativeRandom } = this.state;
-    const { timer, isVisible } = this.state;
+    const { timer, isVisible, score } = this.state;
     const crrQuestion = quests[indice];
     return (
       <div>
-        <Header />
+        <Header score={ score } />
         <h3>
           Tempo:
           { timer }
@@ -110,7 +127,7 @@ class Game extends React.Component {
             type="button"
             value={ alternative }
             key={ Math.random() }
-            onClick={ () => (this.setState({ userAnswer: true })) }
+            onClick={ (event) => (this.checkAnswer(crrQuestion.correct_answer, event)) }
             className={ userAnswer ? this.changeAnswer(alternative, crrQuestion) : null }
             data-testid={ alternative === crrQuestion.correct_answer ? 'correct-answer'
               : `wrong-answer-${index}` }
@@ -140,6 +157,9 @@ class Game extends React.Component {
   render() {
     const { loading, indice } = this.state;
     const limite = 4;
+    if (indice > limite) {
+      return <Redirect to="/feedback" />;
+    }
     return (
       loading || indice > limite ? <p>Loading...</p> : this.renderQuestions()
     );
