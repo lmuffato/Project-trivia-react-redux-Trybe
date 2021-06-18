@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class Timer extends Component {
   constructor() {
@@ -61,5 +62,11 @@ class Timer extends Component {
     );
   }
 }
+
+Timer.propTypes = {
+  selected: PropTypes.bool.isRequired,
+  seconds: PropTypes.number.isRequired,
+  updateTimer: PropTypes.func.isRequired,
+};
 
 export default Timer;
