@@ -23,7 +23,7 @@ class Header extends React.Component {
     return (
       <header className="header">
         <img src={ this.getGravatar() } alt="user" data-testid="header-profile-picture" />
-        <span data-testid="header-player-name" cla="header-name">{ name }</span>
+        <span data-testid="header-player-name" className="header-name">{ name }</span>
         <span data-testid="header-score">{ score }</span>
       </header>
     );
