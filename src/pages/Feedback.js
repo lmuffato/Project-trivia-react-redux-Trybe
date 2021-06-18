@@ -17,7 +17,9 @@ class Feedback extends React.Component {
   }
 
   componentDidMount() {
+    const { ranking } = this.props;
     this.feedbackMessage();
+    localStorage.setItem('ranking', JSON.stringify(ranking));
   }
 
   feedbackMessage() {
@@ -67,10 +69,12 @@ class Feedback extends React.Component {
 
 const mapStateToProps = (state) => ({
   score: state.game.placar,
+  ranking: state.game.users,
 });
 
 Feedback.propTypes = {
   score: PropTypes.number.isRequired,
+  ranking: PropTypes.bool.isRequired,
 };
 
 export default connect(mapStateToProps)(Feedback);

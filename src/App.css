@@ -1,19 +1,42 @@
+
+
 .App {
   text-align: center;
 }
 
 .App-logo {
+  margin-top: 100px;
   width: 350px;
 }
 
-button {
-  padding: 14px;
+.answer {
+  margin: 4px;
+}
+
+.btn-danger {
+  margin: 5px;
+}
+
+body {
+  margin-left: auto;
+  margin-right: auto;
+  width: 70%;
 }
 
 .correct {
   border: 3px solid rgb(6, 240, 15);
+  border-radius: 5px;
 }
 
 .incorrect {
   border: 3px solid red;
+  border-radius: 5px;
 }
+
+.form-control {
+  border-radius: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+  width: 400px;
+};

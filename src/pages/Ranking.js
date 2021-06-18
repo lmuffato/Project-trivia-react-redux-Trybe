@@ -1,5 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import Proptypes from 'prop-types';
 
 class Ranking extends React.Component {
   constructor() {
@@ -7,6 +9,13 @@ class Ranking extends React.Component {
     this.state = {
       login: false,
     };
+  }
+
+  teste() {
+    const ranking = localStorage.getItem('ranking');
+    const arr = JSON.parse(ranking);
+    const sortArr = arr.sort((a, b) => +b.score - +a.score);
+    return sortArr;
   }
 
   render() {
@@ -22,9 +31,25 @@ class Ranking extends React.Component {
           Voltar
         </button>
         { login && <Redirect to="/" /> }
+        <ul>
+          {this.teste().map((elem, index) => (
+            <li key={ index }>
+              <p data-testid={ `player-name-${index}` }>{elem.name}</p>
+              <p data-testid={ `player-score-${index}` }>{elem.score}</p>
+            </li>
+          ))}
+        </ul>
       </div>
     );
   }
 }
 
-export default Ranking;
+const mapStateToProps = (state) => ({
+  users: state.game.users,
+});
+
+Ranking.propTypes = {
+  users: Proptypes.object,
+}.isRequired;
+
+export default connect(mapStateToProps, null)(Ranking);

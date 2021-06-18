@@ -7,7 +7,7 @@ import shuffle from '../services/shuffle';
 import changeColors from '../services/changeColors';
 import disableBtns from '../services/disableBtns';
 import setPoints from '../services/setPoints';
-import { getPlacar } from '../redux/actions';
+import { getPlacar, saveUser } from '../redux/actions';
 
 class Question extends React.Component {
   constructor(props) {
@@ -40,10 +40,17 @@ class Question extends React.Component {
   }
 
   handleClick() {
-    const { index } = this.state;
+    const { index, score } = this.state;
+    const { name, picture, setUser } = this.props;
     const indexMax = 4;
     if (index === indexMax) {
+      const ranking = {
+        name,
+        score,
+        picture,
+      };
       this.setState({ redirect: true });
+      setUser(ranking);
     } else {
       this.setState({ index: index + 1 });
       this.setState({ nextBtn: false });
@@ -85,6 +92,7 @@ class Question extends React.Component {
           type="button"
           onClick={ this.handleClick }
           data-testid="btn-next"
+          className="btn btn-danger"
         >
           Proxima
         </button>
@@ -130,13 +138,13 @@ class Question extends React.Component {
           { results[index].category }
         </p>
         <p>
-          tempo
-          :
+          tempo:
+          {' '}
           { timer }
         </p>
         <p>
-          dificuldade
-          :
+          dificuldade:
+          {' '}
           {results[index].difficulty}
         </p>
         <div>Respostas</div>
@@ -146,7 +154,7 @@ class Question extends React.Component {
             type="button"
             data-testid={ elem.attribute }
             onClick={ (e) => this.checkAnswer(e, timer, results[index].difficulty) }
-            className="answer"
+            className="answer btn btn-warning"
           >
             {elem.answer}
           </button>))}
@@ -173,18 +181,22 @@ const mapStateToProps = (state) => ({
   results: state.game.perguntas,
   name: state.login.user,
   email: state.login.email,
+  picture: state.login.emailConverter,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   setPointsRedux: (points) => dispatch(getPlacar(points)),
+  setUser: (user) => dispatch(saveUser(user)),
 });
 
 Question.propTypes = {
   results: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.array, PropTypes.func]))
     .isRequired,
   setPointsRedux: PropTypes.func.isRequired,
+  setUser: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
+  picture: PropTypes.string.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Question);
