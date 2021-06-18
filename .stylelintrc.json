@@ -16,6 +16,7 @@
     "block-opening-brace-space-before": "always",
     "color-hex-case": "lower",
     "color-hex-length": "short",
+    "color-named": "always-where-possible",
     "color-no-invalid-hex": true,
     "comment-empty-line-before": "always",
     "comment-no-empty": true,
