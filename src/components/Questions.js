@@ -134,7 +134,6 @@ class Questions extends Component {
     const { borderColor, isVisible, questionsIndex, reset, stop, disabled } = this.state;
     const { loading, questions } = this.props;
     const questionsFiltered = questions[questionsIndex];
-    console.log(questionsFiltered);
     if (loading || questions.length < 1) {
       return <Loading />;
     }
@@ -218,7 +217,7 @@ Questions.propTypes = {
   score: PropTypes.number.isRequired,
   assertions: PropTypes.number.isRequired,
   updateScoreProps: PropTypes.func.isRequired,
-  timer: PropTypes.number.isRequired,
+  timer: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   difficulty: PropTypes.string.isRequired,
 };
 

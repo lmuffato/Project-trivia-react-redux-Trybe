@@ -33,8 +33,7 @@ class Login extends Component {
 
   handleChange(event) {
     const { target: { name, value } } = event;
-    this.setState({ [name]: value });
-    this.checkInputs();
+    this.setState({ [name]: value }, this.checkInputs());
   }
 
   handleClick() {
