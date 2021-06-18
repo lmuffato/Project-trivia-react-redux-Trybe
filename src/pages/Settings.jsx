@@ -3,6 +3,7 @@ import { object } from 'prop-types';
 import '../styles/settings.css';
 import { connect } from 'react-redux';
 import { addFilter } from '../actions';
+import fetchCategories from '../services/fetchCategories';
 
 class Settings extends Component {
   constructor(props) {
@@ -23,8 +24,7 @@ class Settings extends Component {
   }
 
   async fetchApi() {
-    const endPoint = 'https://opentdb.com/api_category.php';
-    const { trivia_categories: triviaCategories } = await (await fetch(endPoint)).json();
+    const triviaCategories = await fetchCategories();
     const values = triviaCategories.map((item) => Object.values(item)[1]);
     this.setState({
       data: values,

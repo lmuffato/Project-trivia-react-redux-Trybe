@@ -7,10 +7,11 @@ class NextQuestion extends Component {
 
     return (
       <button
+        type="button"
         hidden={ hidden }
+        className="btn-next-quest"
         data-testid="btn-next"
         onClick={ nextQuestion }
-        type="button"
       >
         Próxima
       </button>

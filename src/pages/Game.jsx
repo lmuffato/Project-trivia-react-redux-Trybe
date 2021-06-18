@@ -38,7 +38,9 @@ class Game extends Component {
       <div className="main-content">
         <Header />
         <div className="question-main-content">
-          {!isLoading ? <Questions history={ history } /> : 'carregando....'}
+          {!isLoading
+            ? <Questions history={ history } />
+            : <p className="loading">Carregando....</p> }
         </div>
       </div>
     );
