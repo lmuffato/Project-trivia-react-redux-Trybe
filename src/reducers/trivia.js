@@ -6,6 +6,7 @@ const INITIAL_STATE = {
   questions: [],
   timeExpired: false,
   score: 0,
+  correctAnswers: 0,
 };
 
 const trivia = (state = INITIAL_STATE, action) => {
@@ -15,11 +16,12 @@ const trivia = (state = INITIAL_STATE, action) => {
   case SET_QUESTIONS:
     return { ...state,
       isLoading: false,
-      questions: [...state.questions, ...action.payload.results] };
+      questions: [...state.questions, ...action.payload.results],
+      correctAnswers: 0 };
   case GAME_TIMEOUT:
     return { ...state, timeExpired: true };
   case UPDATE_SCORE:
-    return { ...state, score: action.payload };
+    return { ...state, score: action.payload, correctAnswers: state.correctAnswers + 1 };
   default:
     return state;
   }

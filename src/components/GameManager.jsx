@@ -94,8 +94,9 @@ class GameManager extends Component {
   }
 
   userClick({ target: button }) {
+    const { currentQuestionIndex } = this.state;
     const { questions } = this.props;
-    this.updateScore(questions[0].difficulty, button);
+    this.updateScore(questions[currentQuestionIndex].difficulty, button);
     this.showNextButton();
   }
 
