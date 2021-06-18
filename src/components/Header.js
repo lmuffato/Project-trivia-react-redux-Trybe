@@ -36,7 +36,7 @@ class Header extends React.Component {
           alt="Perfil"
         />
         <p data-testid="header-player-name">{ nome }</p>
-        <p data-testid="header-score">{score}</p>
+        <p data-testid="header-score">{ score }</p>
       </>
     );
   }
