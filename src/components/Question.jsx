@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { decode } from 'he';
 
 class Question extends Component {
   constructor(props) {
@@ -23,6 +24,7 @@ class Question extends Component {
           type="button"
           onClick={ this.handleClick }
           value={ answer }
+          disabled={ selected }
         >
           {answer}
         </button>
@@ -44,6 +46,7 @@ class Question extends Component {
           data-testid={ `wrong-answer-${index}` }
           onClick={ this.handleClick }
           value={ answer }
+          disabled={ selected }
         >
           {answer}
         </button>
@@ -71,7 +74,7 @@ class Question extends Component {
 
     return (
       <div>
-        <h2 data-testid="question-text">{currentQuestion}</h2>
+        <h2 data-testid="question-text">{decode(currentQuestion)}</h2>
         <p data-testid="question-category">{category}</p>
         { dataAnswers.map((answer, index) => {
           if (answer === correctAnswer) {
