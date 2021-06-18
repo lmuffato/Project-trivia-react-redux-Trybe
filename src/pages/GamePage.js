@@ -73,7 +73,7 @@ class GamePage extends React.Component {
       <>
         <Header />
         <div>
-          <Question quiz={ questions[index] } />
+          <Question shouldStop={ this.shouldStop } quiz={ questions[index] } />
         </div>
         <Button
           dataTestid="btn-next"
