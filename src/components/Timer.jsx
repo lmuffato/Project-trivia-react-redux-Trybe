@@ -1,11 +1,22 @@
 import React, { Component } from 'react';
-import { number } from 'prop-types';
+import { number, func } from 'prop-types';
 import { connect } from 'react-redux';
-import { saveTime } from '../redux/actions/actions';
-
-const TIMER_TIME = 1000;
+import { setAnswerVisibility, stopTimer, timerThunk } from '../redux/actions/actions';
 
 class Timer extends Component {
+  componentDidMount() {
+    const { startTimer } = this.props;
+    startTimer();
+  }
+
+  componentDidUpdate() {
+    const { time, stopTimerDispatch, setAnswerVisibilityDispatch } = this.props;
+    if (!time) {
+      stopTimerDispatch();
+      setAnswerVisibilityDispatch('show');
+    }
+  }
+
   render() {
     const { time } = this.props;
     return (
@@ -18,6 +29,8 @@ class Timer extends Component {
 
 Timer.propTypes = {
   time: number,
+  stopTimerDispatch: func,
+  setAnswerVisibilityDispatch: func,
 }.isRequired;
 
 const mapStateToProps = ({ timer }) => ({
@@ -25,7 +38,9 @@ const mapStateToProps = ({ timer }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  saveTimeNumber: (payload) => dispatch(saveTime(payload)),
+  startTimer: () => dispatch(timerThunk()),
+  stopTimerDispatch: () => dispatch(stopTimer()),
+  setAnswerVisibilityDispatch: (visibility) => dispatch(setAnswerVisibility(visibility)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Timer);

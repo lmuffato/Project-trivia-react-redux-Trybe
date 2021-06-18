@@ -4,7 +4,9 @@ import { func } from 'prop-types';
 import {
   lastQuestion,
   nextQuestion,
+  resetTimer,
   setAnswerVisibility,
+  timerThunk,
 } from '../redux/actions/actions';
 
 class NextQuestionBtn extends Component {
@@ -21,12 +23,16 @@ class NextQuestionBtn extends Component {
       lastQuestionDispatch,
       questions,
       currentQuestionIndex,
+      resetTimerDispatch,
+      startTimer,
     } = this.props;
 
     if (currentQuestionIndex === questions.length - 1) {
       lastQuestionDispatch(true);
     } else {
       nextQuestionDispatch();
+      resetTimerDispatch();
+      startTimer();
     }
     setAnswerVisibilityDispatch('hide');
   }
@@ -54,11 +60,14 @@ const mapDispatchToProps = (dispatch) => ({
   nextQuestionDispatch: () => dispatch(nextQuestion()),
   setAnswerVisibilityDispatch: (visibility) => dispatch(setAnswerVisibility(visibility)),
   lastQuestionDispatch: (redirect) => dispatch(lastQuestion(redirect)),
+  resetTimerDispatch: () => dispatch(resetTimer()),
+  startTimer: () => dispatch(timerThunk()),
 });
 
 NextQuestionBtn.propTypes = {
   nextQuestionDispatch: func,
   setAnswerVisibilityDispatch: func,
+  resetTimerDispatch: func,
 }.isRequired;
 
 export default connect(mapStateToProps, mapDispatchToProps)(NextQuestionBtn);

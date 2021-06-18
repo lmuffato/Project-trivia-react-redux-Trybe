@@ -8,7 +8,6 @@ import { getQuestionsThunk } from '../redux/actions/actions';
 import Header from '../components/Header';
 
 import './Jogo.css';
-import Timer from '../components/Timer';
 import NextQuestionBtn from '../components/NextQuestionBtn';
 
 class Jogo extends Component {
@@ -26,17 +25,14 @@ class Jogo extends Component {
       redirectToFeedback,
     } = this.props;
 
-    if (redirectToFeedback) {
-      return <Redirect to="/feedback" />;
-    }
+    // if (redirectToFeedback) {
+    //   return <Redirect to="/feedback" />;
+    // }
 
     return (
       <div>
         <div>
           <Header />
-          {/* <div className="timer">
-            <Timer time={ time } setTimer={ this.setTimer } />
-          </div> */}
         </div>
         <h1>Página do Jogo</h1>
 

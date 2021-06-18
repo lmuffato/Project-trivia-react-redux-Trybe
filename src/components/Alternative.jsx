@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { string, func } from 'prop-types';
 import { connect } from 'react-redux';
 import './Alternatives.css';
-import { setAnswerVisibility } from '../redux/actions/actions';
+import { setAnswerVisibility, stopTimer } from '../redux/actions/actions';
 
 const CORRECT = 'correct-answer';
 const WRONG = 'wrong-answer';
@@ -15,8 +15,9 @@ class Alternative extends Component {
   }
 
   handleClick(e) {
-    const { setAnswerVisibilityDispatch, verifyAnswer } = this.props;
+    const { setAnswerVisibilityDispatch, verifyAnswer, stopTimerDispatch } = this.props;
     setAnswerVisibilityDispatch('show');
+    stopTimerDispatch();
     verifyAnswer(e);
   }
 
@@ -47,6 +48,7 @@ const mapStateToProps = ({ game }) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   setAnswerVisibilityDispatch: (visibility) => dispatch(setAnswerVisibility(visibility)),
+  stopTimerDispatch: () => dispatch(stopTimer()),
 });
 
 Alternative.propTypes = {
@@ -55,6 +57,7 @@ Alternative.propTypes = {
   answerVisibility: string,
   setAnswerVisibilityDispatch: func,
   verifyAnswer: func,
+  stopTimerDispatch: func,
 }.isRequired;
 
 export default connect(mapStateToProps, mapDispatchToProps)(Alternative);

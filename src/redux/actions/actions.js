@@ -8,8 +8,11 @@ export const GET_QUESTIONS = 'GET_API';
 export const SET_ANSWER_VISIBILITY = 'SET_ANSWER_VISIBILITY';
 export const NEXT_QUESTION = 'NEXT_QUESTION';
 export const UPDATE_SCORE = 'UPDATE_SCORE';
-export const SAVE_TIME = 'SAVE_TIME';
 export const LAST_QUESTION = 'LAST_QUESTION';
+export const SET_TIME = 'SET_TIME';
+export const START_TIMER = 'START_TIMER';
+export const STOP_TIMER = 'STOP_TIMER';
+export const RESET_TIMER = 'RESET_TIMER';
 
 export const saveUser = (user) => ({
   type: SAVE_USER,
@@ -67,9 +70,30 @@ export const updateScore = (payload) => ({
   payload,
 });
 
-export const saveTime = (payload) => ({
-  type: SAVE_TIME,
-  payload,
+const startTimer = (timerID) => ({
+  type: START_TIMER,
+  payload: timerID,
+});
+
+const setTime = () => ({
+  type: SET_TIME,
+});
+
+export const timerThunk = () => (dispatch) => {
+  const TIMER_DELAY = 1000;
+  const timerID = setInterval(() => {
+    dispatch(setTime());
+  }, TIMER_DELAY);
+
+  dispatch(startTimer(timerID));
+};
+
+export const stopTimer = () => ({
+  type: STOP_TIMER,
+});
+
+export const resetTimer = () => ({
+  type: RESET_TIMER,
 });
 
 export default getQuestions;
