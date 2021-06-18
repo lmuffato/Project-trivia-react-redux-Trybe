@@ -14,7 +14,7 @@ class MultipleTypeQuest extends Component {
     const wrongButtons = document.getElementsByClassName('wrong');
     const correctButton = document.getElementsByClassName('correct')[0];
     for (let index = 0; index < wrongButtons.length; index += 1) {
-      wrongButtons[index].style.add('incorrect-answer');
+      wrongButtons[index].classList.add('incorrect-answer');
     }
     correctButton.classList.add('correct-answer');
   }

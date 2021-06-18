@@ -1,7 +1,7 @@
 .correct-answer {
-  border: 5px solid rgb(0, 90, 3);
+  border: 3px solid rgb(6, 240, 14);
 }
 
 .incorrect-answer {
-  border: 5px solid rgb(150, 12, 12);
+  border: 3px solid rgb(233, 7, 7);
 }

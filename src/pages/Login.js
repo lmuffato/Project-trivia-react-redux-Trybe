@@ -18,6 +18,7 @@ class Login extends React.Component {
     };
     this.verify = this.verify.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.render = this.render.bind(this);
   }
 
   handleChange({ target }) {
@@ -36,6 +37,17 @@ class Login extends React.Component {
         disabled: false,
       });
     } else { this.setState({ disabled: true }); }
+  }
+
+  renderSettings() {
+    return (
+      <Link to="/configuracoes">
+        <FcSettings
+          style={ { fontSize: '1.8em' } }
+          type="button"
+          data-testid="btn-settings"
+        />
+      </Link>);
   }
 
   render() {
@@ -80,13 +92,7 @@ class Login extends React.Component {
             >
               Jogar
             </button>
-            <Link to="/configuracoes">
-              <FcSettings
-                style={ { fontSize: '1.8em' } }
-                type="button"
-                data-testid="btn-settings"
-              />
-            </Link>
+            { this.renderSettings() }
           </Link>
         </fieldset>
       </form>

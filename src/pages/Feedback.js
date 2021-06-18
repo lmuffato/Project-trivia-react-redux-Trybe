@@ -7,6 +7,14 @@ import Header from '../components/Header';
 import '../services/feedback.css';
 
 class Feedback extends Component {
+  constructor() {
+    super();
+    this.styleSpan = this.styleSpan.bind(this);
+    this.styleSpan2 = this.styleSpan2.bind(this);
+    this.styleScore = this.styleScore.bind(this);
+    this.updateRanking = this.updateRanking.bind(this);
+  }
+
   updateRanking() {
     const { userName, userScore, userEmail } = this.props;
     if (window.localStorage.getItem('ranking')) {

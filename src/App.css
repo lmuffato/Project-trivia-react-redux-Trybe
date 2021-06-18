@@ -87,22 +87,21 @@ li:nth-child(even) {
 .medal {
   display: flex;
   font-size: 2em;
-  display:none;
 }
 
 li:first-child .medal {
-  display: flex;
   color: gold ;
+  display: flex;
 }
 
 li:nth-child(2) .medal {
-  display: flex;
   color: silver;
+  display: flex;
 }
 
 li:nth-child(3) .medal {
-  display: flex;
   color: chocolate;
+  display: flex;
 }
 .time-conteiner {
   align-items: center;
@@ -111,10 +110,10 @@ li:nth-child(3) .medal {
 }
 
 .time-conteiner h1 {
+  align-items: center;
   background-color: #bb9950;
   border-radius: 50%;
   color: #8c733b; 
-  align-items: center;
   display: flex;
   height: 60px;
   justify-content: center;
@@ -130,20 +129,17 @@ li:nth-child(3) .medal {
 }
 
 .card-header {
+  align-items: flex-end;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
 }
 
 .button-conteiner {
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
 .xablau {
-    margin: 30px;
-}
-.correct .wrong button {
-  color: #0D4CD9;
+  margin: 30px;
 }
