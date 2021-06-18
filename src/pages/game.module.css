@@ -1,6 +1,21 @@
+.game__main {
+
+  /* align-items: space-between;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; */
+  height: 100vh;
+}
+
+.login_header__wrapper {
+  background: linear-gradient(180deg, var(--purple-800), var(--purple-300));
+}
+
 .questions__header {
   align-items: center;
+  color: var(--white);
   display: flex;
+  height: 10vh;
   justify-content: space-between;
   margin: 0 auto;
   max-width: 1300px;
@@ -11,19 +26,19 @@
   padding: 2rem 0;
 }
 
-/* .questions__header__title {
+.questions__header__title {
+  font-size: 2rem;
+}
 
-} */
-
-/* .questions__header__score {
-
-} */
+.questions__header__score {
+  font-size: 2rem;
+}
 
 .question__container {
   background-color: var(--white);
   display: flex;
   flex-direction: column;
-  height: 40vh;
+  height: calc(80vh - 65px);
   justify-content: center;
   margin: 2rem auto;
   padding: 20px;
@@ -36,6 +51,17 @@
   margin-bottom: 2rem;
 }
 
+.question__card h2 {
+  color: var(--gray-800);
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.question__card p {
+  color: var(--grey-500);
+  font-size: 1.5rem;
+}
+
 .question__list {
   display: flex;
   justify-content: center;
@@ -43,8 +69,13 @@
 }
 
 .question__alternatives {
+  background: var(--purple-800);
+  border: none;
+  border-radius: 1rem;
+  color: var(--white);
   cursor: pointer;
-  padding: 1rem;
+  font-size: 1.225rem;
+  padding: 1.5rem;
 }
 
 .question__list li {
@@ -65,4 +96,17 @@
   font-size: 2rem;
   margin: 0 auto;
   padding: 1rem;
+}
+
+.question__footer {
+  align-items: center;
+  background: linear-gradient(180deg, var(--purple-800), var(--purple-300));
+  color: var(--white);
+  display: flex;
+  font-size: 1rem;
+  height: 10vh;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: centers;
 }

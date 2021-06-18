@@ -5,6 +5,8 @@ import Header from '../components/Header';
 import Questions from '../components/Questions';
 import { getQuestionsThunk, getTokenThunk } from '../redux/actions';
 import requestToken from '../services/requestToken';
+import Footer from './Footer';
+import styles from './game.module.css';
 
 class Game extends Component {
   componentDidMount() {
@@ -20,9 +22,10 @@ class Game extends Component {
   render() {
     const { history } = this.props;
     return (
-      <main>
+      <main className={ styles.game__main }>
         <Header />
         <Questions history={ history } />
+        <Footer />
       </main>
     );
   }

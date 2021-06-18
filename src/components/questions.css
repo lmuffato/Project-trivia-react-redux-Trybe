@@ -7,9 +7,9 @@
 }
 
 .question__button__true {
-  display: block;
+  visibility: visible;
 }
 
 .question__button__false {
-  display: none;
+  visibility: hidden;
 }

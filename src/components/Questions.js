@@ -136,32 +136,30 @@ class Questions extends Component {
       return <Loading />;
     }
     return (
-      <>
-        <div className={ styles.question__container }>
-          <div className={ styles.question__card }>
-            <div>
-              <h2 data-testid="question-category">{questionsFiltered.category}</h2>
-              <p data-testid="question-text">{questionsFiltered.question}</p>
-            </div>
-            <ul className={ styles.question__list }>
-              {questionsFiltered.alternatives.map((question, index) => (
-                <li key={ index }>
-                  <button
-                    onClick={ this.handleClickAnswer }
-                    type="button"
-                    className={ [styles
-                      .question__alternatives, borderColor[index]].join(' ') }
-                    data-testid={ Object.values(question) }
-                    disabled={ disabled }
-                    difficulty={ questionsFiltered.difficulty }
-                  >
-                    {Object.keys(question)}
-                  </button>
-                </li>
-              ))}
-            </ul>
-            <Timer reset={ reset } stop={ stop } handleZero={ this.handleZero } />
+      <div className={ styles.question__container }>
+        <div className={ styles.question__card }>
+          <div>
+            <h2 data-testid="question-category">{questionsFiltered.category}</h2>
+            <p data-testid="question-text">{questionsFiltered.question}</p>
           </div>
+          <ul className={ styles.question__list }>
+            {questionsFiltered.alternatives.map((question, index) => (
+              <li key={ index }>
+                <button
+                  onClick={ this.handleClickAnswer }
+                  type="button"
+                  className={ [styles
+                    .question__alternatives, borderColor[index]].join(' ') }
+                  data-testid={ Object.values(question) }
+                  disabled={ disabled }
+                  difficulty={ questionsFiltered.difficulty }
+                >
+                  {Object.keys(question)}
+                </button>
+              </li>
+            ))}
+          </ul>
+          <Timer reset={ reset } stop={ stop } handleZero={ this.handleZero } />
         </div>
         <button
           type="button"
@@ -174,7 +172,7 @@ class Questions extends Component {
         >
           Próxima
         </button>
-      </>
+      </div>
     );
   }
 }
