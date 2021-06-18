@@ -2,10 +2,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { createBrowserHistory } from 'history';
 import { requestTrivia } from '../Api';
 import Timer from './Timer';
 import './playGame.css';
 import { timerThunk } from '../actions';
+
+const history = createBrowserHistory();
 
 class PlayGame extends React.Component {
   constructor() {
@@ -25,11 +28,12 @@ class PlayGame extends React.Component {
     this.renderQuestions = this.renderQuestions.bind(this);
     this.renderLoading = this.renderLoading.bind(this);
     this.nameTheClassBtnAnswer = this.nameTheClassBtnAnswer.bind(this);
-    this.colorSelectAnswer = this.colorSelectAnswer.bind(this);
+    this.colorSelectCorrectAnswer = this.colorSelectCorrectAnswer.bind(this);
+    this.colorSelectIncorrectAnswer = this.colorSelectIncorrectAnswer.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     // this.fetchFilterQuestion = this.fetchFilterQuestion.bind(this);
     this.calcScore = this.calcScore.bind(this);
-    this.validScore = this.validScore.bind(this);
+    // this.validScore = this.validScore.bind(this);
   }
 
   componentDidMount() {
@@ -84,6 +88,11 @@ class PlayGame extends React.Component {
   nextQuestion() {
     const { questions, index } = this.state;
     const { handleTimer } = this.props;
+    const btnClickedFourTimes = 4;
+    if (index === btnClickedFourTimes) {
+      history.push('/feedback');
+      return window.location.reload(true);
+    }
     this.setState((prevState) => ({
       index: (prevState.index + 1) % questions.length,
       answer: '',
@@ -96,18 +105,33 @@ class PlayGame extends React.Component {
     handleTimer(true);
   }
 
-  colorSelectAnswer(e) {
+  colorSelectCorrectAnswer(e) {
     const FIVE_SECONDS = 5000;
-    const { answer } = this.state;
     const { handleTimer } = this.props;
     this.setState({
-      redAnswer: 'pink',
       greenAnswer: 'pink',
       answer: e.target.innerText,
-    }, () => this.validScore(answer));
+    });
     setTimeout(() => {
       this.setState({
         greenAnswer: 'green',
+        greenClass: 'green',
+        redClass: 'red',
+      });
+    }, FIVE_SECONDS);
+    handleTimer(false);
+    this.calcScore();
+  }
+
+  colorSelectIncorrectAnswer(e) {
+    const FIVE_SECONDS = 5000;
+    const { handleTimer } = this.props;
+    this.setState({
+      redAnswer: 'pink',
+      answer: e.target.innerText,
+    });
+    setTimeout(() => {
+      this.setState({
         redAnswer: 'red',
         redClass: 'red',
         greenClass: 'green',
@@ -116,14 +140,14 @@ class PlayGame extends React.Component {
     handleTimer(false);
   }
 
-  validScore(answer) {
-    const { questions } = this.state;
-    questions.forEach((question) => {
-      if (answer === question.correct_answer) {
-        this.calcScore();
-      }
-    });
-  }
+  // validScore(answer) {
+  //   const { questions } = this.state;
+  //   questions.forEach((question) => {
+  //     if (answer === question.correct_answer) {
+  //       this.calcScore();
+  //     }
+  //   });
+  // }
 
   renderQuestions() {
     const { questions, greenClass, redClass, index,
@@ -142,7 +166,7 @@ class PlayGame extends React.Component {
             <button
               data-testid="correct-answer"
               type="button"
-              onClick={ (e) => this.colorSelectAnswer(e) }
+              onClick={ (e) => this.colorSelectCorrectAnswer(e) }
               className={ answer === question.correct_answer ? greenAnswer : greenClass }
             >
               {question.correct_answer}
@@ -152,7 +176,7 @@ class PlayGame extends React.Component {
                 data-testid={ `wrong-answer-${indexKey}` }
                 type="button"
                 key={ indexKey }
-                onClick={ (e) => this.colorSelectAnswer(e) }
+                onClick={ (e) => this.colorSelectIncorrectAnswer(e) }
                 className={ answer === incorrect ? redAnswer : redClass }
               >
                 {incorrect}
