@@ -9,7 +9,7 @@ const INNITAL_STATE = {
   isLoalding: false,
   questions: [],
   gravatar: '',
-  assertations: 0,
+  assertions: 0,
 };
 
 const player = (state = INNITAL_STATE, action) => {
@@ -40,7 +40,7 @@ const player = (state = INNITAL_STATE, action) => {
     return {
       ...state,
       score: action.payload.score,
-      assertations: action.payload.assertations,
+      assertions: action.payload.assertions,
     };
   default:
     return state;
