@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { startNewGame, updateScore } from '../actions/action';
-import { getLocalStorage, permutate, setLocalStorage } from '../services';
+import { getLocalStorage, setLocalStorage } from '../services';
 import { BASE_SCORE, QUESTIONS_AMOUNT } from '../constants';
 import './GameManager.css';
 import GameQuestion from './GameQuestion';
@@ -18,6 +18,7 @@ class GameManager extends Component {
       timeExpired: false,
       shouldClear: false,
       shouldResetTimer: false,
+      shouldShuffle: true,
     };
     this.loadNextQuestion = this.loadNextQuestion.bind(this);
     this.updateScore = this.updateScore.bind(this);
@@ -26,10 +27,11 @@ class GameManager extends Component {
     this.buttonGotCleared = this.buttonGotCleared.bind(this);
     this.timeout = this.timeout.bind(this);
     this.timerGotReseted = this.timerGotReseted.bind(this);
+    this.questionsGotShuffled = this.questionsGotShuffled.bind(this);
   }
 
   componentDidMount() {
-    const { fetchQuestions, questions } = this.props;
+    const { fetchQuestions } = this.props;
     fetchQuestions(localStorage.getItem('token'));
     setLocalStorage({ score: 0 });
   }
@@ -83,6 +85,7 @@ class GameManager extends Component {
       timeExpired: false,
       shouldClear: true,
       shouldResetTimer: true,
+      shouldShuffle: true,
     });
   }
 
@@ -108,24 +111,26 @@ class GameManager extends Component {
     this.setState({ shouldResetTimer: false });
   }
 
+  questionsGotShuffled() {
+    this.setState({ shouldShuffle: false });
+  }
+
   render() {
     const { isLoading, questions } = this.props;
-    const { currentQuestionIndex, userAnswered, timeExpired, shouldClear, shouldResetTimer } = this.state;
+    const { currentQuestionIndex, userAnswered,
+      timeExpired, shouldClear, shouldResetTimer, shouldShuffle } = this.state;
     if (isLoading) return <div>Loading</div>;
-    const currentQuestion = questions[currentQuestionIndex];
-    const answers = [currentQuestion
-      .correct_answer, ...currentQuestion.incorrect_answers];
-    const sortedQuestions = permutate(...answers);
     return (
       <>
         <GameQuestion
           currentQuestion={ questions[currentQuestionIndex] }
-          sortedQuestions={ sortedQuestions }
           timeExpired={ timeExpired }
           userAnswered={ userAnswered }
           userClick={ this.userClick }
           clearButton={ shouldClear }
           buttonCleared={ this.buttonGotCleared }
+          shuffle={ shouldShuffle }
+          questionsShuffled={ this.questionsGotShuffled }
         />
         <button
           type="button"

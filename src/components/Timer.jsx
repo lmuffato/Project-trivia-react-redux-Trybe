@@ -20,14 +20,14 @@ class Timer extends Component {
 
   componentDidUpdate() {
     const { timer } = this.state;
-    const { userAnswered, didTimeout, remainingTime, shouldResetTimer, timerReseted } = this.props;
+    const { userAnswered, didTimeout, remainingTime,
+      shouldResetTimer, timerReseted } = this.props;
     if (shouldResetTimer) {
       this.setInitialTime();
       timerReseted();
       return;
     }
     if (timer > 0 && !userAnswered) {
-      console.log('hi');
       setTimeout(() => this.setState({ timer: timer - 1 }), ONE_SECOND);
       remainingTime(timer);
     } else if (timer <= 0 && !userAnswered) {

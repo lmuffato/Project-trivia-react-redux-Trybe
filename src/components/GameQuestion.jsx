@@ -4,19 +4,19 @@ import { permutate } from '../services';
 
 class GameQuestion extends Component {
   constructor(props) {
-    super(props);
+    super();
+    const { currentQuestion } = props;
+    const answers = [currentQuestion
+      .correct_answer, ...currentQuestion.incorrect_answers];
     this.state = {
-      permutatedAswers: [],
+      sortedQuestions: answers,
     };
-    this.setPermutatedAnswers = this.setPermutatedAnswers.bind(this);
-  }
-
-  componentDidMount() {
-    this.setPermutatedAnswers();
+    this.sortQuestions = this.sortQuestions.bind(this);
   }
 
   componentDidUpdate() {
-    const { timeExpired, userAnswered, clearButton, buttonCleared } = this.props;
+    const { timeExpired, userAnswered, clearButton,
+      buttonCleared, shuffle, questionsShuffled } = this.props;
     const btnArr = document.getElementsByClassName('btn');
     if (timeExpired || userAnswered) {
       this.colorButtonsBorder();
@@ -25,22 +25,25 @@ class GameQuestion extends Component {
     if (clearButton) {
       buttonCleared();
       this.clearButtonsBorder();
-      console.log(btnArr);
       [...btnArr].forEach((btn) => { btn.disabled = false; });
     }
-  }
-
-  setPermutatedAnswers() {
-    const { currentQuestion } = this.props;
-    const answers = [currentQuestion
-      .correct_answer, ...currentQuestion.incorrect_answers];
-    this.setState({ permutatedAswers: permutate(...answers) });
+    if (shuffle) {
+      questionsShuffled();
+      this.sortQuestions();
+    }
   }
 
   getID(answer) {
     const { currentQuestion } = this.props;
     if (answer === currentQuestion.correct_answer) return 'correct-answer';
     return `wrong-answer-${currentQuestion.incorrect_answers.indexOf(answer)}`;
+  }
+
+  sortQuestions() {
+    const { currentQuestion } = this.props;
+    const answers = [currentQuestion
+      .correct_answer, ...currentQuestion.incorrect_answers];
+    this.setState({ sortedQuestions: permutate(...answers) });
   }
 
   clearButtonsBorder() {
@@ -64,8 +67,9 @@ class GameQuestion extends Component {
   }
 
   render() {
-    const { currentQuestion: { category, question }, userClick, sortedQuestions } = this.props;
-    const { permutatedAswers } = this.state;
+    const { currentQuestion: { category, question },
+      userClick } = this.props;
+    const { sortedQuestions } = this.state;
     return (
       <div>
         <h3 data-testid="question-category">{category}</h3>
@@ -86,5 +90,16 @@ class GameQuestion extends Component {
     );
   }
 }
+
+GameQuestion.propTypes = {
+  currentQuestion: PropTypes.number,
+  sortedQuestions: PropTypes.arrayOf(PropTypes.object),
+  timeExpired: PropTypes.bool,
+  userAnswered: PropTypes.bool,
+  userClick: PropTypes.func,
+  clearButton: PropTypes.bool,
+  buttonCleared: PropTypes.func,
+
+}.isRequired;
 
 export default GameQuestion;
