@@ -1,8 +1,9 @@
-import { GET_PLACAR, GET_QUESTION, GET_QUESTION_SUCCESS } from '../actions';
+import { GET_PLACAR, GET_QUESTION, GET_QUESTION_SUCCESS, SAVE_USER } from '../actions';
 
 const INITIAL_STATE = {
   placar: 0,
   perguntas: [],
+  users: [],
 };
 
 const gamePage = (state = INITIAL_STATE, { type, payload }) => {
@@ -18,6 +19,11 @@ const gamePage = (state = INITIAL_STATE, { type, payload }) => {
     return {
       ...state,
       perguntas: [...payload],
+    };
+  case SAVE_USER:
+    return {
+      ...state,
+      users: [...state.users, payload],
     };
   default:
     return state;

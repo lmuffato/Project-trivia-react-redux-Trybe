@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { getTokenThunk } from '../redux/actions';
+import logo from '../trivia.png';
+import '../App.css';
 
 class Login extends React.Component {
   constructor() {
@@ -52,43 +54,58 @@ class Login extends React.Component {
     localStorage.setItem('state', JSON.stringify(player));
   }
 
+  inputName() {
+    return (
+      <input
+        name="user"
+        id="floatingInput"
+        type="text"
+        data-testid="input-player-name"
+        onChange={ this.handleChange }
+        className="form-control"
+        placeHolder="Nome:"
+      />
+    );
+  }
+
   render() {
     const { config, login } = this.state;
     return (
-      <div>
-        <input
-          name="user"
-          type="text"
-          data-testid="input-player-name"
-          placeholder="Nome"
-          onChange={ this.handleChange }
-        />
-        <input
-          name="email"
-          type="email"
-          data-testid="input-gravatar-email"
-          placeholder="Email"
-          onChange={ this.handleChange }
-        />
-        <br />
-        <button
-          type="button"
-          data-testid="btn-play"
-          disabled={ this.verifyInputs() }
-          onClick={ this.gamePage }
-        >
-          Play!
-        </button>
-        {login && <Redirect to="/jogo" />}
-        <button
-          type="button"
-          data-testid="btn-settings"
-          onClick={ this.openConfig }
-        >
-          Configuração
-        </button>
-        {config && <Redirect to="/configuracao" /> }
-      </div>
+      <>
+        <img src={ logo } className="App-logo" alt="logo" />
+        <div className="form-group mb-3">
+          {this.inputName()}
+          <input
+            name="email"
+            type="email"
+            data-testid="input-gravatar-email"
+            placeholder="Email"
+            className="form-control"
+            onChange={ this.handleChange }
+          />
+        </div>
+        <div>
+          <button
+            type="button"
+            data-testid="btn-play"
+            disabled={ this.verifyInputs() }
+            onClick={ this.gamePage }
+            className="btn btn-outline-success"
+          >
+            Play!
+          </button>
+          {login && <Redirect to="/jogo" />}
+          <button
+            type="button"
+            data-testid="btn-settings"
+            onClick={ this.openConfig }
+            className="btn btn-outline-secondary"
+          >
+            Configuração
+          </button>
+          {config && <Redirect to="/configuracao" /> }
+        </div>
+      </>
     );
   }
 }

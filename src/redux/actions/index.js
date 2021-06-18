@@ -7,6 +7,7 @@ export const FETCH_GRAVATAR = 'FETCH_GRAVATAR';
 export const GET_PLACAR = 'GET_PLACAR';
 export const GET_QUESTION = 'GET_QUESTIONS';
 export const GET_QUESTION_SUCCESS = 'GET_QUESTION_SUCCESS';
+export const SAVE_USER = 'SAVE_USER';
 
 export const getPlacar = (payload) => ({
   type: GET_PLACAR,
@@ -56,12 +57,7 @@ export const getQuestionsThunk = (token) => (dispatch) => {
     .then(({ results }) => dispatch(getQuestionSuccess(results)));
 };
 
-/* {
-  id: 0,
-  questão: '',
-  respostas: [{
-    resp: '',
-    atr: '',
-  }],
-  respostaCorreta: '',
-} */
+export const saveUser = (payload) => ({
+  type: SAVE_USER,
+  payload,
+});
