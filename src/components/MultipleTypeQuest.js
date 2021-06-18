@@ -38,7 +38,7 @@ class MultipleTypeQuest extends Component {
             return (
               <button
                 type="button"
-                className={ `${alternative.class} + button is-link is-outlined` }
+                className={ `${alternative.class} button is-sucess is-outlined` }
                 onClick={ this.handleClick }
                 key={ index }
                 data-testid={ alternative.dataTest }

@@ -4,6 +4,9 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { FcSettings } from 'react-icons/fc';
 import { buttonLoginAction, resetScoreAction } from '../redux/actions';
+import Squirrel from '../assets/squirrel.png';
+
+import '../styles/Login.css';
 
 class Login extends React.Component {
   constructor() {
@@ -39,42 +42,53 @@ class Login extends React.Component {
     const { loginAction, amount, resetScore } = this.props;
     const { disabled, name, email } = this.state;
     return (
-      <form>
-        <label htmlFor="email">
-          Email:
-          <input
-            onChange={ this.handleChange }
-            data-testid="input-gravatar-email"
-            type="email"
-            name="email"
-          />
-        </label>
-        <label htmlFor="name">
-          Name:
-          <input
-            onChange={ this.handleChange }
-            data-testid="input-player-name"
-            type="text"
-            name="name"
-          />
-        </label>
-        <Link to="/game">
-          <button
-            onClick={ () => { loginAction(name, email, amount); resetScore(); } }
-            disabled={ disabled }
-            data-testid="btn-play"
-            type="button"
-          >
-            Jogar
-          </button>
-          <Link to="/configuracoes">
-            <FcSettings
-              style={ { fontSize: '1.8em' } }
-              type="button"
-              data-testid="btn-settings"
+      <form className="flex box">
+        <fieldset className="fieldset">
+          <div className="logo-img">
+            <h1 className="title has-text-right"> Shipit Trivia</h1>
+            <img src={ Squirrel } alt="" />
+          </div>
+          <label htmlFor="email">
+            Email:
+            <input
+              onChange={ this.handleChange }
+              data-testid="input-gravatar-email"
+              type="email"
+              name="email"
+              className="input is-info"
+              placeholder="Your e-mail"
             />
+          </label>
+          <label htmlFor="name">
+            Name:
+            <input
+              onChange={ this.handleChange }
+              data-testid="input-player-name"
+              type="text"
+              name="name"
+              className="input is-info"
+              placeholder="Your name"
+            />
+          </label>
+          <Link to="/game">
+            <button
+              onClick={ () => { loginAction(name, email, amount); resetScore(); } }
+              disabled={ disabled }
+              data-testid="btn-play"
+              type="button"
+              className="button"
+            >
+              Jogar
+            </button>
+            <Link to="/configuracoes">
+              <FcSettings
+                style={ { fontSize: '1.8em' } }
+                type="button"
+                data-testid="btn-settings"
+              />
+            </Link>
           </Link>
-        </Link>
+        </fieldset>
       </form>
     );
   }
