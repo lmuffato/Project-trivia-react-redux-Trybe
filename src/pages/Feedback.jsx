@@ -11,30 +11,44 @@ class Feedback extends Component {
     const minHits = 3;
     const playerInfo = { score, gravatar, name };
     return (
-      <div>
+      <div className="feedback-screen">
         <Header />
-        <span data-testid="feedback-total-score">{ score }</span>
-        <span data-testid="feedback-total-question">{ assertions }</span>
-        <p data-testid="feedback-text">
-          {assertions < minHits ? 'Podia ser melhor...' : 'Mandou bem!'}
-        </p>
-        <Link to="/">
-          <button
-            type="button"
-            data-testid="btn-play-again"
-          >
-            Jogar novamente
-          </button>
-        </Link>
-        <Link to="/ranking">
-          <button
-            type="button"
-            data-testid="btn-ranking"
-            onClick={ () => ranking(playerInfo) }
-          >
-            Ver Ranking
-          </button>
-        </Link>
+        <div className="feedback-main">
+          <p data-testid="feedback-text" className="message">
+            {assertions < minHits ? 'Podia ser melhor...' : 'Mandou bem!'}
+          </p>
+          <div>
+            <span data-testid="feedback-total-score" className="feedback">
+              {` Sua pontuação é:  ${score}`}
+            </span>
+            <br />
+            <br />
+            <span data-testid="feedback-total-question" className="feedback">
+              {`Total de acertos:  ${assertions}`}
+            </span>
+          </div>
+          <div className="buttons">
+            <Link to="/">
+              <button
+                type="button"
+                data-testid="btn-play-again"
+                className="link-button"
+              >
+                Jogar novamente
+              </button>
+            </Link>
+            <Link to="/ranking">
+              <button
+                type="button"
+                data-testid="btn-ranking"
+                className="link-button"
+                onClick={ () => ranking(playerInfo) }
+              >
+                Ver Ranking
+              </button>
+            </Link>
+          </div>
+        </div>
       </div>
     );
   }

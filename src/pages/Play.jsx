@@ -52,6 +52,19 @@ class Play extends Component {
     if (target.className === correctAnswerId) this.calcScore();
   }
 
+  decodeHTML(textHTML) {
+    return (
+      textHTML
+        .replace(/&nbsp;/gi, ' ')
+        .replace(/&amp;/gi, '&')
+        .replace(/&quot;/gi, '"')
+        .replace(/&lt;/gi, '<')
+        .replace(/&gt;/gi, '>')
+        .replace(/&‌#039;/gi, '\'')
+        .replace(/&deg;;/gi, '°')
+    );
+  }
+
   createOptions() {
     const { questions } = this.props;
     const { questionNumber } = this.state;
@@ -65,7 +78,7 @@ class Play extends Component {
         className: 'wrong-answer',
         type: 'button',
         name: 'answer',
-        value: answer,
+        value: this.decodeHTML(answer),
         'data-testid': `wrong-answer-${index}`,
         onClick: this.finishingRound,
       }));
@@ -75,7 +88,7 @@ class Play extends Component {
         className: `${correctAnswerId}`,
         type: 'button',
         name: 'answer',
-        value: correctAnswer,
+        value: this.decodeHTML(correctAnswer),
         'data-testid': correctAnswerId,
         onClick: this.finishingRound,
       },
@@ -95,9 +108,11 @@ class Play extends Component {
     const questionOfRound = (
       <aside key="question_field">
         <h3 key="category" data-testid="question-category" className="title">
-          {`Categoria: ${category}`}
+          { this.decodeHTML(category) }
         </h3>
-        <h3 key="question" data-testid="question-text">{question}</h3>
+        <h3 key="question" data-testid="question-text">
+          { this.decodeHTML(question) }
+        </h3>
       </aside>
     );
 
