@@ -25,9 +25,9 @@ class Jogo extends Component {
       redirectToFeedback,
     } = this.props;
 
-    // if (redirectToFeedback) {
-    //   return <Redirect to="/feedback" />;
-    // }
+    if (redirectToFeedback) {
+      return <Redirect to="/feedback" />;
+    }
 
     return (
       <div>

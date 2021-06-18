@@ -24,8 +24,8 @@ class Header extends Component {
         <Link to="/">
           {this.renderGravatarImage()}
         </Link>
-        <span data-testid="header-player-name">{ name }</span>
-        <span data-testid="header-score" className="score">{ score }</span>
+        <h2 data-testid="header-player-name">{ name }</h2>
+        <p data-testid="header-score" className="score">{ score }</p>
       </header>
     );
   }
