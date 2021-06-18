@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { FcSettings } from 'react-icons/fc';
-import { buttonLoginAction } from '../redux/actions';
+import { buttonLoginAction, resetScoreAction } from '../redux/actions';
 
 class Login extends React.Component {
   constructor() {
@@ -36,7 +36,7 @@ class Login extends React.Component {
   }
 
   render() {
-    const { loginAction, amount } = this.props;
+    const { loginAction, amount, resetScore } = this.props;
     const { disabled, name, email } = this.state;
     return (
       <form>
@@ -60,7 +60,7 @@ class Login extends React.Component {
         </label>
         <Link to="/game">
           <button
-            onClick={ () => loginAction(name, email, amount) }
+            onClick={ () => { loginAction(name, email, amount); resetScore(); } }
             disabled={ disabled }
             data-testid="btn-play"
             type="button"
@@ -85,7 +85,10 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  loginAction: (name, email, amount) => dispatch(buttonLoginAction(name, email, amount)),
+  loginAction: (name, email, amount) => dispatch(
+    buttonLoginAction(name, email, amount),
+  ),
+  resetScore: () => dispatch(resetScoreAction()),
 });
 
 Login.propTypes = {
