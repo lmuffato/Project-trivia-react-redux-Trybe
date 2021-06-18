@@ -48,10 +48,13 @@ class Timer extends Component {
   }
 
   render() {
-    const { state: { seconds } } = this;
+    const { state: { seconds },
+      // props: { enableNextButton, stopCountdown },
+      /* startCountdown */ } = this;
     return (
       <div>
         {seconds}
+        {/* {enableNextButton ? stopCountdown() : startCountdown()} */}
       </div>
     );
   }

@@ -6,6 +6,7 @@ import { Redirect } from 'react-router';
 import Timer from './Timer';
 
 const correctTestId = 'correct-answer';
+const altButtonsSelector = '.alternative-button';
 
 class Questions extends Component {
   constructor() {
@@ -43,12 +44,20 @@ class Questions extends Component {
     } else {
       this.setState((Prev) => ({
         questionIndex: Prev.questionIndex + 1,
-      }));
+        enableNextButton: false,
+      }), () => {
+        const altButtons = document.querySelectorAll(altButtonsSelector);
+        altButtons.forEach((button) => {
+          button.classList.remove('correct-color');
+          button.classList.remove('wrong-color');
+          button.removeAttribute('disabled');
+        });
+      });
     }
   }
 
   addBorderOnClick() {
-    const altButtons = document.querySelectorAll('.alternative-button');
+    const altButtons = document.querySelectorAll(altButtonsSelector);
     altButtons.forEach((button) => {
       const isCorrect = button.getAttribute('data-testid') === correctTestId;
       if (isCorrect) {
@@ -60,7 +69,7 @@ class Questions extends Component {
   }
 
   disableAlternativeButtons() {
-    const altButtons = document.querySelectorAll('.alternative-button');
+    const altButtons = document.querySelectorAll(altButtonsSelector);
     altButtons.forEach((button) => {
       button.setAttribute('disabled', true);
     });
@@ -163,12 +172,13 @@ class Questions extends Component {
     const validQuestions = questions.length > 0;
     return (
       <div>
-        <Timer
+        {enableNextButton ? null : <Timer
           stopCountdown={ stopCountdown }
           addBorderOnClick={ addBorderOnClick }
           disableAlternativeButtons={ disableAlternativeButtons }
           setEnableNextButton={ setEnableNextButton }
-        />
+          enableNextButton={ enableNextButton }
+        />}
         <p data-testid="question-category">
           {validQuestions ? questions[questionIndex].category : 'carregando...'}
         </p>
