@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Trivia from '../components/trivia';
 // import user from '../reducers/user';
 
 class Game extends Component {
@@ -46,13 +47,17 @@ class Game extends Component {
   }
 
   render() {
-    console.log(this.props);
     return (
-      <header>
-        {this.renderHeader()}
-        {this.renderName()}
-        {this.renderScore()}
-      </header>
+      <>
+        <header>
+          {this.renderHeader()}
+          {this.renderName()}
+          {this.renderScore()}
+        </header>
+        <main>
+          <Trivia />
+        </main>
+      </>
     );
   }
 }
