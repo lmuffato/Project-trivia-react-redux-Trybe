@@ -6,6 +6,8 @@ import Login from './pages/Login';
 import Feedback from './pages/Feedback';
 import themes from './styles';
 import Header from './pages/Game/header';
+import Ranking from './pages/Ranking/index';
+import { listStyle } from './pages/Ranking/styles';
 
 const App = () => (
   <ThemeProvider theme={ themes.light }>
@@ -34,6 +36,9 @@ const App = () => (
 
       <Route exact path="/ranking">
         <h1>Ranking</h1>
+        <listStyle>
+          <Ranking />
+        </listStyle>
       </Route>
 
       <Route exact path="*">

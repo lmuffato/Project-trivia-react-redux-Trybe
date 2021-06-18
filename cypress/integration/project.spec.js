@@ -38,6 +38,8 @@ const FEEDBACK_TOTAL_SCORE_SELECTOR = '[data-testid="feedback-total-score"]';
 const FEEDBACK_TOTAL_QUESTION_SELECTOR = '[data-testid="feedback-total-question"]';
 const BUTTON_PLAY_AGAIN_SELECTOR = '[data-testid="btn-play-again"]';
 
+/*
+
 
 // login
 
@@ -572,6 +574,8 @@ describe('16 - [TELA DE FEEDBACK] Crie a opção para a pessoa jogadora poder vi
 });
 
 // ranking
+
+*/
 
 describe('17 - [TELA DE RANKING] Crie a tela de _ranking_', () => {
   beforeEach(() => {
