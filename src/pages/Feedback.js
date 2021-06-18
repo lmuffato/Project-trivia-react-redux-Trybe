@@ -28,18 +28,25 @@ class Feedback extends React.Component {
       score: 0,
       gravatarEmail: '',
     };
+    // const state = JSON.parse(localStorage.getItem('state'));
     const { score, assertions, resetPlayerState } = this.props;
+    console.log(typeof score);
+    console.log(typeof assertions);
     return (
       <section>
         <Header />
         <h1 data-testid="feedback-text">
           {this.assertionsMenssage()}
         </h1>
-        <h2 data-testid="feedback-total-question">
-          {`Você acertou ${assertions} questões!`}
+        <h2>
+          Você acertou
+          <span data-testid="feedback-total-question">{` ${assertions} `}</span>
+          questões!
         </h2>
-        <h2 data-testid="feedback-total-score">
-          {`Um total de ${score} pontos`}
+        <h2>
+          Um total de
+          <span data-testid="feedback-total-score">{` ${score} `}</span>
+          pontos
         </h2>
         <Link to="/">
           <button

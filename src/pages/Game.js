@@ -71,7 +71,6 @@ class Game extends React.Component {
 
   buildRanking() {
     const playerInfo = JSON.parse(localStorage.getItem('state')).player;
-    console.log(playerInfo);
     let ranking = JSON.parse(localStorage.getItem('ranking'));
 
     if (!Array.isArray(ranking)) {
