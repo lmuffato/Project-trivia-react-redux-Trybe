@@ -21,10 +21,11 @@ class SingleQuestion extends Component {
   }
 
   resetBtn() {
-      this.setState({
-        chosedQuestion: false,
-        disableBtn: false,
-      })
+    this.setState({
+      chosedQuestion: false,
+      disableBtn: false,
+      time: 30
+    })
   }
 
   componentDidMount() {
@@ -33,20 +34,24 @@ class SingleQuestion extends Component {
   }
 
   timer() {
-    const { time, index } = this.state;
-    if (time === 1) {
+    const { time } = this.state;
+    const { callNext, index } = this.props;
+    if (time === 1 && index <= 4) {
       clearInterval(this.intervalFunc);
       this.setState({
-        index: index + 1,
         chosedQuestion: true,
+        disableBtn: true,
       });
+      callNext();
+    } else if (index === 4) {
+      console.log("cabo o jogo, vai lavar louça");
+      // Rota para /ranking
     }
     return this.setState({ time: time - 1 });
   }
 
   answerClick(event) {
-    const { index, chosedQuestion } = this.state;
-    const { questions } = this.props;
+    const { questions, index } = this.props;
     if (event.target.value === questions[index].correct_answer) {
       this.setState({
         chosedQuestion: true,
@@ -62,9 +67,7 @@ class SingleQuestion extends Component {
 
   render() {
     const { index, questions, loading, callNext } = this.props;
-    const {chosedQuestion, disableBtn} = this.state
-    const { questions, loading } = this.props;
-    const { index, chosedQuestion, time } = this.state;
+    const {chosedQuestion, disableBtn, time} = this.state
     return (
       <div>
        {loading === true ? <p>carregando...</p>
