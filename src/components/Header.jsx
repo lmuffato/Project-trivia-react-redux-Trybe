@@ -27,31 +27,19 @@ class Header extends React.Component {
       <div className="container">
         <div className="row">
           <div className="col">
-            1 of 2
+            <img
+              src={ gravatar }
+              alt="User"
+              data-testid="header-profile-picture"
+            />
           </div>
           <div className="col">
-            2 of 2
+            <p data-testid="header-player-name">{ name }</p>
+          </div>
+          <div className="col">
+            <p data-testid="header-score">{score}</p>
           </div>
         </div>
-        <div className="row">
-          <div className="col">
-            1 of 3
-          </div>
-          <div className="col">
-            2 of 3
-          </div>
-          <div className="col">
-            3 of 3
-          </div>
-        </div>
-
-        <img
-          src={ gravatar }
-          alt="User"
-          data-testid="header-profile-picture"
-        />
-        <p data-testid="header-player-name">{ name }</p>
-        <p data-testid="header-score">{score}</p>
       </div>
     );
   }
