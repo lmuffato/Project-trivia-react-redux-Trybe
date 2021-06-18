@@ -83,7 +83,6 @@ class Game extends Component {
 
   render() {
     const { isLoading, questionAnswered } = this.props;
-
     const { questionNumber, shouldRedirect, changedQuestion } = this.state;
     if (isLoading) return <h2>Loading...</h2>;
     if (shouldRedirect) return <Redirect to="/feedback" />;
