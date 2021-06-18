@@ -41,7 +41,7 @@ class Login extends React.Component {
     loginAction(this.state);
 
     const state = { player: {
-      name,
+      // name,
       assertions: 0,
       score: 0,
       gravatarEmail: email,
