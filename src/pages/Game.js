@@ -30,7 +30,11 @@ class Game extends Component {
 
   componentDidMount() {
     const { fetchAPI, stateCategory, stateDificulte, stateType } = this.props;
-    fetchAPI(stateCategory, stateDificulte, stateType);
+    let category = '';
+
+    if (stateCategory !== '') setToLocalStorage('category', stateCategory);
+    category = getItemFromLocalStorage('category');
+    fetchAPI(category, stateDificulte, stateType);
   }
 
   componentWillUnmount() {
