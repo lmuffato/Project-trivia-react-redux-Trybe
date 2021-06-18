@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import HeaderTriviaGame from '../components/HeaderTriviaGame';
 import Question from '../components/Question';
-// import Timer from '../components/Timer';
+import Timer, { disableButtons } from '../components/Timer';
 import Answer from '../components/Answer';
 import ButtonNext from '../components/ButtonNext';
 import { shuffle } from '../helper';
+import { timerResetAction, updateTimer, timerIntervalAction } from '../redux/action';
 
 class TriviaGame extends Component {
   constructor(props) {
@@ -14,6 +16,7 @@ class TriviaGame extends Component {
 
     this.state = {
       index: 0,
+      goFeedback: false,
     };
     this.handleIndexIncrementOnClick = this.handleIndexIncrementOnClick.bind(this);
     this.changeBorder = this.changeBorder.bind(this);
@@ -38,10 +41,27 @@ class TriviaGame extends Component {
   }
 
   handleIndexIncrementOnClick() {
+    const { timerReset, decreaseTimer, setTimerInterval } = this.props;
+    const { index } = this.state;
+    console.log('AQUI handleIndexIncrementOnClick()');
+    const NUMBER_QUESTIONS = 4;
+    if (index < NUMBER_QUESTIONS) {
+      this.setState({
+        goFeedback: true,
+      });
+      return;
+    }
     this.setState((oldState) => ({
       index: oldState.index + 1,
     }));
     this.resetBorder();
+    disableButtons(false);
+    timerReset();
+    // ------------------------
+    const oneSecond = 1000;
+    setTimerInterval(setInterval(() => {
+      decreaseTimer();
+    }, oneSecond));
   }
 
   answersRandom(index) {
@@ -65,14 +85,15 @@ class TriviaGame extends Component {
 
   render() {
     const { questions } = this.props;
-    const { index } = this.state;
+    const { index, goFeedback } = this.state;
     const questionsRandom = questions.length ? this.answersRandom(index) : 'xablau';
+    if (goFeedback) return <Redirect to="/feedback" />;
     return (
       <div>
         <HeaderTriviaGame />
         <div>
           {questions.length && <Question index={ index } />}
-          {/* <Timer /> */}
+          <Timer />
         </div>
         <div>
           {questions.length && <Answer
@@ -87,7 +108,13 @@ class TriviaGame extends Component {
 }
 
 TriviaGame.propTypes = {
-  questions: PropTypes.arrayOf(),
+  questions: PropTypes.arrayOf(PropTypes.shape({
+    correct_answer: PropTypes.string,
+    incorrect_answers: PropTypes.string,
+  })),
+  timerReset: PropTypes.func.isRequired,
+  decreaseTimer: PropTypes.func.isRequired,
+  setTimerInterval: PropTypes.func.isRequired,
 };
 
 TriviaGame.defaultProps = {
@@ -96,11 +123,14 @@ TriviaGame.defaultProps = {
 
 const mapStateToProps = (state) => ({
   // isFetching: state.user.isFetching,
+  // timeInterval: state.timer.timeInterval,
   questions: state.user.questions,
 });
 
-/* const mapDispatchToProps = (dispatch) => ({
- funcao que atualiza pontos
-}); */
+const mapDispatchToProps = (dispatch) => ({
+  timerReset: () => dispatch(timerResetAction()),
+  decreaseTimer: () => dispatch(updateTimer()),
+  setTimerInterval: (payload) => dispatch(timerIntervalAction(payload)),
+});
 
-export default connect(mapStateToProps, null)(TriviaGame);
+export default connect(mapStateToProps, mapDispatchToProps)(TriviaGame);
