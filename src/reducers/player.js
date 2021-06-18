@@ -1,7 +1,8 @@
 import {
   ADD_USER_LOGIN,
   CALCULATE_SCORE,
-  GET_ASSERTIONS, TIMEOUT, TIMEIN,
+  TIMEOUT, TIMEIN,
+  ADD_ASSERTIONS, RESET,
 } from '../actions/index';
 
 const INITIAL_STATE = {
@@ -18,12 +19,14 @@ const player = (state = INITIAL_STATE, action) => {
     return { ...state, gravatarEmail: action.payload.email, name: action.payload.name };
   case CALCULATE_SCORE:
     return { ...state, score: action.payload };
-  case GET_ASSERTIONS:
-    return { ...state, assertions: action.payload };
+  case ADD_ASSERTIONS:
+    return { ...state, assertions: state.assertions + 1 };
   case TIMEOUT:
     return { ...state, timeOut: true };
   case TIMEIN:
     return { ...state, timeOut: false };
+  case RESET:
+    return INITIAL_STATE;
   default:
     return state;
   }
