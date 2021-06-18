@@ -6,7 +6,8 @@ import rootReducer from '../reducer/index';
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
 
 store.subscribe(() => {
-  const json = JSON.stringify(store.getState().loginReducer);
+  const player = store.getState().loginReducer;
+  const json = JSON.stringify(player);
   localStorage.setItem('state', json);
 });
 
