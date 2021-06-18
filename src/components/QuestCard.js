@@ -52,23 +52,31 @@ class QuestCard extends Component {
     const { question } = this.props;
     const { disabled, alternatives } = this.state;
     return (
-      <div>
-        <p data-testid="question-category">{ question.category }</p>
-        <h1 data-testid="question-text">{ this.adjustQuestion(question.question) }</h1>
-        <MultipleTypeQuest
-          alternatives={ alternatives }
-          getAnswer={ this.getAnswer }
-          adjustAlternative={ this.adjustQuestion }
-        />
-        <button
-          type="button"
-          id="next-btn"
-          style={ { display: disabled } }
-          data-testid="btn-next"
-          onClick={ this.onNextClick }
-        >
-          Próxima Pergunta
-        </button>
+      <div className="question-box">
+        <div className="card">
+          <div className="card-header">
+            <h1 className="card-header-title" data-testid="question-text">
+              { this.adjustQuestion(question.question) }
+            </h1>
+            <p className="" data-testid="question-category">{ question.category }</p>
+          </div>
+          <MultipleTypeQuest
+            className="button-conteiner"
+            alternatives={ alternatives }
+            getAnswer={ this.getAnswer }
+            adjustAlternative={ this.adjustQuestion }
+          />
+          <button
+            type="button"
+            id="next-btn"
+            className="button is-primary"
+            style={ { display: disabled } }
+            data-testid="btn-next"
+            onClick={ this.onNextClick }
+          >
+            Próxima Pergunta
+          </button>
+        </div>
       </div>
     );
   }

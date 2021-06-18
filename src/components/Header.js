@@ -13,8 +13,10 @@ class Header extends Component {
           alt="Sua Foto do Gravatar"
           data-testid="header-profile-picture"
         />
-        <p data-testid="header-player-name">{ userName }</p>
-        <p data-testid="header-score">{ userScore }</p>
+        <div className="header-user-info">
+          <p className="title is-4" data-testid="header-player-name">{ userName }</p>
+          <p className="subtitle is-2" data-testid="header-score">{ userScore }</p>
+        </div>
       </div>
     );
   }

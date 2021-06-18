@@ -92,7 +92,7 @@ class GameScreen extends React.Component {
     const basePoints = 10;
     const updateAssertions = 1;
     const difficulty = this.calcDifficulty(questionDifficulty);
-    if (validation === 'correct correct-answer') {
+    if (validation === 'correct correct-answer button is-link is-outlined') {
       const calcScore = basePoints + (time * difficulty);
       updateScore(calcScore, updateAssertions);
     }
@@ -163,7 +163,9 @@ class GameScreen extends React.Component {
     return (
       <>
         <Header />
-        <h1>{ time }</h1>
+        <div className="time-conteiner">
+          <h1 className="subtitle is-2 is-spaced">{ time }</h1>
+        </div>
         { this.altBtnBehave(time) }
         <section>
           { (questions === '' || nextQuestion) ? this.loading() : <QuestCard
