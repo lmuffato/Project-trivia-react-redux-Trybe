@@ -16,6 +16,9 @@ class Question extends React.Component {
     this.handleQuestions = this.handleQuestions.bind(this);
     this.handleDifficulty = this.handleDifficulty.bind(this);
     this.saveTimer = this.saveTimer.bind(this);
+    this.handleButtonVisibility = this.handleButtonVisibility.bind(this);
+    this.handleNextQuestion = this.handleNextQuestion.bind(this);
+
     this.stateTimer = 0;
     this.state = {
       colorRed: { border: '3px solid rgb(255, 0, 0)' },
@@ -26,6 +29,8 @@ class Question extends React.Component {
       correctId: '',
       trueBoolean: {},
       falseBoolean: {},
+      buttonVisible: false,
+      timerUpdate: false,
     };
   }
 
@@ -53,6 +58,7 @@ class Question extends React.Component {
   }
 
   stylesMultiple() {
+    this.handleButtonVisibility();
     this.setState((previousState) => ({
       styleCorrect: previousState.colorGreen,
       styleIncorrect: previousState.colorRed,
@@ -60,6 +66,7 @@ class Question extends React.Component {
   }
 
   stylesTrueFalse() {
+    this.handleButtonVisibility();
     const answerArray = document.querySelectorAll('input');
     const getAnswer = answerArray[0].getAttribute('data-testid');
     if (getAnswer === correctAnswerString) {
@@ -173,6 +180,21 @@ class Question extends React.Component {
     return questionDif;
   }
 
+  handleButtonVisibility() {
+    this.setState({
+      buttonVisible: true,
+    });
+  }
+
+  handleNextQuestion() {
+    const { index } = this.props;
+    this.setState({
+      timerUpdate: true,
+    });
+    index();
+    this.handleQuestions();
+  }
+
   handleClick(flag, event) {
     const ten = 10;
     const { assertions, currentQuestion: { correct_answer: correctAnswer, difficulty },
@@ -188,8 +210,12 @@ class Question extends React.Component {
       }
     } else {
       console.log('errou');
+      this.this.setState({
+        timerUpdate: true,
+      });
       const btns = document.querySelectorAll('input');
       btns.forEach((btn) => { btn.disabled = true; });
+      setTimeout(() => this.handleButtonVisibility(), 100);
     }
   }
 
@@ -197,7 +223,7 @@ class Question extends React.Component {
     const { currentQuestion } = this.props;
     if (!currentQuestion) return <div>Carregando...</div>;
     const { category, question, type } = currentQuestion;
-    const { currentAnswers, correctId } = this.state;
+    const { currentAnswers, correctId, buttonVisible, timerUpdate } = this.state;
 
     return (
       <section style={ { display: 'flex', flexDirection: 'column' } }>
@@ -207,7 +233,12 @@ class Question extends React.Component {
           {type === 'boolean'
             ? this.trueOfFalse('True') : this.multiple(currentAnswers, correctId)}
         </div>
-        <Timer answerQuestion={ this.handleClick } saveTimer={ this.saveTimer } />
+        {buttonVisible
+          && (
+            <button type="button" data-testid="btn-next" onClick={ this.handleNextQuestion }>
+              Próxima
+            </button>)}
+        <Timer answerQuestion={ this.handleClick } saveTimer={ this.saveTimer } update={ timerUpdate } />
       </section>
     );
   }

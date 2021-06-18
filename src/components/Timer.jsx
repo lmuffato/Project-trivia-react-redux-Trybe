@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-const Timer = ({ answerQuestion, saveTimer }) => {
-  const timerNumber = 30;
+const Timer = ({ answerQuestion, saveTimer, update }) => {
+  const timerNumber = 5;
   const timeoutCountdown = 1000;
 
   const [timer, setTimer] = useState(timerNumber);
@@ -13,6 +13,10 @@ const Timer = ({ answerQuestion, saveTimer }) => {
   const timerZerado = () => {
     clearTimeout(timerId);
     answerQuestion(true);
+    if (update) {
+      setTimer(timer + timerNumber);
+      console.log(timer);
+    }
   };
 
   // console.log(saveTimer);

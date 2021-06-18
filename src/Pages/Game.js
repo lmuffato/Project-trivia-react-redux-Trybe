@@ -9,8 +9,11 @@ class Game extends Component {
   constructor() {
     super();
 
+    this.handleIncrementIndex = this.handleIncrementIndex.bind(this);
+
     this.state = {
       loading: true,
+      questionIndex: 0,
     };
   }
 
@@ -27,16 +30,26 @@ class Game extends Component {
     }, time);
   }
 
+  handleIncrementIndex() {
+    this.setState((previousState) => ({
+      questionIndex: previousState.questionIndex + 1,
+    }));
+  }
+
   render() {
     const { questionsFromStore } = this.props;
-    const { loading } = this.state;
+    const { loading, questionIndex } = this.state;
 
     return (
       <div>
         <Header />
         {loading
           ? 'Carregando...'
-          : <Question currentQuestion={ questionsFromStore[0] } />}
+          : (
+            <Question
+              index={ this.handleIncrementIndex }
+              currentQuestion={ questionsFromStore[questionIndex] }
+            />)}
       </div>
     );
   }
