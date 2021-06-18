@@ -13,6 +13,7 @@ import {
 import Timer from '../components/Timer';
 import RenderAnswers from '../components/RenderAnswers';
 import { getItemFromLocalStorage, setToLocalStorage } from '../services/storage';
+import Alert from '../components/Alert';
 
 class Game extends Component {
   constructor() {
@@ -26,6 +27,7 @@ class Game extends Component {
     this.nextQuestion = this.nextQuestion.bind(this);
     this.resetChangedQuestion = this.resetChangedQuestion.bind(this);
     this.reset = this.reset.bind(this);
+    this.checkLogin = this.checkLogin.bind(this);
   }
 
   componentDidMount() {
@@ -65,6 +67,11 @@ class Game extends Component {
     this.setState({ changedQuestion: false });
   }
 
+  checkLogin() {
+    const { player: { isLogged } } = this.props;
+    return isLogged;
+  }
+
   checkAnswer(event, questionLevel) {
     const { addScore, timesUp, addAssertions } = this.props;
     const DEFAULT_POINTS = 10;
@@ -86,6 +93,13 @@ class Game extends Component {
     const { questionNumber, shouldRedirect, changedQuestion } = this.state;
     if (isLoading) return <h2>Loading...</h2>;
     if (shouldRedirect) return <Redirect to="/feedback" />;
+    if (!this.checkLogin()) {
+      return (
+        <Alert>
+          <h1>Você precisa estar logado para jogar!</h1>
+        </Alert>
+      );
+    }
     return (
       <div>
         <Header />
@@ -124,6 +138,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = ({ apiResponse: { isLoading, apiResult }, player, filters }) => ({
   isLoading,
+  player,
   questionAnswered: player.timeOut,
   apiResult,
   stateCategory: filters.category,

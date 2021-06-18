@@ -15,6 +15,7 @@ class Ranking extends Component {
   }
 
   render() {
+    if (!this.getInformations()) return <h1>Ninguém no ranking ainda</h1>;
     return (
       <div>
         <h2 data-testid="ranking-title">Ranking</h2>

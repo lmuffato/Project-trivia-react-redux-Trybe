@@ -6,7 +6,7 @@ import './App.css';
 import Login from './pages/Login';
 import Feedback from './pages/Feedback';
 import Ranking from './pages/Ranking';
-// import NotFound from './pages/NotFound';
+import NotFound from './pages/NotFound';
 
 export default function App() {
   return (
@@ -15,7 +15,7 @@ export default function App() {
       <Route path="/trivia" component={ Game } />
       <Route path="/feedback" component={ Feedback } />
       <Route path="/ranking" component={ Ranking } />
-      {/* <Route component={ NotFound } /> */}
+      <Route component={ NotFound } />
     </Switch>
   );
 }
