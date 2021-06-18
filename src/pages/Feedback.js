@@ -1,8 +1,38 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import Header from '../components/Header';
 
 class Feedback extends React.Component {
+  componentDidMount() {
+    this.sendRanking();
+  }
+
+  sendRanking() {
+    const { nameStore, scoreStore, avatarStore } = this.props;
+
+    const rankigStorage = localStorage.getItem('ranking');
+
+    if (!rankigStorage) {
+      const rankingStorage = [{
+        name: nameStore,
+        score: scoreStore,
+        picture: avatarStore,
+      }];
+
+      localStorage.setItem('ranking', JSON.stringify(rankingStorage));
+    } else {
+      const getRankingStorage = JSON.parse(rankigStorage);
+      getRankingStorage.push({
+        name: nameStore,
+        score: scoreStore,
+        picture: avatarStore,
+      });
+      const rankingSorted = getRankingStorage.sort((a, b) => b.score - a.score);
+      localStorage.setItem('ranking', JSON.stringify(rankingSorted));
+    }
+  }
+
   renderLessThenThree() {
     return (
       <>
@@ -78,8 +108,14 @@ class Feedback extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  nameStore: state.player.name,
+  scoreStore: state.player.score,
+  avatarStore: state.player.avatar,
+});
+
 Feedback.propTypes = {
   history: propTypes.shape(),
 }.isRequired;
 
-export default Feedback;
+export default connect(mapStateToProps)(Feedback);
