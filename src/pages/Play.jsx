@@ -168,7 +168,7 @@ class Play extends Component {
         <span>{time}</span>
         <aside>
           {isLoading
-            ? <div>Carregando...</div>
+            ? <div>Carregando....</div>
             : answersOfRound.map((answer) => (
               <input
                 { ...answer }
