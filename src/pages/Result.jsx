@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
-import { getLocalStorage } from '../services';
+import { getLocalStorage, redirect } from '../services';
 
 class Result extends Component {
   constructor() {
@@ -24,6 +24,13 @@ class Result extends Component {
         <h3 data-testid="feedback-text">{this.feedbackMessage()}</h3>
         <h3 data-testid="feedback-total-score">{getLocalStorage('score')}</h3>
         <h3 data-testid="feedback-total-question">{getLocalStorage('assertions')}</h3>
+        <button
+          data-testid="btn-play-again"
+          onClick={ () => redirect.call(this, '/') }
+          type="button"
+        >
+          Jogar Novamente
+        </button>
       </div>
     );
   }
