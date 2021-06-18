@@ -75,49 +75,55 @@ class Login extends React.Component {
     event.preventDefault();
   }
 
+  loginInputs(param) {
+    const { name, placeH, value, dataID, onChange } = param;
+    return (
+      <div className="mb-3">
+        <label htmlFor={ name } className="form-label">
+          <input
+            className="form-control"
+            name={ name }
+            id={ name }
+            type="text"
+            placeholder={ placeH }
+            value={ value }
+            data-testid={ dataID }
+            onChange={ onChange }
+          />
+        </label>
+      </div>
+    );
+  }
+
   render() {
     const { name, email, disabled } = this.state;
+    const nameInput = {
+      name: 'name',
+      placeH: 'name',
+      value: name,
+      dataID: 'input-player-name',
+      onChange: (event) => this.handleChange(event) };
+    const emailInput = {
+      name: 'email',
+      placeH: 'email',
+      value: email,
+      dataID: 'input-player-email',
+      onChange: (event) => this.handleChange(event),
+    };
     return (
       <form>
-        <label htmlFor="name">
-          <input
-            name="name"
-            id="name"
-            type="text"
-            placeholder="name"
-            value={ name }
-            data-testid="input-player-name"
-            onChange={ (event) => this.handleChange(event) }
-          />
-        </label>
-        <label htmlFor="email">
-          <input
-            name="email"
-            id="email"
-            type="text"
-            placeholder="email"
-            value={ email }
-            data-testid="input-gravatar-email"
-            onChange={ (event) => this.handleChange(event) }
-          />
-        </label>
+        { this.loginInputs(nameInput) }
+        { this.loginInputs(emailInput) }
         <button
           disabled={ disabled }
           data-testid="btn-play"
           type="button"
           onClick={ this.handleClick }
         >
-          jogar
+          Jogar
         </button>
-        <button
-          data-testid="btn-settings"
-          type="button"
-        >
-          <Link
-            to="/settings"
-          >
-            Configurações
-          </Link>
+        <button data-testid="btn-settings" type="button">
+          <Link to="/settings"> Configurações </Link>
         </button>
       </form>
     );
