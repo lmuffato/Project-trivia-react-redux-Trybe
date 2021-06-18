@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 function Answer(props) {
   const { answers, changeBorder } = props;
+  console.log(props);
 
   const difficultyLevel = (key) => {
     const hardpoint = 3;
@@ -23,7 +24,7 @@ function Answer(props) {
 
   const scoreLocalStorage = (event, index) => {
     if (event.target.getAttribute('data-testid') === 'correct-answer') {
-      const timer = 1;
+      const timer = 10;
       const state = JSON.parse(localStorage.getItem('state'));
       const hitPoints = 10;
       state.score += (hitPoints + timer * difficultyLevel(answers[index].difficulty));
