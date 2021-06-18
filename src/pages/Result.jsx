@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
+import { getLocalStorage } from '../services';
 
 class Result extends Component {
   constructor() {
@@ -21,6 +22,8 @@ class Result extends Component {
       <div>
         <Header />
         <h3 data-testid="feedback-text">{this.feedbackMessage()}</h3>
+        <h3 data-testid="feedback-total-score">{getLocalStorage('score')}</h3>
+        <h3 data-testid="feedback-total-question">{getLocalStorage('assertions')}</h3>
       </div>
     );
   }
