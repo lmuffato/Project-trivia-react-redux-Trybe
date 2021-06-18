@@ -1,6 +1,9 @@
 export const USER_LOGIN = 'USER_LOGIN';
 export const GET_QUESTIONS = 'GET_QUESTIONS';
 export const IS_FETCHING = 'IS_FETCHING';
+export const UPDATE_TIMER = 'UPDATE_TIMER';
+export const TIMER_RESET = 'TIMER_RESET';
+export const TIMER_INTERVAL = 'TIMER_INTERVAL';
 
 export const loginUserAction = (payload) => ({
   type: USER_LOGIN,
@@ -37,3 +40,16 @@ export const getQuestionsActionThunk = (amountQuestion, token) => async (dispatc
     console.error(error);
   }
 };
+
+export const updateTimer = () => ({
+  type: UPDATE_TIMER,
+});
+
+export const timerResetAction = () => ({
+  type: TIMER_RESET,
+});
+
+export const timerIntervalAction = (payload) => ({
+  type: TIMER_INTERVAL,
+  payload,
+});
