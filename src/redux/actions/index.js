@@ -2,9 +2,9 @@ import { LOGIN, GET_QUESTIONS, GET_TOKEN,
   REQUEST_API, ADD_GRAVATAR, UPDATE_SCORE, UPDATE_RANKING } from './actionsTypes';
 
 export const updateScore = (newScore) => {
-  const { assertations, score } = newScore;
+  const { assertions, score } = newScore;
   const previousPlayerInfo = JSON.parse(localStorage.getItem('state'));
-  const stateUpdate = { player: { ...previousPlayerInfo.player, assertations, score } };
+  const stateUpdate = { player: { ...previousPlayerInfo.player, assertions, score } };
   localStorage.setItem('state', JSON.stringify(stateUpdate));
   return ({
     type: UPDATE_SCORE,
