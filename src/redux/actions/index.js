@@ -21,17 +21,23 @@ export const resetScoreAction = () => ({
   type: RESET_SCORE,
 });
 
-export const fetchToken = (amount) => async (dispatch) => {
+export const fetchToken = (configs) => async (dispatch) => {
+  const { amount, category, difficulty, type } = configs;
+  console.log(configs);
   const tokenJson = await fetch('https://opentdb.com/api_token.php?command=request');
   const token = await tokenJson.json();
   dispatch(receiveToken(token));
-  const questionsJson = await fetch(`https://opentdb.com/api.php?amount=${amount}&token=${token.token}`);
+  const questionsJson = await
+  fetch(`https://opentdb.com/api.php?amount=${amount}${category}${difficulty}${type}&token=${token.token}`);
   const questions = await questionsJson.json();
+  console.log(questions);
   dispatch(receiveQuestions(questions));
 };
 
-export const buttonLoginAction = (name, email, amount) => async (
+export const buttonLoginAction = (
+  name, email, configs,
+) => async (
   dispatch) => {
   dispatch(loginAction(name, email));
-  dispatch(fetchToken(amount));
+  dispatch(fetchToken(configs));
 };
