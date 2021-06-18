@@ -1,6 +1,4 @@
-import {
-  LOG_IN, REQUEST_TOKEN, SAVE_AVATAR, GET_SCORE, REQUEST_TOKEN_SUCCESS,
-} from '../actions';
+import { LOG_IN, REQUEST_TOKEN, SAVE_AVATAR, GET_SCORE } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
@@ -9,7 +7,6 @@ const INITIAL_STATE = {
   playerEmail: '',
   token: '',
   avatar: '',
-  tokenLoading: false,
 };
 
 const player = (state = INITIAL_STATE, action) => {
@@ -22,13 +19,8 @@ const player = (state = INITIAL_STATE, action) => {
     };
   case REQUEST_TOKEN:
     return {
-      tokenLoading: true,
-    };
-  case REQUEST_TOKEN_SUCCESS:
-    return {
       ...state,
       token: action.payload,
-      tokenLoading: false,
     };
   case SAVE_AVATAR:
     return {

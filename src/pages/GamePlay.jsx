@@ -48,9 +48,9 @@ class GamePlay extends React.Component {
     this.sendLocalStorage = this.sendLocalStorage.bind(this);
   }
 
-  componentDidUpdate() {
+  async componentDidUpdate() {
     const { token, questions, fecthQuestionsAction, filters } = this.props;
-    if (questions.length === 0) fecthQuestionsAction(token, filters);
+    if (questions.length === 0) await fecthQuestionsAction(token, filters);
   }
 
   timeCondition(bool) {
@@ -215,7 +215,6 @@ const mapStateToProps = (state) => ({
   scoreStore: state.player.score,
   questions: state.triviaReducer.questions,
   loading: state.triviaReducer.isLoading,
-  filters: state.triviaReducer.filters,
   secondsStore: state.triviaReducer.seconds,
 });
 

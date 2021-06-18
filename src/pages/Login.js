@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import '../App.css';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import trivia from '../trivia.png';
 import { login, fetchToken } from '../actions';
@@ -34,7 +35,6 @@ class Login extends React.Component {
 
   async startGame() {
     const { name, email } = this.state;
-    // const ONE_SECOND = 1000;
     const { loginAction, requestTokenAction, history } = this.props;
     await requestTokenAction();
     loginAction(this.state);
@@ -52,7 +52,6 @@ class Login extends React.Component {
 
   renderInputs() {
     const { name, email, playButton } = this.state;
-    const { history } = this.props;
     return (
       <>
         <label htmlFor="name">
@@ -75,21 +74,24 @@ class Login extends React.Component {
             onChange={ this.handleChange }
           />
         </label>
-        <button
-          type="button"
-          data-testid="btn-play"
-          disabled={ !playButton }
-          onClick={ this.startGame }
-        >
-          Jogar
-        </button>
-        <button
-          type="button"
-          data-testid="btn-settings"
-          onClick={ () => history.push('/settings') }
-        >
-          Configurações
-        </button>
+        <Link to="/gameplay">
+          <button
+            type="button"
+            data-testid="btn-play"
+            disabled={ !playButton }
+            onClick={ this.startGame }
+          >
+            Jogar
+          </button>
+        </Link>
+        <Link to="/settings">
+          <button
+            type="button"
+            data-testid="btn-settings"
+          >
+            Configurações
+          </button>
+        </Link>
       </>
     );
   }
