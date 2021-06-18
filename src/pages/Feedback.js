@@ -19,18 +19,16 @@ class Feedback extends React.Component {
   render() {
     const state = JSON.parse(localStorage.getItem('state'));
     const { score, assertions } = state.player;
-    // let text = ''
-    // console.log(score);
 
     return (
       <div>
         <Header score={ score } />
-        <h1 data-testid="feedback-text">FEEDBACK</h1>
+        <h1>FEEDBACK</h1>
         <h2 data-testid="feedback-total-score">{score}</h2>
         <h2
           data-testid="feedback-total-question"
         >
-          Questões corretas:
+          {/* Questões corretas: */}
           { assertions }
         </h2>
         <h2 data-testid="feedback-text">{this.ResponseFeedback()}</h2>
