@@ -4,20 +4,29 @@ import { connect } from 'react-redux';
 import './Questions.css';
 import Timer from './Timer';
 
+const correctTestId = 'correct-answer';
+
 class Questions extends Component {
   constructor() {
     super();
+    this.stopCountdown = this.stopCountdown.bind(this);
     this.addBorderOnClick = this.addBorderOnClick.bind(this);
+    this.disableAlternativeButtons = this.disableAlternativeButtons.bind(this);
+    this.updateScoreToLS = this.updateScoreToLS.bind(this);
+    this.alternativeClick = this.alternativeClick.bind(this);
     this.createAlternativesButtons = this.createAlternativesButtons.bind(this);
     this.mockAlternatives = this.mockAlternatives.bind(this);
-    this.stopCountdown = this.stopCountdown.bind(this);
-    this.disableAlternativeButtons = this.disableAlternativeButtons.bind(this);
+  }
+
+  stopCountdown() {
+    const { props: { timerID } } = this;
+    clearInterval(timerID);
   }
 
   addBorderOnClick() {
     const altButtons = document.querySelectorAll('.alternative-button');
     altButtons.forEach((button) => {
-      const isCorrect = button.getAttribute('data-testid') === 'correct-answer';
+      const isCorrect = button.getAttribute('data-testid') === correctTestId;
       if (isCorrect) {
         button.classList.add('correct-color');
       } else {
@@ -33,19 +42,54 @@ class Questions extends Component {
     });
   }
 
+  updateScoreToLS(timer, diff) {
+    const basePoints = 10;
+    const difficultyReference = {
+      easy: 1,
+      medium: 2,
+      hard: 3,
+    };
+    const questionPoints = basePoints + (timer * difficultyReference[diff]);
+    const ls = JSON.parse(localStorage.getItem('state'));
+    const updatedPlayer = {
+      ...ls.player,
+      score: ls.player.score + questionPoints,
+    };
+
+    localStorage.setItem('state', JSON.stringify({ player: updatedPlayer }));
+  }
+
+  alternativeClick(event) {
+    event.persist();
+    const {
+      props: { questions, seconds },
+      stopCountdown,
+      addBorderOnClick,
+      disableAlternativeButtons,
+      updateScoreToLS } = this;
+
+    stopCountdown();
+    addBorderOnClick();
+    disableAlternativeButtons();
+
+    const isCorrect = event.target.getAttribute('data-testid') === correctTestId;
+
+    if (isCorrect) {
+      updateScoreToLS(seconds, questions[0].difficulty);
+    }
+  }
+
   createAlternativesButtons(question) {
-    const altArray = [...question.incorrect_answers, question.correct_answer];
-    const randomNumber = 0.5;
-    const shuffledAltArray = altArray.sort(() => Math.random() - randomNumber);
+    const shuffledAltArray = question.shuffledAlternatives;
     return shuffledAltArray.map((alt, index) => {
       const isCorrect = (alt === question.correct_answer);
       return (
         <button
           key={ index }
           type="button"
-          data-testid={ isCorrect ? 'correct-answer' : `wrong-answer-${index}` }
+          data-testid={ isCorrect ? correctTestId : `wrong-answer-${index}` }
           className="alternative-button"
-          onClick={ this.stopCountdown }
+          onClick={ this.alternativeClick }
         >
           {alt}
         </button>
@@ -62,30 +106,22 @@ class Questions extends Component {
     );
   }
 
-  stopCountdown(event) {
-    const {
-      props: { timerID },
-      addBorderOnClick,
-      disableAlternativeButtons } = this;
-    clearInterval(timerID);
-    addBorderOnClick();
-    disableAlternativeButtons();
-  }
-
   render() {
     const {
       props: { questions },
       createAlternativesButtons,
       mockAlternatives,
+      stopCountdown,
       addBorderOnClick,
-      stopCountdown } = this;
+      disableAlternativeButtons } = this;
     const validQuestions = questions.length > 0;
 
     return (
       <div>
         <Timer
-          addBorderOnClick={ addBorderOnClick }
           stopCountdown={ stopCountdown }
+          addBorderOnClick={ addBorderOnClick }
+          disableAlternativeButtons={ disableAlternativeButtons }
         />
         <p data-testid="question-category">
           {validQuestions ? questions[0].category : 'carregando...'}
@@ -101,6 +137,7 @@ class Questions extends Component {
 
 const mapStateToProps = (state) => ({
   timerID: state.timer.timerID,
+  seconds: state.timer.seconds,
 });
 
 Questions.propTypes = {
