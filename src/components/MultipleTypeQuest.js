@@ -29,21 +29,24 @@ class MultipleTypeQuest extends Component {
   }
 
   render() {
-    const { alternatives } = this.props;
+    const { alternatives, adjustAlternative } = this.props;
     return (
       <section className={ alternatives.difficulty }>
         { alternatives.alt
-          .map((alternative, index) => (
-            <button
-              type="button"
-              className={ alternative.class }
-              onClick={ this.handleClick }
-              key={ index }
-              data-testid={ alternative.dataTest }
-              disabled={ false }
-            >
-              { alternative.text }
-            </button>)) }
+          .map((alternative, index) => {
+            const adjustAlternat = adjustAlternative(alternative.text);
+            return (
+              <button
+                type="button"
+                className={ alternative.class }
+                onClick={ this.handleClick }
+                key={ index }
+                data-testid={ alternative.dataTest }
+                disabled={ false }
+              >
+                { adjustAlternat }
+              </button>);
+          }) }
       </section>
     );
   }
