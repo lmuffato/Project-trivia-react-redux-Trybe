@@ -9,7 +9,7 @@ const INITIAL_STATE = {
   playerEmail: '',
   token: '',
   avatar: '',
-  tokenLoading: true,
+  tokenLoading: false,
 };
 
 const player = (state = INITIAL_STATE, action) => {

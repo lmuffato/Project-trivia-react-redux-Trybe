@@ -48,10 +48,9 @@ class GamePlay extends React.Component {
     this.sendLocalStorage = this.sendLocalStorage.bind(this);
   }
 
-  componentDidMount() {
-    const { token, fecthQuestionsAction, filters } = this.props;
-    const ONE_SECOND = 1000;
-    setTimeout(() => fecthQuestionsAction(token, filters), ONE_SECOND);
+  componentDidUpdate() {
+    const { token, questions, fecthQuestionsAction, filters } = this.props;
+    if (questions.length === 0) fecthQuestionsAction(token, filters);
   }
 
   timeCondition(bool) {
