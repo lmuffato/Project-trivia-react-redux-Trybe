@@ -2,6 +2,7 @@
 
 body {
   font-family: Roboto , sans-serif;
+  overflow: hidden;
 }
 
 .badge {
@@ -20,10 +21,31 @@ body {
   margin-bottom: 20px;
 }
 
+.btn-error {
+  border: 10;
+  border-radius: 5px;
+  font-weight: 800;
+  height: 40px;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  right: 0;
+  top: 40px;
+  width: 150px;
+}
+
 .border-correct {
   border: 3px solid rgb(6, 240, 15);
 }
 
 .border-incorrect {
   border: 3px solid red;
+}
+
+.error {
+  background-image: url('./erro404.jpg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 700px;
+  width: 700px;
 }
