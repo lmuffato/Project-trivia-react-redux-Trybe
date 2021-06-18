@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import '../styles/Game.css';
@@ -11,6 +10,7 @@ import {
   incrementIndex, refreshShuffle, requestQuestionsThunk,
 } from '../actions/manageQuestions';
 import Question from '../components/Question';
+import Header from '../components/Header';
 
 class Game extends Component {
   constructor(props) {
@@ -97,16 +97,11 @@ class Game extends Component {
   render() {
     const {
       props:
-    { emailDoUsuario, nomeDoUsuario, score, questions, hiddenBtnNext } } = this;
-    const hashGerada = md5(emailDoUsuario).toString();
+    { questions, hiddenBtnNext } } = this;
     if (questions.length === 0) return <h2>loading...</h2>;
     return (
       <div>
-        <header>
-          <img src={ `https://gravatar.com/avatar/${hashGerada}` } alt="usuário" data-testid="header-profile-picture" />
-          <p data-testid="header-player-name">{nomeDoUsuario}</p>
-          <span data-testid="header-score">{score}</span>
-        </header>
+        <Header />
         <main>
           <Timer />
           <Question />

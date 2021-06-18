@@ -31,9 +31,9 @@ class Header extends Component {
   }
 }
 
-const mapStateToProps = ({ player: { email, name, score } }) => ({
-  emailDoUsuario: email,
-  nomeDoUsuario: name,
+const mapStateToProps = ({ player: { email, name }, gameReducer: { score } }) => ({
+  email,
+  name,
   score,
 });
 
