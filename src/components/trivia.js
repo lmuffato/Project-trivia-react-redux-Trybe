@@ -8,9 +8,11 @@ class Trivia extends Component {
     super(props);
     this.state = {
       trivia: [],
+      // isAnswerCorrect: false,
     };
     this.fetchTrivia = this.fetchTrivia.bind(this);
     this.renderQuestions = this.renderQuestions.bind(this);
+    this.handleColors = this.handleColors.bind(this);
   }
 
   componentDidMount() {
@@ -25,6 +27,27 @@ class Trivia extends Component {
   //     : (getTrivia(trivia));
   // }
 
+  handleColors() {
+    const buttons = document.querySelectorAll('button');
+    for (let index = 0; index < buttons.length; index += 1) {
+      if (buttons[index].className === 'correct-answer') {
+        buttons[index].style.border = '3px solid rgb(6, 240, 15)';
+      } else {
+        buttons[index].style.border = '3px solid rgb(255, 0, 0)';
+      }
+    }
+    // const { checkAnswer } = this.state;
+    // console.log(target.className);
+    // if (target.className === 'correct-answer') {
+
+    //   target.style.borderColor = 'green';
+    // } else {
+    //   target.style.borderColor = 'red';
+    // }
+    // target.id === 'correct-answer' ? target.style.borderColor = 'green' : target.style.borderColor = 'red';
+    // this.setState({ checkAnswer: true });
+  }
+
   async fetchTrivia() {
     const { token } = this.props;
     const questionsAmount = 5;
@@ -32,7 +55,7 @@ class Trivia extends Component {
     try {
       const fetchQuestions = await fetch(endpoint);
       const responseTrivia = await fetchQuestions.json();
-      console.log(responseTrivia);
+      // console.log(responseTrivia);
       this.setState({
         trivia: responseTrivia.results,
       });
@@ -50,24 +73,32 @@ class Trivia extends Component {
         <button
           type="button"
           data-testid="correct-answer"
+          className="correct-answer"
+          onClick={ (e) => this.handleColors(e) }
         >
           {`${trivia[0].correct_answer}`}
         </button>
         <button
           type="button"
           data-testid="wrong-answer-0"
+          className="wrong-answer"
+          onClick={ (e) => this.handleColors(e) }
         >
           {`${trivia[0].incorrect_answers[0]}`}
         </button>
         <button
           type="button"
           data-testid="wrong-answer-1"
+          className="wrong-answer"
+          onClick={ (e) => this.handleColors(e) }
         >
           {`${trivia[0].incorrect_answers[1]}`}
         </button>
         <button
           type="button"
           data-testid="wrong-answer-2"
+          className="wrong-answer"
+          onClick={ (e) => this.handleColors(e) }
         >
           {`${trivia[0].incorrect_answers[2]}`}
         </button>
@@ -78,7 +109,7 @@ class Trivia extends Component {
   render() {
     const { trivia } = this.state;
     // const { trivia } = this.props;
-    console.log(trivia[0]);
+    // console.log(trivia[0]);
     return trivia.length === 0 ? <h1>Loading...</h1>
       : (
         <div>
