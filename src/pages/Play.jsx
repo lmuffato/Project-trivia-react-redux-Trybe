@@ -86,6 +86,18 @@ class Play extends Component {
     return options;
   }
 
+  decodeHTML(textHTML) {
+    return (
+      textHTML
+        .replace(/&nbsp;/gi, ' ')
+        .replace(/&amp;/gi, '&')
+        .replace(/&quot;/gi, '"')
+        .replace(/&lt;/gi, '<')
+        .replace(/&gt;/gi, '>')
+        .replace(/&‌#039;/gi, '`')
+    );
+  }
+
   mountRound() {
     const { questions } = this.props;
     const { questionNumber } = this.state;
@@ -95,8 +107,12 @@ class Play extends Component {
     } = questions[questionNumber];
     const questionOfRound = (
       <aside key="question_field">
-        <input key="category" data-testid="question-category" value={ category } />
-        <input key="question" data-testid="question-text" value={ question } />
+        <h3 key="category" data-testid="question-category">
+          { this.decodeHTML(category) }
+        </h3>
+        <h3 key="question" data-testid="question-text">
+          { this.decodeHTML(question) }
+        </h3>
       </aside>
     );
 
