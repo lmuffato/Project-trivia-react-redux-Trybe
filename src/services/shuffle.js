@@ -22,3 +22,20 @@ export const shuffleArray = (answersArray) => {
   console.log(randomizedArray);
   return randomizedArray;
 };
+
+export const shuffleList = (list) => {
+  let index = list.length;
+  while (index) {
+    const randomIndex = Math.floor(Math.random() * (index -= 1));
+    [list[index], list[randomIndex]] = [list[randomIndex], list[index]];
+  }
+  return list;
+};
+
+export const shuffleListOfAnswers = (list) => {
+  for (let indice = list.length; indice; indice -= 1) {
+    const indiceAleatorio = Math.floor(Math.random() * indice);
+    [list[indice - 1], list[indiceAleatorio]] = [list[indiceAleatorio], list[indice - 1]];
+  }
+  return list;
+};

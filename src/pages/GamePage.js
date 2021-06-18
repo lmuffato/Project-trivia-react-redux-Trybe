@@ -5,6 +5,7 @@
 
 import React from 'react';
 import { Redirect } from 'react-router';
+import { connect } from 'react-redux';
 import Header from '../components/Header';
 // import Button from '../components/Button';
 import Question from '../components/Question';
@@ -81,7 +82,6 @@ class GamePage extends React.Component {
     return (
       <>
         <Header />
-        {/* <Timer /> */}
         <div>
           <Question quiz={ questions[index] } getNextQuestion={ this.getNextQuestion } />
         </div>
@@ -90,7 +90,7 @@ class GamePage extends React.Component {
   }
 }
 
-export default GamePage;
+export default connect(null)(GamePage);
 
 // Referências:
 // função shuffleArr adaptada de: https://stackoverflow.com/questions/56501078/randomizing-quiz-answers-fetched-from-a-rest-api

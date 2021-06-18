@@ -1,5 +1,5 @@
 import { USER_LOGIN,
-  USER_NAME, SCORE_ADD, SAVE_TIME_LEFT } from '../actions';
+  USER_NAME, SCORE_ADD, SAVE_TIME_LEFT, SET_TIMER_ACTIVE } from '../actions';
 
 const INITIAL_STATE = {
   email: '',
@@ -7,7 +7,7 @@ const INITIAL_STATE = {
   score: 0,
   assertions: 0,
   time: 0,
-  // isTimerActive: true,
+  isTimerActive: true,
 };
 
 const userReducer = (state = INITIAL_STATE, { type, payload }) => {
@@ -26,6 +26,12 @@ const userReducer = (state = INITIAL_STATE, { type, payload }) => {
     return {
       ...state,
       time: payload,
+      isTimerActive: false,
+    };
+  case SET_TIMER_ACTIVE:
+    return {
+      ...state,
+      isTimerActive: payload,
     };
   default:
     return state;

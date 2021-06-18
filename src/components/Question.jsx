@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Button from './Button';
 import Timer from './Timer';
-// import { shuffleArray } from '../services/shuffle';
-import { scoreAndAssertionsAction } from '../actions';
+// import { shuffleListOfAnswers } from '../services/shuffle';
+import { scoreAndAssertionsAction, isTimerActiveAction } from '../actions';
 
 class Question extends Component {
   constructor() {
@@ -23,6 +23,8 @@ class Question extends Component {
   }
 
   restoreTimer() {
+    const { setTimer } = this.props;
+    setTimer(true);
     this.setState({ resetTimer: false });
   }
 
@@ -77,7 +79,7 @@ class Question extends Component {
     const answers = [correctAnswer].concat(incorrectAnswers).sort();
     const verifyScore = this.handleScore();
     return (
-      <div>
+      <>
         <Timer
           resetTimer={ resetTimer }
           handleStyle={ this.handleStyle }
@@ -117,7 +119,7 @@ class Question extends Component {
             Próxima
           </Button>
         </div>
-      </div>
+      </>
     );
   }
 }
@@ -133,6 +135,7 @@ Question.propTypes = {
   getNextQuestion: PropTypes.func.isRequired,
   time: PropTypes.number.isRequired,
   userReducer: PropTypes.shape(),
+  setTimer: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -142,6 +145,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   setScore: (score) => dispatch(scoreAndAssertionsAction(score)),
+  setTimer: (payload) => dispatch(isTimerActiveAction(payload)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Question);
