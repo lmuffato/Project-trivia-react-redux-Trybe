@@ -1,4 +1,6 @@
-import { GET_PLAYER, UPDATE_ASSERTIONS, UPDATE_SCORE } from '../actions';
+import {
+  GET_PLAYER, UPDATE_ASSERTIONS, UPDATE_SCORE, CLEAR_PLAYER_STATE,
+} from '../actions';
 
 const INITIAL_STATE = {
   playerName: '',
@@ -25,6 +27,14 @@ const player = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       assertions: payload,
+    };
+  case CLEAR_PLAYER_STATE:
+    return {
+      ...state,
+      playerName: payload.playerName,
+      assertions: payload.assertions,
+      score: payload.score,
+      gravatarEmail: payload.gravatarEmail,
     };
   default:
     return state;

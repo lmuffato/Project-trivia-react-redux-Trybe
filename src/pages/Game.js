@@ -10,6 +10,7 @@ import {
 import Header from '../components/Header';
 import Timer from '../components/Timer';
 import Loading from '../components/Loading';
+import getGravatarImg from '../components/getGravatarImg';
 
 class Game extends React.Component {
   constructor() {
@@ -23,6 +24,7 @@ class Game extends React.Component {
     this.setLoading = this.setLoading.bind(this);
     this.handleClickNext = this.handleClickNext.bind(this);
     this.setAnswers = this.setAnswers.bind(this);
+    this.buildRanking = this.buildRanking.bind(this);
   }
 
   componentDidMount() {
@@ -67,12 +69,40 @@ class Game extends React.Component {
     }));
   }
 
+  buildRanking() {
+    const playerInfo = JSON.parse(localStorage.getItem('state')).player;
+    console.log(playerInfo);
+    let ranking = JSON.parse(localStorage.getItem('ranking'));
+
+    if (!Array.isArray(ranking)) {
+      ranking = [];
+    }
+
+    ranking.push({
+      name: playerInfo.playerName,
+      score: playerInfo.score,
+      picture: getGravatarImg(playerInfo.gravatarEmail),
+    });
+
+    const UM = 1;
+    ranking.sort((a, b) => {
+      if (a.score > b.score) return -UM;
+      if (a.score < b.score) return UM;
+      return 0;
+    });
+
+    localStorage.setItem('ranking', JSON.stringify(ranking));
+  }
+
   render() {
     const { isLoading, questions, answers, questionIndex } = this.state;
     const { isAnswered } = this.props;
 
     if (isLoading) return <Loading />;
-    if (questionIndex > Number('4')) return <Redirect to="/feedback" />;
+    if (questionIndex > Number('4')) {
+      this.buildRanking();
+      return <Redirect to="/feedback" />;
+    }
     return (
       <section>
         <Link to="/feedback">Teste</Link>

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { number } from 'prop-types';
 import Header from '../components/Header';
+import { clearPlayerState } from '../actions/index';
 
 class Feedback extends React.Component {
   constructor() {
@@ -21,7 +22,13 @@ class Feedback extends React.Component {
   }
 
   render() {
-    const { score, assertions } = this.props;
+    const INITIAL_STATE = {
+      playerName: '',
+      assertions: 0,
+      score: 0,
+      gravatarEmail: '',
+    };
+    const { score, assertions, resetPlayerState } = this.props;
     return (
       <section>
         <Header />
@@ -35,7 +42,11 @@ class Feedback extends React.Component {
           {`Um total de ${score} pontos`}
         </h2>
         <Link to="/">
-          <button type="button" data-testid="btn-play-again">
+          <button
+            type="button"
+            data-testid="btn-play-again"
+            onClick={ () => resetPlayerState(INITIAL_STATE) }
+          >
             Jogar novamente
           </button>
         </Link>
@@ -54,9 +65,13 @@ const mapStateToProps = (state) => ({
   assertions: state.player.assertions,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  resetPlayerState: (payload) => dispatch(clearPlayerState(payload)),
+});
+
 Feedback.propTypes = {
   assertions: number,
   score: number,
 }.isRequired;
 
-export default connect(mapStateToProps, null)(Feedback);
+export default connect(mapStateToProps, mapDispatchToProps)(Feedback);

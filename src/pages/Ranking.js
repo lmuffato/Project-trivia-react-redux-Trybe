@@ -1,23 +1,23 @@
 import React, { Component } from 'react';
 import { object } from 'prop-types';
-import getGravatarImg from '../components/getGravatarImg';
+// import getGravatarImg from '../components/getGravatarImg';
 
 class Ranking extends Component {
   constructor() {
     super();
 
-    this.state = {
-      rankingBuilt: false,
-    };
+    // this.state = {
+    //   rankingBuilt: false,
+    // };
 
     this.getCustomTestIdName = this.getCustomTestIdName.bind(this);
     this.getCustomTestIdScore = this.getCustomTestIdScore.bind(this);
-    this.buildRanking = this.buildRanking.bind(this);
+    // this.buildRanking = this.buildRanking.bind(this);
   }
 
-  componentDidMount() {
-    this.buildRanking();
-  }
+  // componentDidMount() {
+  //   this.buildRanking();
+  // }
 
   getCustomTestIdName(index) {
     return `player-name-${index}`;
@@ -27,41 +27,43 @@ class Ranking extends Component {
     return `player-score-${index}`;
   }
 
-  buildRanking() {
-    const playerInfo = JSON.parse(localStorage.getItem('state')).player;
-    let ranking = JSON.parse(localStorage.getItem('ranking'));
+  // buildRanking() {
+  //   const playerInfo = JSON.parse(localStorage.getItem('state')).player;
+  //   console.log(playerInfo);
+  //   let ranking = JSON.parse(localStorage.getItem('ranking'));
 
-    if (!Array.isArray(ranking)) {
-      ranking = [];
-    }
+  //   if (!Array.isArray(ranking)) {
+  //     ranking = [];
+  //   }
 
-    ranking.push({
-      name: playerInfo.name,
-      score: playerInfo.score,
-      picture: getGravatarImg(playerInfo.gravatarEmail),
-    });
+  //   ranking.push({
+  //     name: playerInfo.playerName,
+  //     score: playerInfo.score,
+  //     picture: getGravatarImg(playerInfo.gravatarEmail),
+  //   });
 
-    const UM = 1;
-    ranking.sort((a, b) => {
-      if (a.score > b.score) return -UM;
-      if (a.score < b.score) return UM;
-      return 0;
-    });
+  //   const UM = 1;
+  //   ranking.sort((a, b) => {
+  //     if (a.score > b.score) return -UM;
+  //     if (a.score < b.score) return UM;
+  //     return 0;
+  //   });
 
-    localStorage.setItem('ranking', JSON.stringify(ranking));
-    this.setState({ rankingBuilt: true });
-  }
+  //   localStorage.setItem('ranking', JSON.stringify(ranking));
+  //   this.setState({ rankingBuilt: true });
+  //   console.log(ranking);
+  // }
 
   render() {
     const rankingList = JSON.parse(localStorage.getItem('ranking'));
-    const { rankingBuilt } = this.state;
+    // const { rankingBuilt } = this.state;
     const { history } = this.props;
 
     return (
       <div>
         <h1 data-testid="ranking-title">Ranking</h1>
         <ul>
-          {!rankingBuilt ? <span>Nenhum jogador rankeado!</span>
+          {!rankingList.length ? <span>Nenhum jogador rankeado!</span>
             : rankingList.map((player, index) => (
               <li key={ index }>
                 <img src={ player.picture } alt="gravatar-profile" />
