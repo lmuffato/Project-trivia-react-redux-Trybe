@@ -1,3 +1,4 @@
+// import Timer from '../components/Timer';
 import fetchAPI from '../services/fetchtoken';
 // import fetchTrivia from '../services/fetchtrivia';
 // import Trivia from '../components/trivia';
@@ -6,6 +7,7 @@ export const USER_INFO = 'USER_INFO';
 export const GAME_TRIVIA = 'GAME_TRIVIA';
 export const TOKEN = 'TOKEN';
 export const ISLOADING = 'ISLOADING';
+// export const TIMER = 'TIMER';
 
 export const getUserInfo = (payload) => ({
   type: USER_INFO,
@@ -15,6 +17,11 @@ export const getUserInfo = (payload) => ({
 export const isLoading = () => ({
   type: ISLOADING,
 });
+
+// export const sendTimer = (payload) = ({
+//   type: Timer,
+//   payload
+// });
 
 export const sendTrivia = (payload) => ({
   type: GAME_TRIVIA,

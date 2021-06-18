@@ -2,30 +2,31 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getTrivia as getTriviaThunk } from '../actions';
+import Timer from './Timer';
 
 class Trivia extends Component {
   constructor(props) {
     super(props);
     this.state = {
       trivia: [],
-      // isAnswerCorrect: false,
+      correctAnswers: 0,
+      timer: 30,
     };
     this.fetchTrivia = this.fetchTrivia.bind(this);
     this.renderQuestions = this.renderQuestions.bind(this);
     this.handleColors = this.handleColors.bind(this);
+    this.handleAnswers = this.handleAnswers.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
-    // const { getTrivia } = this.props;
     this.fetchTrivia();
   }
 
-  // componentDidUpdate() {
-  //   const { getTrivia } = this.props;
-  //   const { trivia } = this.state;
-  //   return trivia.length === 0 ? <span>Loading...</span>
-  //     : (getTrivia(trivia));
-  // }
+  handleClick(e) {
+    this.handleAnswers(e);
+    this.handleColors();
+  }
 
   handleColors() {
     const buttons = document.querySelectorAll('button');
@@ -36,16 +37,13 @@ class Trivia extends Component {
         buttons[index].style.border = '3px solid rgb(255, 0, 0)';
       }
     }
-    // const { checkAnswer } = this.state;
-    // console.log(target.className);
-    // if (target.className === 'correct-answer') {
+  }
 
-    //   target.style.borderColor = 'green';
-    // } else {
-    //   target.style.borderColor = 'red';
-    // }
-    // target.id === 'correct-answer' ? target.style.borderColor = 'green' : target.style.borderColor = 'red';
-    // this.setState({ checkAnswer: true });
+  handleAnswers({ target: { className } }) {
+    const { correctAnswers } = this.state;
+    if (className === 'correct-answer') {
+      this.setState({ correctAnswers: correctAnswers + 1 });
+    }
   }
 
   async fetchTrivia() {
@@ -55,7 +53,6 @@ class Trivia extends Component {
     try {
       const fetchQuestions = await fetch(endpoint);
       const responseTrivia = await fetchQuestions.json();
-      // console.log(responseTrivia);
       this.setState({
         trivia: responseTrivia.results,
       });
@@ -74,7 +71,7 @@ class Trivia extends Component {
           type="button"
           data-testid="correct-answer"
           className="correct-answer"
-          onClick={ (e) => this.handleColors(e) }
+          onClick={ (e) => this.handleClick(e) }
         >
           {`${trivia[0].correct_answer}`}
         </button>
@@ -82,7 +79,7 @@ class Trivia extends Component {
           type="button"
           data-testid="wrong-answer-0"
           className="wrong-answer"
-          onClick={ (e) => this.handleColors(e) }
+          onClick={ (e) => this.handleClick(e) }
         >
           {`${trivia[0].incorrect_answers[0]}`}
         </button>
@@ -90,7 +87,7 @@ class Trivia extends Component {
           type="button"
           data-testid="wrong-answer-1"
           className="wrong-answer"
-          onClick={ (e) => this.handleColors(e) }
+          onClick={ (e) => this.handleClick(e) }
         >
           {`${trivia[0].incorrect_answers[1]}`}
         </button>
@@ -98,7 +95,7 @@ class Trivia extends Component {
           type="button"
           data-testid="wrong-answer-2"
           className="wrong-answer"
-          onClick={ (e) => this.handleColors(e) }
+          onClick={ (e) => this.handleClick(e) }
         >
           {`${trivia[0].incorrect_answers[2]}`}
         </button>
@@ -107,22 +104,15 @@ class Trivia extends Component {
   }
 
   render() {
-    const { trivia } = this.state;
-    // const { trivia } = this.props;
-    // console.log(trivia[0]);
+    const { trivia, timer } = this.state;
     return trivia.length === 0 ? <h1>Loading...</h1>
       : (
         <div>
+          <Timer timer={ timer } />
           <p>Olá mundo!</p>
           { this.renderQuestions() }
         </div>
       );
-    /* trivia.length === 0 ? <span>Loading...</span> */
-    // : (
-    //   <div>
-    //     <p>Enxendo a linguiça</p>
-    //   </div>
-    // );
   }
 }
 
