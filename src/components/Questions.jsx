@@ -115,11 +115,12 @@ Questions.propTypes = {
 }.isRequired;
 
 const mapStateToProps = (state) => ({
-  timer: state.jogoReducer.time,
-  assertions: state.jogoReducer.player.assertions,
-  score: state.jogoReducer.player.score,
-  nome: state.loginReducer.user.nome,
-  email: state.loginReducer.user.email,
+  timer: state.game.time,
+  assertions: state.game.player.assertions,
+  score: state.game.player.score,
+  nome: state.user.name,
+  email: state.user.email,
+  questions: state.game.questions,
 });
 
 const mapDispatchToProps = (dispatch) => ({

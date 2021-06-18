@@ -18,7 +18,7 @@ class Header extends Component {
 
   render() {
     const { name, score } = this.props;
-    // console.log(name, 'log do name');
+    console.log(name, 'log do name');
     return (
       <header className="header">
         <Link to="/">
@@ -31,10 +31,10 @@ class Header extends Component {
   }
 }
 
-const mapStateToProps = ({ jogoReducer, loginReducer }) => ({
-  name: loginReducer.user.nome,
-  score: jogoReducer.player.score,
-  email: loginReducer.user.email,
+const mapStateToProps = (state) => ({
+  name: state.user.name,
+  score: state.game.player.score,
+  email: state.user.email,
 });
 
 Header.propTypes = {
