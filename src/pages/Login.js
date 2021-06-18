@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import md5 from 'crypto-js/md5';
 
 import { getTokenThunk, loginAction } from '../redux/actions';
 
@@ -42,9 +43,15 @@ class Login extends Component {
       getToken();
     }
     const { state: { name, email }, props: { loginProps, history } } = this;
+
     loginProps({ name, email });
 
-    const player = { name, email, score: 0, assertions: 0 };
+    const img = `https://www.gravatar.com/avatar/${md5(email).toString()}`;
+
+    const player = {
+      // name, email, score: 0, assertions: 0, img };
+      name, email, img };
+
     localStorage.setItem('state', JSON.stringify({ player }));
     history.push('/game');
   }
@@ -103,9 +110,13 @@ export default connect(mapStateToProps, mapDispatchToProps)(Login);
 
 Login.propTypes = {
   getToken: PropTypes.func.isRequired,
-  token: PropTypes.string.isRequired,
+  token: PropTypes.string,
   loginProps: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
+};
+
+Login.defaultProps = {
+  token: null,
 };

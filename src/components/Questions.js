@@ -119,9 +119,11 @@ class Questions extends Component {
   }
 
   addToLocalStorage() {
-    const { name, email, score, assertions } = this.props;
-    const player = { name, email, score, assertions };
-    localStorage.setItem('state', JSON.stringify({ player }));
+    const { score, assertions } = this.props;
+    const { player } = JSON.parse(localStorage.getItem('state'));
+    localStorage.setItem('state', JSON.stringify(
+      { player: { ...player, score, assertions } },
+    ));
   }
 
   handleZero() {

@@ -31,7 +31,6 @@ class Header extends Component {
 
   render() {
     const { img, name } = this.state;
-
     return (
       <div>
         <img src={ `https://www.gravatar.com/avatar/${img} ` } alt="avatar" data-testid="header-profile-picture" />
@@ -47,7 +46,7 @@ const mapStateToProps = (state) => ({
   name: state.playerReducer.name,
 });
 
-export default connect(mapStateToProps, null)(Header);
+export default connect(mapStateToProps)(Header);
 
 Header.propTypes = {
   email: PropTypes.string.isRequired,
