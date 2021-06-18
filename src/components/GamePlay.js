@@ -27,7 +27,7 @@ class GamePlay extends React.Component {
   }
 
   scoreCount(event) {
-    const { indexQuestions, assertions } = this.state;
+    const { indexQuestions } = this.state;
     const { time, dispatchScore, questions, dispatchAssertion } = this.props;
     const { id } = event.target;
     console.log(id);
@@ -37,10 +37,6 @@ class GamePlay extends React.Component {
       hard: 3,
     };
     if (id === 'correct-answer') {
-      this.setState(({ oldScore }) => ({
-        assertions: oldScore + 1,
-      }));
-      console.log(assertions);
       const pointsRate = 10;
       const pointsPlayer = pointsRate
       + (Number(time)
@@ -49,15 +45,6 @@ class GamePlay extends React.Component {
       dispatchAssertion();
     }
     this.clickOnOption();
-  }
-
-  saveOnLocalStorage() {
-    // player: {
-    //   name,
-    //   assertions,
-    //   score,
-    //   gravatarEmail
-    // }
   }
 
   handleNext() {
