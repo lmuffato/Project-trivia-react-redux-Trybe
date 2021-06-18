@@ -22,13 +22,13 @@ class FeedBack extends React.Component {
   render() {
     const { correct, score } = this.props;
     return (
-      <div>
+      <div className="feedback">
         <Header />
         <p data-testid="feedback-text">{this.mensageScore()}</p>
         <p data-testid="feedback-total-question">{correct}</p>
         <p data-testid="feedback-total-score">{score}</p>
         <Link to="/">
-          <button
+          <button className="btn waves-effect waves-light"
             type="button"
             data-testid="btn-play-again"
           >

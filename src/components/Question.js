@@ -94,7 +94,7 @@ class Question extends React.Component {
     const { question, time } = this.props;
     const { addClass, isVisible, disabled } = this.state;
     return (
-      <section>
+      <section >
         { time > 0 ? <span>{time}</span> : <span>Terminou</span>}
         <p data-testid="question-category">{ question.category }</p>
         <p data-testid="question-text">{ this.decodeHtml(question.question) }</p>
@@ -105,7 +105,7 @@ class Question extends React.Component {
                 data-testid="correct-answer"
                 name="correct-answer"
                 type="button"
-                className={ addClass ? 'correct-answer' : 'qualquer-classe' }
+                className={ addClass ? 'correct-answer' : 'btn waves-effect waves-light' }
                 disabled={ disabled }
                 onClick={ this.handleScore }
               >
@@ -120,7 +120,7 @@ class Question extends React.Component {
               key={ `wrong-answer-${index}` }
               onClick={ this.handleScore }
               disabled={ disabled }
-              className={ addClass ? 'wrong-answer' : 'qualquer-classe' }
+              className={ addClass ? 'wrong-answer' : 'btn waves-effect waves-light' }
             >
               { this.decodeHtml(answer.incorrect) }
             </button>);
@@ -128,6 +128,7 @@ class Question extends React.Component {
         <div>
           { isVisible || addClass ? (
             <button
+              className="btn waves-effect waves-light"
               data-testid="btn-next"
               type="button"
               onClick={ this.buttonNext }

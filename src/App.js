@@ -5,7 +5,8 @@ import Configs from './pages/Configs';
 import Login from './pages/Login';
 import TelaDoJogo from './pages/TelaDoJogo';
 import Feedback from './pages/Feedback';
-
+import './materializeCss/materialize.css';
+import './materializeCss/materialize.min.css';
 class App extends Component {
   render() {
     return (

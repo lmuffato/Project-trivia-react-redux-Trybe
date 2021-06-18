@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { apiTrivia } from '../services/api';
 import login from '../actions';
-
+import Trivia from '../logo/trivialogo.png';
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -42,46 +42,53 @@ class Login extends Component {
 
   render() {
     return (
-      <form>
-        <label htmlFor="name-input">
-          Nome:
-          <input
-            data-testid="input-player-name"
-            id="name-input"
-            name="name"
-            type="text"
-            onChange={ this.handleChange }
-          />
-        </label>
-        <label htmlFor="email-input">
-          E-mail:
-          <input
-            data-testid="input-gravatar-email"
-            id="email-input"
-            type="email"
-            name="email"
-            onChange={ this.handleChange }
-          />
-        </label>
-        <Link to="/tela-jogo">
-          <button
-            data-testid="btn-play"
-            type="button"
-            disabled={ this.btnCondition() }
-            onClick={ this.sendRequest }
-          >
-            Jogar
-          </button>
-        </Link>
-        <Link to="/configuracoes">
-          <button
-            data-testid="btn-settings"
-            type="button"
-          >
-            configs
-          </button>
-        </Link>
-      </form>
+      <div className="inputs">
+        <img src={Trivia} alt="Logo" />
+        <form className="forms">  
+          <label htmlFor="name-input" className="label-input">
+            Nome:
+            <input
+              data-testid="input-player-name"
+              id="name-input"
+              name="name"
+              type="text"
+              onChange={this.handleChange}
+            />
+          </label>
+          <label htmlFor="email-input" className="label-input">
+            E-mail:
+            <input
+              data-testid="input-gravatar-email"
+              id="email-input"
+              type="email"
+              name="email"
+              onChange={this.handleChange}
+            />
+          </label>
+          <div className="btn2">
+            <Link to="/tela-jogo" className="buttons">
+              <button
+                className="btn waves-effect waves-light"
+                data-testid="btn-play"
+                type="button"
+                disabled={this.btnCondition()}
+                onClick={this.sendRequest}
+              >
+                Jogar
+              </button>
+            </Link>
+            <Link to="/configuracoes" className="buttons">
+              <button
+                className="btn waves-effect waves-light"
+                data-testid="btn-settings"
+                type="button"
+              >
+                configs
+              </button>
+            </Link>
+          </div>
+        </form>
+      </div >
     );
   }
 }

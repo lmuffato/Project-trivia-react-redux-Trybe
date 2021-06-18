@@ -70,7 +70,7 @@ class TelaDojogo extends React.Component {
       return <Redirect to="/feedback" />;
     }
     return (
-      <div>
+      <div className="jogo">
         <Header />
         { this.createQuestion() }
       </div>
