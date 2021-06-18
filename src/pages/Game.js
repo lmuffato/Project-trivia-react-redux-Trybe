@@ -78,25 +78,26 @@ class Game extends React.Component {
     }
 
     ranking.push({
-      name: playerInfo.playerName,
+      name: playerInfo.name,
       score: playerInfo.score,
       picture: getGravatarImg(playerInfo.gravatarEmail),
     });
 
-    const UM = 1;
+    // const UM = 1;
     ranking.sort((a, b) => {
-      if (a.score > b.score) return -UM;
-      if (a.score < b.score) return UM;
-      return 0;
+      return b.score - a.score;
+      // if (a.score > b.score) return -UM;
+      // if (a.score < b.score) return UM;
+      // return 0;
     });
 
     localStorage.setItem('ranking', JSON.stringify(ranking));
+    console.log(ranking);
   }
 
   render() {
     const { isLoading, questions, answers, questionIndex } = this.state;
     const { isAnswered } = this.props;
-
     if (isLoading) return <Loading />;
     if (questionIndex > Number('4')) {
       this.buildRanking();

@@ -23,7 +23,7 @@ class Feedback extends React.Component {
 
   render() {
     const INITIAL_STATE = {
-      playerName: '',
+      name: '',
       assertions: 0,
       score: 0,
       gravatarEmail: '',

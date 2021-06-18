@@ -37,7 +37,7 @@ class Ranking extends Component {
   //   }
 
   //   ranking.push({
-  //     name: playerInfo.playerName,
+  //     name: playerInfo.name,
   //     score: playerInfo.score,
   //     picture: getGravatarImg(playerInfo.gravatarEmail),
   //   });
@@ -58,6 +58,7 @@ class Ranking extends Component {
     const rankingList = JSON.parse(localStorage.getItem('ranking'));
     // const { rankingBuilt } = this.state;
     const { history } = this.props;
+    console.log(rankingList);
 
     return (
       <div>
@@ -89,7 +90,7 @@ Ranking.propTypes = {
 }.isRequired;
 
 /* const mapStateToProps() => ({
-  name: state.player.playerName,
+  name: state.player.name,
   assertions: 0,
   score: 0, // VEM DO LOCAL STORAGE TB!
   gravatarEmail: '',

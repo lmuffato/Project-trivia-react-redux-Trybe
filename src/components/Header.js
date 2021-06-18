@@ -5,7 +5,7 @@ import getGravatarImg from './getGravatarImg';
 
 class Header extends Component {
   render() {
-    const { playerName, gravatarEmail, score } = this.props;
+    const { name, gravatarEmail, score } = this.props;
     const gravatarURL = getGravatarImg(gravatarEmail);
 
     return (
@@ -15,7 +15,7 @@ class Header extends Component {
           data-testid="header-profile-picture"
           src={ gravatarURL }
         />
-        <p data-testid="header-player-name">{ playerName }</p>
+        <p data-testid="header-player-name">{ name }</p>
         <p data-testid="header-score">{ score }</p>
       </div>
     );
@@ -23,12 +23,12 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-  playerName: string,
+  name: string,
   score: number,
 }.isRequired;
 
 const mapStateToProps = (state) => ({
-  playerName: state.player.playerName,
+  name: state.player.name,
   gravatarEmail: state.player.gravatarEmail,
   score: state.player.score,
 });
