@@ -39,15 +39,6 @@ export function questionsFail(payload) {
     payload,
   };
 }
-// export const getQuestion = (token) => async (dispatch) => {
-//   dispatch(requestApi());
-//   try {
-//     const questions = await questionsFetch(token);
-//     dispatch(questionsSuccess(questions));
-//   } catch (error) {
-//     dispatch(questionsFail(error));
-//   }
-// };
 
 export const getQuestion = (token) => async (dispatch) => {
   dispatch(requestApi());
@@ -89,13 +80,6 @@ export function verifyAnswered(isAnswered) {
     payload: isAnswered,
   };
 }
-
-// export function getName(namePlayer) {
-//   return {
-//     type: GET_NAME,
-//     payload: namePlayer,
-//   };
-// }
 
 export function getPlayer(player) {
   return {

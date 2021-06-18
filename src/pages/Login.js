@@ -28,7 +28,7 @@ class Login extends Component {
       score: 0,
       assertions: 0,
     };
-    dispatchPlayer({ name, email });
+    dispatchPlayer(player);
     await tokenRequest(() => {
       const { token, questionRequest } = this.props;
       localStorage.setItem('token', token);
