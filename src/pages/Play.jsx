@@ -52,17 +52,10 @@ class Play extends Component {
     if (target.className === correctAnswerId) this.calcScore();
   }
 
-  decodeHTML(textHTML) {
-    return (
-      textHTML
-        .replace(/&nbsp;/gi, ' ')
-        .replace(/&amp;/gi, '&')
-        .replace(/&quot;/gi, '"')
-        .replace(/&lt;/gi, '<')
-        .replace(/&gt;/gi, '>')
-        .replace(/&‌#039;/gi, '\'')
-        .replace(/&deg;;/gi, '°')
-    );
+  decodeHTML(html) {
+    const txt = document.createElement('textarea');
+    txt.innerHTML = html;
+    return txt.value;
   }
 
   createOptions() {
@@ -85,7 +78,7 @@ class Play extends Component {
     options.push(
       {
         id: correctAnswerId,
-        className: correctAnswerId,
+        className: `${correctAnswerId}`,
         type: 'button',
         name: 'answer',
         value: this.decodeHTML(correctAnswer),
@@ -107,7 +100,7 @@ class Play extends Component {
     } = questions[questionNumber];
     const questionOfRound = (
       <aside key="question_field">
-        <h3 key="category" data-testid="question-category">
+        <h3 key="category" data-testid="question-category" className="title">
           { this.decodeHTML(category) }
         </h3>
         <h3 key="question" data-testid="question-text">
@@ -169,33 +162,39 @@ class Play extends Component {
     };
     const { changeColor } = this;
     return (
-      <main>
+      <main className="play">
         <Header />
-        {questionOfRound}
-        <span>{time}</span>
-        <aside>
-          {isLoading
-            ? <div>Carregando...</div>
-            : answersOfRound.map((answer) => (
-              <input
-                { ...answer }
-                key={ answer.id }
-                disabled={ changeColor() }
-                style={ { border: changeColor() ? color[answer.className] : '' } }
-              />
-            ))}
-        </aside>
-
-        <button
-          type="button"
-          onClick={ () => this.nextQuestion() }
-          data-testid="btn-next"
-          style={ {
-            visibility: answered ? 'visible' : 'hidden',
-          } }
-        >
-          Próxima
-        </button>
+        <div className="play-content">
+          <div className="questions">
+            {questionOfRound}
+          </div>
+          <div className="options">
+            <aside>
+              {isLoading
+                ? <div>Carregando...</div>
+                : answersOfRound.map((answer) => (
+                  <input
+                    { ...answer }
+                    key={ answer.id }
+                    disabled={ changeColor() }
+                    style={ { border: changeColor() ? color[answer.className] : '' } }
+                  />
+                ))}
+            </aside>
+            <button
+              className="next-button"
+              type="button"
+              onClick={ () => this.nextQuestion() }
+              data-testid="btn-next"
+              style={ {
+                visibility: answered ? 'visible' : 'hidden',
+              } }
+            >
+              Próxima
+            </button>
+          </div>
+        </div>
+        <div className="timer">{time}</div>
       </main>
     );
   }
