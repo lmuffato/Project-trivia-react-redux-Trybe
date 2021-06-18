@@ -17,15 +17,15 @@ class SingleQuestion extends Component {
 
     this.answerClick = this.answerClick.bind(this);
     this.resetBtn = this.resetBtn.bind(this);
-
+    this.sumScore = this.sumScore.bind(this);
   }
 
   resetBtn() {
     this.setState({
       chosedQuestion: false,
       disableBtn: false,
-      time: 30
-    })
+      time: 30,
+    });
   }
 
   componentDidMount() {
@@ -44,7 +44,7 @@ class SingleQuestion extends Component {
       });
       callNext();
     } else if (index === 4) {
-      console.log("cabo o jogo, vai lavar louça");
+      console.log('cabo o jogo, vai lavar louça');
       // Rota para /ranking
     }
     return this.setState({ time: time - 1 });
@@ -56,23 +56,52 @@ class SingleQuestion extends Component {
       this.setState({
         chosedQuestion: true,
         disableBtn: true,
-      })
+      });
+      this.sumScore();
     } else {
       this.setState({
         chosedQuestion: true,
         disableBtn: true,
-      })
+      });
     }
+  }
+
+  sumScore() {
+    const { time } = this.state;
+    const { questions, index } = this.props;
+    let newScore = 0;
+    const ten = 10;
+    const one = 1;
+    const two = 2;
+    const three = 3;
+    const objState = JSON.parse(localStorage.getItem('state'));
+    const { score, assertions, ...spread } = objState.player;
+    if (questions[index].difficulty === 'easy') {
+      newScore = (time * one) + ten;
+    } else if (questions[index].difficulty === 'medium') {
+      newScore = (time * two) + ten;
+    } else if (questions[index].difficulty === 'hard') {
+      newScore = (time * three) + ten;
+    }
+    const player = { player: { ...spread,
+      assertions: assertions + 1,
+      score: score + newScore,
+    } };
+
+    return localStorage.setItem('state', JSON.stringify(player));
   }
 
   render() {
     const { index, questions, loading, callNext } = this.props;
-    const {chosedQuestion, disableBtn, time} = this.state
+    const { chosedQuestion, disableBtn, time } = this.state;
     return (
       <div>
-       {loading === true ? <p>carregando...</p>
+        {loading === true ? <p>carregando...</p>
           : <div>
-            <h1>Questão {`${index +1}`}</h1>
+            <h1>
+              Questão
+              {`${index + 1}`}
+            </h1>
             <h1>{ time }</h1>
             <p data-testid="question-category">{questions[index].category}</p>
             <p>{questions[index].difficulty}</p>
@@ -101,13 +130,11 @@ class SingleQuestion extends Component {
                   {ia}
                 </button>
               ))}
-             </div>
-       }
-          {disableBtn === false ? null :
-            <button data-testid="btn-next" onClick={ () => {callNext(); this.resetBtn()} }>Pŕoxima</button>
-          }
+            </div>}
+        {disableBtn === false ? null
+          : <button data-testid="btn-next" onClick={ () => { callNext(); this.resetBtn(); } }>Pŕoxima</button>}
       </div>
-    )
+    );
   }
 }
 const mapStateToProps = (state) => ({
@@ -116,4 +143,3 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, null)(SingleQuestion);
-
