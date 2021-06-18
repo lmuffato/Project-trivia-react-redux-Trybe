@@ -11,6 +11,24 @@ class FeedBack extends Component {
     this.result = this.result.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.performance = this.performance.bind(this);
+    this.setLocalStorage = this.setLocalStorage.bind(this);
+  }
+
+  componentDidMount() {
+    this.setLocalStorage();
+  }
+
+  setLocalStorage() {
+    const { player } = this.props;
+    const { name, score } = player;
+    const rankingStorage = {
+      name,
+      score,
+    };
+    const players = JSON.parse(localStorage.getItem('ranking') || '[]');
+    players.push(rankingStorage);
+    localStorage.setItem('ranking', JSON.stringify(players));
+    // localStorage.setItem('ranking', JSON.stringify(rankingStorage));
   }
 
   result() {
