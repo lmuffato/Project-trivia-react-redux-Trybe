@@ -36,7 +36,7 @@ class Jogo extends Component {
         </div>
         <h1>Página do Jogo</h1>
 
-        {questions[currentQuestionIndex]
+        {questions && questions.length && questions[currentQuestionIndex]
         && <Question question={ questions[currentQuestionIndex] } />}
 
         { answerVisibility === 'show' && <NextQuestionBtn /> }
