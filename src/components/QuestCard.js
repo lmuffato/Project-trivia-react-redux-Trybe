@@ -3,14 +3,15 @@ import PropTypes from 'prop-types';
 import MultipleTypeQuest from './MultipleTypeQuest';
 
 class QuestCard extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    const { alternatives } = this.props;
     this.state = {
       disabled: 'none',
+      alternatives,
     };
     this.getAnswer = this.getAnswer.bind(this);
     this.onNextClick = this.onNextClick.bind(this);
-    this.resetButtons = this.resetButtons.bind(this);
   }
 
   onNextClick() {
@@ -36,28 +37,18 @@ class QuestCard extends Component {
 
   render() {
     const { question } = this.props;
-    const { disabled } = this.state;
-    const wrongAlternatives = question.incorrect_answers
-      .map((incAns, index) => ({
-        text: incAns,
-        dataTest: `wrong-answer${index}`,
-        class: 'wrong' }));
-    const correctAlternative = {
-      text: question.correct_answer,
-      dataTest: 'correct-answer',
-      class: 'correct',
-    };
-    const alternatives = {
-      alt: [correctAlternative, ...wrongAlternatives],
-      difficulty: question.difficulty,
-    };
+    const { disabled, alternatives } = this.state;
     return (
       <div>
         <p data-testid="question-category">{ question.category }</p>
         <h1 data-testid="question-text">{ question.question }</h1>
-        <MultipleTypeQuest alternatives={ alternatives } getAnswer={ this.getAnswer } />
+        <MultipleTypeQuest
+          alternatives={ alternatives }
+          getAnswer={ this.getAnswer }
+        />
         <button
           type="button"
+          id="next-btn"
           style={ { display: disabled } }
           data-testid="btn-next"
           onClick={ this.onNextClick }
@@ -73,6 +64,7 @@ QuestCard.propTypes = {
   question: PropTypes.arrayOf(PropTypes.object).isRequired,
   getUserAnswer: PropTypes.func.isRequired,
   nextQuestion: PropTypes.func.isRequired,
+  alternatives: PropTypes.oneOfType([PropTypes.array, PropTypes.string]).isRequired,
 };
 
 export default QuestCard;
