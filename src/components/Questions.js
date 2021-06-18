@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './Questions.css';
+import { Redirect } from 'react-router';
 import Timer from './Timer';
 
 const correctTestId = 'correct-answer';
@@ -18,8 +19,11 @@ class Questions extends Component {
     this.mockAlternatives = this.mockAlternatives.bind(this);
     this.createButtonNext = this.createButtonNext.bind(this);
     this.setEnableNextButton = this.setEnableNextButton.bind(this);
+    this.setIndexQuestion = this.setIndexQuestion.bind(this);
     this.state = {
       enableNextButton: false,
+      questionIndex: 0,
+      redirectToFeedback: false,
     };
   }
 
@@ -27,6 +31,20 @@ class Questions extends Component {
     this.setState({
       enableNextButton: true,
     });
+  }
+
+  setIndexQuestion() {
+    const finalIndex = 4;
+    const { state: { questionIndex } } = this;
+    if (questionIndex === finalIndex) {
+      this.setState({
+        redirectToFeedback: true,
+      });
+    } else {
+      this.setState((Prev) => ({
+        questionIndex: Prev.questionIndex + 1,
+      }));
+    }
   }
 
   addBorderOnClick() {
@@ -66,10 +84,12 @@ class Questions extends Component {
   }
 
   createButtonNext() {
+    const { setIndexQuestion } = this;
     return (
       <button
         data-testid="btn-next"
         type="button"
+        onClick={ setIndexQuestion }
       >
         Próximo
       </button>
@@ -139,7 +159,7 @@ class Questions extends Component {
       disableAlternativeButtons,
       createButtonNext,
       setEnableNextButton,
-      state: { enableNextButton } } = this;
+      state: { enableNextButton, questionIndex, redirectToFeedback } } = this;
     const validQuestions = questions.length > 0;
     return (
       <div>
@@ -150,13 +170,15 @@ class Questions extends Component {
           setEnableNextButton={ setEnableNextButton }
         />
         <p data-testid="question-category">
-          {validQuestions ? questions[0].category : 'carregando...'}
+          {validQuestions ? questions[questionIndex].category : 'carregando...'}
         </p>
         <p data-testid="question-text">
-          {validQuestions ? questions[0].question : 'carrengando...'}
+          {validQuestions ? questions[questionIndex].question : 'carrengando...'}
         </p>
-        {validQuestions ? createAlternativesButtons(questions[0]) : mockAlternatives()}
+        {validQuestions
+          ? createAlternativesButtons(questions[questionIndex]) : mockAlternatives()}
         { enableNextButton ? createButtonNext() : null }
+        { redirectToFeedback ? <Redirect to="/feedback" /> : null }
       </div>
     );
   }
