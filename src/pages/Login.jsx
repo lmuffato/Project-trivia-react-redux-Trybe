@@ -83,7 +83,7 @@ class Login extends React.Component {
           type="button"
           data-testid="btn-settings"
         >
-          <Link to="/config">Config</Link>
+          <Link to="/config"><img className="engrenagem" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRG_PVWRkOpvDJXZr0K77D95h_ZocN0RHMjP2pDTuWKe-CwGdhlUUG543pxf0hbwjXH-jg&usqp=CAU" alt="config" /></Link>
         </button>
       </header>
     );
