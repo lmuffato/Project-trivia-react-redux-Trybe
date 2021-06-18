@@ -155,6 +155,7 @@ class Questions extends Component {
         <button
           type="button"
           data-testid="btn-next"
+          className="next-button"
           id="btn-next"
           onClick={ () => this.handleNext() }
         >
@@ -185,11 +186,9 @@ class Questions extends Component {
     const question = questions[questionNumber];
     if (questionNumber === quantyQuestions) return <Redirect to="/feedback" />;
     return !question ? (<p>Loading!</p>) : (
-      <div>
+      <div className="game">
         <div>
-          { currentTime }
-        </div>
-        <div>
+          <div className="timer">{ currentTime }</div>
           <h4
             data-testid="question-category"
           >
@@ -200,29 +199,31 @@ class Questions extends Component {
           >
             {question.question}
           </p>
-          <button
-            type="button"
-            className={ showAsnwer ? 'button-green' : 'button-uncolor' }
-            data-testid="correct-answer"
-            disabled={ disableButton }
-            id="correct-answer"
-            onClick={ () => this.handleClick(question.difficulty, 'correct') }
-          >
-            {question.correct_answer}
-          </button>
-          {question.incorrect_answers.map((incorrect, index) => (
+          <div className="game-buttons">
             <button
-              key={ index }
               type="button"
-              className={ showAsnwer ? 'button-red' : 'button-uncolor' }
-              data-testid={ `wrong-answer-${index}` }
+              className={ showAsnwer ? 'button-green' : 'button-uncolor' }
+              data-testid="correct-answer"
               disabled={ disableButton }
-              onClick={ () => this.handleClick(question.difficulty, 'wrong') }
+              id="correct-answer"
+              onClick={ () => this.handleClick(question.difficulty, 'correct') }
             >
-              {incorrect}
+              {question.correct_answer}
             </button>
-          ))}
-          {this.nextButton()}
+            {question.incorrect_answers.map((incorrect, index) => (
+              <button
+                key={ index }
+                type="button"
+                className={ showAsnwer ? 'button-red' : 'button-uncolor' }
+                data-testid={ `wrong-answer-${index}` }
+                disabled={ disableButton }
+                onClick={ () => this.handleClick(question.difficulty, 'wrong') }
+              >
+                {incorrect}
+              </button>
+            ))}
+            {this.nextButton()}
+          </div>
         </div>
       </div>
     );

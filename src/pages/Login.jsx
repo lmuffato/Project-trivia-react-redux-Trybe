@@ -3,6 +3,7 @@ import '../CSS/Login.css';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import gifLogin from '../images/gifLogin.gif';
 import { login } from '../redux/actions/index';
 
 class Login extends React.Component {
@@ -29,6 +30,7 @@ class Login extends React.Component {
     return (
       <fieldset>
         <form>
+          <img src={ gifLogin } alt="gif" width="40%" />
           <label htmlFor="input-player-name">
             <input
               placeholder="Nome"

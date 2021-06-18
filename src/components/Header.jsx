@@ -16,8 +16,9 @@ class Header extends React.Component {
   render() {
     const { name, score } = this.props;
     return (
-      <>
+      <div className="header">
         <img
+          className="gravatar"
           src={ this.handleImage() }
           alt="userImage"
           data-testid="header-profile-picture"
@@ -27,7 +28,7 @@ class Header extends React.Component {
           Score:
           <span data-testid="header-score">{score}</span>
         </h3>
-      </>
+      </div>
     );
   }
 }

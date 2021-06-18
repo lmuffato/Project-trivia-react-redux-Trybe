@@ -25,29 +25,31 @@ class Feedback extends React.Component {
     return (
       <>
         <Header />
-        <h3>Placar final</h3>
-        <h3 data-testid="feedback-total-score">{score}</h3>
-        <h3>Acertos</h3>
-        <h3 data-testid="feedback-total-question">{assertions}</h3>
-        <h1 data-testid="feedback-text">
-          { this.FeedbackMessenger() }
-        </h1>
-        <Link to="/ranking">
-          <button
-            type="button"
-            data-testid="btn-ranking"
-          >
-            Ver Ranking
-          </button>
-        </Link>
-        <Link to="/">
-          <button
-            type="button"
-            data-testid="btn-play-again"
-          >
-            Tela Inicial
-          </button>
-        </Link>
+        <div className="feedback">
+          <h3>Placar final</h3>
+          <h3 data-testid="feedback-total-score">{score}</h3>
+          <h3>Acertos</h3>
+          <h3 data-testid="feedback-total-question">{assertions}</h3>
+          <h1 data-testid="feedback-text">
+            { this.FeedbackMessenger() }
+          </h1>
+          <Link to="/ranking">
+            <button
+              type="button"
+              data-testid="btn-ranking"
+            >
+              Ver Ranking
+            </button>
+          </Link>
+          <Link to="/">
+            <button
+              type="button"
+              data-testid="btn-play-again"
+            >
+              Tela Inicial
+            </button>
+          </Link>
+        </div>
       </>
     );
   }
