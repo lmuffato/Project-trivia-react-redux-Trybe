@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import Header from '../components/Header';
 import * as api from '../services/datasApi';
 
@@ -59,12 +59,12 @@ class Game extends React.Component {
   }
 
   checkAnswer(correctAnswer, event) {
-    console.log('e');
+    // console.log('e');
     event.preventDefault();
     this.setState({ userAnswer: true });
     const state = JSON.parse(localStorage.getItem('state'));
     if (event.target.innerText === correctAnswer) {
-      console.log('a');
+      // console.log('a');
       const { assertions, score } = state.player;
       state.player.score = score + this.getScore();
       state.player.assertions = assertions + 1;
@@ -147,9 +147,9 @@ class Game extends React.Component {
         >
           Próximo
         </button>
-        <Link to="/">
+        {/* <Link to="/">
           <button type="button" data-testid="btn-play-again">Jogar novamente</button>
-        </Link>
+        </Link> */}
       </div>
     );
   }
