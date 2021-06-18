@@ -9,6 +9,7 @@ class Ranking extends React.Component {
 
         <Link to="/">
           <button
+            data-testid="btn-go-home"
             type="button"
           >
             Início
