@@ -1,42 +1,44 @@
 import React from 'react';
 
 class Ranking extends React.Component {
-  componentDidMount() {
-    this.players();
+  constructor(props) {
+    super(props);
+    this.state = { ranking: [] };
   }
 
-  // convertEmailForImg(email) {
-  //   const emailConvert = md5(email).toString();
-  //   return `https://www.gravatar.com/avatar/${emailConvert}`;
-  // }
+  componentDidMount() {
+    this.players();
+    const players = JSON.parse(localStorage.getItem('ranking'));
+    this.setState({ ranking: players });
+  }
 
   players() {
     const player = JSON.parse(localStorage.getItem('state'));
-    // const img = this.convertEmailForImg(player.email);
-    // const playerWithImg = { player: { ...player.player, img } };
+    const { player: { name, score, img } } = player;
+    const ranking = { name, score, picture: img };
 
-    if (localStorage.players) {
-      const players = JSON.parse(localStorage.getItem('players'));
-      localStorage.setItem('players', JSON.stringify([...players, player]
-        .sort((a, b) => b.player.score - a.player.score)));
-    } else localStorage.setItem('players', JSON.stringify([player]));
+    if (localStorage.ranking) {
+      const players = JSON.parse(localStorage.getItem('ranking'));
+      localStorage.setItem('ranking', JSON.stringify([...players, ranking]
+        .sort((a, b) => b.score - a.score)));
+    } else localStorage.setItem('ranking', JSON.stringify([ranking]));
   }
 
   render() {
-    const players = JSON.parse(localStorage.getItem('players'));
-    console.log(players);
+    const { ranking } = this.state;
     return (
       <div>
         <h1
           data-testid="ranking-title"
         >
-          Título provisório
+          Ranking
         </h1>
-        {/* {players.map(({ player }, index) => (
+        { ranking.map((player, index) => (
           <ul key={ index }>
-            <li>{player.name}</li>
+            <li data-testid={ `player-name-${index}` }>{player.name}</li>
+            <li data-testid={ `player-score-${index}` }>{player.score}</li>
           </ul>
-        ))} */}
+        ))}
       </div>
     );
   }
