@@ -1,11 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class Timer extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+
+    const { time } = props;
 
     this.state = {
-      tempo: 30,
+      tempo: time,
     };
 
     this.setTimer = this.setTimer.bind(this);
@@ -41,9 +44,13 @@ class Timer extends React.Component {
   render() {
     const { tempo } = this.state;
     return (
-      <h4>{ tempo }</h4>
+      <h4 id="time">{ tempo }</h4>
     );
   }
 }
+
+Timer.propTypes = {
+  time: PropTypes.number.isRequired,
+};
 
 export default Timer;

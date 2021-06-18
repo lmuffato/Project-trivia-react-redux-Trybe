@@ -1,6 +1,7 @@
 export const GET_QUESTIONS = 'GET_QUESTIONS';
 export const GET_QUESTIONS_SUCCESS = 'GET_QUESTIONS_SUCCESS';
 export const GET_QUESTIONS_ERROR = 'GET_QUESTIONS_ERROR';
+export const ADD_CORRECTS = 'ADD_CORRECTS';
 
 export const getQuestions = () => ({
   type: GET_QUESTIONS,
@@ -17,6 +18,13 @@ export const getQuestionsError = (error) => ({
   type: GET_QUESTIONS_ERROR,
   payload: {
     questions: error,
+  },
+});
+
+export const addCorrectAction = (points) => ({
+  type: ADD_CORRECTS,
+  payload: {
+    points,
   },
 });
 

@@ -7,6 +7,15 @@ import Question from '../components/Question';
 import Header from '../components/Header';
 
 class Game extends Component {
+  constructor() {
+    super();
+    this.state = {
+      id: 0,
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+  }
+
   async componentDidMount() {
     const { token, getQuestions, getToken, isLoadingUser } = this.props;
     if (token.response_code === 0 && !isLoadingUser) {
@@ -17,19 +26,33 @@ class Game extends Component {
     }
   }
 
+  handleChange() {
+    this.setState((prevState) => ({
+      id: prevState.id + 1,
+    }));
+  }
+
   render() {
     const {
       name, email, history, questions = [], isLoadingQuestion, isLoadingUser,
     } = this.props;
+    const { id } = this.state;
     if (!name || !email) history.push('/');
     if (isLoadingQuestion || isLoadingUser) return 'Carregando...';
     return (
       <div>
         <Header />
         <div>
-          { Object.values(questions).length
-            ? <Question idQuestion={ 0 } />
-            : 'Não existem perguntas' }
+          {
+            Object.values(questions).length ? (
+              <Question
+                idQuestion={ id }
+                handleChange={ this.handleChange }
+                history={ history }
+              />
+            )
+              : 'Não existem perguntas'
+          }
         </div>
       </div>
     );

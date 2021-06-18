@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import md5 from 'md5';
 import PropTypes from 'prop-types';
-import Timer from './Timer';
 
 class Header extends React.Component {
   componentDidMount() {
@@ -19,7 +18,6 @@ class Header extends React.Component {
         <img src="" id="image" alt={ name } data-testid="header-profile-picture" />
         <h4 data-testid="header-player-name">{ name }</h4>
         <h4 data-testid="header-score">{ score }</h4>
-        <Timer />
       </header>
     );
   }
