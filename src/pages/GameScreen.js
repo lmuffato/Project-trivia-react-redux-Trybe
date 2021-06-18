@@ -92,7 +92,7 @@ class GameScreen extends React.Component {
     const basePoints = 10;
     const updateAssertions = 1;
     const difficulty = this.calcDifficulty(questionDifficulty);
-    if (validation === 'correct correct-answer button is-link') {
+    if (validation === 'correct button is-sucess is-outlined`') {
       const calcScore = basePoints + (time * difficulty);
       updateScore(calcScore, updateAssertions);
     }

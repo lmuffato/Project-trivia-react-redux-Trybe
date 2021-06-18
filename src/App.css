@@ -141,6 +141,9 @@ li:nth-child(3) .medal {
   align-items: center;
 }
 
+.xablau {
+    margin: 30px;
+}
 .correct .wrong button {
   color: #0D4CD9;
 }

@@ -14,7 +14,7 @@ class MultipleTypeQuest extends Component {
     const wrongButtons = document.getElementsByClassName('wrong');
     const correctButton = document.getElementsByClassName('correct')[0];
     for (let index = 0; index < wrongButtons.length; index += 1) {
-      wrongButtons[index].classList.add('incorrect-answer');
+      wrongButtons[index].style.add('incorrect-answer');
     }
     correctButton.classList.add('correct-answer');
   }
@@ -38,7 +38,7 @@ class MultipleTypeQuest extends Component {
             return (
               <button
                 type="button"
-                className={ `${alternative.class} button is-sucess is-outlined` }
+                className={ alternative.class }
                 onClick={ this.handleClick }
                 key={ index }
                 data-testid={ alternative.dataTest }
