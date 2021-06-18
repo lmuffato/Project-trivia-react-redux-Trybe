@@ -33,7 +33,7 @@ class GameManager extends Component {
   componentDidMount() {
     const { fetchQuestions } = this.props;
     fetchQuestions(localStorage.getItem('token'));
-    setLocalStorage({ score: 0 });
+    setLocalStorage({ score: 0, assertions: 0 });
   }
 
   componentDidUpdate() {
@@ -50,11 +50,14 @@ class GameManager extends Component {
     const levels = { easy: 1, medium: 2, hard: 3 };
     if (button.getAttribute('data-testid') === 'correct-answer') {
       const previousScore = getLocalStorage('score');
+      const previousAnswers = getLocalStorage('assertions');
       const currentScore = Number(
         previousScore,
       ) + BASE_SCORE + (remainingTime * levels[difficulty]);
+      const currentCorrectAnswers = previousAnswers + 1;
       setLocalStorage({
         score: currentScore,
+        assertions: currentCorrectAnswers,
       });
       newScore(currentScore);
     }
