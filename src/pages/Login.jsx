@@ -63,7 +63,7 @@ class Login extends React.Component {
       <form onSubmit={ this.login }>
         <div className="login">
           <Tooltip />
-          <h1>Trybia - Login</h1>
+          <h1>Tryvia - Login</h1>
           <input
             type="text"
             name="email"
@@ -104,7 +104,7 @@ const mapStateToProps = ({ player }) => ({
 });
 
 Login.propTypes = {
-  userLogin: PropTypes.func.isRequired,
-};
+  userLogin: PropTypes.func,
+}.isRequired;
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

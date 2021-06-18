@@ -25,11 +25,26 @@ class Game extends Component {
     this.checkAnswer = this.checkAnswer.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     this.resetChangedQuestion = this.resetChangedQuestion.bind(this);
+    this.reset = this.reset.bind(this);
   }
 
   componentDidMount() {
     const { fetchAPI } = this.props;
     fetchAPI();
+  }
+
+  componentWillUnmount() {
+    const { next } = this.props;
+    next();
+    this.reset();
+  }
+
+  reset() {
+    this.setState({
+      questionNumber: 0,
+      changedQuestion: false,
+      shouldRedirect: false,
+    });
   }
 
   nextQuestion() {
@@ -119,6 +134,7 @@ Game.propTypes = {
   isLoading: Proptypes.bool,
   timesUp: Proptypes.func,
   addScore: Proptypes.func,
+  next: Proptypes.func,
 }.isRequired;
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);

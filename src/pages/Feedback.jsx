@@ -4,15 +4,31 @@ import { Link } from 'react-router-dom';
 import Proptypes from 'prop-types';
 import Header from '../components/Header';
 import { getItemFromLocalStorage, setToLocalStorage } from '../services/storage';
+import { reset, timeIn } from '../actions';
 
 class Feedback extends Component {
   constructor() {
     super();
     this.saveInfoPlayer = this.saveInfoPlayer.bind(this);
+    this.orderArrayByScore = this.orderArrayByScore.bind(this);
   }
 
   componentDidMount() {
     this.saveInfoPlayer();
+  }
+
+  componentWillUnmount() {
+    const { init, restart } = this.props;
+    init();
+    restart();
+  }
+
+  orderArrayByScore(a, b) {
+    const positionInArray = -1;
+    if (a.score < b.score) {
+      return 1;
+    } if (a.score > b.score) return positionInArray;
+    return b;
   }
 
   saveInfoPlayer() {
@@ -27,7 +43,8 @@ class Feedback extends Component {
       setToLocalStorage('ranking', firstUser);
     }
     const currUserlocal = getItemFromLocalStorage('ranking');
-    setToLocalStorage('ranking', [...currUserlocal, { ...currUser }]);
+    const orderArray = currUserlocal.concat(currUser).sort(this.orderArrayByScore);
+    setToLocalStorage('ranking', orderArray);
   }
 
   render() {
@@ -74,10 +91,16 @@ const mapStateToProps = ({ player: { name, score, gravatarEmail } }) => ({
   gravatarEmail,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  init: () => dispatch(timeIn()),
+  restart: () => dispatch(reset()),
+});
+
 Feedback.propTypes = {
   name: Proptypes.string,
   score: Proptypes.number,
   gravatarEmail: Proptypes.string,
+  init: Proptypes.func,
 }.isRequired;
 
-export default connect(mapStateToProps)(Feedback);
+export default connect(mapStateToProps, mapDispatchToProps)(Feedback);

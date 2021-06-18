@@ -1,5 +1,5 @@
 import {
-  ADD_USER_LOGIN, CALCULATE_SCORE, ADD_ASSERTIONS, TIMEOUT, TIMEIN,
+  ADD_USER_LOGIN, CALCULATE_SCORE, ADD_ASSERTIONS, TIMEOUT, TIMEIN, RESET,
 } from '../actions/index';
 
 const INITIAL_STATE = {
@@ -22,6 +22,8 @@ const player = (state = INITIAL_STATE, action) => {
     return { ...state, timeOut: true };
   case TIMEIN:
     return { ...state, timeOut: false };
+  case RESET:
+    return INITIAL_STATE;
   default:
     return state;
   }
