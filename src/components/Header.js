@@ -9,17 +9,21 @@ class Header extends React.Component {
     const { name, score, gravatarEmail } = this.props;
     return (
       <header>
-        <figure>
-          <img
-            src={ getUserImg(gravatarEmail) }
-            alt="userImg"
-            data-testid="header-profile-picture"
-            className="gravatar"
-          />
-          <legend data-testid="header-player-name">{ name }</legend>
-        </figure>
-        <p>Score</p>
-        <p data-testid="header-score">{ score }</p>
+        <div>
+          <figure>
+            <img
+              src={ getUserImg(gravatarEmail) }
+              alt="userImg"
+              data-testid="header-profile-picture"
+              className="gravatar"
+            />
+            <legend data-testid="header-player-name">{ name }</legend>
+          </figure>
+        </div>
+        <div className="score">
+          <p>Score</p>
+          <p data-testid="header-score">{ score }</p>
+        </div>
       </header>
     );
   }

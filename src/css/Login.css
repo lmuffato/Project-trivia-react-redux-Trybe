@@ -96,10 +96,12 @@ body {
   align-items: center;
   background-color: white;
   border-radius: 10px;
+  box-shadow: #407d6c;
   display: flex;
-  height: 300px;
+  height: fit-content;
   justify-content: center;
-  width: 300px;
+  padding: 50px;
+  width: fit-content;
 }
 
 img {

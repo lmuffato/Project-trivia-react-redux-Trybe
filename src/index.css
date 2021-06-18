@@ -11,3 +11,34 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.root {
+  margin: auto;
+  width: fit-content;
+  border: 1px solid black;
+  border-radius: 10%;
+}
+
+button {
+  margin: 10px;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  transition: background-color 300ms;
+}
+
+button:hover {
+  background-color: gray;
+}
+
+select {
+  background: white;
+  border: 0;
+  border-radius: 5px;
+  display: block;
+  font-family: Quicksand , sans-serif;
+  font-size: 16px;
+  margin: 15px -10px;
+  padding: 10px;
+  width: 100%;
+}
