@@ -18,7 +18,7 @@ const player = (state = INITIAL_STATE, action) => {
   case ADD_USER_LOGIN:
     return { ...state, gravatarEmail: action.payload.email, name: action.payload.name };
   case CALCULATE_SCORE:
-    return { ...state, score: action.payload };
+    return { ...state, score: state.score + action.payload };
   case ADD_ASSERTIONS:
     return { ...state, assertions: state.assertions + 1 };
   case TIMEOUT:

@@ -11,7 +11,7 @@ import {
   addAssertions as sumAssertions,
 } from '../actions/index';
 import Timer from '../components/Timer';
-import RenderQuestions from '../components/RenderQuestions';
+import RenderAnswers from '../components/RenderAnswers';
 import { getItemFromLocalStorage, setToLocalStorage } from '../services/storage';
 
 class Game extends Component {
@@ -98,7 +98,7 @@ class Game extends Component {
           />
           segundos
         </span>
-        <RenderQuestions
+        <RenderAnswers
           checkAnswer={ this.checkAnswer }
           question={ questionNumber }
         />

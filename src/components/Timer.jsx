@@ -14,10 +14,11 @@ class Timer extends Component {
 
   componentDidMount() {
     const { time } = this.state;
+    const { timesUp } = this.props;
     const ONE_SECOND = 1000;
     const currTime = setInterval(() => {
       // const { timesUp } = this.props;
-      if (time > 1) {
+      if (time > 1 && !timesUp) {
         this.timer();
       }
       // console.log(timesUp);
@@ -28,7 +29,7 @@ class Timer extends Component {
   timer() {
     const { time } = this.state;
     const { currentTime, timesUp, changedQuestion, resetChangedQuestion } = this.props;
-    if (time === 0) {
+    if (time === 0 && !timesUp) {
       return currentTime();
     }
     if (!timesUp) this.setState((previousState) => ({ time: previousState.time - 1 }));

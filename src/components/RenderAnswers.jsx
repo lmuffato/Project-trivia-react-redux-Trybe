@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Proptypes from 'prop-types';
 
-class RenderQuestions extends Component {
+class RenderAnswers extends Component {
   constructor() {
     super();
     this.dificultyLevel = this.dificultyLevel.bind(this);
@@ -113,10 +113,10 @@ const mapStateToProps = (
   stateType: filters.type,
 });
 
-RenderQuestions.propTypes = {
+RenderAnswers.propTypes = {
   apiResult: Proptypes.arrayOf(Object),
   stateDificulte: Proptypes.string,
   stateType: Proptypes.string,
 }.isRequired;
 
-export default connect(mapStateToProps)(RenderQuestions);
+export default connect(mapStateToProps)(RenderAnswers);
