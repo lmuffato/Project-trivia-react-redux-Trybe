@@ -34,10 +34,20 @@ class Login extends React.Component {
   }
 
   startGame() {
-    const { state } = this;
+    const { name, email } = this.state;
     const { loginAction, requestTokenAction } = this.props;
     requestTokenAction();
-    loginAction(state);
+    loginAction(this.state);
+
+    const state = { player: {
+      name,
+      assertions: 0,
+      score: 0,
+      gravatarEmail: email,
+    } };
+
+    const playerStorage = JSON.stringify(state);
+    localStorage.setItem('state', playerStorage);
   }
 
   renderInputs() {
