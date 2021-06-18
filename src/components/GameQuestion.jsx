@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { permutate } from '../services';
 
 class GameQuestion extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       permutatedAswers: [],
     };
@@ -17,38 +16,39 @@ class GameQuestion extends Component {
   }
 
   componentDidUpdate() {
-    const { timeExpired } = this.props;
-    if (timeExpired) {
+    const { timeExpired, userAnswered, clearButton, buttonCleared } = this.props;
+    const btnArr = document.getElementsByClassName('btn');
+    if (timeExpired || userAnswered) {
       this.colorButtonsBorder();
-      const btnArr = document.getElementsByClassName('btn');
       [...btnArr].forEach((btn) => { btn.disabled = true; });
     }
-    console.log('Hi')
-    // this.setPermutatedAnswers();
+    if (clearButton) {
+      buttonCleared();
+      this.clearButtonsBorder();
+      console.log(btnArr);
+      [...btnArr].forEach((btn) => { btn.disabled = false; });
+    }
   }
 
   setPermutatedAnswers() {
-    const { questions, currentQuestionIndex } = this.props;
-    const currentQuestion = questions[currentQuestionIndex];
-    console.log(currentQuestion);
+    const { currentQuestion } = this.props;
     const answers = [currentQuestion
       .correct_answer, ...currentQuestion.incorrect_answers];
     this.setState({ permutatedAswers: permutate(...answers) });
   }
 
   getID(answer) {
-    const { questions } = this.props;
-    if (answer === questions[0].correct_answer) return 'correct-answer';
-    return `wrong-answer-${questions[0].incorrect_answers.indexOf(answer)}`;
+    const { currentQuestion } = this.props;
+    if (answer === currentQuestion.correct_answer) return 'correct-answer';
+    return `wrong-answer-${currentQuestion.incorrect_answers.indexOf(answer)}`;
   }
 
-  handleClick(difficulty) {
-    const { updateScore, showNextButton } = this.props;
-    return ({ target }) => {
-      this.colorButtonsBorder();
-      updateScore(difficulty, target);
-      showNextButton();
-    };
+  clearButtonsBorder() {
+    const btnArr = document.getElementsByClassName('btn');
+    [...btnArr].forEach((btn) => {
+      btn.classList.remove('correct');
+      btn.classList.remove('wrong');
+    });
   }
 
   colorButtonsBorder() {
@@ -56,26 +56,27 @@ class GameQuestion extends Component {
     [...btnArr].forEach((btn) => {
       if (btn.getAttribute('data-testid') === 'correct-answer') {
         btn.classList.add('correct');
-      } else {
+        // TODO I don't think the condition below is necessary
+      } else if (btn.getAttribute('data-testid').includes('wrong-answer')) {
         btn.classList.add('wrong');
       }
     });
   }
 
   render() {
-    const { questions, currentQuestionIndex } = this.props;
-    const { category, question, difficulty } = questions[currentQuestionIndex];
+    const { currentQuestion: { category, question }, userClick, sortedQuestions } = this.props;
     const { permutatedAswers } = this.state;
     return (
       <div>
         <h3 data-testid="question-category">{category}</h3>
         <h2 data-testid="question-text">{question}</h2>
-        {permutatedAswers.map((answer, i) => (
+        {sortedQuestions.map((answer, i) => (
           <button
             type="button"
             className="btn"
-            onClick={ this.handleClick(difficulty) }
+            onClick={ userClick }
             data-testid={ this.getID(answer) }
+            // TODO shouldn't use index as key
             key={ i }
           >
             {answer}
@@ -86,11 +87,4 @@ class GameQuestion extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    questions: state.trivia.questions,
-    timeExpired: state.trivia.timeExpired,
-  };
-}
-
-export default connect(mapStateToProps)(GameQuestion);
+export default GameQuestion;

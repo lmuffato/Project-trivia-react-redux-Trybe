@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class Result extends Component {
   render() {
     return (
-      <div>
+      <div data-testid="feedback-text">
         Result
       </div>
     );

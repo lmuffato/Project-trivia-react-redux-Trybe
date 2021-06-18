@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { ONE_SECOND } from '../constants';
-import { currentQuestionTime, gameTimeout } from '../actions/action';
+import { gameTimeout } from '../actions/action';
 
 class Timer extends Component {
   constructor() {
@@ -20,20 +20,23 @@ class Timer extends Component {
 
   componentDidUpdate() {
     const { timer } = this.state;
-    const { timeout, remainingTime } = this.props;
-    if (timer > 0) {
+    const { userAnswered, didTimeout, remainingTime, shouldResetTimer, timerReseted } = this.props;
+    if (shouldResetTimer) {
+      this.setInitialTime();
+      timerReseted();
+      return;
+    }
+    if (timer > 0 && !userAnswered) {
+      console.log('hi');
       setTimeout(() => this.setState({ timer: timer - 1 }), ONE_SECOND);
       remainingTime(timer);
-    } else {
-      timeout();
+    } else if (timer <= 0 && !userAnswered) {
+      didTimeout();
     }
   }
 
   setInitialTime() {
-    const { remainingTime } = this.props;
     this.setState({ timer: 30 });
-    const { timer } = this.state;
-    remainingTime(timer);
   }
 
   render() {
@@ -41,16 +44,15 @@ class Timer extends Component {
     return (
       <div>
         <h1>Timer</h1>
-        <p>{timer}</p>
+        <p>{Math.round(timer * 100) / 100}</p>
       </div>
     );
   }
 }
-
+// TODO does the timer really needs to know about Redux?
 function mapDispatchToProps(dispatch) {
   return {
     timeout: () => dispatch(gameTimeout()),
-    remainingTime: (time) => dispatch(currentQuestionTime(time)),
   };
 }
 

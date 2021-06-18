@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import Header from '../components/Header';
-import TriviaGame from '../components/TriviaGame';
+import GameManager from '../components/GameManager';
 
 class Game extends Component {
   render() {
+    const { history: { push } } = this.props;
     return (
       <div>
         Game
         <Header />
-        <TriviaGame />
+        <GameManager redirect={ push } />
       </div>
     );
   }
