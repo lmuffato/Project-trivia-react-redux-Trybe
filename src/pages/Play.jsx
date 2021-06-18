@@ -27,9 +27,8 @@ class Play extends Component {
   }
 
   async componentDidMount() {
-    const { callApiToQuestions,
-      questions, token, callUpdateScore, categoryId } = this.props;
-    if (questions.length === 0) await callApiToQuestions(token, categoryId);
+    const { callApiToQuestions, token, callUpdateScore, categoryId } = this.props;
+    await callApiToQuestions(token, categoryId);
     this.mountRound();
     this.countdown();
     callUpdateScore({ assertions: 0, score: 0 });
