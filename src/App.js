@@ -12,10 +12,7 @@ import './global.css';
 export default function App() {
   return (
     <Switch>
-      <div>
-        {/* <header>
-          <img src={ logo } width="200" alt="logo" />
-        </header> */}
+      <div
         <Route path="/game" component={ Game } />
         <Route path="/ranking" component={ Ranking } />
         <Route path="/feedback" component={ Feedback } />

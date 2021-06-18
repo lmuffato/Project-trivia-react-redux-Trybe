@@ -1,0 +1,61 @@
+.ranking-page {
+  padding: 20px 20%;
+}
+
+.ranking-page .ranking-content {
+  background-color: var(--purple-color-800);
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  text-align: center;
+}
+
+.ranking-page a button {
+  align-self: flex-end;
+  border: solid black 1px;
+  border-radius: 10px;
+  color: var(--text-color-black-800);
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 30px;
+  margin-right: 90%;
+  margin-top: 20px;
+  padding: 6px 30px;
+}
+
+.ranking-page .ranking-content h2 {
+  color: var(--cream-color-400);
+  font-size: 36px;
+  margin-bottom: 50px;
+  margin-top: 30px;
+}
+
+.ranking-page .ranking-content ol {
+  padding-left: 0;
+}
+
+.ranking-page .ranking-content li {
+  align-items: center;
+  background-color: rgb(243, 243, 243);
+  border: 0.5px solid black;
+  border-radius: 80px;
+  color: var(--text-color-black-800);
+  display: flex;
+  list-style-type: none;
+  margin-bottom: 40px;
+  padding: 9px 13px;
+}
+
+.ranking-page .ranking-content li img {
+  border: 1px solid black;
+  border-radius: 50%;
+  margin-right: 30px;
+}
+
+.ranking-page .ranking-content li .ranking-texts {
+  display: flex;
+  font-size: 24px;
+  justify-content: space-between;
+  width: 75%;
+}
