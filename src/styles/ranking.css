@@ -19,10 +19,9 @@
   cursor: pointer;
   font-size: 16px;
   margin-left: 30px;
-  margin-right: 800px;
+  margin-right: 90%;
   margin-top: 20px;
   padding: 6px 30px;
-  transition: 0.2s;
 }
 
 .ranking-page .ranking-content h2 {
