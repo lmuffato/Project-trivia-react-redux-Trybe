@@ -89,6 +89,7 @@ class Trivia extends React.Component {
       if (index !== '0') { testId = `wrong-answer-${index - 1}`; }
       return (
         <button
+          className="ansrBtt"
           type="button"
           key={ i }
           id={ testId }
@@ -105,6 +106,7 @@ class Trivia extends React.Component {
   nextButton() {
     return (
       <button
+        className="btn btn-primary"
         data-testid="btn-next"
         type="button"
         onClick={ () => {
@@ -112,7 +114,7 @@ class Trivia extends React.Component {
           const { history } = this.props;
           const btns = document.getElementsByTagName('button');
           for (let index = 0; index < btns.length; index += 1) {
-            btns[index].className = '';
+            btns[index].className = 'ansrBtt';
           }
           if (questionNum === questions.length - 1) {
             history.push('/feedback');
@@ -163,23 +165,26 @@ class Trivia extends React.Component {
     const { questions, questionNum, next } = this.state;
     const { category, question } = questions[questionNum];
     return (
-      <div>
-        <Header score={ score } />
-        {this.Timer()}
-        <p data-testid="question-category">
-          {category}
-        </p>
-        <p data-testid="question-text">
-          {question}
-        </p>
-        {this.answerButtons()}
-        <br />
-        {
-          next
-            ? this.nextButton()
-            : <span> </span>
-        }
-
+      <div className="container">
+        <div className="card w-80 border-secondary mb-3">
+          <div className="card-header">
+            <Header score={ score } />
+          </div>
+          {this.Timer()}
+          <h2 className="card-title" data-testid="question-category">
+            {category}
+          </h2>
+          <h3 data-testid="question-text">
+            {question}
+          </h3>
+          {this.answerButtons()}
+          <br />
+          {
+            next
+              ? this.nextButton()
+              : <span> </span>
+          }
+        </div>
       </div>
     );
   }

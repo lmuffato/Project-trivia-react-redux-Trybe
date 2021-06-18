@@ -24,23 +24,25 @@ class Header extends React.Component {
     const { name, score } = this.props;
     const { gravatar } = this.state;
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col">
+      <nav className="navbar navbar-light bg-light, justify-content-around">
+        <div className="container-fluid">
+          <div className="navbar-img, nav-item">
             <img
               src={ gravatar }
               alt="User"
               data-testid="header-profile-picture"
+              width="30"
+              height="30"
             />
           </div>
-          <div className="col">
-            <p data-testid="header-player-name">{ name }</p>
+          <div className="navbar-name, nav-item" href="/">
+            <h3 data-testid="header-player-name">{ name }</h3>
           </div>
-          <div className="col">
-            <p data-testid="header-score">{score}</p>
+          <div className="navbar-score, nav-item" href="/">
+            <h3 data-testid="header-score">{score}</h3>
           </div>
         </div>
-      </div>
+      </nav>
     );
   }
 }
