@@ -27,7 +27,6 @@ class PlayGame extends React.Component {
     this.nameTheClassBtnAnswer = this.nameTheClassBtnAnswer.bind(this);
     this.colorSelectAnswer = this.colorSelectAnswer.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
-    // this.fetchFilterQuestion = this.fetchFilterQuestion.bind(this);
     this.calcScore = this.calcScore.bind(this);
     this.validScore = this.validScore.bind(this);
   }
