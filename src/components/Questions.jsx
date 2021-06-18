@@ -76,7 +76,7 @@ class Questions extends Component {
     if (correctAnswer === target.innerText) {
       await incrementScore(score);
     }
-    this.saveAtLocalStorage(score);
+    this.saveAtLocalStorage();
   }
 
   sortQuestions() {

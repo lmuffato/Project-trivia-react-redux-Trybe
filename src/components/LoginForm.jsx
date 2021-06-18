@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { string, func } from 'prop-types';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
-import { getToken, addPlayer } from '../actions';
+import { getToken, addPlayer, clearScore } from '../actions';
 import BtnConfig from './ButtonConfig';
 import '../styles/login.css';
 import logoLogin from '../trivia.png';
@@ -19,6 +19,11 @@ class LoginForm extends Component {
       gravatarEmail: '',
       name: '',
     };
+  }
+
+  componentDidMount() {
+    const { clearScoreRd } = this.props;
+    clearScoreRd();
   }
 
   getGravatarPicture(gravatarEmail) {
@@ -128,6 +133,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   requestToken: (data) => dispatch(getToken(data)),
   storePlayerInfo: (data) => dispatch(addPlayer(data)),
+  clearScoreRd: () => dispatch(clearScore()),
 });
 
 LoginForm.propTypes = {
