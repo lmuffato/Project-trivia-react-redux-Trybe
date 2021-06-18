@@ -215,6 +215,7 @@ const mapStateToProps = (state) => ({
   questions: state.triviaReducer.questions,
   loading: state.triviaReducer.isLoading,
   secondsStore: state.triviaReducer.seconds,
+  filters: state.triviaReducer.filters,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -8,8 +8,8 @@ class Settings extends React.Component {
     super();
     this.state = {
       category: 9,
-      difficulty: 'easy',
-      type: 'multiple',
+      difficulty: '',
+      type: '',
     };
     this.handleClick = this.handleClick.bind(this);
   }

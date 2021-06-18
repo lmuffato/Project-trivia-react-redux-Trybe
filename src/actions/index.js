@@ -70,11 +70,13 @@ export const fetchQuestions = (token, filter) => async (dispatch) => {
     if (filter) {
       const urlArray = [`${url}${filter}`];
       const newUrl = urlArray.join(' ');
+      console.log(newUrl);
       const response = await fetch(newUrl);
       const questions = await response.json();
       return dispatch(requestQuestionsSuccess(questions.results));
     }
     const response = await fetch(url);
+    console.log('semFiltro', url);
     const questions = await response.json();
     return dispatch(requestQuestionsSuccess(questions.results));
   } catch (error) {
