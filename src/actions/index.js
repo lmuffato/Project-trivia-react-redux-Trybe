@@ -1,6 +1,5 @@
 import { questionAPI } from '../services/API';
 
-
 export const GENERATE_QUESTION = 'GENERATE_QUESTION';
 
 export const REQUEST_QUESTION = 'REQUEST_QUESTION';

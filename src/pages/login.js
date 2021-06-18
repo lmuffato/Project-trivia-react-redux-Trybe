@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import requestAPIthunk from '../actions';
+import { emailHash } from '../services/API';
 
 class Login extends Component {
   constructor(props) {
@@ -15,6 +16,7 @@ class Login extends Component {
       disabled: true,
     };
   }
+
   handleValidation({ target }) {
     const { name, value } = target;
     const { usuario, email } = this.state;
@@ -25,7 +27,7 @@ class Login extends Component {
   }
 
   render() {
-    const { disabled } = this.state;
+    const { disabled, usuario, email } = this.state;
     const { handleClick } = this.props;
     return (
       <div>
@@ -39,7 +41,7 @@ class Login extends Component {
               data-testid="input-player-name"
               name="usuario"
               id="name"
-              onChange={this.handleValidation}
+              onChange={ this.handleValidation }
             />
           </label>
           <label htmlFor="email">
@@ -48,15 +50,15 @@ class Login extends Component {
               data-testid="input-gravatar-email"
               name="email"
               id="email"
-              onChange={this.handleValidation}
+              onChange={ this.handleValidation }
             />
           </label>
           <Link to="/game">
             <button
               type="button"
               data-testid="btn-play"
-              disabled={disabled}
-              onClick={handleClick}
+              disabled={ disabled }
+              onClick={ () => { handleClick(); emailHash(usuario, email); } }
             >
               Jogar
             </button>
