@@ -4,13 +4,23 @@ import { Link } from 'react-router-dom';
 class Ranking extends React.Component {
   handleStorage() {
     const ranking = JSON.parse(localStorage.getItem('ranking'));
-    console.log(ranking);
+    const mNumber = -1;
+    const sortedRanking = ranking.sort((a, b) => {
+      if (a.score > b.score) {
+        return mNumber;
+      }
+      if (a.score < b.score) {
+        return 1;
+      }
+      return 0;
+    });
+    console.log(sortedRanking);
     return (
       <ul>
-        { ranking.map((player) => (
+        { sortedRanking.map((player, index) => (
           <li key={ player.name }>
-            <p>{ player.name }</p>
-            <p>{ player.score }</p>
+            <p data-testid={ `player-name-${index}` }>{ player.name }</p>
+            <p data-testid={ `player-score-${index}` }>{ player.score }</p>
             <img src={ player.gravatar } alt={ player.name } />
           </li>
         )) }
