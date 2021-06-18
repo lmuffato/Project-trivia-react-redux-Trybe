@@ -1,31 +1,28 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-// import md5 from 'crypto-js/md5';
 import Proptypes from 'prop-types';
+import md5 from 'crypto-js/md5';
 import Header from '../components/Header';
 
 class Feedback extends Component {
+  updateRanking() {
+    const { userName, userScore, userEmail } = this.props;
+    if (window.localStorage.getItem('ranking')) {
+      const rankingToPush = JSON.parse(window.localStorage.getItem('ranking'));
+      rankingToPush.push({ name: userName, score: userScore, picture: `https://www.gravatar.com/avatar/${md5(userEmail)}` });
+      rankingToPush.sort((a, b) => b.score - a.score);
+      window.localStorage.setItem('ranking', JSON.stringify(rankingToPush));
+    } else {
+      const firstRankingData = [{ name: userName, score: userScore, picture: `https://www.gravatar.com/avatar/${md5(userEmail)}` }];
+      window.localStorage.setItem('ranking', JSON.stringify(firstRankingData));
+    }
+  }
+
   render() {
     const { userAssertions, userScore } = this.props;
     const minScore = 3;
-    // const lsRanking = window.location.getItem('ranking');
-    // if (lsRanking) {
-    //   const ranking = JSON.parse(lsRanking);
-    //   ranking.push({
-    //     nome: userName,
-    //     score: userScore,
-    //     picture: `https://www.gravatar.com/avatar/${md5(userEmail)}` });
-
-    //   window.localStorage.setItem('ranking', JSON.stringify(ranking));
-    // } else {
-    //   const ranking = [{
-    //     nome: userName,
-    //     score: userScore,
-    //     picture: `https://www.gravatar.com/avatar/${md5(userEmail)}` }];
-
-    //   window.localStorage.setItem('ranking', JSON.stringify(ranking));
-    // }
+    this.updateRanking();
     return (
       <>
         <Header />

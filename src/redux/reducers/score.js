@@ -1,4 +1,4 @@
-import { UPDATE_SCORE } from '../actions';
+import { RESET_SCORE, UPDATE_SCORE } from '../actions';
 
 const INITIAL_STATE = {
   score: 0,
@@ -21,6 +21,7 @@ function scoreReducer(state = INITIAL_STATE, actions) {
       score: state.score + actions.score,
       assertions: state.assertions + actions.assertions };
   }
+  case RESET_SCORE: return { ...state, score: 0, assertions: 0 };
   default: return state;
   }
 }
