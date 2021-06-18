@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './Questions.css';
+import Header from './Header';
 import Timer from './Timer';
 
 class Questions extends Component {
@@ -12,6 +13,9 @@ class Questions extends Component {
     this.mockAlternatives = this.mockAlternatives.bind(this);
     this.stopCountdown = this.stopCountdown.bind(this);
     this.disableAlternativeButtons = this.disableAlternativeButtons.bind(this);
+    this.state = {
+      answer: 'wrong-answer',
+    };
   }
 
   addBorderOnClick() {
@@ -62,7 +66,7 @@ class Questions extends Component {
     );
   }
 
-  stopCountdown(event) {
+  stopCountdown({ target }) {
     const {
       props: { timerID },
       addBorderOnClick,
@@ -70,6 +74,9 @@ class Questions extends Component {
     clearInterval(timerID);
     addBorderOnClick();
     disableAlternativeButtons();
+    const answer = target.getAttribute('data-testid');
+    // console.log(answer);
+    this.setState({ answer });
   }
 
   render() {
@@ -78,11 +85,16 @@ class Questions extends Component {
       createAlternativesButtons,
       mockAlternatives,
       addBorderOnClick,
-      stopCountdown } = this;
+      stopCountdown,
+      state: { answer } } = this;
     const validQuestions = questions.length > 0;
 
     return (
       <div>
+        <Header
+          difficulty={ questions[0].difficulty }
+          answer={ answer }
+        />
         <Timer
           addBorderOnClick={ addBorderOnClick }
           stopCountdown={ stopCountdown }
