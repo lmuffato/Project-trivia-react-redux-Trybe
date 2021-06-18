@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { decode } from 'he';
 import { getQuestionsSuccess, getTokenThunk,
   getScore, getAssertions } from '../redux/actions';
 import Timer from './Timer';
@@ -149,7 +150,7 @@ class Questions extends React.Component {
           {questions[questionsPosition].category}
         </h2>
         <h3 data-testid="question-text">
-          {questions[questionsPosition].question}
+          {decode(questions[questionsPosition].question)}
         </h3>
         {incorrectAnswers.map((question, index) => {
           const dataTestId3 = index === randomNumber
@@ -166,7 +167,7 @@ class Questions extends React.Component {
               }
               onClick={ this.btnStyle }
             >
-              {question}
+              {decode(question)}
             </button>
           );
         })}

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { decode } from 'he';
 
 class Boolean extends React.Component {
   render() {
@@ -18,7 +19,7 @@ class Boolean extends React.Component {
           {questions[questionsPosition].category}
         </h2>
         <h3 data-testid="question-text">
-          {questions[questionsPosition].question}
+          {decode(questions[questionsPosition].question)}
         </h3>
         <button
           disabled={ disabledBtn }
