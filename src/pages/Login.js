@@ -65,7 +65,7 @@ class Login extends React.Component {
             data-testid="btn-play"
             type="button"
           >
-            Jogar:
+            Jogar
           </button>
           <Link to="/configuracoes">
             <FcSettings

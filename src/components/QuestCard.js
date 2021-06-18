@@ -12,6 +12,8 @@ class QuestCard extends Component {
     };
     this.getAnswer = this.getAnswer.bind(this);
     this.onNextClick = this.onNextClick.bind(this);
+    this.resetButtons = this.resetButtons.bind(this);
+    this.adjustQuestion = this.adjustQuestion.bind(this);
   }
 
   onNextClick() {
@@ -35,16 +37,28 @@ class QuestCard extends Component {
     this.setState({ disabled: 'none' });
   }
 
+  adjustQuestion(question) {
+    // Source:
+    // https://stackoverflow.com/questions/5957546/javascript-regex-replacing-quot
+    const reg1 = question.replace(/&(lt|gt|quot);/g, '');
+    const reg2 = reg1.replace(/&(lt|gt|#039);/g, '');
+    const reg3 = reg2.replace(/&(lt|gt|Eacute);/g, 'é');
+    const reg4 = reg3.replace(/&(lt|gt|amp);/g, '&');
+
+    return reg4;
+  }
+
   render() {
     const { question } = this.props;
     const { disabled, alternatives } = this.state;
     return (
       <div>
         <p data-testid="question-category">{ question.category }</p>
-        <h1 data-testid="question-text">{ question.question }</h1>
+        <h1 data-testid="question-text">{ this.adjustQuestion(question.question) }</h1>
         <MultipleTypeQuest
           alternatives={ alternatives }
           getAnswer={ this.getAnswer }
+          adjustAlternative={ this.adjustQuestion }
         />
         <button
           type="button"
