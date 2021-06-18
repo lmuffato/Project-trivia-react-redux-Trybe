@@ -12,11 +12,11 @@ class Ranking extends Component {
     const ranking = JSON.parse(localStorage.getItem('ranking'));
     if (!ranking) return <h2>Nenhum jogo encontrado</h2>;
 
-    sortRankingArray(ranking);
+    const orderedRank = sortRankingArray(ranking);
 
     return (
       <ol>
-        { ranking.map((player, index) => (
+        { orderedRank.map((player, index) => (
           <li key={ index }>
             <img
               src={ player.picture }
