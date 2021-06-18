@@ -18,23 +18,23 @@ class Header extends Component {
 
   render() {
     const { name, score } = this.props;
-    // console.log(name, 'log do name');
+    console.log(name, 'log do name');
     return (
       <header className="header">
         <Link to="/">
           {this.renderGravatarImage()}
         </Link>
-        <span data-testid="header-player-name">{ name }</span>
-        <span data-testid="header-score" className="score">{ score }</span>
+        <h2 data-testid="header-player-name">{ name }</h2>
+        <p data-testid="header-score" className="score">{ score }</p>
       </header>
     );
   }
 }
 
-const mapStateToProps = ({ jogoReducer, loginReducer }) => ({
-  name: loginReducer.user.nome,
-  score: jogoReducer.player.score,
-  email: loginReducer.user.email,
+const mapStateToProps = (state) => ({
+  name: state.user.name,
+  score: state.game.player.score,
+  email: state.user.email,
 });
 
 Header.propTypes = {

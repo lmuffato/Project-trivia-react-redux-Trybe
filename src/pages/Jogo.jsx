@@ -1,89 +1,45 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
 import ReactAudioPlayer from 'react-audio-player';
-import Questions from '../components/Questions';
-import { getAPIThunk } from '../redux/actions/actions';
+import { Redirect } from 'react-router-dom';
+import Question from '../components/Question';
+import { getQuestionsThunk } from '../redux/actions/actions';
+import Header from '../components/Header';
 
 import './Jogo.css';
-import Timer from '../components/Timer';
+import NextQuestionBtn from '../components/NextQuestionBtn';
 
 class Jogo extends Component {
-  constructor(props) {
-    super(props);
-
-    this.setTimer = this.setTimer.bind(this);
-    this.setRevelaBorda = this.setRevelaBorda.bind(this);
-
-    this.state = {
-      time: 30,
-      revelaBorda: '',
-    };
-  }
-
   componentDidMount() {
-    const { dispatchAPI } = this.props;
+    const { getQuestions } = this.props;
 
-    dispatchAPI();
-  }
-
-  setTimer(timeObj) {
-    const { timeID } = this.props;
-
-    if (timeObj.time === 0) {
-      this.setState({ revelaBorda: 'show' });
-      clearInterval(timeID.timer);
-      console.log(timeObj, 'timeObj');
-      console.log(timeID, 'timeID');
-    }
-
-    this.setState(timeObj);
-  }
-
-  setRevelaBorda(string) {
-    this.setState({ revelaBorda: string });
-  }
-
-  renderGravatarImage() {
-    const { email } = this.props;
-    const hashMD5 = md5(email).toString();
-    return (
-      <img
-        src={ `https://www.gravatar.com/avatar/${hashMD5}` }
-        alt="avatar"
-        data-testid="header-profile-picture"
-      />);
+    getQuestions();
   }
 
   render() {
-    const { nome, questions, assertions, score } = this.props;
-    const { time, revelaBorda } = this.state;
+    const {
+      answerVisibility,
+      questions,
+      currentQuestionIndex,
+      redirectToFeedback,
+    } = this.props;
+
+    if (redirectToFeedback) {
+      return <Redirect to="/feedback" />;
+    }
 
     return (
       <div>
         <div>
-          <header className="header">
-            <Link to="/">
-              {this.renderGravatarImage()}
-            </Link>
-            <h1>{assertions}</h1>
-            <span data-testid="header-player-name">{ nome }</span>
-            <span data-testid="header-score" className="score">{`Score: ${score}`}</span>
-          </header>
-          <div className="timer">
-            <Timer time={ time } setTimer={ this.setTimer } />
-          </div>
+          <Header />
         </div>
         <h1>Página do Jogo</h1>
-        {questions && questions.length && (<Questions
-          setTimer={ this.setTimer }
-          time={ time }
-          questions={ questions }
-          revelaBorda={ revelaBorda }
-          setRevelaBorda={ this.setRevelaBorda }
-        />)}
+
+        {questions && questions.length && questions[currentQuestionIndex]
+        && <Question question={ questions[currentQuestionIndex] } />}
+
+        { answerVisibility === 'show' && <NextQuestionBtn /> }
         <ReactAudioPlayer
           src="https://www.myinstants.com/media/sounds/perguntashowdomilhao.mp3"
           autoPlay
@@ -98,19 +54,21 @@ class Jogo extends Component {
 Jogo.propTypes = {
   email: PropTypes.string,
   nome: PropTypes.string,
+  timeID: PropTypes.string,
+  answerVisibility: PropTypes.string,
+  redirectToFeedback: PropTypes.bool,
 }.isRequired;
 
-const mapStateToProps = (state) => ({
-  email: state.loginReducer.user.email,
-  nome: state.loginReducer.user.nome,
-  questions: state.jogoReducer.results,
-  assertions: state.jogoReducer.player.assertions,
-  score: state.jogoReducer.player.score,
-  timeID: state.jogoReducer.time,
+const mapStateToProps = ({ game, timer }) => ({
+  timeID: timer.time,
+  answerVisibility: game.answer_visibility,
+  questions: game.questions,
+  currentQuestionIndex: game.currentQuestionIndex,
+  redirectToFeedback: game.redirectToFeedback,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  dispatchAPI: (payload) => dispatch(getAPIThunk(payload)),
+  getQuestions: (payload) => dispatch(getQuestionsThunk(payload)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Jogo);

@@ -1,25 +1,21 @@
-import { GET_LOGIN } from '../actions/actions';
+import { SAVE_USER } from '../actions/actions';
 
 const INITIAL_STATE = {
-  user: {
-    nome: '',
-    email: '',
-  },
+  name: '',
+  email: '',
 };
 
 const loginReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-  case GET_LOGIN:
+  case SAVE_USER:
     return {
       ...state,
-      user: {
-        nome: action.payload.state.nome,
-        email: action.payload.state.email,
-      },
+      name: action.payload.name,
+      email: action.payload.email,
     };
 
   default:
-    return { ...state };
+    return state;
   }
 };
 

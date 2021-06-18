@@ -23,7 +23,7 @@ class FeedbackMsg extends Component {
   }
 }
 
-const mapStateToProps = ({ jogoReducer: { player } }) => ({
+const mapStateToProps = ({ game: { player } }) => ({
   assertions: player.assertions,
 });
 

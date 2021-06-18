@@ -1,9 +1,11 @@
 import {
-  GET_API,
-  GET_API_ERROR,
-  GET_API_SUCCESS,
+  GET_QUESTIONS,
+  GET_QUESTIONS_ERROR,
+  GET_QUESTIONS_SUCCESS,
   UPDATE_SCORE,
-  SAVE_TIME,
+  SET_ANSWER_VISIBILITY,
+  NEXT_QUESTION,
+  LAST_QUESTION,
 } from '../actions/actions';
 
 const INITIAL_STATE = {
@@ -12,30 +14,44 @@ const INITIAL_STATE = {
     score: 0,
   },
   loading: false,
-  results: [],
-  time: 0,
+  questions: [],
+  currentQuestionIndex: 0,
+  answer_visibility: 'hide',
+  redirectToFeedback: false,
 };
 
-const jogoReducer = (state = INITIAL_STATE, action) => {
+const gameReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-  case GET_API:
+  case GET_QUESTIONS:
     return {
       ...state,
       loading: true,
     };
 
-  case GET_API_SUCCESS:
+  case GET_QUESTIONS_SUCCESS:
     return {
       ...state,
       loading: false,
-      results: [...action.payload],
+      questions: [...action.payload],
     };
 
-  case GET_API_ERROR:
+  case GET_QUESTIONS_ERROR:
     return {
       ...state,
       loading: false,
-      results: action.payload.error,
+      questions: action.payload.error,
+    };
+
+  case SET_ANSWER_VISIBILITY:
+    return {
+      ...state,
+      answer_visibility: action.payload,
+    };
+
+  case NEXT_QUESTION:
+    return {
+      ...state,
+      currentQuestionIndex: state.currentQuestionIndex + 1,
     };
 
   case UPDATE_SCORE:
@@ -44,15 +60,15 @@ const jogoReducer = (state = INITIAL_STATE, action) => {
         score: state.player.score + action.payload,
         assertions: state.player.assertions + 1 } };
 
-  case SAVE_TIME:
+  case LAST_QUESTION:
     return {
       ...state,
-      time: action.payload,
+      currentQuestionIndex: 0,
+      redirectToFeedback: action.payload,
     };
-
   default:
-    return { ...state };
+    return state;
   }
 };
 
-export default jogoReducer;
+export default gameReducer;

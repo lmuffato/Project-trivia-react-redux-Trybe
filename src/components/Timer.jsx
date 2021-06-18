@@ -1,53 +1,46 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { number, func } from 'prop-types';
 import { connect } from 'react-redux';
-import { saveTime } from '../redux/actions/actions';
-
-const TIMER_TIME = 1000;
+import { setAnswerVisibility, stopTimer, timerThunk } from '../redux/actions/actions';
 
 class Timer extends Component {
-  constructor(props) {
-    super(props);
-
-    this.initializeTimer = this.initializeTimer.bind(this);
-  }
-
   componentDidMount() {
-    this.initializeTimer();
+    const { startTimer } = this.props;
+    startTimer();
   }
 
-  initializeTimer() {
-    const { setTimer, saveTimeNumber } = this.props;
-
-    const timer = setInterval(() => {
-      const { time } = this.props;
-
-      setTimer({ time: time - 1 });
-    }, TIMER_TIME);
-
-    saveTimeNumber({ timer });
+  componentDidUpdate() {
+    const { time, stopTimerDispatch, setAnswerVisibilityDispatch } = this.props;
+    if (!time) {
+      stopTimerDispatch();
+      setAnswerVisibilityDispatch('show');
+    }
   }
 
   render() {
     const { time } = this.props;
     return (
-      <span>{time}</span>
+      <div className="timer">
+        {time}
+      </div>
     );
   }
 }
 
 Timer.propTypes = {
-  setTimer: PropTypes.func.isRequired,
-  time: PropTypes.number.isRequired,
-  saveTimeNumber: PropTypes.func.isRequired,
-};
+  time: number,
+  stopTimerDispatch: func,
+  setAnswerVisibilityDispatch: func,
+}.isRequired;
 
-const mapStateToProps = (state) => ({
-  timer: state.jogoReducer.time,
+const mapStateToProps = ({ timer }) => ({
+  time: timer.time,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  saveTimeNumber: (payload) => dispatch(saveTime(payload)),
+  startTimer: () => dispatch(timerThunk()),
+  stopTimerDispatch: () => dispatch(stopTimer()),
+  setAnswerVisibilityDispatch: (visibility) => dispatch(setAnswerVisibility(visibility)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Timer);

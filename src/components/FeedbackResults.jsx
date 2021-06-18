@@ -30,9 +30,9 @@ class FeedbackResults extends Component {
   }
 }
 
-const mapStateToProps = ({ jogoReducer }) => ({
-  assertions: jogoReducer.player.assertions,
-  score: jogoReducer.player.score,
+const mapStateToProps = ({ game }) => ({
+  assertions: game.player.assertions,
+  score: game.player.score,
 });
 
 FeedbackResults.propTypes = {
