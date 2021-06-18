@@ -1,8 +1,7 @@
-@import "https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma-rtl.min.css";
+@import "https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css";
 
-
-html {
-  background-color: #FAD06C;
+.App {
+  text-align: center;
 }
 
 .header {
@@ -25,6 +24,88 @@ html {
 .header-user-info p {
   color: #f7dfa6; 
 }
+
+.card-ol {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: auto;
+}
+
+li {
+  border: 3px solid black;
+  border-radius: 2em;
+  margin-bottom: 1em;
+}
+
+li:nth-child(odd){
+  background-color: #D99C0D;
+
+}
+
+li:nth-child(even) {
+  background-color: #FAD06C;
+}
+
+.title-h1 {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  padding: 1em;
+}
+
+.card-li {
+  display: flex;
+  width: 30%;
+  padding: 1em;
+}
+
+.card-title {
+  display: flex;
+  justify-content: center;
+  font-size: 2em;
+  font-weight: bolder;
+}
+
+.card-p {
+  display: flex;
+  font-size: 3em;
+  justify-content: center;
+  color: black
+}
+
+.button-rank {
+  display: flex;
+  background-color: #002B8C;
+  color: white;
+  margin: auto;
+  justify-content: center;
+}
+
+.medal {
+  display: flex;
+  font-size: 2em;
+  display:none;
+}
+
+li:first-child .medal {
+  display: flex;
+  color: gold ;
+}
+
+li:nth-child(2) .medal {
+  display: flex;
+  color: silver;
+}
+
+li:nth-child(3) .medal {
+  display: flex;
+  color: chocolate;
+}
+
+@media ( prefers-reduced-motion : no-preference ) {
 
 .time-conteiner {
   align-items: center;
@@ -61,4 +142,5 @@ html {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
 }
