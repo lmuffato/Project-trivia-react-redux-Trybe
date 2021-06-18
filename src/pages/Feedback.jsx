@@ -3,16 +3,21 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
+import { addRank } from '../redux/actions';
 
 class Feedback extends Component {
   render() {
-    const { assertations } = this.props;
+    const { assertions, ranking, score, gravatar, name } = this.props;
     const minHits = 3;
+    const playerInfo = { score, gravatar, name };
+    console.log(assertions);
     return (
       <div>
         <Header />
+        <span data-testid="feedback-total-score">{ score }</span>
+        <span data-testid="feedback-total-question">{ assertions }</span>
         <p data-testid="feedback-text">
-          {assertations < minHits ? 'Podia ser melhor...' : 'Mandou bem!'}
+          {assertions < minHits ? 'Podia ser melhor...' : 'Mandou bem!'}
         </p>
         <Link to="/">
           <button
@@ -26,6 +31,7 @@ class Feedback extends Component {
           <button
             type="button"
             data-testid="btn-ranking"
+            onClick={ () => ranking(playerInfo) }
           >
             Ver Ranking
           </button>
@@ -41,7 +47,13 @@ Feedback.propTypes = {
 
 const mapStateToProps = (state) => ({
   score: state.player.score,
-  assertations: state.player.assertations,
+  assertions: state.player.assertions,
+  gravatar: state.player.gravatar,
+  name: state.player.name,
 });
 
-export default connect(mapStateToProps, null)(Feedback);
+const mapDispatchToProps = (dispatch) => ({
+  ranking: (infos) => dispatch(addRank(infos)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Feedback);

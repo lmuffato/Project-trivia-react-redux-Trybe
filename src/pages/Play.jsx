@@ -27,20 +27,21 @@ class Play extends Component {
   }
 
   async componentDidMount() {
-    const { callApiToQuestions, questions, token } = this.props;
+    const { callApiToQuestions, questions, token, callUpdateScore } = this.props;
     if (questions.length === 0) await callApiToQuestions(token);
     this.mountRound();
     this.countdown();
+    callUpdateScore({ assertions: 0, score: 0 });
   }
 
   calcScore() {
     const { time, questionNumber } = this.state;
-    const { questions, assertations, score, callUpdateScore } = this.props;
+    const { questions, assertions, score, callUpdateScore } = this.props;
     const difficultyOfQuestion = questions[questionNumber].difficulty;
     const weigth = { easy: 1, medium: 2, hard: 3 };
     const baseScoreAssertation = 10;
     const roundScore = baseScoreAssertation + time * weigth[difficultyOfQuestion];
-    const newScore = { assertations: assertations + 1, score: score + roundScore };
+    const newScore = { assertions: assertions + 1, score: score + roundScore };
     callUpdateScore(newScore);
   }
 
@@ -101,7 +102,6 @@ class Play extends Component {
 
     this.setState({
       answersOfRound: this.createOptions(),
-      // Checar se esta dinâmico
       questionOfRound,
       isLoading: false,
     });
@@ -198,7 +198,7 @@ const mapStateToProps = (state) => ({
   questions: state.player.questions,
   token: state.player.token,
   score: state.player.score,
-  assertations: state.player.assertations,
+  assertions: state.player.assertions,
 });
 
 const mapDispatchToProps = (dispatch) => ({
