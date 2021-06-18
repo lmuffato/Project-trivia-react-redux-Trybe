@@ -8,6 +8,11 @@ class Feedback extends React.Component {
   constructor() {
     super();
     this.feedbackMessage = this.feedbackMessage.bind(this);
+    this.createRanking = this.createRanking.bind(this);
+  }
+
+  componentDidMount() {
+    this.createRanking();
   }
 
   feedbackMessage() {
@@ -17,6 +22,21 @@ class Feedback extends React.Component {
       return 'Podia ser melhor...';
     }
     return 'Mandou bem!';
+  }
+
+  createRanking() {
+    if (!localStorage.getItem('ranking')) {
+      localStorage.setItem('ranking', []);
+      const actualPlayer = [JSON.parse(localStorage.getItem('state')).player];
+      localStorage.setItem('ranking', JSON.stringify(actualPlayer));
+    } else {
+      const oldRanking = JSON.parse(localStorage.getItem('ranking'));
+      const actualPlayer = JSON.parse(localStorage.getItem('state')).player;
+      const ranking = oldRanking.concat(actualPlayer);
+      // const sortRank = rankingPlayers.sort((a, b) => b.score - a.score);
+      const sortedRanking = ranking.sort((a, b) => b.score - a.score);
+      localStorage.setItem('ranking', JSON.stringify(sortedRanking));
+    }
   }
 
   render() {
