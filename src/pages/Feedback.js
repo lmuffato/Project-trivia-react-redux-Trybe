@@ -62,7 +62,6 @@ class Feedback extends React.Component {
   }
 }
 
-
 Feedback.propTypes = {
   history: propTypes.shape(),
 }.isRequired;
