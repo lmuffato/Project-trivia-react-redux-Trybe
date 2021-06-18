@@ -71,6 +71,7 @@ class GamePlay extends React.Component {
     });
 
     if (value > four) {
+      makeTimerRestart(false);
       return history.push('/feedback');
     }
 

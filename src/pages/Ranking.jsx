@@ -3,15 +3,15 @@ import propTypes from 'prop-types';
 
 class Ranking extends React.Component {
   renderRanking() {
-    const rankings = localStorage.getItem(JSON.parse('ranking'));
+    const rankings = JSON.parse(localStorage.getItem('ranking'));
 
-    return(
+    return (
       <ul>
         { rankings.map((ranking, index) => (
-           <li>
+          <li key={ index }>
             <img alt="user_player" src={ ranking.picture } />
-            <p data-testid={ `player-name-${ index }` }>{ ranking.name }</p>
-            <p data-testid={ `player-score-${ index }` }>{ ranking.score }</p>
+            <p data-testid={ `player-name-${index}` }>{ ranking.name }</p>
+            <p data-testid={ `player-score-${index}` }>{ ranking.score }</p>
           </li>
         )) }
       </ul>
