@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { login as loginAction } from '../actions';
+import logo from '../trivia.png';
 
 class Login extends React.Component {
   constructor() {
@@ -76,21 +77,18 @@ class Login extends React.Component {
   }
 
   loginInputs(param) {
-    const { name, placeH, value, dataID, onChange } = param;
+    const { name, value, dataID, onChange } = param;
     return (
-      <div className="mb-3">
-        <label htmlFor={ name } className="form-label">
-          <input
-            className="form-control"
-            name={ name }
-            id={ name }
-            type="text"
-            placeholder={ placeH }
-            value={ value }
-            data-testid={ dataID }
-            onChange={ onChange }
-          />
-        </label>
+      <div className="form-group mb-3 row justify-content-center">
+        <input
+          className="form-control w-25 p-3 "
+          name={ name }
+          placeholder={ name }
+          type="text"
+          value={ value }
+          data-testid={ dataID }
+          onChange={ onChange }
+        />
       </div>
     );
   }
@@ -111,21 +109,31 @@ class Login extends React.Component {
       onChange: (event) => this.handleChange(event),
     };
     return (
-      <form>
-        { this.loginInputs(nameInput) }
-        { this.loginInputs(emailInput) }
-        <button
-          disabled={ disabled }
-          data-testid="btn-play"
-          type="button"
-          onClick={ this.handleClick }
-        >
-          Jogar
-        </button>
-        <button data-testid="btn-settings" type="button">
-          <Link to="/settings"> Configurações </Link>
-        </button>
-      </form>
+      <div className="container d-grid gap-4">
+        <img src={ logo } alt="imagem" className="img-fluid" />
+        <form>
+          { this.loginInputs(nameInput) }
+          { this.loginInputs(emailInput) }
+          <div className="input-group justify-content-center p-3">
+            <button
+              disabled={ disabled }
+              data-testid="btn-play"
+              type="button"
+              onClick={ this.handleClick }
+              className="btn btn-primary"
+            >
+              Jogar
+            </button>
+            <button
+              data-testid="btn-settings"
+              type="button"
+              className="btn btn-outline-secondary"
+            >
+              <Link to="/settings"> Configurações </Link>
+            </button>
+          </div>
+        </form>
+      </div>
     );
   }
 }

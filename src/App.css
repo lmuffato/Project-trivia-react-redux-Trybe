@@ -2,6 +2,12 @@
   border: 3px solid rgb(6, 240, 15);
 }
 
-.wrong-answer-0, .wrong-answer-1, .wrong-answer-2 {
+.wrong-answer-0,
+.wrong-answer-1,
+.wrong-answer-2 {
   border: 3px solid red;
+}
+
+body {
+  background-color: #343a40;
 }
