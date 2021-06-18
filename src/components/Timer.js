@@ -44,7 +44,7 @@ class Timer extends Component {
 
   render() {
     const { currentTimeValue } = this.props;
-    console.log(currentTimeValue);
+    // console.log(currentTimeValue);
     return (
       <div>
         <h2>{currentTimeValue}</h2>

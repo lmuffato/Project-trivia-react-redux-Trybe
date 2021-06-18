@@ -6,6 +6,7 @@ export const CURRENT_TIME = 'CURRENT_TIME';
 export const CLOCK_STOPER = 'CLOCK_STOPER';
 export const RESET_CURRENT_TIME = 'RESET_CURRENT_TIME';
 export const CHANGE_TRUE_OR_FALSE = 'CHANGE_TRUE_OR_FALSE';
+export const CHANGE_SCORE = 'CHANGE_SCORE';
 
 export const newEmail = (payload) => ({
   type: NEW_EMAIL,
@@ -43,5 +44,10 @@ export const resetCurrentTime = () => ({
 
 export const changeTrueOrFalse = (payload) => ({
   type: CHANGE_TRUE_OR_FALSE,
+  payload,
+});
+
+export const changeScore = (payload) => ({
+  type: CHANGE_SCORE,
   payload,
 });

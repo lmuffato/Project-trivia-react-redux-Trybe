@@ -11,6 +11,7 @@ import {
   changeTrueOrFalse,
   hidden,
   resetCurrentTime,
+  changeScore,
 } from '../actions';
 
 class Game extends Component {
@@ -64,14 +65,12 @@ class Game extends Component {
     this.setState({
       index: index + 1,
     });
-    // console.log(index);
     this.wrongIndex = -1;
   }
 
   shuffleArray() {
     // Função baseada em um dos exemplos da página a seguir: https://www.delftstack.com/pt/howto/javascript/shuffle-array-javascript/
     const { questions, index } = this.state;
-    // console.log(index);
     const sortControl = 0.5;
     const answers = [questions[index].correct_answer,
       ...questions[index].incorrect_answers,
@@ -83,15 +82,32 @@ class Game extends Component {
   }
 
   saveScore() {
-    // const { questions, index } = this.state;
-    // const { currentTime } = this.props;
+    let multiplier = 0;
+    const factors = { null: 0, easy: 1, medium: 2, hard: 3, increment: 10 };
+    const { state: { questions, index }, props: { currentTime, editScore } } = this;
+    switch (questions[index].difficulty) {
+    case 'easy':
+      multiplier = factors.easy;
+      break;
+    case 'medium':
+      multiplier = factors.medium;
+      break;
+    case 'hard':
+      multiplier = factors.hard;
+      break;
+    default:
+      multiplier = factors.null;
+      break;
+    }
+    const currentScore = (multiplier * currentTime) + factors.increment;
+    editScore(currentScore);
   }
 
   createAnswersButtons(answer, i) {
-    const { disableAnswer } = this.props;
-    const { questions, index } = this.state;
-    console.log(questions);
+    const { state: { questions, index }, props: { disableAnswer } } = this;
+    // console.log(questions);
     if (answer === questions[index].correct_answer) {
+      console.log(questions[index].correct_answer);
       return (
         <button
           key={ i }
@@ -146,11 +162,11 @@ class Game extends Component {
       editCurrentTime,
       editTrueOrFalse,
     } = this.props;
-    editHidden(true);
     editCurrentTime();
     editClockStoper(false);
     editTrueOrFalse(true);
     editDisable(false);
+    editHidden(true);
   }
 
   async nextButtonFuncManeger() {
@@ -167,8 +183,8 @@ class Game extends Component {
   }
 
   render() {
-    const { emailDoUsuario, nomeDoUsuario, hiddenBtnNext } = this.props;
-    const { questions, index, shuffle } = this.state;
+    const { state: { questions, index, shuffle },
+      props: { emailDoUsuario, nomeDoUsuario, hiddenBtnNext, score } } = this;
     const hashGerada = md5(emailDoUsuario).toString();
     if (questions.length === 0) return <h2>loading...</h2>;
     return (
@@ -176,7 +192,7 @@ class Game extends Component {
         <header>
           <img src={ `https://gravatar.com/avatar/${hashGerada}` } alt="usuário" data-testid="header-profile-picture" />
           <p data-testid="header-player-name">{nomeDoUsuario}</p>
-          <p data-testid="header-score">0</p>
+          <p data-testid="header-score">{score}</p>
         </header>
         <main>
           <Timer />
@@ -203,7 +219,7 @@ class Game extends Component {
 
 const mapStateToProps = ({
   player: { email, name, token },
-  gameReducer: { disableAnswer, hiddenBtnNext, currentTime },
+  gameReducer: { disableAnswer, hiddenBtnNext, currentTime, score },
 }) => ({
   emailDoUsuario: email,
   nomeDoUsuario: name,
@@ -211,6 +227,7 @@ const mapStateToProps = ({
   disableAnswer,
   hiddenBtnNext,
   currentTime,
+  score,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -219,6 +236,7 @@ const mapDispatchToProps = (dispatch) => ({
   editClockStoper: (payload) => dispatch(clockStoper(payload)),
   editCurrentTime: () => dispatch(resetCurrentTime()),
   editTrueOrFalse: (payload) => dispatch(changeTrueOrFalse(payload)),
+  editScore: (payload) => dispatch(changeScore(payload)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);

@@ -5,6 +5,7 @@ import {
   CLOCK_STOPER,
   RESET_CURRENT_TIME,
   CHANGE_TRUE_OR_FALSE,
+  CHANGE_SCORE,
 } from '../actions';
 
 const INITIAL_STATE = {
@@ -15,6 +16,7 @@ const INITIAL_STATE = {
   currentTime: 5,
   clockStoper: false,
   changeTrueOrFalse: false,
+  score: 0,
 };
 
 function gameReducer(state = INITIAL_STATE, action) {
@@ -53,6 +55,12 @@ function gameReducer(state = INITIAL_STATE, action) {
     return ({
       ...state,
       changeTrueOrFalse: action.payload,
+    });
+
+  case CHANGE_SCORE:
+    return ({
+      ...state,
+      score: state.score + action.payload,
     });
 
   default:
