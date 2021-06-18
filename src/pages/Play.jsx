@@ -52,17 +52,10 @@ class Play extends Component {
     if (target.className === correctAnswerId) this.calcScore();
   }
 
-  decodeHTML(textHTML) {
-    return (
-      textHTML
-        .replace(/&nbsp;/gi, ' ')
-        .replace(/&amp;/gi, '&')
-        .replace(/&quot;/gi, '"')
-        .replace(/&lt;/gi, '<')
-        .replace(/&gt;/gi, '>')
-        .replace(/&‌#039;/gi, '\'')
-        .replace(/&deg;;/gi, '°')
-    );
+  decodeHTML(html) {
+    const txt = document.createElement('textarea');
+    txt.innerHTML = html;
+    return txt.value;
   }
 
   createOptions() {
