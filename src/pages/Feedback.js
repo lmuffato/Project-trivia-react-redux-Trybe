@@ -3,8 +3,19 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
+import { getRanking } from '../redux/actions';
 
 class Feedback extends React.Component {
+  componentDidMount() {
+    const { setRanking } = this.props;
+    setRanking(this.getPlayerInfo());
+  }
+
+  getPlayerInfo() {
+    const playerInfo = JSON.parse(localStorage.getItem('state'));
+    return Object.values(playerInfo)[0];
+  }
+
   render() {
     const { assertions, score } = this.props;
     const Rate = 3;
@@ -38,8 +49,12 @@ const mapStateToProps = (state) => ({
   score: state.player.score,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  setRanking: (player) => dispatch(getRanking(player)),
+});
+
 Feedback.propTypes = {
   assertions: PropTypes.number,
 }.isRequired;
 
-export default connect(mapStateToProps)(Feedback);
+export default connect(mapStateToProps, mapDispatchToProps)(Feedback);
