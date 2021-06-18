@@ -27,7 +27,7 @@ export async function fetchGravatar(email) {
 }
 
 export async function fetchQuest(seuTokenAqui) {
-  const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${seuTokenAqui}`);
+  const response = await fetch(`https://opentdb.com/api.php?amount=6&token=${seuTokenAqui}`);
   const data = await response.json();
   // console.log(data);
   return data;
