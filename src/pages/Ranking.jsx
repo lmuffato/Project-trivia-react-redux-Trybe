@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { sortRankingArray } from '../utils/functions';
 
 class Ranking extends Component {
@@ -31,11 +32,20 @@ class Ranking extends Component {
 
   render() {
     return (
-      <div>
-        <h1 data-testid="ranking-title">Ranking</h1>
+      <section>
+        <h2 data-testid="ranking-title">Ranking</h2>
         {this.renderRankingList()}
-      </div>
+        <Link to="/">
+          <button
+            type="button"
+            data-testid="btn-go-home"
+          >
+            Voltar
+          </button>
+        </Link>
+      </section>
     );
   }
 }
+
 export default Ranking;

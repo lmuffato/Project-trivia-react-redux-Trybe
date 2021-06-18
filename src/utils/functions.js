@@ -21,3 +21,9 @@ export const updateUserScore = (timer, difficulty) => {
 export const sortRankingArray = (array) => {
   array.sort((a, b) => b.score - a.score);
 };
+
+export const showFeedbackMessage = (score) => {
+  const minAssertion = 3;
+  if (score < minAssertion) return 'Podia ser melhor...';
+  return 'Mandou bem!';
+};

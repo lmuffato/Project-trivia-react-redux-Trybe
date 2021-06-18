@@ -4,6 +4,7 @@ import { string, shape } from 'prop-types';
 import { Link } from 'react-router-dom';
 
 import md5 from 'crypto-js/md5';
+import { showFeedbackMessage } from '../utils/functions';
 
 class Feedback extends Component {
   render() {
@@ -30,7 +31,7 @@ class Feedback extends Component {
           </p>
         </section>
         <p data-testid="feedback-text">
-          Mandou bem
+          {showFeedbackMessage(storage.player.assertions)}
         </p>
         <Link to="/">
           <button
