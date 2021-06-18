@@ -94,6 +94,7 @@ class Game extends Component {
       this.setState({
         shouldRedirect: true,
       });
+      this.saveRanking();
     }
     this.setState((prevState) => ({
       currentQuestionId: prevState.currentQuestionId + 1,
@@ -121,7 +122,7 @@ class Game extends Component {
     const newPlayer = {
       name: player.name,
       score: player.score,
-      picture: player.email,
+      picture: player.gravatarEmail,
     };
     const newRank = localStorage.getItem('ranking')
       ? [...JSON.parse(localStorage.getItem('ranking')), newPlayer]
