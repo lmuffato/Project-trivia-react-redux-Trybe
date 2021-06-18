@@ -1,11 +1,16 @@
 import {
-  REQUEST_API, REQUEST_API_ERROR, REQUEST_API_SUCESS,
-} from '../actions/requestQuestions';
+  INCREMENT_INDEX,
+  REFRESH_SHUFFLE,
+  REQUEST_API,
+  REQUEST_API_ERROR, REQUEST_API_SUCESS,
+} from '../actions/manageQuestions';
 
 const INITIAL_STATE = {
   questions: [],
+  index: 0,
   isLoading: false,
   error: null,
+  shuffle: [],
 };
 
 function questionsReducer(state = INITIAL_STATE, action) {
@@ -26,6 +31,16 @@ function questionsReducer(state = INITIAL_STATE, action) {
       ...state,
       isLoading: false,
       error: action.payload,
+    });
+  case INCREMENT_INDEX:
+    return ({
+      ...state,
+      index: state.index + 1,
+    });
+  case REFRESH_SHUFFLE:
+    return ({
+      ...state,
+      shuffle: action.payload,
     });
   default:
     return state;

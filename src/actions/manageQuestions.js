@@ -3,6 +3,8 @@ import { getQuestions } from '../services/dataApi';
 export const REQUEST_API = 'REQUEST_API';
 export const REQUEST_API_SUCESS = 'REQUEST_API_SUCESS';
 export const REQUEST_API_ERROR = 'REQUEST_API_ERROR';
+export const INCREMENT_INDEX = 'INCREMENT_INDEX';
+export const REFRESH_SHUFFLE = 'REFRESH_SHUFFLE';
 
 export const requestQuestions = () => ({
   type: REQUEST_API,
@@ -27,3 +29,12 @@ export const requestQuestionsThunk = (token) => async (dispatch) => {
     dispatch(requestQuestionsError(erro));
   }
 };
+
+export const incrementIndex = () => ({
+  type: INCREMENT_INDEX,
+});
+
+export const refreshShuffle = (payload) => ({
+  type: REFRESH_SHUFFLE,
+  payload,
+});
