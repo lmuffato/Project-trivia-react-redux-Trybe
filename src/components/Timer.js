@@ -7,12 +7,13 @@ import {
 } from '../actions';
 
 class Timer extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
-      timeLeft: 30,
+      timeLeft: props.timeLeft,
     };
+    this.resetTimer = this.resetTimer.bind(this);
   }
 
   componentDidMount() {
@@ -26,6 +27,14 @@ class Timer extends Component {
     }, UM_SEGUNDO);
   }
 
+  // static getDerivedStateFromProps(props, state) {
+  //   console.log(props);
+  //   if (props.timeLeft !== state.timeLeft) {
+  //     return { timeLeft: props.timeLeft };
+  //   }
+  //   return null;
+  // }
+
   getTimeOut() {
     const { updateTime } = this.props;
     const { timeLeft } = this.state;
@@ -38,7 +47,13 @@ class Timer extends Component {
     updateTime(timeLeft);
   }
 
+  resetTimer() {
+    this.setState({ timeLeft: 30 });
+  }
+
   render() {
+    console.log(this.state.timeLeft);
+    // this.resetTimer();
     const { timeLeft } = this.state;
     return (
       <div>
@@ -52,9 +67,13 @@ Timer.propTypes = {
   disableAnswer: bool,
 }.isRequired;
 
+const mapStateToProps = (state) => ({
+  isAnswered: state.gameMatch.isAnswered,
+});
+
 const mapDispatchToProps = (dispatch) => ({
   disableAnswer: (disable) => dispatch(disableAnswerAction(disable)),
   updateTime: (timer) => dispatch(updateTimeAction(timer)),
 });
 
-export default connect(null, mapDispatchToProps)(Timer);
+export default connect(mapStateToProps, mapDispatchToProps)(Timer);

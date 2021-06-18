@@ -1,7 +1,7 @@
 import { GET_PLAYER, UPDATE_ASSERTIONS, UPDATE_SCORE } from '../actions';
 
 const INITIAL_STATE = {
-  playerName: '',
+  name: '',
   assertions: 0,
   score: 0,
   gravatarEmail: '',
@@ -13,7 +13,7 @@ const player = (state = INITIAL_STATE, action) => {
   case GET_PLAYER:
     return {
       ...state,
-      playerName: payload.name,
+      name: payload.name,
       gravatarEmail: payload.email,
     };
   case UPDATE_SCORE:

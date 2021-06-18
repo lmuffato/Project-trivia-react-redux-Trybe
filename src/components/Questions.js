@@ -4,8 +4,9 @@ import { arrayOf, object } from 'prop-types';
 import permutate from '../service/permutate';
 import {
   updateStorageThunk,
-  verifyAnswered as verifyAnsweredAction,
+  markAnswered as markAnsweredAction,
 } from '../actions';
+import Timer from './Timer';
 
 import decoder from '../service/decoder';
 
@@ -15,12 +16,13 @@ const CORRECT_ANSWER = 'correct-answer';
 class Questions extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props);
     this.state = {
       randomAnswers: permutate(props.answers),
+      timeLeft: 30,
     };
     this.getID = this.getID.bind(this);
     this.checkAnswer = this.checkAnswer.bind(this);
+    this.resetStyle = this.resetStyle.bind(this);
   }
 
   getID(answer) {
@@ -36,7 +38,7 @@ class Questions extends React.Component {
   async checkAnswer({ target }, difficulty) {
     const { parentElement, id } = target;
     const TEN = 10;
-    const { timer, updateStorage, verifyAnswered } = this.props;
+    const { timer, updateStorage, markAnswered } = this.props;
     const pointsDifficulty = { hard: 3, medium: 2, easy: 1 };
     if (id === CORRECT_ANSWER) {
       const { player: { assertions } } = this.props;
@@ -56,22 +58,31 @@ class Questions extends React.Component {
         child.className = 'answer wrong';
       }
     });
-    verifyAnswered(false);
+    markAnswered(true);
+  }
+
+  resetStyle() {
+    Array.from(document.querySelectorAll('.answer')).forEach((child) => {
+      child.className = 'answer';
+    });
   }
 
   render() {
-    const { timesUp, questions, questionIndex, answers } = this.props;
-    this.answers = answers;
+    const { timesUp, timer, questions, questionIndex } = this.props;
     if (!questions.length) return <div>Loading...</div>;
-    const { randomAnswers } = this.state;
+    const { randomAnswers, timeLeft } = this.state;
     const { question, category, difficulty } = questions[questionIndex];
     const questionDecoded = decoder(question);
-    console.log(questionIndex, randomAnswers);
+
+    if (timer === 30) {
+      this.resetStyle();
+    }
 
     return (
       <section>
         <h1>Trivia Game!</h1>
         <div className="game-container">
+          <Timer timeLeft={ timeLeft } />
           <h3 data-testid="question-category">{category}</h3>
           <h4 data-testid="question-text">{questionDecoded}</h4>
           <div className="answers-container">
@@ -111,7 +122,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   updateStorage: (score, callback) => dispatch(updateStorageThunk(score, callback)),
-  verifyAnswered: (bool) => dispatch(verifyAnsweredAction(bool)),
+  markAnswered: (bool) => dispatch(markAnsweredAction(bool)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Questions);

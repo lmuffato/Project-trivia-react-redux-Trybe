@@ -9,6 +9,7 @@ class Feedback extends React.Component {
     super();
 
     this.assertionsMenssage = this.assertionsMenssage.bind(this);
+    this.resetStorage = this.resetStorage.bind(this);
   }
 
   assertionsMenssage() {
@@ -18,6 +19,16 @@ class Feedback extends React.Component {
       return 'Podia ser melhor...';
     }
     return 'Mandou bem!';
+  }
+
+  resetStorage() {
+    const player = {
+      name: '',
+      gravatarEmail: '',
+      score: 0,
+      assertions: 0,
+    };
+    localStorage.setItem('state', JSON.stringify({ player }));
   }
 
   render() {
@@ -35,7 +46,7 @@ class Feedback extends React.Component {
           {`Um total de ${score} pontos`}
         </h2>
         <Link to="/">
-          <button type="button" data-testid="btn-play-again">
+          <button type="button" data-testid="btn-play-again" onClick={ this.resetStorage }>
             Jogar novamente
           </button>
         </Link>

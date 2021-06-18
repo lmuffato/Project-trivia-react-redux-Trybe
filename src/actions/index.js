@@ -10,7 +10,7 @@ export const UPDATE_SCORE = 'UPDATE_SCORE';
 export const UPDATE_ASSERTIONS = 'UPDATE_ASSERTIONS';
 export const DISABLE_ANS = 'DISABLE_ANS';
 export const UPDATE_TIME = 'UPDATE_TIME';
-export const VERIFY_ANSWERED = 'VERIFY_ANSWERED';
+export const MARK_ANSWERED = 'MARK_ANSWERED';
 
 export function requestApi() {
   return {
@@ -82,12 +82,17 @@ export const updateStorageThunk = (scoreAssertions, callback) => async (dispatch
   callback();
 };
 
-export function verifyAnswered(isAnswered) {
+export function markAnswered(isAnswered) {
   return {
-    type: VERIFY_ANSWERED,
+    type: MARK_ANSWERED,
     payload: isAnswered,
   };
 }
+
+export const updateAnswersStyle = (isAnswered, callback) => async (dispatch) => {
+  await dispatch(markAnswered(isAnswered));
+  callback();
+};
 
 // export function getName(namePlayer) {
 //   return {

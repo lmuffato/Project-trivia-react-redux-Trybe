@@ -5,11 +5,11 @@ import { arrayOf, object } from 'prop-types';
 import Questions from '../components/Questions';
 import {
   disableAnswer as disableAnswerAction,
-  verifyAnswered as verifyAnsweredAction,
+  markAnswered as markAnsweredAction,
 } from '../actions';
 import Header from '../components/Header';
-import Timer from '../components/Timer';
 import Loading from '../components/Loading';
+import getGravatarImg from '../components/getGravatarImg';
 
 class Game extends React.Component {
   constructor() {
@@ -23,6 +23,7 @@ class Game extends React.Component {
     this.setLoading = this.setLoading.bind(this);
     this.handleClickNext = this.handleClickNext.bind(this);
     this.setAnswers = this.setAnswers.bind(this);
+    this.buildRanking = this.buildRanking.bind(this);
   }
 
   componentDidMount() {
@@ -59,12 +60,43 @@ class Game extends React.Component {
   }
 
   handleClickNext() {
-    const { disableAnswer, verifyAnswered } = this.props;
+    const { disableAnswer, markAnswered } = this.props;
     disableAnswer(false);
-    verifyAnswered(true);
+    markAnswered(false);
     this.setState(({ questionIndex }) => ({
       questionIndex: questionIndex + 1,
     }));
+  }
+
+  buildRanking() {
+    const playerInfo = JSON.parse(localStorage.getItem('state')).player;
+    const rankingStorage = JSON.parse(localStorage.getItem('ranking'));
+    const ranking = {
+      name: playerInfo.name,
+      score: playerInfo.score,
+      picture: getGravatarImg(playerInfo.gravatarEmail),
+    };
+
+    if (rankingStorage) {
+      rankingStorage.push(ranking);
+      localStorage.setItem('ranking', JSON.stringify(rankingStorage));
+    } else {
+      localStorage.setItem('ranking', JSON.stringify([ranking]));
+    }
+
+    console.log(rankingStorage);
+    // if (!Array.isArray(ranking)) {
+    //   ranking = [];
+    // }
+
+    // ranking.push({
+    //   name: playerInfo.name,
+    //   score: playerInfo.score,
+    //   picture: getGravatarImg(playerInfo.gravatarEmail),
+    // });
+
+    // localStorage.setItem('ranking', JSON.stringify(ranking));
+    // this.setState({ ranking });
   }
 
   render() {
@@ -72,7 +104,10 @@ class Game extends React.Component {
     const { isAnswered } = this.props;
 
     if (isLoading) return <Loading />;
-    if (questionIndex > Number('4')) return <Redirect to="/feedback" />;
+    if (questionIndex > Number('4')) {
+      this.buildRanking();
+      return <Redirect to="/feedback" />;
+    }
     return (
       <section>
         <Link to="/feedback">Teste</Link>
@@ -86,11 +121,10 @@ class Game extends React.Component {
           type="button"
           data-testid="btn-next"
           onClick={ this.handleClickNext }
-          hidden={ isAnswered }
+          hidden={ !isAnswered }
         >
           Next
         </button>
-        <Timer />
       </section>
     );
   }
@@ -103,7 +137,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   disableAnswer: () => dispatch(disableAnswerAction()),
-  verifyAnswered: (bool) => dispatch(verifyAnsweredAction(bool)),
+  markAnswered: (bool) => dispatch(markAnsweredAction(bool)),
 });
 
 Game.propTypes = {
