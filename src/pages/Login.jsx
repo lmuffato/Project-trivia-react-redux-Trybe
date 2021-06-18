@@ -40,6 +40,7 @@ export default function Login() {
           disabled={ email.length === 0 || name.length === 0 }
           type="submit"
           data-testid="btn-play"
+          className="buttonYellow"
         >
           Jogar
         </button>
