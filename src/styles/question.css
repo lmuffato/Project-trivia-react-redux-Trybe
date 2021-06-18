@@ -12,7 +12,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  width: 100%;;
+  width: 100%;
 }
 
 .btn-next-quest {
@@ -58,9 +58,9 @@
 }
 
 .btn-alternative-wrong {
-  border: 3px solid rgb(255, 0, 0);
+  border: 3px solid red;
   border-radius: 3px;
-  box-shadow: 0 0 10px rgb(255, 0, 0);
+  box-shadow: 0 0 10px red;
   font-size: large;
   font-weight: 600;
   height: 100px;
