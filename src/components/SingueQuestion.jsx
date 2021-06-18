@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import '../styles.css';
 
-class Questions extends Component {
+class SingleQuestion extends Component {
   constructor() {
     super();
 
@@ -11,10 +10,21 @@ class Questions extends Component {
     this.answerClick = this.answerClick.bind(this);
 
     this.state = {
-      index: 0,
       chosedQuestion: false,
+      disableBtn: false,
       time: 30,
     };
+
+    this.answerClick = this.answerClick.bind(this);
+    this.resetBtn = this.resetBtn.bind(this);
+
+  }
+
+  resetBtn() {
+      this.setState({
+        chosedQuestion: false,
+        disableBtn: false,
+      })
   }
 
   componentDidMount() {
@@ -38,27 +48,28 @@ class Questions extends Component {
     const { index, chosedQuestion } = this.state;
     const { questions } = this.props;
     if (event.target.value === questions[index].correct_answer) {
-      // Correct Event
       this.setState({
-        index: 1,
         chosedQuestion: true,
-      });
-      console.log(chosedQuestion);
+        disableBtn: true,
+      })
     } else {
       this.setState({
-        index: 1,
         chosedQuestion: true,
-      });
+        disableBtn: true,
+      })
     }
   }
 
   render() {
+    const { index, questions, loading, callNext } = this.props;
+    const {chosedQuestion, disableBtn} = this.state
     const { questions, loading } = this.props;
     const { index, chosedQuestion, time } = this.state;
     return (
       <div>
-        {loading === true ? <p>carregando...</p>
+       {loading === true ? <p>carregando...</p>
           : <div>
+            <h1>Questão {`${index +1}`}</h1>
             <h1>{ time }</h1>
             <p data-testid="question-category">{questions[index].category}</p>
             <p>{questions[index].difficulty}</p>
@@ -87,26 +98,19 @@ class Questions extends Component {
                   {ia}
                 </button>
               ))}
-          </div>}
+             </div>
+       }
+          {disableBtn === false ? null :
+            <button data-testid="btn-next" onClick={ () => {callNext(); this.resetBtn()} }>Pŕoxima</button>
+          }
       </div>
-    );
+    )
   }
 }
-
-// Pensar em uma forma de aleatorizar as respostas.
-
 const mapStateToProps = (state) => ({
   questions: state.questions.questions.results,
   loading: state.questions.loading,
 });
 
-export default connect(mapStateToProps, null)(Questions);
+export default connect(mapStateToProps, null)(SingleQuestion);
 
-Questions.propTypes = {
-  questions: PropTypes.arrayOf(Object),
-  loading: PropTypes.bool.isRequired,
-};
-
-Questions.defaultProps = {
-  questions: [],
-};
