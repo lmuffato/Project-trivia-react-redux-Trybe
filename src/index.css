@@ -33,8 +33,10 @@ button:hover {
 
 select {
   background: white;
-  border: 0;
+  border: none;
+  border-bottom: 1px solid #427d6c;
   border-radius: 5px;
+  cursor: pointer;
   display: block;
   font-family: Quicksand , sans-serif;
   font-size: 16px;

@@ -21,7 +21,7 @@ class Ranking extends Component {
         <h2 data-testid="ranking-title">Ranking</h2>
         { this.getInformations().map((player, index) => (
           <div key={ index }>
-            <figure>
+            <figure display="inline">
               <img
                 src={ getUserImg(player.gravatarEmail) }
                 alt="userImg"
