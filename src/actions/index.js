@@ -3,12 +3,18 @@ export const REQUEST_TOKEN = 'REQUEST_TOKEN';
 export const GET_QUESTIONS_SUCCESS = 'GET_QUESTIONS_SUCCESS';
 export const GET_QUESTIONS = 'GET_QUESTIONS';
 export const SAVE_AVATAR = 'SAVE_AVATAR';
+export const FILTER = 'FILTER';
 export const GET_SECONDS = 'GET_SECONDS';
 export const GET_SCORE = 'GET_SCORE';
 export const SHOULD_TIMER_RESTART = 'SHOULD_TIMER_RESTART';
 
 export const login = (payload) => ({
   type: LOG_IN,
+  payload,
+});
+
+export const filters = (payload) => ({
+  type: FILTER,
   payload,
 });
 

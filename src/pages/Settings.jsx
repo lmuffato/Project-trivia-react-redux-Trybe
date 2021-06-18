@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { filters } from '../actions';
 
 class Settings extends React.Component {
   constructor() {
@@ -10,10 +11,20 @@ class Settings extends React.Component {
       difficulty: 'easy',
       type: 'multiple',
     };
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleChange({ target: { id, value } }) {
     this.setState({ [id]: value });
+  }
+
+  handleClick() {
+    const { sendFilters, history } = this.props;
+    const { category, difficulty, type } = this.state;
+    const urlComplement = [`${category}${difficulty}${type}`];
+    const newUrl = urlComplement.join(' ');
+    sendFilters(newUrl);
+    history.push('/');
   }
 
   renderSelectCategory() {
@@ -30,7 +41,7 @@ class Settings extends React.Component {
           >
             {
               categories.map((e) => (
-                <option key={ e.id } value={ e.id }>{e.name}</option>
+                <option key={ e.id } value={ `&category=${e.id}` }>{e.name}</option>
               ))
             }
           </select>
@@ -50,9 +61,9 @@ class Settings extends React.Component {
             value={ difficulty }
             onChange={ (e) => this.handleChange(e) }
           >
-            <option value="easy">Fácil</option>
-            <option value="medium">Médio</option>
-            <option value="hard">Difícil</option>
+            <option value="&difficulty=easy">Fácil</option>
+            <option value="&difficulty=medium">Médio</option>
+            <option value="&difficulty=hard">Difícil</option>
           </select>
         </label>
       </h4>
@@ -70,8 +81,8 @@ class Settings extends React.Component {
             value={ type }
             onChange={ (e) => this.handleChange(e) }
           >
-            <option value="boolean">Verdadeiro ou Falso</option>
-            <option value="multiple">Múltipla escolha</option>
+            <option value="&type=boolean">Verdadeiro ou Falso</option>
+            <option value="&type=multiple">Múltipla escolha</option>
           </select>
         </label>
       </h4>
@@ -92,6 +103,12 @@ class Settings extends React.Component {
             {this.renderSelectDifficulty()}
             {this.renderSelectType()}
           </section>
+          <button
+            type="button"
+            onClick={ this.handleClick }
+          >
+            Jogar!
+          </button>
         </main>
       </>
     );
@@ -102,8 +119,12 @@ const mapStateToProps = (state) => ({
   categories: state.triviaReducer.categories,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  sendFilters: (obj) => dispatch(filters(obj)),
+});
+
 Settings.propTypes = {
   categories: PropTypes.arrayOf(PropTypes.object),
 }.isRequired;
 
-export default connect(mapStateToProps)(Settings);
+export default connect(mapStateToProps, mapDispatchToProps)(Settings);

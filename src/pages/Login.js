@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import '../App.css';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import trivia from '../trivia.png';
 import { login, fetchToken } from '../actions';
@@ -15,9 +14,9 @@ class Login extends React.Component {
     this.state = {
       name: '',
       email: '',
-      playButton: false,
       score: 0,
       assertions: 0,
+      playButton: false,
     };
   }
 
@@ -39,7 +38,7 @@ class Login extends React.Component {
     const { name, email } = this.state;
     const { loginAction, requestTokenAction, history } = this.props;
     const ONE_SECOND = 1000;
-    await requestTokenAction();
+    requestTokenAction();
     loginAction(this.state);
     setTimeout(() => history.push('/gameplay'), ONE_SECOND);
     const state = { player: {
@@ -51,10 +50,12 @@ class Login extends React.Component {
 
     const playerStorage = JSON.stringify(state);
     localStorage.setItem('state', playerStorage);
+    history.push('/gameplay');
   }
 
   renderInputs() {
     const { name, email, playButton } = this.state;
+    const { history } = this.props;
     return (
       <>
         <label htmlFor="name">
@@ -77,24 +78,21 @@ class Login extends React.Component {
             onChange={ this.handleChange }
           />
         </label>
-        <Link to="/gameplay">
-          <button
-            type="button"
-            data-testid="btn-play"
-            disabled={ !playButton }
-            onClick={ this.startGame }
-          >
-            Jogar
-          </button>
-        </Link>
-        <Link to="/settings">
-          <button
-            type="button"
-            data-testid="btn-settings"
-          >
-            Configurações
-          </button>
-        </Link>
+        <button
+          type="button"
+          data-testid="btn-play"
+          disabled={ !playButton }
+          onClick={ this.startGame }
+        >
+          Jogar
+        </button>
+        <button
+          type="button"
+          data-testid="btn-settings"
+          onClick={ () => history.push('/settings') }
+        >
+          Configurações
+        </button>
       </>
     );
   }
