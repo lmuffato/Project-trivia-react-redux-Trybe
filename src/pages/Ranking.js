@@ -22,16 +22,17 @@ class Ranking extends React.Component {
     const { login } = this.state;
     return (
       <div>
-        <h1 data-testid="ranking-title">Ranking</h1>
+        <h1 data-testid="ranking-title">♔ Ranking ♔</h1>
         <button
           type="button"
           data-testid="btn-go-home"
           onClick={ () => this.setState({ login: true }) }
+          className="btn btn-danger"
         >
           Voltar
         </button>
         { login && <Redirect to="/" /> }
-        <ul>
+        <ul className="rankingList">
           {this.teste().map((elem, index) => (
             <li key={ index }>
               <p data-testid={ `player-name-${index}` }>{elem.name}</p>

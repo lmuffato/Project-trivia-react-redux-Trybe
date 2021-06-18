@@ -38,3 +38,29 @@ body {
   margin-top: 10px;
   width: 400px;
 }
+
+.navbar {
+  align-items: baseline;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-evenly;
+}
+
+.userIMG {
+  border-radius: 50px
+}
+
+.textFeed {
+  margin-top: 50px;
+}
+
+.fail, .success {
+  border-radius: 100px;
+  width: 150px;
+  height: 150px;
+}
+
+.rankingList {
+  list-style: none;
+  margin-top: 30px;
+}
