@@ -1,6 +1,5 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import './App.css';
 import Feedback from './pages/Feedback';
 import Login from './pages/Login';
 import Trivia from './pages/Trivia';
