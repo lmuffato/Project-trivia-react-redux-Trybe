@@ -1,45 +1,43 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Header from '../components/Header';
 
 class Feedback extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      score: 0,
-      assertions: 0,
-    };
+    this.renderBadScore = this.renderBadScore.bind(this);
+    this.renderGoodScoore = this.renderGoodScoore.bind(this);
   }
 
-  renderGoodScoore() {
-    return (
-      <h1 data-testid="feedback-text">Mandou bem!</h1>
-    );
-  }
+  renderGoodScoore() { return (<h1 data-testid="feedback-text">Mandou bem!</h1>); }
 
-  renderBadScore() {
-    return (
-      <h1 data-testid="feedback-text">Podia ser melhor...</h1>
-    );
-  }
+  renderBadScore() { return (<h1 data-testid="feedback-text">Podia ser melhor...</h1>); }
 
   render() {
-    // const storedInfo = JSON.parse(localStorage.getItem('state'));
-    // const { player: { assertions, score } } = storedInfo;
+    const { score, assertions } = this.props;
 
-    const { score, assertions } = this.state; //
     const minimalScore = 3;
 
     return (
-      <div>
+      <>
         <Header />
-        { score >= minimalScore ? this.renderGoodScoore() : this.renderBadScore() }
-        <h3 data-testid="feedback-total-question">
-          {`Você acertou: ${assertions} questões`}
+        { assertions >= minimalScore ? this.renderGoodScoore() : this.renderBadScore() }
+        <h3>
+          Você acertou:
+          {' '}
+          <span data-testid="feedback-total-question">{assertions}</span>
+          {' '}
+          questões.
         </h3>
-        <h3 data-testid="feedback-total-score">
-          {`Sua pontuação final foi: ${score} pontos!`}
+        <h3>
+          Um total de:
+          {' '}
+          <span data-testid="feedback-total-score">{score}</span>
+          {' '}
+          pontos!
         </h3>
         <Link to="/ranking">
           <button type="submit" data-testid="btn-ranking">
@@ -51,9 +49,19 @@ class Feedback extends React.Component {
             Jogar Novamente
           </button>
         </Link>
-      </div>
+      </>
     );
   }
 }
 
-export default Feedback;
+const mapStateToProps = (state) => ({
+  score: state.userReducer.score,
+  assertions: state.userReducer.assertions,
+});
+
+Feedback.propTypes = {
+  score: PropTypes.number.isRequired,
+  assertions: PropTypes.number.isRequired,
+};
+
+export default connect(mapStateToProps)(Feedback);

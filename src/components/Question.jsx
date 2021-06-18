@@ -22,6 +22,10 @@ class Question extends Component {
     this.restoreTimer = this.restoreTimer.bind(this);
   }
 
+  // componentWillUnmount() {
+  //   this.handleLocalStorage();
+  // }
+
   restoreTimer() {
     const { setTimer } = this.props;
     setTimer(true);
