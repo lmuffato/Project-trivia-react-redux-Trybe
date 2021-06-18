@@ -73,7 +73,7 @@ class Game extends Component {
     const state = getItemFromLocalStorage('state');
     if (attribute !== 'correct-answer') return timesUp();
     const points = DEFAULT_POINTS + (getTime * questionLevel);
-    state.player.score = points;
+    state.player.score += points;
     state.player.assertions += 1;
     setToLocalStorage('state', state);
     addAssertions();
