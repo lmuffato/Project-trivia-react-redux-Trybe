@@ -5,9 +5,9 @@ class Ranking extends React.Component {
   render() {
     return (
       <>
-        <h1>Rankling</h1>
+        <h1 data-testid="ranking-title">Ranking</h1>
         <Link to="/">
-          <button type="button">Retornar ao início</button>
+          <button type="button" data-testid="btn-go-home">Retornar ao início</button>
         </Link>
       </>
     );
