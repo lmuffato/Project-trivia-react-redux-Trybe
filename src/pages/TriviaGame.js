@@ -14,9 +14,16 @@ class TriviaGame extends Component {
 
     this.state = {
       index: 0,
+      disableBtn: true,
     };
     this.handleIndexIncrementOnClick = this.handleIndexIncrementOnClick.bind(this);
     this.changeBorder = this.changeBorder.bind(this);
+  }
+
+  toggleBtn(bool) {
+    this.setState({
+      disableBtn: bool,
+    });
   }
 
   changeBorder() {
@@ -28,6 +35,7 @@ class TriviaGame extends Component {
         btn.style = 'border: 3px solid rgb(255, 0, 0)';
       }
     });
+    this.toggleBtn(false);
   }
 
   resetBorder() {
@@ -41,6 +49,7 @@ class TriviaGame extends Component {
     this.setState((oldState) => ({
       index: oldState.index + 1,
     }));
+    this.toggleBtn(true);
     this.resetBorder();
   }
 
@@ -65,7 +74,7 @@ class TriviaGame extends Component {
 
   render() {
     const { questions } = this.props;
-    const { index } = this.state;
+    const { index, disableBtn } = this.state;
     const questionsRandom = questions.length ? this.answersRandom(index) : 'xablau';
     return (
       <div>
@@ -78,8 +87,13 @@ class TriviaGame extends Component {
           {questions.length && <Answer
             answers={ questionsRandom }
             changeBorder={ this.changeBorder }
+            /* toggleBtn={ this.toggleBtn } */
           />}
-          <ButtonNext onClick={ this.handleIndexIncrementOnClick } />
+          <ButtonNext
+            onClick={ this.handleIndexIncrementOnClick }
+            disableBtn={ disableBtn }
+            /* toggleBtn={ this.toggleBtn } */
+          />
         </div>
       </div>
     );

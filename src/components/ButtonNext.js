@@ -1,17 +1,28 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-function ButtonNext(props) {
-  const { onClick } = props;
-  return (
-    <div>
-      <button type="button" onClick={ onClick }>PROSSEGUIR</button>
-    </div>
-  );
+class ButtonNext extends Component {
+  render() {
+    const { onClick, disableBtn } = this.props;
+    return (
+      <div>
+        <button
+          disabled={ disableBtn }
+          type="button"
+          onClick={ onClick }
+          data-testid="btn-next"
+          id="btn-next"
+        >
+          PROSSEGUIR
+        </button>
+      </div>
+    );
+  }
 }
 
 ButtonNext.propTypes = {
   onClick: PropTypes.func.isRequired,
+  disableBtn: PropTypes.bool.isRequired,
 };
 
 export default ButtonNext;
