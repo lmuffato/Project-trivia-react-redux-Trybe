@@ -10,7 +10,6 @@ class Feedback extends Component {
     const { assertions, ranking, score, gravatar, name } = this.props;
     const minHits = 3;
     const playerInfo = { score, gravatar, name };
-    console.log(assertions);
     return (
       <div>
         <Header />
