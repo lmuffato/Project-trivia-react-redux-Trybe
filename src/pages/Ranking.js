@@ -39,7 +39,6 @@ class Ranking extends Component {
     );
   }
 }
-
 const mapStateToProps = (state) => ({
   ranking: state.game.ranking,
 });
