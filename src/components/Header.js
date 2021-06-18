@@ -13,7 +13,7 @@ class Header extends Component {
     this.state = {
       name: '',
       img: '',
-      score: 0,
+      scoreHeader: 0,
     };
   }
 
@@ -24,13 +24,17 @@ class Header extends Component {
   }
 
   componentDidUpdate() {
-    this.getScore();
+    const { score } = this.props;
+    const { scoreHeader } = this.state;
+    if (score !== scoreHeader) {
+      this.getScore();
+    }
   }
 
   getScore() {
     const { score } = this.props;
     this.setState({
-      score,
+      scoreHeader: score,
     });
   }
 
@@ -43,12 +47,12 @@ class Header extends Component {
   }
 
   render() {
-    const { img, name } = this.state;
+    const { img, name, scoreHeader } = this.state;
     return (
       <div>
         <img src={ `https://www.gravatar.com/avatar/${img} ` } alt="avatar" data-testid="header-profile-picture" />
         <h2 data-testid="header-player-name">{ name }</h2>
-        <p data-testid="header-score">{ this.state.score }</p>
+        <p data-testid="header-score">{ scoreHeader }</p>
       </div>
     );
   }
@@ -65,4 +69,5 @@ export default connect(mapStateToProps, null)(Header);
 Header.propTypes = {
   email: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  score: PropTypes.number.isRequired,
 };
