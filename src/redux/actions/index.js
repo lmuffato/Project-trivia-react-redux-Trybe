@@ -1,5 +1,5 @@
 import { LOGIN, GET_QUESTIONS, GET_TOKEN,
-  REQUEST_API, ADD_GRAVATAR, UPDATE_SCORE, UPDATE_RANKING } from './actionsTypes';
+  REQUEST_API, ADD_GRAVATAR, UPDATE_SCORE, UPDATE_RANKING,UPDATE_CATEGORY } from './actionsTypes';
 
 export const updateScore = (newScore) => {
   const { assertions, score } = newScore;
@@ -41,6 +41,11 @@ export const addRank = (infos) => ({
   payload: infos,
 });
 
+export const addCategory = (id) => ({
+  type: UPDATE_CATEGORY,
+  payload: id,
+});
+
 function updateToken() {
   return async (dispatch) => {
     dispatch(requestAPI());
@@ -54,10 +59,11 @@ function updateToken() {
 }
 
 const endpointBase = 'https://opentdb.com/api.php?amount=5&token=';
-export function fetchQuestion(token) {
+export function fetchQuestion(token, id) {
+  console.log(id);
   return async (dispatch) => {
     dispatch(requestAPI());
-    return fetch(`${endpointBase}${token}`)
+    return fetch(`${endpointBase}${token}&category=${id}`)
       .then((response) => response.json())
       .then((response) => {
         const codeError = 3;

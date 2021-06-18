@@ -20,8 +20,8 @@ class Login extends React.Component {
   }
 
   async handleApi() {
-    const { token, history } = this.props;
-    await token();
+    const { token, history, categoryId } = this.props;
+    await token(categoryId);
     history.push('/play');
   }
 
@@ -92,7 +92,11 @@ class Login extends React.Component {
 
 const mapDispatchToProps = (dispatch) => ({
   login: (userInfo) => dispatch(addLogin(userInfo)),
-  token: () => dispatch(fetchToken()),
+  token: (id) => dispatch(fetchToken(id)),
+});
+
+const mapStateToProps = (state) => ({
+  categoryId: state.config.categoryID,
 });
 
 Login.propTypes = {
@@ -101,4 +105,4 @@ Login.propTypes = {
   callApiToQuestions: PropTypes.func,
 }.isRequired;
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
