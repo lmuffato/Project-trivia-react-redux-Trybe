@@ -27,9 +27,12 @@ export const requestQuestionThunk = () => async (dispatch) => {
   const amountOfQuestions = 5;
   const questions = await getQuestionsFromAPI(amountOfQuestions, tokenUser);
   const questionsArray = questions.results;
-  dispatch(requestApiGame(questionsArray));
-};
-
-export const updateScoreThunk = (correct, qDiff) => (dispatch) => {
-  console.log(correct, qDiff);
+  const randomNumber = 0.5;
+  const questionsArrayShuffled = questionsArray.map((question) => ({
+    ...question,
+    shuffledAlternatives: [
+      ...question.incorrect_answers,
+      question.correct_answer].sort(() => Math.random() - randomNumber),
+  }));
+  dispatch(requestApiGame(questionsArrayShuffled));
 };
