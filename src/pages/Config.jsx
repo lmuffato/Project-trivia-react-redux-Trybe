@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { addCategory } from '../redux/actions';
 
@@ -35,14 +35,15 @@ class Config extends Component {
   render() {
     const { api, category } = this.state;
     const { categoryId } = this.props;
-    const result = api.map(({ name, id }) => (<option
-      name="option"
-      value={ id }
-      key={ id }
-      onChange={ this.handleChange }
-    >
-      {name}
-    </option>));
+    const result = api.map(({ name, id }) => (
+      <option
+        name="option"
+        value={ id }
+        key={ id }
+        onChange={ this.handleChange }
+      >
+        {name}
+      </option>));
     const anyCategory = <option>Any Category</option>;
     return (
       <div>
@@ -71,5 +72,9 @@ class Config extends Component {
 const mapDispatchToProps = (dispatch) => ({
   categoryId: (id) => dispatch(addCategory(id)),
 });
+
+Config.propTypes = {
+  categoryId: PropTypes.string.isRequired,
+};
 
 export default connect(null, mapDispatchToProps)(Config);

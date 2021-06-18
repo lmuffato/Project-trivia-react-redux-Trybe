@@ -1,5 +1,6 @@
 import { LOGIN, GET_QUESTIONS, GET_TOKEN,
-  REQUEST_API, ADD_GRAVATAR, UPDATE_SCORE, UPDATE_RANKING,UPDATE_CATEGORY } from './actionsTypes';
+  REQUEST_API,
+  ADD_GRAVATAR, UPDATE_SCORE, UPDATE_RANKING, UPDATE_CATEGORY } from './actionsTypes';
 
 export const updateScore = (newScore) => {
   const { assertions, score } = newScore;
