@@ -6,8 +6,8 @@ import Ranking from './pages/Ranking';
 import Feedback from './pages/Feedback';
 import NotFound from './pages/NotFound';
 import Settings from './pages/Settings';
-import './App.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
 
 function App() {
   return (

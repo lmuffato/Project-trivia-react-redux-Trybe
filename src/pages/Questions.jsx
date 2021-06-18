@@ -22,6 +22,19 @@ class Questions extends Component {
   }
 
   getNextButton() {
+    const { questionIndex, questions } = this.state;
+    if (questionIndex >= questions.length - 1) {
+      return (
+        <form action="/feedback">
+          <button
+            type="submit"
+            data-testid="btn-next"
+          >
+            Finish
+          </button>
+        </form>
+      );
+    }
     return (
       <button
         type="button"
@@ -61,14 +74,16 @@ class Questions extends Component {
     return (
       <>
         <Header />
-        { questions
-        && <Question
-          nextQuestion={ this.nextQuestion }
-          questionData={ questions[questionIndex] }
-          selected={ selected }
-          selectedAnswer={ this.selectedAnswer }
-        /> }
-        { selected && this.getNextButton() }
+        <div className="container">
+          { questions
+          && <Question
+            nextQuestion={ this.nextQuestion }
+            questionData={ questions[questionIndex] }
+            selected={ selected }
+            selectedAnswer={ this.selectedAnswer }
+          /> }
+          { selected && this.getNextButton() }
+        </div>
       </>
     );
   }
