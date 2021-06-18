@@ -19,6 +19,15 @@ class Feedback extends React.Component {
     );
   }
 
+  renderZeroMsg() {
+    return (
+      <>
+        Não acertou nenhuma pergunta
+        <span data-testid="feedback-total-question">{ 0 }</span>
+      </>
+    );
+  }
+
   render() {
     const { history } = this.props;
     const getPlayerStorage = localStorage.getItem('state');
@@ -36,12 +45,18 @@ class Feedback extends React.Component {
           <h2 data-testid="feedback-text">
             { result < three ? this.renderLessThenThree() : this.renderThreeOrMore() }
           </h2>
-          <h3 data-testid="feedback-total-score">
-            { `Placar: ${placar}` }
+          <h3>
+            Placar:
+            <span data-testid="feedback-total-score">{ placar }</span>
           </h3>
-          <h3 data-testid="feedback-total-question">
-            { result === 0 ? 'Não acertou nenhuma pergunta'
-              : `Acertou ${result} perguntas ` }
+          <h3>
+            { result === 0 ? this.renderZeroMsg()
+              : (
+                <span>
+                  Acertou
+                  <span data-testid="feedback-total-question">{ result }</span>
+                  perguntas
+                </span>) }
           </h3>
         </main>
         <button
