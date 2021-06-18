@@ -14,17 +14,25 @@ class GameScreen extends React.Component {
       answer: [],
       time,
       answered: false,
+      nextQuestion: false,
+      reloadQuestion: () => setTimeout(() => this.setState(
+        {
+          nextQuestion: false,
+        },
+      ), 100),
       actualQuestion: 0,
       toFeedback: () => null,
     };
     this.loading = this.loading.bind(this);
     this.getUserAnswer = this.getUserAnswer.bind(this);
+    this.deployAlternatives = this.deployAlternatives.bind(this);
     this.stopTimer = this.stopTimer.bind(this);
     this.updateUserScore = this.updateUserScore.bind(this);
     this.calcDifficulty = this.calcDifficulty.bind(this);
     this.onNextClick = this.onNextClick.bind(this);
     this.runTimer = this.runTimer.bind(this);
     this.resetTimer = this.resetTimer.bind(this);
+    this.altBtnBehave = this.altBtnBehave.bind(this);
   }
 
   componentDidMount() {
@@ -37,7 +45,7 @@ class GameScreen extends React.Component {
     const { questions } = this.props;
     if (actualQuestion < questions.length - 1) {
       actualQuestion += 1;
-      this.setState({ actualQuestion });
+      this.setState({ actualQuestion, nextQuestion: true });
       this.resetTimer();
     } else {
       this.setState({ toFeedback: () => <Redirect to="/feedback" /> });
@@ -59,8 +67,6 @@ class GameScreen extends React.Component {
         time -= 1;
       } else {
         clearInterval(interval);
-        const buttons = document.querySelectorAll('button');
-        buttons.forEach((button) => { button.disabled = true; });
       }
       this.setState({ time });
       this.stopTimer(interval, time);
@@ -92,6 +98,27 @@ class GameScreen extends React.Component {
     }
   }
 
+  deployAlternatives(question) {
+    const wrongAlternatives = question.incorrect_answers
+      .map((incAns, index) => ({
+        text: incAns,
+        dataTest: `wrong-answer${index}`,
+        class: 'wrong' }));
+    const correctAlternative = {
+      text: question.correct_answer,
+      dataTest: 'correct-answer',
+      class: 'correct',
+    };
+    const alternatives = {
+      alt: [correctAlternative, ...wrongAlternatives]
+        .map((a) => ({ sort: Math.random(), value: a }))
+        .sort((a, b) => a.sort - b.sort)
+        .map((a) => a.value),
+      difficulty: question.difficulty,
+    };
+    return alternatives;
+  }
+
   stopTimer(interval, time) {
     const { answered } = this.state;
     if (answered) {
@@ -106,19 +133,46 @@ class GameScreen extends React.Component {
     return <h1> Loading </h1>;
   }
 
+  altBtnBehave(time) {
+    const { answered } = this.state;
+    if (answered) {
+      const buttons = [
+        ...document.getElementsByClassName('correct-answer'),
+        ...document.getElementsByClassName('incorrect-answer'),
+      ];
+      buttons.forEach((button) => { button.disabled = true; });
+    } else if (time === 0) {
+      const buttons = [
+        ...document.getElementsByClassName('correct'),
+        ...document.getElementsByClassName('wrong'),
+      ];
+      const nextButton = document.getElementById('next-btn');
+      buttons.forEach((button) => { button.disabled = true; });
+      nextButton.style.display = 'block';
+    }
+  }
+
   render() {
     const { questions } = this.props;
-    const { actualQuestion, toFeedback, time } = this.state;
+    const {
+      actualQuestion,
+      toFeedback,
+      time,
+      nextQuestion,
+      reloadQuestion } = this.state;
     return (
       <>
         <Header />
         <h1>{ time }</h1>
+        { this.altBtnBehave(time) }
         <section>
-          { questions === '' ? this.loading() : <QuestCard
+          { (questions === '' || nextQuestion) ? this.loading() : <QuestCard
             question={ questions[actualQuestion] }
+            alternatives={ this.deployAlternatives(questions[actualQuestion]) }
             getUserAnswer={ this.getUserAnswer }
             nextQuestion={ this.onNextClick }
           /> }
+          { nextQuestion && reloadQuestion() }
         </section>
         { toFeedback() }
       </>
