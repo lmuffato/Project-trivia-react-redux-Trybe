@@ -18,7 +18,6 @@ class Header extends Component {
 
   render() {
     const { name, score } = this.props;
-    console.log(name, 'log do name');
     return (
       <header className="header">
         <Link to="/">

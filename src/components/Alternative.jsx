@@ -23,7 +23,6 @@ class Alternative extends Component {
 
   render() {
     const { alternative, correctAnswer, answerVisibility } = this.props;
-    console.log(correctAnswer);
     return (
       <button
         type="button"
