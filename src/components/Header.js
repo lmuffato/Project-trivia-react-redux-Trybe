@@ -22,7 +22,6 @@ export default function Header() {
       <p
         data-testid="header-score"
       >
-        placar:
         { score }
       </p>
     </div>

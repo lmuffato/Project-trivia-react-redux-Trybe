@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import fetchToken from '../services/api';
-
 import userEmail from '../redux/actions/userEmail.action';
 import userLogin from '../redux/actions/userLogin.action';
+import resetPlayerAction from '../redux/actions/resetPlayer.action';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -20,6 +20,10 @@ export default function Login() {
     dispatch(userEmail((email)));
     dispatch(userLogin((name)));
   };
+
+  useEffect(() => {
+    dispatch(resetPlayerAction());
+  }, []);
 
   return (
     <div>

@@ -6,3 +6,4 @@ export const TIMER = 'TIMER';
 export const NAME = 'NAME';
 export const ASSERTION = 'ASSERTION';
 export const RESET_TIMER = 'RESET_TIMER';
+export const RESET_PLAYER = 'RESET_PLAYER';

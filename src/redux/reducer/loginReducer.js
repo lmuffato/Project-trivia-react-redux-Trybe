@@ -1,4 +1,5 @@
-import { USER_EMAIL, USER_LOGIN, USER_SCORE, ASSERTION } from '../../common/def';
+import {
+  USER_EMAIL, USER_LOGIN, USER_SCORE, ASSERTION, RESET_PLAYER } from '../../common/def';
 
 const INITIAL_STATE = { player: {
   email: '',
@@ -39,6 +40,16 @@ export default function loginReducer(state = INITIAL_STATE, action) {
       player: {
         ...state.player,
         assertions: state.player.assertions + 1,
+      },
+    };
+  case RESET_PLAYER:
+    return {
+      ...state,
+      player: {
+        email: '',
+        name: '',
+        score: 0,
+        assertions: 0,
       },
     };
   default:
