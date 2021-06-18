@@ -11,11 +11,14 @@ class Questions extends Component {
       questions: undefined,
       questionIndex: 0,
       selected: undefined,
+      seconds: 30,
     };
 
     this.loadQuestions = this.loadQuestions.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     this.selectedAnswer = this.selectedAnswer.bind(this);
+    this.updateTimer = this.updateTimer.bind(this);
+    this.time = this.time.bind(this);
   }
 
   componentDidMount() {
@@ -51,6 +54,7 @@ class Questions extends Component {
     this.setState(({ questionIndex }) => ({
       questionIndex: questionIndex + 1,
       selected: undefined,
+      seconds: 30,
     }));
   }
 
@@ -69,8 +73,20 @@ class Questions extends Component {
     this.setState({ selected: true });
   }
 
+  updateTimer(seconds) {
+    this.setState({ seconds });
+    if (seconds === 0) {
+      this.setState({ selected: true });
+    }
+  }
+
   time() {
-    return <Timer />;
+    const { seconds, selected } = this.state;
+    return (<Timer
+      seconds={ seconds }
+      selected={ selected }
+      updateTimer={ this.updateTimer }
+    />);
   }
 
   render() {

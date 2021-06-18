@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
+// parte do codigo retirada de:
+// https://stackoverflow.com/questions/40885923/countdown-timer-in-react
 
 class Timer extends Component {
   constructor() {
     super();
-    this.state = {
-      time: {},
-      seconds: 30,
-    };
 
     this.timer = 0;
     this.startTimer = this.startTimer.bind(this);
@@ -18,62 +18,58 @@ class Timer extends Component {
     this.upDate();
   }
 
-  upDate() {
-    const { seconds } = this.state;
-    const timeLeftVar = this.secondsToTime(seconds);
-    this.setState({
-      time: timeLeftVar,
-    });
+  componentDidUpdate() {
+    const { selected } = this.props;
+    if (selected === true) this.stopTimer();
   }
 
-  secondsToTime(secs) {
-    const n = 60;
-    const hours = Math.floor(secs / (n * n));
-    const divisorForMinutes = secs % (n * n);
-    const minutes = Math.floor(divisorForMinutes / n);
-    const divisorForSeconds = divisorForMinutes % n;
-    const seconds = Math.ceil(divisorForSeconds);
-    const obj = {
-      h: hours,
-      m: minutes,
-      s: seconds,
-    };
-    return obj;
+  upDate() {
+    const { seconds, updateTimer } = this.props;
+    updateTimer(seconds);
   }
 
   startTimer() {
-    const { seconds } = this.state;
+    const { seconds } = this.props;
     const n = 1000;
     if (this.timer === 0 && seconds > 0) {
       this.timer = setInterval(this.countDown, n);
     }
   }
 
+  stopTimer() {
+    clearInterval(this.timer);
+    this.timer = 0;
+  }
+
   countDown() {
     // Remove one second, set state so a re-render happens.
-    const { seconds } = this.state;
+    const { seconds, updateTimer } = this.props;
     const second = seconds - 1;
-    this.setState({
-      time: this.secondsToTime(seconds),
-      seconds: second,
-    });
+    updateTimer(second);
     // Check if we're at zero.
-    if (seconds === 0) {
+    if (second === 0) {
       clearInterval(this.timer);
     }
   }
 
   render() {
-    const { time } = this.state;
+    const { seconds } = this.props;
+
     return (
       <div>
         { this.startTimer() }
         <p>
-          { time.s }
+          { seconds }
         </p>
       </div>
     );
   }
 }
+
+Timer.propTypes = {
+  selected: PropTypes.bool.isRequired,
+  seconds: PropTypes.number.isRequired,
+  updateTimer: PropTypes.func.isRequired,
+};
 
 export default Timer;
