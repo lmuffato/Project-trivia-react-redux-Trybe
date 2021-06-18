@@ -1,10 +1,13 @@
-import { USER_LOGIN, USER_NAME, SCORE_ADD, ASSERTIONS_ADD } from '../actions';
+import { USER_LOGIN,
+  USER_NAME, SCORE_ADD, SAVE_TIME_LEFT } from '../actions';
 
 const INITIAL_STATE = {
   email: '',
   user: '',
   score: 0,
   assertions: 0,
+  time: 0,
+  // isTimerActive: true,
 };
 
 const userReducer = (state = INITIAL_STATE, { type, payload }) => {
@@ -17,11 +20,12 @@ const userReducer = (state = INITIAL_STATE, { type, payload }) => {
     return {
       ...state,
       score: payload,
+      assertions: state.assertions + 1,
     };
-  case ASSERTIONS_ADD:
+  case SAVE_TIME_LEFT:
     return {
       ...state,
-      assertions: payload,
+      time: payload,
     };
   default:
     return state;

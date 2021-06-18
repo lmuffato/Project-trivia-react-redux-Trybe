@@ -14,6 +14,12 @@ function Header({ email, user, score }) {
   };
 
   const userImage = handleUserImage();
+  // handleGetLocalStorage() {
+  //   const userScore = localStorage.getItem(JSON.parse(state));
+  //   if (userScore) {
+  //       console.log(userScore);
+  //   }
+  // }
 
   return (
     <div>

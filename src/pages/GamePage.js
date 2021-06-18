@@ -6,7 +6,7 @@
 import React from 'react';
 import { Redirect } from 'react-router';
 import Header from '../components/Header';
-import Button from '../components/Button';
+// import Button from '../components/Button';
 import Question from '../components/Question';
 import Loading from '../components/Loading';
 
@@ -83,15 +83,8 @@ class GamePage extends React.Component {
         <Header />
         {/* <Timer /> */}
         <div>
-          <Question quiz={ questions[index] } />
+          <Question quiz={ questions[index] } getNextQuestion={ this.getNextQuestion } />
         </div>
-        <Button
-          dataTestid="btn-next"
-          className="hide-button btnNext"
-          onClick={ this.getNextQuestion }
-        >
-          Próxima
-        </Button>
       </>
     );
   }
