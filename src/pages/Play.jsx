@@ -46,7 +46,6 @@ class Play extends Component {
   }
 
   finishingRound({ target = { className: '' } }) {
-    console.log('entrou na funishingRound');
     this.setState({
       answered: true,
     });
@@ -94,7 +93,7 @@ class Play extends Component {
         .replace(/&quot;/gi, '"')
         .replace(/&lt;/gi, '<')
         .replace(/&gt;/gi, '>')
-        .replace(/&‌#039;/gi, '`')
+        .replace(/&‌#039;/gi, '\'')
     );
   }
 
