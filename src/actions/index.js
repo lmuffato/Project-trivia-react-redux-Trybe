@@ -9,6 +9,7 @@ export const CALCULATE_SCORE = 'CALCULATE_SCORE';
 export const ADD_ASSERTIONS = 'ADD_ASSERTIONS';
 export const TIMEOUT = 'TIMEOUT';
 export const TIMEIN = 'TIMEIN';
+export const RESET = 'RESET';
 
 export const getQuestions = () => ({
   type: GET_QUESTIONS,
@@ -44,6 +45,10 @@ export const timeOut = () => ({
 
 export const timeIn = () => ({
   type: TIMEIN,
+});
+
+export const reset = () => ({
+  type: RESET,
 });
 
 export const fetchAPIThunk = () => async (dispatch) => {

@@ -51,7 +51,6 @@ class Login extends React.Component {
     };
     setToLocalStorage('state', state);
     setToLocalStorage('token', token);
-    setToLocalStorage('ranking', []);
     this.setState({ redirect: true });
     const { userLogin } = this.props;
     userLogin({ email, name });
@@ -64,7 +63,7 @@ class Login extends React.Component {
       <form onSubmit={ this.login }>
         <div className="login">
           <Tooltip />
-          <h1>Trybia - Login</h1>
+          <h1>Tryvia - Login</h1>
           <input
             type="text"
             name="email"
@@ -105,7 +104,7 @@ const mapStateToProps = ({ player }) => ({
 });
 
 Login.propTypes = {
-  userLogin: PropTypes.func.isRequired,
-};
+  userLogin: PropTypes.func,
+}.isRequired;
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

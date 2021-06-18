@@ -2,12 +2,13 @@ import {
   GET_QUESTIONS,
   ADD_QUESTIONS_SUCCESS,
   ADD_QUESTIONS_ERROR,
+  RESET,
 } from '../actions/index';
 
 const INITIAL_STATE = {
   apiError: '',
   apiResult: {},
-  isLoading: true,
+  isLoading: false,
 };
 
 const apiResponse = (state = INITIAL_STATE, action) => {
@@ -18,6 +19,8 @@ const apiResponse = (state = INITIAL_STATE, action) => {
     return { ...state, isLoading: false, apiResult: action.payload };
   case ADD_QUESTIONS_ERROR:
     return { ...state, isLoading: false, apiError: action.payload };
+  case RESET:
+    return INITIAL_STATE;
   default:
     return state;
   }

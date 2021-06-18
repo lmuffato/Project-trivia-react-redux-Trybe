@@ -1,9 +1,42 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import getUserImg from '../services/gravatarApi';
+import { getItemFromLocalStorage } from '../services/storage';
 
-export default class Ranking extends React.Component {
+class Ranking extends Component {
+  constructor() {
+    super();
+    this.getInformations = this.getInformations.bind(this);
+  }
+
+  getInformations() {
+    const allPlayers = getItemFromLocalStorage('ranking');
+    return allPlayers;
+  }
+
   render() {
     return (
-      <h2 data-testid="ranking-title">Ranking</h2>
+      <div>
+        <h2 data-testid="ranking-title">Ranking</h2>
+        { this.getInformations().map((player, index) => (
+          <div key={ index }>
+            <figure>
+              <img
+                src={ getUserImg(player.gravatarEmail) }
+                alt="userImg"
+                className="gravatar"
+              />
+              <legend data-testid={ `player-name-${index}` }>{ player.name }</legend>
+            </figure>
+            <h3 data-testid={ `player-score-${index}` }>{ player.score }</h3>
+          </div>
+        )) }
+        <Link to="/">
+          <button data-testid="btn-go-home" type="button">Voltar ao início</button>
+        </Link>
+      </div>
     );
   }
 }
+
+export default Ranking;
