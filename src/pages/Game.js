@@ -84,6 +84,10 @@ class Game extends Component {
   }
 
   async nextButtonFuncManeger() {
+    const { index, history } = this.props;
+    console.log(history);
+    const lastQuestion = 4;
+    if (index === lastQuestion) return history.push('/feedback');
     this.removeButtonBorder();
     await this.incrementIndex();
     this.editFuncManeger();
@@ -92,10 +96,10 @@ class Game extends Component {
 
   render() {
     const {
-      props: { emailDoUsuario, nomeDoUsuario, hiddenBtnNext, score, questions } } = this;
+      props:
+    { emailDoUsuario, nomeDoUsuario, score, questions, hiddenBtnNext } } = this;
     const hashGerada = md5(emailDoUsuario).toString();
     if (questions.length === 0) return <h2>loading...</h2>;
-    console.log(score);
     return (
       <div>
         <header>

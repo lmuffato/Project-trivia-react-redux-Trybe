@@ -34,7 +34,7 @@ class Login extends React.Component {
     const validate = /\S+@\S+\.\S+/;
     const emailValidate = validate.test(email);
     const nameValidate = name.length >= nameLength;
-    this.setState({ disable: !(emailValidate && nameValidate) }); // Logica dessa linha desenvolvida com a ajuda de: João Nascimento
+    this.setState({ disable: !(emailValidate && nameValidate) }); // Logica dessa liha desenvolvida com a ajuda de: João Nascimento
   }
 
   handleChange({ target: { name, value } }) {
