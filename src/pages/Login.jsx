@@ -1,4 +1,5 @@
 import React from 'react';
+import '../CSS/Login.css';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -26,48 +27,48 @@ class Login extends React.Component {
   render() {
     const { gravatarEmail, name } = this.state;
     return (
-      <form>
-        <label htmlFor="input-player-name">
-          Nome:
-          <input
-            name="name"
-            type="text"
-            value={ name }
-            data-testid="input-player-name"
-            onChange={ (e) => this.setState({ name: e.target.value }) }
-          />
-        </label>
-        <br />
-        <br />
-        <label htmlFor="input-gravatar-email">
-          E-mail:
-          <input
-            name="email"
-            type="email"
-            value={ gravatarEmail }
-            data-testid="input-gravatar-email"
-            onChange={ (e) => this.setState({ gravatarEmail: e.target.value }) }
-          />
-        </label>
-        <br />
-        <br />
-        <button
-          type="button"
-          data-testid="btn-play"
-          disabled={ (name === '' || gravatarEmail === '') }
-          onClick={ this.handleClick }
-        >
-          Jogar
-        </button>
-        <Link to="/configuration">
+      <fieldset>
+        <form>
+          <label htmlFor="input-player-name">
+            <input
+              placeholder="Nome"
+              name="name"
+              type="text"
+              value={ name }
+              data-testid="input-player-name"
+              onChange={ (e) => this.setState({ name: e.target.value }) }
+            />
+          </label>
+          <label htmlFor="input-gravatar-email">
+            <input
+              placeholder="E-mail"
+              name="email"
+              type="email"
+              value={ gravatarEmail }
+              data-testid="input-gravatar-email"
+              onChange={ (e) => this.setState({ gravatarEmail: e.target.value }) }
+            />
+          </label>
           <button
+            className="btn-play"
             type="button"
-            data-testid="btn-settings"
+            data-testid="btn-play"
+            disabled={ (name === '' || gravatarEmail === '') }
+            onClick={ this.handleClick }
           >
-            Configurações
+            Jogar
           </button>
-        </Link>
-      </form>
+          <Link to="/configuration">
+            <button
+              className="btn-config"
+              type="button"
+              data-testid="btn-settings"
+            >
+              Configurações
+            </button>
+          </Link>
+        </form>
+      </fieldset>
     );
   }
 }

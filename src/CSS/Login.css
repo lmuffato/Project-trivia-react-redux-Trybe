@@ -1,0 +1,54 @@
+body {
+  background-color: rgb(0, 41, 98);
+  font-family: Montserrat , sans-serif;
+}
+
+fieldset {
+  background-color: rgb(241, 80, 47);
+  border: none;
+  border-radius: 8px;
+  display: flex;
+  height: 200px;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20%;
+  padding: 15px;
+  width: 250px;
+}
+
+form {
+  align-content: space-aroun;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+input {
+  border: 1px solid transparent;
+  border-radius: 6px;
+  height: 25px;
+  margin: 5px;
+  padding: 3px;
+}
+
+.btn-play {
+  border: 1px solid transparent;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  height: 35px;
+  margin: auto;
+  padding: 3px;
+  width: 90%;
+}
+
+.btn-config {
+  background-color: white;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 5px;
+}
