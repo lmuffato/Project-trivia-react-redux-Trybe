@@ -22,14 +22,21 @@ class Ranking extends React.Component {
       arr.map((e, i) => {
         const { name, score, index, picture } = e;
         return (
-          <li key={ i }>
+          <li key={ i } className="list-unstyled row">
             <img
+              style={ { width: '150px' } }
               src={ picture }
               alt="User"
               data-testid="ranking-profile-picture"
             />
-            <p data-testid={ `player-name-${index}` }>{ name }</p>
-            <p data-testid={ `player-score-${index}` }>{ score }</p>
+            <p
+              className="display-6 col"
+              data-testid={ `player-name-${index}` }
+            >
+              { name }
+
+            </p>
+            <p className="display-6 col " data-testid={ `player-score-${index}` }>{ score }</p>
           </li>
         );
       }));
@@ -37,19 +44,27 @@ class Ranking extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1 data-testid="ranking-title">Ranking</h1>
+      <div className="container">
+        <h1
+          data-testid="ranking-title"
+          className="h1 row justify-content-center"
+        >
+          Ranking
+        </h1>
         <ul>
           { this.rankingMap(this.rankingSort()) }
         </ul>
-        <Link to="/">
-          <button
-            data-testid="btn-go-home"
-            type="button"
-          >
-            Voltar para tela inicial
-          </button>
-        </Link>
+        <div className="justify-content-center">
+          <Link to="/">
+            <button
+              className="btn btn-primary row"
+              data-testid="btn-go-home"
+              type="button"
+            >
+              Voltar para tela inicial
+            </button>
+          </Link>
+        </div>
       </div>
     );
   }
