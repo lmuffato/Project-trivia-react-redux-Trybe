@@ -45,6 +45,7 @@ class Question extends Component {
     if (displayButton) {
       return (
         <button
+          className="next-question-bnt"
           type="button"
           data-testid="btn-next"
           id="btn-next"
@@ -83,7 +84,7 @@ class Question extends Component {
           data-testid="correct-answer"
           disabled={ isTimeUp }
           onClick={ () => this.handleSelectAnswer(true, difficulty) }
-          className={ color ? 'correct-selected' : 'no-color' }
+          className={ color ? 'question-btn correct-selected' : 'question-btn no-color' }
         >
           { correctAnswer }
         </button>
@@ -94,7 +95,7 @@ class Question extends Component {
             type="button"
             disabled={ isTimeUp }
             onClick={ () => this.handleSelectAnswer(false) }
-            className={ color ? 'wrong-selected' : 'no-color' }
+            className={ color ? 'question-btn wrong-selected' : 'question-btn no-color' }
           >
             { quest }
           </button>

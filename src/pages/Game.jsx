@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { string, shape } from 'prop-types';
 import { connect } from 'react-redux';
-
 import md5 from 'crypto-js/md5';
-
 import { Redirect } from 'react-router-dom';
+
+import logo from '../trivia.png';
 import Question from '../components/Question';
 import getTriviaQuestions from '../utils/triviaApi';
 import { updateLocalStorage, updateUserScore } from '../utils/functions';
+
+import '../styles/game.css';
 
 class Game extends Component {
   constructor(props) {
@@ -36,6 +38,7 @@ class Game extends Component {
     this.countDown = this.countDown.bind(this);
     this.startTimer = this.startTimer.bind(this);
     this.stopTimer = this.stopTimer.bind(this);
+    this.renderHeader = this.renderHeader.bind(this);
   }
 
   componentDidMount() {
@@ -130,15 +133,43 @@ class Game extends Component {
     localStorage.setItem('ranking', JSON.stringify(newRank));
   }
 
+  renderHeader() {
+    const { user: { name, email } } = this.props;
+    const { player: { gravatarEmail, score } } = this.state;
+
+    return (
+      <header className="header-game">
+        <div className="content-player">
+          <img
+            className="gravatar-img-game"
+            src={ gravatarEmail }
+            alt="Gravatar"
+            data-testid="header-profile-picture"
+          />
+          <div className="content-group-player">
+            <p className="player-name" data-testid="header-player-name">{name}</p>
+            <p className="player-email">{email}</p>
+          </div>
+        </div>
+        <div>
+          <img width="150" src={ logo } alt="Logo" />
+        </div>
+        <div className="content-score-assertions">
+          <p className="score-player" data-testid="header-score">
+            { score === 0 ? '00' : score }
+          </p>
+        </div>
+      </header>
+    );
+  }
+
   render() {
-    const { player: { gravatarEmail, name } } = this.state;
     const {
       questions,
       currentQuestionId,
       shouldRedirect,
       isLoading,
       timeLeft,
-      player: { score },
     } = this.state;
     const currentQuestion = questions[currentQuestionId];
 
@@ -147,21 +178,14 @@ class Game extends Component {
     if (shouldRedirect) return <Redirect to="/feedback" />;
 
     return (
-      <>
-        <header>
-          <img
-            src={ gravatarEmail }
-            alt="Gravatar"
-            data-testid="header-profile-picture"
-          />
-          <p data-testid="header-player-name">{`Jogador ${name}`}</p>
-          <p data-testid="header-score">{ score }</p>
-        </header>
-        <p>
-          tempo:
-          { timeLeft }
-        </p>
-        <p>Questão:</p>
+      <section className="content-game">
+        {this.renderHeader()}
+
+        <div className="content-timer">
+          <p className="time-display">
+            { timeLeft }
+          </p>
+        </div>
         {(currentQuestion)
           && <Question
             saveRanking={ this.saveRanking }
@@ -173,7 +197,7 @@ class Game extends Component {
             currQuestionId={ currentQuestionId }
           />}
         <p>Jogo</p>
-      </>
+      </section>
     );
   }
 }
