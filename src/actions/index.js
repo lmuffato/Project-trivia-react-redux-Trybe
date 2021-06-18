@@ -4,6 +4,7 @@ import fetchToken from '../services/fetchToken';
 export const START_FETCH = 'START_FETCH';
 export const ADD_FILTER = 'ADD_FILTER';
 export const ADD_PLAYER = 'ADD_PLAYER';
+export const CLEAR_SCORE = 'CLEAR_SCORE';
 export const FETCH_TOKEN_SUCCESS = 'FETCH_TOKEN_SUCCESS';
 export const FETCH_QUESTIONS_SUCCESS = 'FETCH_QUESTIONS_SUCCESS';
 export const REQUEST_TOKEN = 'REQUEST_TOKEN';
@@ -31,6 +32,12 @@ export function rightAnswer(payload) {
   return {
     type: RIGHT_ANSWER,
     payload,
+  };
+}
+
+export function clearScore() {
+  return {
+    type: CLEAR_SCORE,
   };
 }
 

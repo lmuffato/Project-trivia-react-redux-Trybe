@@ -76,7 +76,7 @@ class Questions extends Component {
     if (correctAnswer === target.innerText) {
       await incrementScore(score);
     }
-    this.saveAtLocalStorage(score);
+    this.saveAtLocalStorage();
   }
 
   sortQuestions() {
@@ -135,11 +135,12 @@ class Questions extends Component {
                   key={ `answer-${index}` }
                 >
                   <button
+                    type="button"
                     data-testid="correct-answer"
                     onClick={ this.selectAnswer }
-                    type="button"
-                    style={ gameOn ? null : { border: '3px solid rgb(6, 240, 15)' } }
+                    className={ gameOn ? 'btn-alternative' : 'btn-alternative-correct' }
                     disabled={ !gameOn }
+                    // style={ gameOn ? null : { border: '3px solid rgb(6, 240, 15)' } }
                   >
                     { parse(query) }
                   </button>
@@ -148,11 +149,12 @@ class Questions extends Component {
             return (
               <p key={ `answer-${index}` }>
                 <button
-                  style={ gameOn ? null : { border: '3px solid rgb(255, 0, 0)' } }
+                  type="button"
                   data-testid={ `wrong-answer-${index}` }
                   onClick={ this.selectAnswer }
-                  type="button"
+                  className={ gameOn ? 'btn-alternative' : 'btn-alternative-wrong' }
                   disabled={ !gameOn }
+                  // style={ gameOn ? null : { border: '3px solid rgb(255, 0, 0)' } }
                 >
                   { parse(query) }
                 </button>

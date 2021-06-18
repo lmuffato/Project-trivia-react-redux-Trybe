@@ -10,8 +10,61 @@
 .options-content {
   align-items: center;
   display: flex;
-  justify-content: center;
-  width: 79%;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+.btn-next-quest {
+  background-color: #3a2d88;
+  border: none;
+  border-radius: 3px;
+  box-shadow: 2px 3px 10px black;
+  color: white;
+  font-size: large;
+  font-weight: 600;
+  height: 50px;
+  width: 15vw;
+}
+
+.btn-next-quest:hover {
+  box-shadow: 0 0 10px white;
+}
+
+.btn-alternative {
+  background-color: #3a2d88;
+  border: none;
+  border-radius: 3px;
+  box-shadow: 2px 3px 10px black;
+  color: white;
+  font-size: large;
+  font-weight: 600;
+  height: 100px;
+  width: 20vw;
+}
+
+.btn-alternative:hover {
+  box-shadow: 0 0 10px white;
+}
+
+.btn-alternative-correct {
+  border: 3px solid rgb(6, 240, 15);
+  border-radius: 3px;
+  box-shadow: 0 0 10px rgb(6, 240, 15);
+  font-size: large;
+  font-weight: 600;
+  height: 100px;
+  width: 20vw;
+}
+
+.btn-alternative-wrong {
+  border: 3px solid red;
+  border-radius: 3px;
+  box-shadow: 0 0 10px red;
+  font-size: large;
+  font-weight: 600;
+  height: 100px;
+  width: 20vw;
 }
 
 .timerPaused {
@@ -21,7 +74,8 @@
   font-size: x-large;
   padding: 30px;
   position: absolute;
-  top: 300px;
+  top: 166px;
+  width: 25px;
 }
 
 .timer {
@@ -31,7 +85,8 @@
   font-size: x-large;
   padding: 30px;
   position: absolute;
-  top: 300px;
+  top: 166px;
+  width: 25px;
 }
 
 .timer:before {

@@ -1,4 +1,4 @@
-import { ADD_PLAYER, RIGHT_ANSWER } from '../actions';
+import { ADD_PLAYER, CLEAR_SCORE, RIGHT_ANSWER } from '../actions';
 
 const INTIAL_STATE = {
   name: '',
@@ -16,6 +16,11 @@ const playerReducer = (state = INTIAL_STATE, action) => {
     return { ...state,
       assertions: state.assertions + 1,
       score: state.score + action.payload };
+  case CLEAR_SCORE:
+    return { ...state,
+      assertions: 0,
+      score: 0,
+    };
   default:
     return state;
   }
