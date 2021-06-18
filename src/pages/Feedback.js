@@ -3,7 +3,6 @@ import { shape, string, number } from 'prop-types';
 import { connect } from 'react-redux';
 
 class Feedback extends React.Component {
-
   render() {
     const { getName, getUrl, getScore } = this.props;
     return (
