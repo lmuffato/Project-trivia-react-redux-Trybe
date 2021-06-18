@@ -166,7 +166,10 @@ class Trivia extends React.Component {
     const { category, question } = questions[questionNum];
     return (
       <div className="container">
-        <div className="card w-80 border-secondary mb-3">
+        <div
+          className="card w-80 text-white mb-3"
+          style={ { backgroundColor: 'rgba(255, 255, 255,0)' } }
+        >
           <div className="card-header">
             <Header score={ score } />
           </div>
