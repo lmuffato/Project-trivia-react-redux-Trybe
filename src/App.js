@@ -1,12 +1,12 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import Feedback from './pages/Feedback';
 import Game from './pages/Game';
 import Settings from './pages/Settings';
 import Login from './pages/Login';
 import logo from './trivia.png';
 import Ranking from './pages/Ranking';
+import Feedback from './pages/Feedback';
 
 export default function App() {
   return (
