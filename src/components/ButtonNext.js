@@ -13,7 +13,7 @@ class ButtonNext extends Component {
           data-testid="btn-next"
           id="btn-next"
         >
-          PROSSEGUIR
+          Próxima
         </button>
       </div>
     );
