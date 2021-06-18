@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Header from '../components/Header';
 import Question from '../components/Question';
 import { getQuestions } from '../services/api';
+import Timer from '../components/Timer';
 
 class Questions extends Component {
   constructor(props) {
@@ -68,6 +69,10 @@ class Questions extends Component {
     this.setState({ selected: true });
   }
 
+  time() {
+    return <Timer />;
+  }
+
   render() {
     const { questions, questionIndex, selected } = this.state;
 
@@ -82,6 +87,7 @@ class Questions extends Component {
             selected={ selected }
             selectedAnswer={ this.selectedAnswer }
           /> }
+          { this.time() }
           { selected && this.getNextButton() }
         </div>
       </>
