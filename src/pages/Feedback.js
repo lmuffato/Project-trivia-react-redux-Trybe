@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import Header from '../components/Header';
 
@@ -21,9 +20,14 @@ class Feedback extends React.Component {
   }
 
   render() {
-    const { history, assertionsStore, scoreStore } = this.props;
-    const result = assertionsStore;
-    const placar = scoreStore;
+    const { history } = this.props;
+    const getPlayerStorage = localStorage.getItem('state');
+    const convertPlayer = JSON.parse(getPlayerStorage);
+    const player = Object.values(convertPlayer);
+    const { assertions, score } = player[0];
+
+    const result = assertions;
+    const placar = score;
     const three = 3;
     return (
       <div>
@@ -58,13 +62,9 @@ class Feedback extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  assertionsStore: state.player.assertions,
-  scoreStore: state.player.score,
-});
 
 Feedback.propTypes = {
   history: propTypes.shape(),
 }.isRequired;
 
-export default connect(mapStateToProps)(Feedback);
+export default Feedback;
