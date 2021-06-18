@@ -16,10 +16,17 @@ class TriviaGame extends Component {
 
     this.state = {
       index: 0,
+      disableBtn: true,
       goFeedback: false,
     };
     this.handleIndexIncrementOnClick = this.handleIndexIncrementOnClick.bind(this);
     this.changeBorder = this.changeBorder.bind(this);
+  }
+
+  toggleBtn(bool) {
+    this.setState({
+      disableBtn: bool,
+    });
   }
 
   changeBorder() {
@@ -31,6 +38,7 @@ class TriviaGame extends Component {
         btn.style = 'border: 3px solid rgb(255, 0, 0)';
       }
     });
+    this.toggleBtn(false);
   }
 
   resetBorder() {
@@ -54,6 +62,7 @@ class TriviaGame extends Component {
     this.setState((oldState) => ({
       index: oldState.index + 1,
     }));
+    this.toggleBtn(true);
     this.resetBorder();
     disableButtons(false);
     timerReset();
@@ -85,7 +94,7 @@ class TriviaGame extends Component {
 
   render() {
     const { questions } = this.props;
-    const { index, goFeedback } = this.state;
+    const { index, disableBtn, goFeedback } = this.state;
     const questionsRandom = questions.length ? this.answersRandom(index) : 'xablau';
     if (goFeedback) return <Redirect to="/feedback" />;
     return (
@@ -100,7 +109,10 @@ class TriviaGame extends Component {
             answers={ questionsRandom }
             changeBorder={ this.changeBorder }
           />}
-          <ButtonNext onClick={ this.handleIndexIncrementOnClick } />
+          <ButtonNext
+            onClick={ this.handleIndexIncrementOnClick }
+            disableBtn={ disableBtn }
+          />
         </div>
       </div>
     );
@@ -122,8 +134,6 @@ TriviaGame.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  // isFetching: state.user.isFetching,
-  // timeInterval: state.timer.timeInterval,
   questions: state.user.questions,
 });
 
