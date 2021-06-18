@@ -5,8 +5,9 @@
 
 import React from 'react';
 import { Redirect } from 'react-router';
+import { connect } from 'react-redux';
 import Header from '../components/Header';
-import Button from '../components/Button';
+// import Button from '../components/Button';
 import Question from '../components/Question';
 import Loading from '../components/Loading';
 
@@ -22,21 +23,25 @@ class GamePage extends React.Component {
 
     this.fetchApi = this.fetchApi.bind(this);
     this.getNextQuestion = this.getNextQuestion.bind(this);
+    this.renderTimer = this.renderTimer.bind(this);
   }
 
   componentDidMount() {
     this.fetchApi();
   }
 
+  // componentWillUnmount() {
+  //   this.runTimer();
+  // }
+
   // renderiza uma pergunta por vez do array de perguntas
   // controla o index do array de perguntas
   getNextQuestion() {
-    const four = 4;
-    const { index } = this.state;
-    if (index < four) {
+    const { index, questions } = this.state;
+    if (index < questions.length - 1) {
       this.setState({ index: index + 1 });
     }
-    if (index === four) {
+    if (index === questions.length - 1) {
       this.setState({ shouldRedirect: true });
     }
   }
@@ -58,6 +63,11 @@ class GamePage extends React.Component {
     }
   }
 
+  renderTimer() {
+    const { time } = this.state;
+    return (<span>{ time }</span>);
+  }
+
   render() {
     const { loading, index, questions, shouldRedirect } = this.state;
 
@@ -73,21 +83,14 @@ class GamePage extends React.Component {
       <>
         <Header />
         <div>
-          <Question quiz={ questions[index] } />
+          <Question quiz={ questions[index] } getNextQuestion={ this.getNextQuestion } />
         </div>
-        <Button
-          dataTestid="btn-next"
-          className="hide-button btnNext"
-          onClick={ this.getNextQuestion }
-        >
-          Próxima
-        </Button>
       </>
     );
   }
 }
 
-export default GamePage;
+export default connect(null)(GamePage);
 
 // Referências:
 // função shuffleArr adaptada de: https://stackoverflow.com/questions/56501078/randomizing-quiz-answers-fetched-from-a-rest-api

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 
-function Header({ email, user }) {
+function Header({ email, user, score }) {
   const handleUserImage = () => {
     const hashEmail = md5(email).toString();
     // console.log(hashEmail);
@@ -14,6 +14,12 @@ function Header({ email, user }) {
   };
 
   const userImage = handleUserImage();
+  // handleGetLocalStorage() {
+  //   const userScore = localStorage.getItem(JSON.parse(state));
+  //   if (userScore) {
+  //       console.log(userScore);
+  //   }
+  // }
 
   return (
     <div>
@@ -23,7 +29,7 @@ function Header({ email, user }) {
         data-testid="header-profile-picture"
       />
       <span data-testid="header-player-name">{ user }</span>
-      <span data-testid="header-score"> 0 </span>
+      <span data-testid="header-score">{ score }</span>
     </div>
   );
 }
@@ -31,11 +37,13 @@ function Header({ email, user }) {
 Header.propTypes = {
   email: PropTypes.string.isRequired,
   user: PropTypes.string.isRequired,
+  score: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   email: state.userReducer.email,
   user: state.userReducer.user,
+  score: state.userReducer.score,
 });
 
 export default connect(mapStateToProps, null)(Header);
