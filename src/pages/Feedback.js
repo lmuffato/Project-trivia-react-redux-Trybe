@@ -10,10 +10,11 @@ class Feedback extends React.Component {
   }
 
   mensage() {
-    const result = localStorage.state.player.assertions;
+    const { player: assertions } = localStorage.state;
+    const Assertions = localStorage.getItem(assertions);
     const ThreeCorrectAnswer = 3;
     let mensage;
-    if (result < ThreeCorrectAnswer) {
+    if (Assertions < ThreeCorrectAnswer) {
       mensage = 'Podia ser melhor...';
     } else {
       mensage = 'Mandou bem!';
@@ -28,38 +29,39 @@ class Feedback extends React.Component {
 
   redirectToRanking() {
     const { history } = this.props;
-    history.push('/Ranking');
+    history.push('/ranking');
   }
 
   render() {
-    const { score, assertions } = localStorage.state.player;
+    const state = localStorage.getItem('state');
+    const a = JSON.parse(state);
+    const { player: { score, assertions } } = a;
+
     return (
-      <div>
-        <span data-testid="feedback-text">
-          <p data-testid="feedback-text">{ this.mensage() }</p>
-          <p data-testid="feedback-total-score">
-            Placar final:
-            { score }
-          </p>
-          <p data-testid="feedback-total-question">
-            Acerto:
-            { assertions }
-          </p>
-          <button
-            data-testid="btn-play-again"
-            type="button"
-            onClick={ this.redirectToLogin }
-          >
-            Jogar novamente
-          </button>
-          <button
-            data-testid="btn-ranking"
-            type="button"
-            onClick={ this.redirectToRanking }
-          >
-            Ver Ranking
-          </button>
-        </span>
+      <div data-testid="feedback-text">
+        <p data-testid="feedback-text">{ this.mensage() }</p>
+        <p data-testid="feedback-total-score">
+          Placar final:
+          { score }
+        </p>
+        <p data-testid="feedback-total-question">
+          Acerto:
+          { assertions }
+        </p>
+        <button
+          data-testid="btn-play-again"
+          type="button"
+          onClick={ this.redirectToLogin }
+        >
+          Jogar novamente
+        </button>
+        <button
+          data-testid="btn-ranking"
+          type="button"
+          onClick={ this.redirectToRanking }
+        >
+          Ver Ranking
+        </button>
       </div>
     );
   }
