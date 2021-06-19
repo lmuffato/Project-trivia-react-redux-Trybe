@@ -31,8 +31,9 @@ class GameManager extends Component {
   }
 
   componentDidMount() {
-    const { fetchQuestions } = this.props;
+    const { fetchQuestions, newScore } = this.props;
     fetchQuestions(localStorage.getItem('token'));
+    newScore(0);
     setLocalStorage({ score: 0, assertions: 0 });
   }
 
