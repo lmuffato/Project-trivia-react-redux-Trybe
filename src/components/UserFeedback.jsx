@@ -12,8 +12,11 @@ class UserFeedback extends Component {
     const { userAssert } = this.props;
     const magicNumber = 3;
     const condition = userAssert >= magicNumber;
-    return condition ? <h2 data-testid="feedback-text">Mandou bem!</h2>
-      : <h2 data-testid="feedback-text">Podia ser melhor...</h2>;
+    return (
+      <h2 data-testid="feedback-text">
+        { condition ? 'Mandou bem!' : 'Podia ser melhor...' }
+      </h2>
+    );
   }
 
   render() {
