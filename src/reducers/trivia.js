@@ -5,6 +5,7 @@ const INITIAL_STATE = {
   token: {},
   trivia: {},
   seconds: 0,
+  secondsTimer: 30,
   timer: true,
   nextTimer: true,
 };
@@ -15,6 +16,7 @@ const triviaReducer = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       seconds: action.payload,
+      secondsTimer: action.payload,
     };
   case TIMER:
     return {

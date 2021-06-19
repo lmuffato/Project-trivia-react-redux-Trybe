@@ -9,7 +9,6 @@ import './playGame.css';
 import { timerThunk, nextTimer } from '../actions';
 
 const history = createBrowserHistory();
-
 class PlayGame extends React.Component {
   constructor() {
     super();
@@ -22,8 +21,8 @@ class PlayGame extends React.Component {
       redAnswer: 'gray',
       greenAnswer: 'gray',
       index: 0,
+      isDisabled: false,
     };
-
     this.fetchApiTrivia = this.fetchApiTrivia.bind(this);
     this.renderQuestions = this.renderQuestions.bind(this);
     this.renderLoading = this.renderLoading.bind(this);
@@ -32,11 +31,18 @@ class PlayGame extends React.Component {
     this.colorSelectIncorrectAnswer = this.colorSelectIncorrectAnswer.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     this.calcScore = this.calcScore.bind(this);
-    // this.validScore = this.validScore.bind(this);
+    this.changeStateDisabeld = this.changeStateDisabeld.bind(this);
   }
 
   componentDidMount() {
     this.fetchApiTrivia();
+  }
+
+  componentDidUpdate(_, prevState) {
+    const { isDisabled } = this.state;
+    if (prevState.isDisabled === isDisabled) {
+      this.changeStateDisabeld();
+    }
   }
 
   async fetchApiTrivia() {
@@ -59,6 +65,16 @@ class PlayGame extends React.Component {
     if (greenBtn === answer) nameTheClass = 'green';
     if (redBtn === answer) nameTheClass = 'red';
     return nameTheClass;
+  }
+
+  // Requisito 8 - Atualiza a forma que os botões de resposta são renderizados
+  changeStateDisabeld() {
+    const { secondsTimer } = this.props;
+    if (secondsTimer === 0) {
+      this.setState({
+        isDisabled: true,
+      });
+    }
   }
 
   // Requisito 9 - Faz a pontuação dinâmica por dificuldade e salva no localStorage
@@ -99,8 +115,8 @@ class PlayGame extends React.Component {
       redClass: 'gray',
       redAnswer: 'gray',
       greenAnswer: 'gray',
+      isDisabled: false,
     }));
-    console.log(questions[index].category);
     handleTimer(true);
     getStateTimer(false);
   }
@@ -111,6 +127,7 @@ class PlayGame extends React.Component {
     this.setState({
       greenAnswer: 'pink',
       answer: e.target.innerText,
+      isDisabled: true,
     });
     setTimeout(() => {
       this.setState({
@@ -129,6 +146,7 @@ class PlayGame extends React.Component {
     this.setState({
       redAnswer: 'pink',
       answer: e.target.innerText,
+      isDisabled: true,
     });
     setTimeout(() => {
       this.setState({
@@ -142,12 +160,11 @@ class PlayGame extends React.Component {
 
   renderQuestions() {
     const { questions, greenClass, redClass, index,
-      redAnswer, answer, greenAnswer } = this.state;
+      redAnswer, answer, greenAnswer, isDisabled } = this.state;
     const question = questions[index];
     return (
       <>
         <div>
-          {/* Exibe o timer criado para p requisito 8 */}
           <Timer />
         </div>
         <div>
@@ -159,6 +176,7 @@ class PlayGame extends React.Component {
               type="button"
               onClick={ (e) => this.colorSelectCorrectAnswer(e) }
               className={ answer === question.correct_answer ? greenAnswer : greenClass }
+              disabled={ isDisabled }
             >
               {question.correct_answer}
             </button>
@@ -169,6 +187,7 @@ class PlayGame extends React.Component {
                 key={ indexKey }
                 onClick={ (e) => this.colorSelectIncorrectAnswer(e) }
                 className={ answer === incorrect ? redAnswer : redClass }
+                disabled={ isDisabled }
               >
                 {incorrect}
               </button>
@@ -196,24 +215,21 @@ class PlayGame extends React.Component {
     const { loading } = this.state;
     return (
       <div>
-        { loading ? this.renderLoading() : this.renderQuestions() }
+        { loading ? this.renderLoading() : this.renderQuestions()}
       </div>
     );
   }
 }
-
 const mapStateToProps = (state) => ({
   timeGotten: state.triviaReducer.seconds,
+  secondsTimer: state.triviaReducer.secondsTimer,
 });
-
 const mapDispatchToProps = (dispatch) => ({
   handleTimer: (bool) => dispatch(timerThunk(bool)),
-  getStateTimer: (boll) => dispatch(nextTimer(boll)),
+  getStateTimer: (bool) => dispatch(nextTimer(bool)),
 });
-
 PlayGame.propTypes = {
   timeGotten: PropTypes.number,
   handleTimer: PropTypes.func,
 }.isRequired;
-
 export default connect(mapStateToProps, mapDispatchToProps)(PlayGame);
