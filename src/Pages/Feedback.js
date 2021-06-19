@@ -25,8 +25,10 @@ class Feedback extends React.Component {
 
   render() {
     // const { assertionsState, scoreState } = this.props;
-    const scoreState = 100;
-    const assertionsState = 5;
+    // const scoreState = 10;
+    const assertionsState = 1;
+    const storagePlayer = JSON.parse(localStorage.getItem('state'));
+    const { score } = storagePlayer.player;
     return (
       <div>
         {/* Requisito 12 */}
@@ -38,7 +40,7 @@ class Feedback extends React.Component {
         {/* Requisito 14 */}
         <section className="feedback-section">
           <p data-testid="feedback-total-score">
-            { `Placar final: ${scoreState}` }
+            { `Placar final: ${score}` }
           </p>
           <p data-testid="feedback-total-question">
             { `Você acertou ${assertionsState} questões` }

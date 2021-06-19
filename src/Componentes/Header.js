@@ -8,10 +8,15 @@ import md5 from 'crypto-js/md5';
 class Header extends Component {
   constructor() {
     super();
-    this.state = {
-      scoreState: 0,
-    };
+    // this.state = {
+    //   scoreState: 0,
+    // };
+    // this.getScoreStorage = this.getScoreStorage.bind(this);
     this.getAvatar = this.getAvatar.bind(this);
+  }
+
+  componentDidCatch() {
+    this.getScoreStorage();
   }
 
   // Faz requisção a api do gravatar para gerar o avatar
@@ -22,9 +27,19 @@ class Header extends Component {
     return avatarGravatar;
   }
 
+  // getScoreStorage() {
+  //   const storagePlayer = JSON.parse(localStorage.getItem('state'));
+  //   console.log(storagePlayer.player.score);
+  //   this.setState({
+  //     scoreState: storagePlayer.player.score,
+  //   });
+  // }
+
   render() {
-    const { userName } = this.props;
-    const { scoreState } = this.state;
+    // const { userName } = this.props;
+    const { nextTimerState } = this.props;
+    const storagePlayer = JSON.parse(localStorage.getItem('state'));
+    const { score } = storagePlayer.player;
     return (
       <header className="header">
         <img
@@ -35,11 +50,10 @@ class Header extends Component {
           width="80"
         />
         <p data-testid="header-player-name">
-          { userName }
+          { storagePlayer.player.name }
         </p>
         <p data-testid="header-score">
-          Score:
-          { scoreState }
+          { nextTimerState ? `Score: ${score}` : `Score: ${score}` }
         </p>
       </header>
     );
@@ -55,6 +69,7 @@ Header.propTypes = {
 const mapStateToProps = (state) => ({
   email: state.userReducer.email,
   userName: state.userReducer.userName,
+  nextTimerState: state.triviaReducer.nextTimer,
 });
 
 export default connect(mapStateToProps)(Header);

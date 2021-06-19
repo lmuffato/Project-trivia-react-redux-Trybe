@@ -22,7 +22,9 @@ class PlayGame extends React.Component {
       greenAnswer: 'gray',
       index: 0,
       isDisabled: false,
+      validAcertion: false,
     };
+
     this.fetchApiTrivia = this.fetchApiTrivia.bind(this);
     this.renderQuestions = this.renderQuestions.bind(this);
     this.renderLoading = this.renderLoading.bind(this);
@@ -32,6 +34,7 @@ class PlayGame extends React.Component {
     this.nextQuestion = this.nextQuestion.bind(this);
     this.calcScore = this.calcScore.bind(this);
     this.changeStateDisabeld = this.changeStateDisabeld.bind(this);
+    this.getCorrectAnswerStore = this.getCorrectAnswerStore.bind(this);
   }
 
   componentDidMount() {
@@ -42,6 +45,19 @@ class PlayGame extends React.Component {
     const { isDisabled } = this.state;
     if (prevState.isDisabled === isDisabled) {
       this.changeStateDisabeld();
+    }
+  }
+
+  // Requisito 13 - passando a soma dos acertions para o local storage
+  getCorrectAnswerStore() {
+    const localRanking = JSON.parse(localStorage.getItem('state'));
+    // const { player: { assertions } } = localRanking;
+    const { validAcertion } = this.state;
+    const assertion = 0;
+    if (validAcertion === true) {
+      const sumAcertions = assertion + 1;
+      localRanking.player.assertions = sumAcertions;
+      localStorage.setItem('state', JSON.stringify(localRanking));
     }
   }
 
@@ -116,6 +132,7 @@ class PlayGame extends React.Component {
       redAnswer: 'gray',
       greenAnswer: 'gray',
       isDisabled: false,
+      validAcertion: false,
     }));
     handleTimer(true);
     getStateTimer(false);
@@ -129,9 +146,11 @@ class PlayGame extends React.Component {
       greenAnswer: 'green',
       greenClass: 'green',
       redClass: 'red',
+      validAcertion: true,
     });
     handleTimer(false);
     this.calcScore();
+    this.getCorrectAnswerStore();
   }
 
   colorSelectIncorrectAnswer(e) {
