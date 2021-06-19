@@ -1,8 +1,10 @@
 import {
+  CHANGE_ASSERTIONS,
   INCREMENT_INDEX,
   REFRESH_SHUFFLE,
   REQUEST_API,
-  REQUEST_API_ERROR, REQUEST_API_SUCESS,
+  REQUEST_API_ERROR,
+  REQUEST_API_SUCESS,
 } from '../actions/manageQuestions';
 
 const INITIAL_STATE = {
@@ -11,6 +13,7 @@ const INITIAL_STATE = {
   isLoading: false,
   error: null,
   shuffle: [],
+  assertions: 0,
 };
 
 function questionsReducer(state = INITIAL_STATE, action) {
@@ -41,6 +44,11 @@ function questionsReducer(state = INITIAL_STATE, action) {
     return ({
       ...state,
       shuffle: action.payload,
+    });
+  case CHANGE_ASSERTIONS:
+    return ({
+      ...state,
+      assertions: state.assertions + 1,
     });
   default:
     return state;

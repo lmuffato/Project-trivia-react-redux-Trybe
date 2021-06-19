@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
 import { changeScore, clockStoper, hidden } from '../actions';
-import { requestQuestionsThunk } from '../actions/manageQuestions';
+import { changeAsserions, requestQuestionsThunk } from '../actions/manageQuestions';
 
 class Question extends Component {
   constructor(props) {
@@ -37,7 +37,7 @@ class Question extends Component {
   }
 
   saveLocalStorage(currentScore) {
-    const { editScore, name, email, score } = this.props;
+    const { editScore, name, email, score, editAssertions } = this.props;
     const totalScore = score + currentScore;
     this.assertions += 1;
     editScore(currentScore);
@@ -49,6 +49,7 @@ class Question extends Component {
     localStorage.setItem('state', JSON.stringify(state));
     const ranking = [{ name, score: totalScore, picture: avatar }];
     localStorage.setItem('ranking', JSON.stringify(ranking));
+    editAssertions();
   }
 
   saveScore() {
@@ -147,6 +148,7 @@ const mapDispatchToProps = (dispatch) => ({
   editClockStoper: (payload) => dispatch(clockStoper(payload)),
   editScore: (payload) => dispatch(changeScore(payload)),
   getQuestions: (payload) => dispatch(requestQuestionsThunk(payload)),
+  editAssertions: () => dispatch(changeAsserions()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Question);

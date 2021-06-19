@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 
 class Feedback extends Component {
@@ -23,14 +24,27 @@ class Feedback extends Component {
             {assertions}
           </h4>
         </section>
+        <button type="button" data-testid="btn-play-again">
+          <Link to="/">
+            Jogar novamente
+          </Link>
+        </button>
+        <button type="button" data-testid="btn-ranking">
+          <Link to="/ranking">
+            Ver Ranking
+          </Link>
+        </button>
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ player: { score, assertions } }) => ({
+const mapStateToProps = (
+  { gameReducer: { score }, questionsReducer: { assertions }, player: { name } },
+) => ({
   score,
   assertions,
+  name,
 });
 
 Feedback.propTypes = {
