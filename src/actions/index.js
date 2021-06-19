@@ -4,6 +4,7 @@ export const REQUEST_API_GAME = 'REQUEST_API_GAME';
 export const GET_QUESTIONS = 'GET_QUESTIONS';
 export const SET_TIMER_ID = 'SET_TIMER_ID';
 export const SAVE_SECONDS = 'SAVE_SECONDS';
+export const SAVE_NUMBER_OF_CORRECT_ANSWER = 'SAVE_NUMBER_OF_CORRECT_ANSWER';
 
 // ACTIONS
 export const requestApiGame = (questionsArray) => ({
@@ -19,6 +20,11 @@ export const setTimerID = (timerID) => ({
 export const saveSeconds = (seconds) => ({
   type: SAVE_SECONDS,
   seconds,
+});
+
+export const saveNOfCorrectAnswer = (nOfCorrectAnswers) => ({
+  type: SAVE_NUMBER_OF_CORRECT_ANSWER,
+  nOfCorrectAnswers,
 });
 
 // THUNKS
