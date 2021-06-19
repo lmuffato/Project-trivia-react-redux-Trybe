@@ -7,33 +7,34 @@ class Ranking extends Component {
   render() {
     const { ranking } = this.props;
     console.log('play', ranking);
+    const playersFromLocalStorage = localStorage.getItem('ranking');
+
     return (
       <div>
-        <h1 data-testid="ranking-title">Ranking: </h1>
-        <br />
-        <h3>Melhores colocados (em ordem decrescente): </h3>
-        <ul>
-          {ranking.map((player, index) => (
-            <>
-              <img src={ player.gravatar } alt="foto" />
-              <li
-                key={ index }
-                data-testid={ `player-name-${index}` }
-              >
-                {player.name}
-              </li>
-              <li>
-                {`Acertos: ${player.assertions}`}
-              </li>
-              <li>
-                {`Pontuação: ${player.score}`}
-              </li>
-            </>
-          ))}
-        </ul>
-        <Link to="/">
-          <button type="button" data-testid="btn-go-home">Home</button>
-        </Link>
+        <center>
+          <h1 data-testid="ranking-title">Ranking: </h1>
+          <br />
+          <h3>Melhores colocados (em ordem decrescente): </h3>
+          <ul>
+            {JSON.parse(playersFromLocalStorage).map((player, index) => (
+              <>
+                <img src={ player.picture } alt="foto" />
+                <li
+                  key={ index }
+                  data-testid={ `player-name-${index}` }
+                >
+                  {player.name}
+                </li>
+                <li>
+                  {`Pontuação: ${player.score}`}
+                </li>
+              </>
+            ))}
+          </ul>
+          <Link to="/">
+            <button type="button" data-testid="btn-go-home">Home</button>
+          </Link>
+          </center>
       </div>
     );
   }
