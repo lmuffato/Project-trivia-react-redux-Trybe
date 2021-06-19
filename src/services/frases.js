@@ -1,8 +1,8 @@
 export default [{
   frase: `O fluxo do tempo é sempre cruel,
   sua velocidade parece diferente para cada pessoa,
-  mas ninguém pode mudá-la.
-  Uma coisa que não muda com o tempo é a memória dos dias mais jovens.`,
+  mas ninguém pode mudá-la. Uma coisa que não muda com o
+  tempo é a memória dos dias mais jovens.`,
   autor: 'Zelda',
 },
 {
