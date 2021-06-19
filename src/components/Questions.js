@@ -212,8 +212,6 @@ Questions.propTypes = {
   }).isRequired,
   setDifficultyProps: PropTypes.func.isRequired,
   calc: PropTypes.bool.isRequired,
-  name: PropTypes.string.isRequired,
-  email: PropTypes.string.isRequired,
   score: PropTypes.number.isRequired,
   assertions: PropTypes.number.isRequired,
   updateScoreProps: PropTypes.func.isRequired,
