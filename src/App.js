@@ -6,6 +6,7 @@ import Settings from './pages/Settings';
 import Ranking from './pages/Ranking';
 import Feedback from './pages/Feedback';
 import Game from './pages/Game';
+import Music from './components/Sounds/Music';
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
         <Route path="/game" component={ Game } />
         <Route exact path="/" component={ Login } />
       </Switch>
+      <Music />
     </div>
   );
 }

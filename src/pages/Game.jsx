@@ -5,6 +5,7 @@ import updateQuestion from '../redux/actions/updateQuestion.action';
 import { fetchQuestion } from '../services/api';
 import GamePlay from '../components/GamePlay';
 import Countdown from '../components/Countdown';
+import ImgLogo from '../components/LoginComponents/ImgLogo';
 
 export default function Game() {
   const token = localStorage.getItem('token');
@@ -21,6 +22,7 @@ export default function Game() {
 
   return (
     <div>
+      <ImgLogo />
       <Header />
       <Countdown />
       { questions.length > 0 ? <GamePlay /> : null}
