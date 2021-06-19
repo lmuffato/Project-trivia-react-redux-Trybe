@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 class Ranking extends React.Component {
   constructor(props) {
@@ -8,6 +9,10 @@ class Ranking extends React.Component {
 
   componentDidMount() {
     this.players();
+    this.updateRanking();
+  }
+
+  updateRanking() {
     const players = JSON.parse(localStorage.getItem('ranking'));
     this.setState({ ranking: players });
   }
@@ -39,6 +44,13 @@ class Ranking extends React.Component {
             <li data-testid={ `player-score-${index}` }>{player.score}</li>
           </ul>
         ))}
+
+        <Link
+          to="/"
+          data-testid="btn-go-home"
+        >
+          Login
+        </Link>
       </div>
     );
   }

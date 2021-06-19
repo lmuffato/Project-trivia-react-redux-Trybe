@@ -48,8 +48,7 @@ class Login extends Component {
     const img = `https://www.gravatar.com/avatar/${md5(email).toString()}`;
 
     const player = {
-      // name, email, score: 0, assertions: 0, img };
-      name, email, img };
+      name, email, score: 0, assertions: 0, img };
 
     localStorage.setItem('state', JSON.stringify({ player }));
     history.push('/game');
