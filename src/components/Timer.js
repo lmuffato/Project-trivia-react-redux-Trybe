@@ -25,6 +25,7 @@ class Timer extends Component {
   handleTimer() {
     const { timer } = this.state;
     this.setState(({ timer: timer - 1 }));
+    if (timer < 1) { this.setState(({ timer: 0 })); }
     const { checkTimer } = this.props;
     checkTimer(timer);
     // // this.setState({ timer });
