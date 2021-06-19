@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { redirect } from '../services';
 
 class Ranking extends Component {
   constructor() {
@@ -35,6 +36,13 @@ class Ranking extends Component {
       <div>
         <h2 data-testid="ranking-title">Ranking</h2>
         <section>{ this.renderList() }</section>
+        <button
+          data-testid="btn-go-home"
+          onClick={ () => redirect.call(this, '/') }
+          type="button"
+        >
+          Ir para tela Inicial
+        </button>
       </div>
     );
   }
