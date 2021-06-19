@@ -12,7 +12,7 @@ class Result extends Component {
 
   componentDidMount() {
     const { username, score, userImg } = this.props;
-    const previousState = JSON.parse(localStorage.getItem('ranking'));
+    const previousState = JSON.parse(localStorage.getItem('ranking')) || [];
     localStorage.setItem('ranking', JSON.stringify(
       [...previousState, { name: username, score, picture: userImg }],
     ));
