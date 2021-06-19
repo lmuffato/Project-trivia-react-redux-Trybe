@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { getApiQuestionsThunk, setScoreAction } from '../actions';
 import Header from './Header';
@@ -11,10 +12,13 @@ class Game extends React.Component {
     this.getUserRanking = this.getUserRanking.bind(this);
     this.updateLocalStorage = this.updateLocalStorage.bind(this);
     this.changeBorders = this.changeBorders.bind(this);
+    this.dischangeBorders = this.dischangeBorders.bind(this);
+    this.createNextButton = this.handleNextButton.bind(this);
 
     const milliSeconds = 1000;
 
     this.state = {
+      questionNumber: 0,
       seconds: 30,
       countDown: setInterval(() => {
         this.setState(
@@ -44,6 +48,7 @@ class Game extends React.Component {
     if (seconds === 0) {
       this.changeBorders();
       clearInterval(countDown);
+      this.handleNextButton();
     }
   }
 
@@ -68,6 +73,41 @@ class Game extends React.Component {
     this.updateLocalStorage(finalPoint);
   }
 
+  handleNextButton() {
+    const { questionNumber } = this.state;
+    const LAST_QUESTION = 4;
+
+    if (questionNumber === 0) { // Se for a primeira pergunta:
+      const nextButton = document.createElement('button');
+      nextButton.innerText = 'Próxima';
+      nextButton.id = 'nextButton';
+      document.querySelector('.nextButtonDiv').appendChild(nextButton);
+
+      nextButton.addEventListener('click', () => {
+        this.setState({
+          questionNumber: questionNumber + 1,
+          seconds: 30,
+        });
+        this.handlePosition();
+        this.dischangeBorders();
+      });
+    } else if (questionNumber < LAST_QUESTION) { // Se pergunta 1 a 4:
+      const nextButton = document.getElementById('nextButton');
+      nextButton.addEventListener('click', () => {
+        this.setState({
+          questionNumber: questionNumber + 1,
+          seconds: 30,
+        });
+        this.handlePosition();
+        this.dischangeBorders();
+      });
+    } else {
+      const nextButton = document.getElementById('nextButton');
+      nextButton.innerText = 'Ver Ranking';
+      nextButton.addEventListener('click', () => <Link to="/ranking">Oi</Link>);
+    }
+  }
+
   changeBorders() {
     const { countDown } = this.state;
     const correctAnswer = document.getElementsByClassName('correct-answer');
@@ -78,6 +118,21 @@ class Game extends React.Component {
     for (let index = 0; index < incorrectAnswer.length; index += 1) {
       incorrectAnswer[index].style.border = '3px solid rgb(255, 0, 0)';
       incorrectAnswer[index].disabled = true;
+    }
+    clearInterval(countDown);
+    this.handleNextButton();
+  }
+
+  dischangeBorders() {
+    const { countDown } = this.state;
+    const correctAnswer = document.getElementsByClassName('correct-answer');
+    correctAnswer[0].style.border = '1px solid black';
+    correctAnswer[0].disabled = false;
+
+    const incorrectAnswer = document.querySelectorAll('.wrong-answer');
+    for (let index = 0; index < incorrectAnswer.length; index += 1) {
+      incorrectAnswer[index].style.border = '1px solid black';
+      incorrectAnswer[index].disabled = false;
     }
     clearInterval(countDown);
   }
@@ -102,11 +157,14 @@ class Game extends React.Component {
   }
 
   handlePosition() {
+    const { questionNumber } = this.state;
+    console.log('questin num', questionNumber);
     const { results } = this.props;
     if (!results) {
       return;
     }
-    const categoryFilter = results.filter((category) => results.indexOf(category) === 0);
+    const categoryFilter = results
+      .filter((category) => results.indexOf(category) === questionNumber);
     return categoryFilter.map((category) => (
       <div key={ category }>
         <h3 data-testid="question-category">
@@ -138,6 +196,9 @@ class Game extends React.Component {
           {category.correct_answer}
 
         </button>
+        <br />
+        <br />
+        <div className="nextButtonDiv" />
 
       </div>));
   }
