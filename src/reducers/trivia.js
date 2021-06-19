@@ -16,7 +16,7 @@ const trivia = (state = INITIAL_STATE, action) => {
   case SET_QUESTIONS:
     return { ...state,
       isLoading: false,
-      questions: [...state.questions, ...action.payload.results],
+      questions: [...action.payload.results],
       correctAnswers: 0 };
   case GAME_TIMEOUT:
     return { ...state, timeExpired: true };
