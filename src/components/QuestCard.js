@@ -40,10 +40,10 @@ class QuestCard extends Component {
   adjustQuestion(question) {
     // Source:
     // https://stackoverflow.com/questions/5957546/javascript-regex-replacing-quot
-    const reg1 = question.replace(/&(lt|gt|quot);/g, '');
+    const reg1 = question.replace(/&(lt|gt|quot);/gi, '');
     const reg2 = reg1.replace(/&(lt|gt|#039);/g, '');
-    const reg3 = reg2.replace(/&(lt|gt|Eacute);/g, 'é');
-    const reg4 = reg3.replace(/&(lt|gt|amp);/g, '&');
+    const reg3 = reg2.replace(/&(lt|gt|Eacute);/gi, 'é');
+    const reg4 = reg3.replace(/&(lt|gt|amp);/gi, '&');
 
     return reg4;
   }

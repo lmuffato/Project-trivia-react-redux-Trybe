@@ -51,7 +51,7 @@ class Login extends React.Component {
   }
 
   render() {
-    const { loginAction, amount, resetScore } = this.props;
+    const { loginAction, resetScore, configs } = this.props;
     const { disabled, name, email } = this.state;
     return (
       <form className="flex box">
@@ -84,7 +84,7 @@ class Login extends React.Component {
           </label>
           <Link to="/game">
             <button
-              onClick={ () => { loginAction(name, email, amount); resetScore(); } }
+              onClick={ () => { loginAction(name, email, configs); resetScore(); } }
               disabled={ disabled }
               data-testid="btn-play"
               type="button"
@@ -101,12 +101,12 @@ class Login extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  amount: state.configs.amount,
+  configs: state.configs,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  loginAction: (name, email, amount) => dispatch(
-    buttonLoginAction(name, email, amount),
+  loginAction: (name, email, configs) => dispatch(
+    buttonLoginAction(name, email, configs),
   ),
   resetScore: () => dispatch(resetScoreAction()),
 });
