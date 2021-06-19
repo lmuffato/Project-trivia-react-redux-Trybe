@@ -17,6 +17,7 @@ class Trivia extends Component {
     this.handleColors = this.handleColors.bind(this);
     this.handleAnswers = this.handleAnswers.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.checkTimer = this.checkTimer.bind(this);
   }
 
   componentDidMount() {
@@ -38,6 +39,14 @@ class Trivia extends Component {
       }
     }
   }
+
+  checkTimer(number) {
+    return number;
+  }
+
+  // Problema atual: timer rodando até numeros negativos.
+  // Chamar checktimer no render, fazendo condição para quando o número chegar a 0
+  // disparar ação global (booleano) no checktimer (que recebe 30 de props do compoennte filho)
 
   handleAnswers({ target: { className } }) {
     const { correctAnswers } = this.state;
@@ -108,7 +117,7 @@ class Trivia extends Component {
     return trivia.length === 0 ? <h1>Loading...</h1>
       : (
         <div>
-          <Timer timer={ timer } />
+          <Timer checkTimer={ this.checkTimer } />
           <p>Olá mundo!</p>
           { this.renderQuestions() }
         </div>

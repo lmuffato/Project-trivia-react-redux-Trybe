@@ -2,29 +2,46 @@ import React, { Component } from 'react';
 // import { connect } from 'react-redux';
 
 class Timer extends Component {
-  constructor(props) {
-    super(props);
-    // this.state = {
-    //   timer: 0,
-    // };
+  constructor() {
+    super();
+    // const { timer } = this.props;
+    this.state = {
+      timer: 30,
+    };
     this.handleTimer = this.handleTimer.bind(this);
   }
 
-  handleTimer() {
-    const { timer } = this.props;
-    // this.setState({ timer });
+  componentDidMount() {
+    const { timer } = this.state;
     console.log(timer);
+    this.handleTimer();
     const second = 1000;
-    setTimeout(() => (timer
-      ? this.setState({ timer: timer - 1 }) : console.log(timer)), second);
-    return <h2>{timer}</h2>;
+    setInterval(() => this.handleTimer(), second);
+    // const second = 1000;
+    // const time = setInterval(() => this.handleTimer(), second);
+    // if (timer === 1) clearInterval(time);
+  }
+
+  handleTimer() {
+    const { timer } = this.state;
+    this.setState(({ timer: timer - 1 }));
+    const { checkTimer } = this.props;
+    checkTimer(timer);
+    // // this.setState({ timer });
+    // console.log(timer);
+    // const second = 1000;
+    // if (timer) {
+    //   setTimeout(() => { timer -= 1; }, second);
+    // } else {
+    //   console.log(timer);
+    // }
   }
 
   render() {
+    const { timer } = this.state;
+    console.log(timer);
     return (
-      <>
-        { this.handleTimer() }
-      </>
+      <h2>{timer}</h2>
     );
   }
 }
