@@ -56,10 +56,10 @@ class Login extends React.Component {
     return (
       <form className="flex box">
         <fieldset className="fieldset">
-          <div className="logo-img">
+          <section className="logo-img">
             <h1 className="title has-text-right"> Shipit Trivia</h1>
             <img src={ Squirrel } alt="" />
-          </div>
+          </section>
           <label htmlFor="email">
             Email:
             <input
