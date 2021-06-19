@@ -122,39 +122,27 @@ class PlayGame extends React.Component {
   }
 
   colorSelectCorrectAnswer(e) {
-    const FIVE_SECONDS = 5000;
     const { handleTimer } = this.props;
     this.setState({
-      greenAnswer: 'pink',
       answer: e.target.innerText,
       isDisabled: true,
+      greenAnswer: 'green',
+      greenClass: 'green',
+      redClass: 'red',
     });
-    setTimeout(() => {
-      this.setState({
-        greenAnswer: 'green',
-        greenClass: 'green',
-        redClass: 'red',
-      });
-    }, FIVE_SECONDS);
     handleTimer(false);
     this.calcScore();
   }
 
   colorSelectIncorrectAnswer(e) {
-    const FIVE_SECONDS = 5000;
     const { handleTimer } = this.props;
     this.setState({
-      redAnswer: 'pink',
       answer: e.target.innerText,
       isDisabled: true,
+      redAnswer: 'red',
+      redClass: 'red',
+      greenClass: 'green',
     });
-    setTimeout(() => {
-      this.setState({
-        redAnswer: 'red',
-        redClass: 'red',
-        greenClass: 'green',
-      });
-    }, FIVE_SECONDS);
     handleTimer(false);
   }
 
