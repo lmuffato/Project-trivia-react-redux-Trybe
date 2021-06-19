@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import './Questions.css';
 import { Redirect } from 'react-router';
 import Timer from './Timer';
+import Header from './Header';
 
 const correctTestId = 'correct-answer';
 const altButtonsSelector = '.alternative-button';
@@ -172,6 +173,7 @@ class Questions extends Component {
     const validQuestions = questions.length > 0;
     return (
       <div>
+        <Header />
         {enableNextButton ? null : <Timer
           stopCountdown={ stopCountdown }
           addBorderOnClick={ addBorderOnClick }
