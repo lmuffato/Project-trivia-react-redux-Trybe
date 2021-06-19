@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Header from '../components/Header';
+// import Header from '../components/Header';
 import Questions from '../components/Questions';
 
 class Game extends Component {
@@ -9,7 +9,7 @@ class Game extends Component {
     const { props: { questions } } = this;
     return (
       <div>
-        <Header />
+        {/* <Header /> */}
         <Questions questions={ questions } />
       </div>
     );
