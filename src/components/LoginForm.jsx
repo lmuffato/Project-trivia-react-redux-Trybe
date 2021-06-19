@@ -3,7 +3,7 @@ import { string, func } from 'prop-types';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import { getToken, addPlayer, clearScore } from '../actions';
-import BtnConfig from './ButtonConfig';
+import BtnConfig from './Buttons/ButtonConfig';
 import '../styles/login.css';
 import logoLogin from '../trivia.png';
 

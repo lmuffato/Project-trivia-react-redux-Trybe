@@ -4,13 +4,12 @@ import { connect } from 'react-redux';
 import parse from 'html-react-parser';
 import { rightAnswer } from '../actions';
 import '../styles/question.css';
-import NextQuestion from './NextQuestion/NextQuery';
+import NextQuestion from './Buttons/NextQuestion';
 
 class Questions extends Component {
   constructor(props) {
     super(props);
 
-    const { questions } = this.props;
     this.selectAnswer = this.selectAnswer.bind(this);
     this.sortQuestions = this.sortQuestions.bind(this);
     this.runGame = this.runGame.bind(this);
@@ -19,7 +18,6 @@ class Questions extends Component {
     this.nextQuestion = this.nextQuestion.bind(this);
 
     this.state = {
-      questions,
       question: '',
       category: '',
       difficulty: '',
@@ -28,6 +26,11 @@ class Questions extends Component {
       shuffleAnswers: [],
       correctAnswer: '',
       time: 30,
+      scoreMultiplicators: {
+        hard: 3,
+        medium: 2,
+        easy: 1,
+      },
     };
   }
 
@@ -42,11 +45,13 @@ class Questions extends Component {
 
   runGame() {
     const oneSecond = 1000;
+
     this.timer = setInterval(() => {
       this.setState((prevState) => {
         if (prevState.time > 0 && prevState.gameOn) {
           return { time: prevState.time - 1 };
         }
+
         clearInterval(this.timer);
         this.saveAtLocalStorage();
 
@@ -64,12 +69,8 @@ class Questions extends Component {
 
   async selectAnswer({ target }) {
     this.setState({ gameOn: false });
-    const { correctAnswer, time, difficulty } = this.state;
-    const scoreMultiplicators = {
-      hard: 3,
-      medium: 2,
-      easy: 1,
-    };
+
+    const { correctAnswer, time, difficulty, scoreMultiplicators } = this.state;
     const { incrementScore } = this.props;
     const rightAnswerScore = 10;
     const score = rightAnswerScore + (time * scoreMultiplicators[difficulty]);
@@ -80,22 +81,27 @@ class Questions extends Component {
   }
 
   sortQuestions() {
-    const { questions, count } = this.state;
+    const { count } = this.state;
+    const { questions } = this.props;
+
     const {
       difficulty,
       question,
       category,
       correct_answer: correctAnswer,
       incorrect_answers: incorrectAnswer } = questions[count];
+
     const sortValue = 0.5;
     const shuffleAnswers = [...incorrectAnswer, correctAnswer]
       .sort(() => Math.random() - sortValue);
+
     this.setState({ shuffleAnswers, correctAnswer, question, category, difficulty });
   }
 
   timeCounter() {
     const { gameOn } = this.state;
     const { time } = this.state;
+
     return (
       <p
         className={ (time === 0) || (gameOn === false)
@@ -108,12 +114,13 @@ class Questions extends Component {
   }
 
   async nextQuestion() {
-    const { history } = this.props;
+    const { history, questions } = this.props;
     await this.setState(({ count }) => ({ count: count + 1, time: 30, gameOn: true }));
-    const { count, questions } = this.state;
+
+    const { count } = this.state;
+
     if (count >= questions.length) history.push('/feedback');
     else {
-      this.saveAtLocalStorage();
       this.runGame();
       this.sortQuestions();
     }
