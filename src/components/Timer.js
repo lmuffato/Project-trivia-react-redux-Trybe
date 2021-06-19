@@ -32,8 +32,7 @@ class Timer extends Component {
     if (!timeLeft) {
       clearInterval(this.time);
       const { disableAnswer } = this.props;
-      disableAnswer(true); // Altera o estado global para desabilitar o botão;
-      // this.setState({ timeLeft: 10 });
+      disableAnswer(true);
     }
     updateTime(timeLeft);
   }
