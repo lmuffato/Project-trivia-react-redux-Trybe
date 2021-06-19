@@ -39,6 +39,7 @@ class Question extends Component {
   saveLocalStorage(currentScore) {
     const { editScore, name, email, score, editAssertions } = this.props;
     const totalScore = score + currentScore;
+    const ranking = [];
     this.assertions += 1;
     editScore(currentScore);
     const state = { player: {
@@ -47,7 +48,8 @@ class Question extends Component {
     const hashGerada = md5(email).toString();
     const avatar = `https://gravatar.com/avatar/${hashGerada}`;
     localStorage.setItem('state', JSON.stringify(state));
-    const ranking = [{ name, score: totalScore, picture: avatar }];
+    const rankingObj = { name, score: totalScore, picture: avatar };
+    ranking.push(rankingObj);
     localStorage.setItem('ranking', JSON.stringify(ranking));
     editAssertions();
   }
@@ -128,8 +130,8 @@ class Question extends Component {
 }
 
 const mapStateToProps = ({
-  player: { name, email },
-  gameReducer: { disableAnswer, currentTime, score },
+  player: { name, email, score },
+  gameReducer: { disableAnswer, currentTime },
   questionsReducer: { questions, index, shuffle, wrongIndex },
 }) => ({
   name,

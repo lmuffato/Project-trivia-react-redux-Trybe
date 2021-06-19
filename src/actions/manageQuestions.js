@@ -6,6 +6,7 @@ export const REQUEST_API_ERROR = 'REQUEST_API_ERROR';
 export const INCREMENT_INDEX = 'INCREMENT_INDEX';
 export const REFRESH_SHUFFLE = 'REFRESH_SHUFFLE';
 export const CHANGE_ASSERTIONS = 'CHANGE_ASSERTIONS';
+export const RESET_QUESTIONS_REDUCER = 'RESET_QUESTIONS_REDUCER';
 
 export const requestQuestions = () => ({
   type: REQUEST_API,
@@ -42,4 +43,8 @@ export const refreshShuffle = (payload) => ({
 
 export const changeAsserions = () => ({
   type: CHANGE_ASSERTIONS,
+});
+
+export const resetQuestionReducer = () => ({
+  type: RESET_QUESTIONS_REDUCER,
 });

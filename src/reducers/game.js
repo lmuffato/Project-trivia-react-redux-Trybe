@@ -5,16 +5,15 @@ import {
   CLOCK_STOPER,
   RESET_CURRENT_TIME,
   RESET_TIMER,
-  CHANGE_SCORE,
+  RESET_GAME_REDUCER,
 } from '../actions';
 
 const INITIAL_STATE = {
   disableAnswer: false,
   hiddenBtnNext: true,
-  currentTime: 5,
+  currentTime: 30,
   clockStoper: false,
   resetTimer: false,
-  score: 0,
 };
 
 function gameReducer(state = INITIAL_STATE, action) {
@@ -40,7 +39,7 @@ function gameReducer(state = INITIAL_STATE, action) {
   case RESET_CURRENT_TIME:
     return ({
       ...state,
-      currentTime: 5,
+      currentTime: 30,
     });
 
   case CLOCK_STOPER:
@@ -55,10 +54,10 @@ function gameReducer(state = INITIAL_STATE, action) {
       resetTimer: action.payload,
     });
 
-  case CHANGE_SCORE:
+  case RESET_GAME_REDUCER:
     return ({
       ...state,
-      score: state.score + action.payload,
+      state: INITIAL_STATE,
     });
 
   default:
