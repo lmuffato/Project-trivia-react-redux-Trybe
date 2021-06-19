@@ -6,7 +6,7 @@ import { createBrowserHistory } from 'history';
 import { requestTrivia } from '../Api';
 import Timer from './Timer';
 import './playGame.css';
-import { timerThunk } from '../actions';
+import { timerThunk, nextTimer } from '../actions';
 
 const history = createBrowserHistory();
 
@@ -86,7 +86,7 @@ class PlayGame extends React.Component {
   // Requisito 10 - Renderiza uma pergunta por vez
   nextQuestion() {
     const { questions, index } = this.state;
-    const { handleTimer } = this.props;
+    const { handleTimer, getStateTimer } = this.props;
     const btnClickedFourTimes = 4;
     if (index === btnClickedFourTimes) {
       history.push('/feedback');
@@ -102,6 +102,7 @@ class PlayGame extends React.Component {
     }));
     console.log(questions[index].category);
     handleTimer(true);
+    getStateTimer(false);
   }
 
   colorSelectCorrectAnswer(e) {
@@ -138,15 +139,6 @@ class PlayGame extends React.Component {
     }, FIVE_SECONDS);
     handleTimer(false);
   }
-
-  // validScore(answer) {
-  //   const { questions } = this.state;
-  //   questions.forEach((question) => {
-  //     if (answer === question.correct_answer) {
-  //       this.calcScore();
-  //     }
-  //   });
-  // }
 
   renderQuestions() {
     const { questions, greenClass, redClass, index,
@@ -216,6 +208,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   handleTimer: (bool) => dispatch(timerThunk(bool)),
+  getStateTimer: (boll) => dispatch(nextTimer(boll)),
 });
 
 PlayGame.propTypes = {

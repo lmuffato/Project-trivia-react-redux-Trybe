@@ -1,11 +1,12 @@
 // import { RECEIVE_TOKEN, RECEIVE_TRIVIA } from '../actions';
-import { TIME, TIMER } from '../actions';
+import { TIME, TIMER, NEXT_TIMER } from '../actions';
 
 const INITIAL_STATE = {
   token: {},
   trivia: {},
   seconds: 0,
   timer: true,
+  nextTimer: true,
 };
 
 const triviaReducer = (state = INITIAL_STATE, action) => {
@@ -19,6 +20,11 @@ const triviaReducer = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       timer: action.payload,
+    };
+  case NEXT_TIMER:
+    return {
+      ...state,
+      nextTimer: action.payload,
     };
   default:
     return { ...state };
