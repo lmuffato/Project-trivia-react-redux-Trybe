@@ -120,8 +120,8 @@ class Game extends Component {
 }
 
 const mapStateToProps = ({
-  player: { email, name, token },
-  gameReducer: { disableAnswer, hiddenBtnNext, currentTime, score },
+  player: { email, name, token, score },
+  gameReducer: { disableAnswer, hiddenBtnNext, currentTime },
   questionsReducer: { questions, index },
 }) => ({
   emailDoUsuario: email,

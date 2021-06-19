@@ -3,8 +3,23 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
+import { resetQuestionReducer } from '../actions/manageQuestions';
+import { resetGameReducer, resetPlayerReducer } from '../actions';
 
 class Feedback extends Component {
+  constructor() {
+    super();
+
+    this.resetState = this.resetState.bind(this);
+  }
+
+  resetState() {
+    const { resetQuestion, resetPlayer, resetGame } = this.props;
+    resetGame();
+    resetPlayer();
+    resetQuestion();
+  }
+
   render() {
     const { score, assertions } = this.props;
     const averageAssertions = 3;
@@ -24,7 +39,11 @@ class Feedback extends Component {
             {assertions}
           </h4>
         </section>
-        <button type="button" data-testid="btn-play-again">
+        <button
+          type="button"
+          data-testid="btn-play-again"
+          onClick={ this.resetState }
+        >
           <Link to="/">
             Jogar novamente
           </Link>
@@ -39,8 +58,14 @@ class Feedback extends Component {
   }
 }
 
+const mapDispatchToProps = (dispatch) => ({
+  resetQuestion: () => dispatch(resetQuestionReducer()),
+  resetPlayer: () => dispatch(resetPlayerReducer()),
+  resetGame: () => dispatch(resetGameReducer()),
+});
+
 const mapStateToProps = (
-  { gameReducer: { score }, questionsReducer: { assertions }, player: { name } },
+  { questionsReducer: { assertions }, player: { name, score } },
 ) => ({
   score,
   assertions,
@@ -48,8 +73,11 @@ const mapStateToProps = (
 });
 
 Feedback.propTypes = {
-  score: PropTypes.number.isRequired,
-  assertions: PropTypes.number.isRequired,
-};
+  score: PropTypes.number,
+  assertions: PropTypes.number,
+  resetQuestion: PropTypes.func,
+  resetPlayer: PropTypes.func,
+  resetGame: PropTypes.func,
+}.isRequired;
 
-export default connect(mapStateToProps)(Feedback);
+export default connect(mapStateToProps, mapDispatchToProps)(Feedback);

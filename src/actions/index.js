@@ -7,6 +7,8 @@ export const CLOCK_STOPER = 'CLOCK_STOPER';
 export const RESET_CURRENT_TIME = 'RESET_CURRENT_TIME';
 export const RESET_TIMER = 'RESET_TIMER';
 export const CHANGE_SCORE = 'CHANGE_SCORE';
+export const RESET_GAME_REDUCER = 'RESET_GAME_REDUCER';
+export const RESET_PLAYER_REDUCER = 'RESET_PLAYER_REDUCER';
 
 export const newEmail = (payload) => ({
   type: NEW_EMAIL,
@@ -50,4 +52,12 @@ export const resetTimer = (payload) => ({
 export const changeScore = (payload) => ({
   type: CHANGE_SCORE,
   payload,
+});
+
+export const resetGameReducer = () => ({
+  type: RESET_GAME_REDUCER,
+});
+
+export const resetPlayerReducer = () => ({
+  type: RESET_PLAYER_REDUCER,
 });
