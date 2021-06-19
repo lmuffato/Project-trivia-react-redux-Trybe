@@ -58,9 +58,9 @@ class Question extends Component {
     return [correctAnswer, ...incorrectAnswers].sort();
   }
 
-  handleClick() {
+  handleClick(event) {
     const { selectedAnswer } = this.props;
-    selectedAnswer();
+    selectedAnswer(event);
   }
 
   render() {

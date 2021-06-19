@@ -4,32 +4,43 @@ import PropTypes from 'prop-types';
 import Header from '../components/Header';
 
 class Feedback extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
-    this.assertion = this.assertion.bind(this);
+    this.getAssertion = this.getAssertion.bind(this);
   }
 
-  assertion() {
+  getAssertion() {
     const { player: { assertions } } = this.props;
     const n = 3;
-    if (assertions > n) {
-      return 'Parabéns';
+    if (assertions >= n) {
+      return 'Mandou bem!';
     }
-    if (assertions > 1 && assertions <= n) {
-      return 'Bom, mas pode ser melhor!';
+    if (assertions < n) {
+      return 'Podia ser melhor...';
     }
-    return 'Não foi satisfatório';
+  }
+
+  getAssertionsText(assertions) {
+    switch (assertions) {
+    case 0:
+      return 'Não acertou nenhuma pergunta';
+    default:
+      return `Acertou ${assertions} perguntas`;
+    }
   }
 
   render() {
-    const { player: { score } } = this.props;
+    const { player: { score, assertions } } = this.props;
     return (
       <>
         <Header />
         <h1> Feedback </h1>
-        <div>{ score }</div>
-        <div>{ this.assertion }</div>
+        <p data-testid="feedback-total-score">{ score }</p>
+        <p data-testid="feedback-total-question">
+          { assertions }
+        </p>
+        <p data-testid="feedback-text">{ this.getAssertion() }</p>
         <form action="/ranking">
           <button data-testid="btn-ranking" type="submit">Ranking</button>
         </form>
@@ -57,4 +68,4 @@ Feedback.propTypes = {
   }).isRequired,
 };
 
-export default connect(mapStateToProps)(Feedback);
+export default connect(mapStateToProps, null)(Feedback);

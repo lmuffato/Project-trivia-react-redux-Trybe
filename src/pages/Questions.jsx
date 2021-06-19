@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router';
 import Header from '../components/Header';
 import Question from '../components/Question';
 import { getQuestions } from '../services/api';
 import Timer from '../components/Timer';
+import { setScore } from '../actions';
 
 class Questions extends Component {
   constructor(props) {
@@ -12,8 +15,11 @@ class Questions extends Component {
       questionIndex: 0,
       selected: undefined,
       seconds: 30,
+      redirectToFeedback: false,
     };
 
+    this.score = 0;
+    this.assertions = 0;
     this.loadQuestions = this.loadQuestions.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     this.selectedAnswer = this.selectedAnswer.bind(this);
@@ -29,14 +35,13 @@ class Questions extends Component {
     const { questionIndex, questions } = this.state;
     if (questionIndex >= questions.length - 1) {
       return (
-        <form action="/feedback">
-          <button
-            type="submit"
-            data-testid="btn-next"
-          >
-            Finish
-          </button>
-        </form>
+        <button
+          type="button"
+          data-testid="btn-next"
+          onClick={ () => this.setState({ redirectToFeedback: true }) }
+        >
+          Finish
+        </button>
       );
     }
     return (
@@ -50,14 +55,6 @@ class Questions extends Component {
     );
   }
 
-  nextQuestion() {
-    this.setState(({ questionIndex }) => ({
-      questionIndex: questionIndex + 1,
-      selected: undefined,
-      seconds: 30,
-    }));
-  }
-
   loadToken() {
     return localStorage.getItem('token');
   }
@@ -69,8 +66,9 @@ class Questions extends Component {
     });
   }
 
-  selectedAnswer() {
+  selectedAnswer(event) {
     this.setState({ selected: true });
+    this.calculateScore(event);
   }
 
   updateTimer(seconds) {
@@ -89,8 +87,53 @@ class Questions extends Component {
     />);
   }
 
+  getScoreDifficulty(difficulty) {
+    const easy = 1;
+    const medium = 2;
+    const hard = 3;
+
+    switch (difficulty.toLowerCase()) {
+    case 'easy':
+      return easy;
+    case 'medium':
+      return medium;
+    case 'hard':
+      return hard;
+    default:
+      return easy;
+    }
+  }
+
+  calculateScore(event) {
+    const { seconds, questions, questionIndex } = this.state;
+    const { id } = event.target;
+    const { difficulty } = questions[questionIndex];
+    const defaultScore = 10;
+
+    if (id === 'correct-answer') {
+      const scoreDifficulty = this.getScoreDifficulty(difficulty);
+      this.assertions += 1;
+      this.score += defaultScore + (seconds * scoreDifficulty);
+    }
+
+    const { toTest } = this.props;
+    toTest(this.assertions, this.score);
+  }
+
+  nextQuestion() {
+    this.setState(({ questionIndex }) => ({
+      questionIndex: questionIndex + 1,
+      selected: undefined,
+      seconds: 30,
+    }));
+  }
+
   render() {
-    const { questions, questionIndex, selected } = this.state;
+    const { questions, questionIndex, selected, redirectToFeedback } = this.state;
+
+    if (redirectToFeedback) {
+      return <Redirect to="/feedback" />;
+    }
 
     return (
       <>
@@ -111,4 +154,8 @@ class Questions extends Component {
   }
 }
 
-export default Questions;
+const mapDispatchToProps = (dispatch) => ({
+  toTest: (assertions, score) => dispatch(setScore(assertions, score)),
+});
+
+export default connect(null, mapDispatchToProps)(Questions);
