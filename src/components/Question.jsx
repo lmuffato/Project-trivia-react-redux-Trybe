@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { string, shape, number, func } from 'prop-types';
+import { string, shape, func } from 'prop-types';
 import { connect } from 'react-redux';
 import Alternative from './Alternative';
 import Timer from './Timer';
-import { saveStorage } from '../services/storage';
+import { saveStorage } from '../helpers/storage';
 import { updateScore } from '../redux/actions/actions';
 
 class Question extends Component {
@@ -28,18 +28,8 @@ class Question extends Component {
   }
 
   saveInStorage() {
-    const { name, gravatarEmail, score, assertions } = this.props;
-
-    const state = {
-      player: {
-        name,
-        gravatarEmail,
-        score,
-        assertions,
-      },
-    };
-
-    saveStorage('state', JSON.stringify(state));
+    const { player } = this.props;
+    saveStorage('state', JSON.stringify({ player }));
   }
 
   calcScore() {
@@ -96,11 +86,8 @@ class Question extends Component {
   }
 }
 
-const mapStateToProps = ({ user, game, timer }) => ({
-  name: user.name,
-  gravatarEmail: user.email,
-  score: game.player.score,
-  assertions: game.player.assertions,
+const mapStateToProps = ({ game, timer }) => ({
+  player: game.player,
   time: timer.time,
   timerID: timer.timerID,
 });
@@ -115,10 +102,6 @@ Question.propTypes = {
     question: string,
   }),
   updateScoreDispatch: func,
-  name: string,
-  gravatarEmail: string,
-  score: number,
-  assertions: number,
 }.isRequired;
 
 export default connect(mapStateToProps, mapDispatchToProps)(Question);

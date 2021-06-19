@@ -3,7 +3,7 @@ import ReactAudioPlayer from 'react-audio-player';
 
 import { connect } from 'react-redux';
 import { func } from 'prop-types';
-import { saveStorage } from '../services/storage';
+import { saveStorage } from '../helpers/storage';
 import { saveUser } from '../redux/actions/actions';
 
 import LoginForm from '../components/LoginForm';
