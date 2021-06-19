@@ -5,7 +5,7 @@ import { Redirect } from 'react-router';
 import { login } from '../actions';
 import { getToken } from '../services/api';
 
-// Link do código do regex: https://regexr.com/2ri2c
+import { PATTERN_EMAIL, NAME_LENGTH } from '../const/validation';
 
 class Login extends Component {
   constructor(props) {
@@ -13,11 +13,13 @@ class Login extends Component {
     this.state = {
       name: '',
       email: '',
-      redirect: false,
+      redirectPlay: false,
+      redirectSettings: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.submit = this.submit.bind(this);
     this.validation = this.validation.bind(this);
+    this.handleRedirect = this.handleRedirect.bind(this);
   }
 
   handleChange(event) {
@@ -25,73 +27,76 @@ class Login extends Component {
     this.setState({ [name]: value });
   }
 
-  submit(event) {
-    event.preventDefault();
-    const { name, email } = this.state;
-    const { toLogin } = this.props;
-    toLogin(name, email);
-    this.saveToken();
-  }
-
-  async saveToken() {
-    await getToken().then((response) => {
-      localStorage.setItem('token', response.token);
-      this.setState({ redirect: true });
-    });
+  handleRedirect() {
+    this.setState({ redirectSettings: true });
   }
 
   validation() {
     const { name, email } = this.state;
-    // Link do código do regex: https://regexr.com/2ri2c
-    const pattern = /\b[\w.-]+@[\w.-]+\.\w{2,4}\b/gi;
-    const nameLength = 3;
-    return !(name.length >= nameLength && email.match(pattern));
+    const nameValidation = name.length >= NAME_LENGTH;
+    const emailValidation = email.match(PATTERN_EMAIL);
+    return !(nameValidation && emailValidation);
+  }
+
+  async submit(event) {
+    event.preventDefault();
+    const { name, email } = this.state;
+    const { toLogin } = this.props;
+
+    toLogin(name, email);
+    await this.saveToken();
+
+    this.setState({ redirectPlay: true });
+  }
+
+  async saveToken() {
+    const { token } = await getToken();
+    localStorage.setItem('token', token);
   }
 
   render() {
-    const { redirect } = this.state;
+    const { redirectPlay, redirectSettings } = this.state;
 
-    if (redirect) {
-      return <Redirect to="/questions" />;
-    }
+    if (redirectPlay) return <Redirect to="/questions" />;
+
+    if (redirectSettings) return <Redirect to="/settings" />;
 
     return (
       <>
         <form onSubmit={ this.submit }>
           <input
-            onChange={ this.handleChange }
-            aria-label="name"
-            data-testid="input-player-name"
-            type="text"
-            placeholder="Your Name"
             name="name"
+            onChange={ this.handleChange }
+            type="text"
+            placeholder="Nome"
+            aria-label="name"
             required
+            data-testid="input-player-name"
           />
           <input
-            onChange={ this.handleChange }
-            aria-label="email"
-            data-testid="input-gravatar-email"
-            type="email"
-            placeholder="Your E-mail"
             name="email"
+            onChange={ this.handleChange }
+            type="email"
+            placeholder="E-mail"
+            aria-label="email"
             required
+            data-testid="input-gravatar-email"
           />
           <button
-            disabled={ this.validation() }
             type="submit"
+            disabled={ this.validation() }
             data-testid="btn-play"
           >
             Jogar
           </button>
         </form>
-        <form action="/settings">
-          <button
-            type="submit"
-            data-testid="btn-settings"
-          >
-            Configurações
-          </button>
-        </form>
+        <button
+          type="button"
+          onClick={ this.handleRedirect }
+          data-testid="btn-settings"
+        >
+          Configurações
+        </button>
       </>
     );
   }

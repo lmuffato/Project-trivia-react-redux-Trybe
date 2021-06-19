@@ -1,28 +1,30 @@
 const TOKEN_URL = 'https://opentdb.com/api_token.php?command=request';
-const QUESTIONS_URL = 'https://opentdb.com/api.php';
+const QUESTIONS_URL = 'https://opentdb.com/api.php?';
 const CATEGORIES_URL = 'https://opentdb.com/api_category.php';
-const INITIAL_QUANTITY_QUESTIONS = 5;
+const INITIAL_AMOUNT = 5;
+
+const mountURL = (urlBase, params) => {
+  let url = urlBase;
+  params.forEach((param) => {
+    const key = Object.keys(param);
+    const value = Object.values(param);
+    if (value) url = url.concat(`&${key}=`, value);
+  });
+  return url;
+};
 
 const getToken = async () => {
   const dataToken = await fetch(TOKEN_URL);
-  const token = await dataToken.json();
-  return token;
+  return dataToken.json();
 };
 
-const getQuestions = async (
-  tokenParam,
-  categoryParam,
-  difficultyParam,
-  quantityParam = INITIAL_QUANTITY_QUESTIONS) => {
-  const quantity = `amount=${quantityParam}`;
-  const token = `token=${tokenParam}`;
-  const difficulty = difficultyParam ? `difficulty=${difficultyParam}` : '';
-  const category = categoryParam ? `category=${categoryParam}` : '';
-  const urlQuestions = `${QUESTIONS_URL}?${quantity}&${difficulty}&${category}&${token}`;
+const getQuestions = async (token, amount = INITIAL_AMOUNT,
+  category = '', difficulty = '') => {
+  const params = [{ category }, { difficulty }, { amount }, { token }];
+  const urlQuestions = mountURL(QUESTIONS_URL, params);
 
   const dataQuestions = await fetch(urlQuestions);
-  const questions = await dataQuestions.json();
-  return questions;
+  return dataQuestions.json();
 };
 
 const getCategories = async () => {

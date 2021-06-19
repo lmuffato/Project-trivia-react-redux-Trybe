@@ -1,9 +1,9 @@
 import { SETTINGS } from '../actions';
 
 const INITIAL_STATE = {
-  category: '',
-  quantity: '',
-  difficulty: 0,
+  category: undefined,
+  quantity: undefined,
+  difficulty: undefined,
 };
 
 const settings = (state = INITIAL_STATE, action) => {
