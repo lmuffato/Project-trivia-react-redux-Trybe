@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { Component } from 'react';
+import UserData from '../components/UserData';
+import GameQuestions from '../components/GameQuestions';
 
-class GameScreen extends React.Component {
+class GameScreen extends Component {
   render() {
-    return (<p>Game Screen</p>);
+    return (
+      <div>
+        <UserData />
+        <GameQuestions />
+      </div>
+    );
   }
 }
 
