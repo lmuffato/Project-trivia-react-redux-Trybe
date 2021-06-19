@@ -10,34 +10,52 @@ class Game extends React.Component {
     this.handlePosition = this.handlePosition.bind(this);
     this.getUserRanking = this.getUserRanking.bind(this);
     this.updateLocalStorage = this.updateLocalStorage.bind(this);
-    this.setTimer = this.setTimer.bind(this);
     this.changeBorders = this.changeBorders.bind(this);
+
+    const milliSeconds = 1000;
+
+    this.state = {
+      seconds: 30,
+      countDown: setInterval(() => {
+        this.setState(
+          (state) => ({
+            seconds: state.seconds - 1,
+          }),
+        );
+      }, milliSeconds),
+    };
   }
 
   componentDidMount() {
-    this.setTimer();
+    const player = {
+      player: {
+        name: 'Nome da Pessoa',
+        assertions: 0,
+        score: 0,
+        gravatarEmail: 'email@pessoa.com',
+      },
+    };
+    localStorage.setItem('state', JSON.stringify(player));
   }
 
-  setTimer() {
-    const time = {
-      seconds: 30,
-      milliseconds: 1000,
-    };
-    const countDown = setTimeout(() => {
-      time.seconds -= 1;
-      if (time.seconds === 0) clearInterval(countDown);
-    }, time.milliseconds);
-    return countDown;
+  componentDidUpdate() {
+    const { seconds, countDown } = this.state;
+
+    if (seconds === 0) {
+      this.changeBorders();
+      clearInterval(countDown);
+    }
   }
 
   getUserRanking(difficulty) {
+    const { seconds } = this.state;
     const fixedPoint = 10;
     let finalPoint = 0;
     let difficultyPoint = 0;
     const easy = 1;
     const medium = 2;
     const hard = 3;
-    const timer = 30;
+    const timer = seconds;
     if (difficulty === 'easy') {
       difficultyPoint = easy;
     } else if (difficulty === 'medium') {
@@ -51,13 +69,17 @@ class Game extends React.Component {
   }
 
   changeBorders() {
+    const { countDown } = this.state;
     const correctAnswer = document.getElementsByClassName('correct-answer');
     correctAnswer[0].style.border = '3px solid rgb(6, 240, 15)';
+    correctAnswer[0].disabled = true;
 
     const incorrectAnswer = document.querySelectorAll('.wrong-answer');
     for (let index = 0; index < incorrectAnswer.length; index += 1) {
       incorrectAnswer[index].style.border = '3px solid rgb(255, 0, 0)';
+      incorrectAnswer[index].disabled = true;
     }
+    clearInterval(countDown);
   }
 
   updateLocalStorage(score) {
@@ -65,7 +87,17 @@ class Game extends React.Component {
     const ranking = [
       { name: getName, score, picture: getUrl },
     ];
+    const player = {
+      player: {
+        name: getName,
+        assertions: 0,
+        score,
+        gravatarEmail: 'email@pessoa.com',
+      },
+    };
+
     localStorage.setItem('ranking', JSON.stringify(ranking));
+    localStorage.setItem('state', JSON.stringify(player));
     getScore(score);
   }
 
@@ -91,7 +123,7 @@ class Game extends React.Component {
             key={ index }
             type="button"
             onClick={ this.changeBorders }
-            className="wrong-answer"
+            className="wrong-answer responses"
           >
             {incorrect}
 
@@ -101,7 +133,7 @@ class Game extends React.Component {
           data-testid="correct-answer"
           type="button"
           onClick={ () => this.getUserRanking(category.difficulty) }
-          className="correct-answer"
+          className="correct-answer responses"
         >
           {category.correct_answer}
 
@@ -111,11 +143,13 @@ class Game extends React.Component {
   }
 
   render() {
-    console.log(this.setTimer());
+    const { seconds } = this.state;
     return (
       <>
         <Header />
         <div>
+          <span>Tempo Restante: </span>
+          <strong>{seconds}</strong>
           {this.handlePosition()}
         </div>
       </>

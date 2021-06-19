@@ -36,10 +36,9 @@ class Header extends Component {
           {' '}
           { getName }
         </h3>
-        <h3 data-testid="header-score">
-          Pontuação:
-          {' '}
-          { getScore }
+        <h3>
+          Ver Pontuação:
+          <span data-testid="header-score">{ getScore }</span>
         </h3>
         <Link to="/ranking">
           <button type="button">Ver Ranking</button>
