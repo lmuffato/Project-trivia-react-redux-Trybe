@@ -28,7 +28,7 @@ body {
 .answers-container {
   display: flex;
   flex-direction: column;
-  height: 130px;
+  height: 200px;
 }
 
 .answers-container .answer {

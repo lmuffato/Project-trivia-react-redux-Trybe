@@ -3,6 +3,7 @@ import { bool } from 'prop-types';
 import { connect } from 'react-redux';
 import {
   disableAnswer as disableAnswerAction,
+  markAnswered as markAnsweredAction,
   updateTime as updateTimeAction,
 } from '../actions';
 
@@ -11,9 +12,8 @@ class Timer extends Component {
     super(props);
 
     this.state = {
-      timeLeft: props.timeLeft,
+      timeLeft: 30,
     };
-    this.resetTimer = this.resetTimer.bind(this);
   }
 
   componentDidMount() {
@@ -27,32 +27,28 @@ class Timer extends Component {
     }, UM_SEGUNDO);
   }
 
-  // static getDerivedStateFromProps(props, state) {
-  //   console.log(props);
-  //   if (props.timeLeft !== state.timeLeft) {
-  //     return { timeLeft: props.timeLeft };
-  //   }
-  //   return null;
-  // }
+  componentDidUpdate() {
+    const { isAnswered } = this.props;
+    if (isAnswered) {
+      clearInterval(this.time);
+    }
+  }
 
   getTimeOut() {
-    const { updateTime } = this.props;
+    const { updateTime, markAnswered } = this.props;
     const { timeLeft } = this.state;
     if (!timeLeft) {
       clearInterval(this.time);
       const { disableAnswer } = this.props;
+      markAnswered(true);
       disableAnswer(true);
     }
     updateTime(timeLeft);
   }
 
-  resetTimer() {
-    this.setState({ timeLeft: 30 });
-  }
-
   render() {
-    console.log(this.state.timeLeft);
-    // this.resetTimer();
+    const { timer } = this.props;
+    console.log(timer);
     const { timeLeft } = this.state;
     return (
       <div>
@@ -68,11 +64,13 @@ Timer.propTypes = {
 
 const mapStateToProps = (state) => ({
   isAnswered: state.gameMatch.isAnswered,
+  // timer: state.gameMatch.timer,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   disableAnswer: (disable) => dispatch(disableAnswerAction(disable)),
   updateTime: (timer) => dispatch(updateTimeAction(timer)),
+  markAnswered: (answered) => dispatch(markAnsweredAction(answered)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Timer);

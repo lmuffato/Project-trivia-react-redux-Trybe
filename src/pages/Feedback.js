@@ -40,8 +40,6 @@ class Feedback extends React.Component {
       gravatarEmail: '',
     };
     const { score, assertions, resetPlayerState } = this.props;
-    console.log(typeof score);
-    console.log(typeof assertions);
     return (
       <section>
         <Header />
