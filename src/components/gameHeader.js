@@ -7,16 +7,16 @@ class Header extends React.Component {
     const { gravatarImg, name, score } = this.props;
     return (
       <div className="navbar">
-        <div className="navbar-brand">
+        <div className="navbar-brand profile-container">
           <img
             src={ gravatarImg }
             alt="Imagem do Usuário"
             data-testid="header-profile-picture"
             className="userIMG"
           />
+          <p data-testid="header-player-name">{name}</p>
+          <p data-testid="header-score">{ score }</p>
         </div>
-        <p data-testid="header-player-name">{name}</p>
-        <p data-testid="header-score">{ score }</p>
       </div>
     );
   }

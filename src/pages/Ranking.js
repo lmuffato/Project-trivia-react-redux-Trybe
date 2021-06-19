@@ -21,7 +21,7 @@ class Ranking extends React.Component {
   render() {
     const { login } = this.state;
     return (
-      <div>
+      <div className="ranking-container">
         <h1 data-testid="ranking-title">♔ Ranking ♔</h1>
         <button
           type="button"

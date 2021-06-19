@@ -138,7 +138,7 @@ class Question extends React.Component {
           { results[index].category }
         </p>
         <p>
-          tempo:
+          ✔ tempo:
           {' '}
           { timer }
         </p>
@@ -166,7 +166,7 @@ class Question extends React.Component {
     const { index, nextBtn } = this.state;
     const { results } = this.props;
     return (
-      <div>
+      <div className="question-container">
         {results.length !== 0
         && this.renderQuestion(results, index)}
         <br />

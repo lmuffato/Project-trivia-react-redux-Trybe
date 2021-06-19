@@ -8,9 +8,15 @@ export const GET_PLACAR = 'GET_PLACAR';
 export const GET_QUESTION = 'GET_QUESTIONS';
 export const GET_QUESTION_SUCCESS = 'GET_QUESTION_SUCCESS';
 export const SAVE_USER = 'SAVE_USER';
+export const RESET_PLACAR = 'RESET_PLACAR';
 
 export const getPlacar = (payload) => ({
   type: GET_PLACAR,
+  payload,
+});
+
+export const resetPlacar = (payload) => ({
+  type: RESET_PLACAR,
   payload,
 });
 

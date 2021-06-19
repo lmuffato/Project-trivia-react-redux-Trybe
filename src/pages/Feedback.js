@@ -36,7 +36,7 @@ class Feedback extends React.Component {
     const maxAssertions = 2;
     const { assertions, ranking, loginRedirect } = this.state;
     return (
-      <div>
+      <div className="feedback-container">
         <header>
           <Header />
           <h1 data-testid="feedback-text" className="textFeed">
