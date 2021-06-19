@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
@@ -15,6 +16,9 @@ class Feedback extends Component {
         <span data-testid="feedback-text">
           {goodScore ? 'Mandou bem!' : 'Podia ser melhor...'}
         </span>
+        <Link data-testid="btn-ranking" to="/ranking">
+          Ver Ranking
+        </Link>
       </>
     );
   }
