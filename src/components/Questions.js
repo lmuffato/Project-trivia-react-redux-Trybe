@@ -5,6 +5,7 @@ import './Questions.css';
 import { Redirect } from 'react-router';
 import Timer from './Timer';
 import Header from './Header';
+import { saveNOfCorrectAnswer } from '../actions';
 
 const correctTestId = 'correct-answer';
 const altButtonsSelector = '.alternative-button';
@@ -26,6 +27,7 @@ class Questions extends Component {
       enableNextButton: false,
       questionIndex: 0,
       redirectToFeedback: false,
+      numberOfCorrectAnswer: 0,
     };
   }
 
@@ -123,6 +125,13 @@ class Questions extends Component {
 
     if (isCorrect) {
       updateScoreToLS(seconds, questions[0].difficulty);
+      this.setState((prevState) => ({
+        numberOfCorrectAnswer: prevState.numberOfCorrectAnswer + 1 }),
+      () => {
+        const { state: { numberOfCorrectAnswer },
+          props: { saveNumberOfCorrectAnswers } } = this;
+        return saveNumberOfCorrectAnswers(numberOfCorrectAnswer);
+      });
     }
     setEnableNextButton();
   }
@@ -201,6 +210,10 @@ const mapStateToProps = (state) => ({
   seconds: state.timer.seconds,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  saveNumberOfCorrectAnswers: (n) => dispatch(saveNOfCorrectAnswer(n)),
+});
+
 Questions.propTypes = {
   questions: PropTypes.arrayOf(PropTypes.shape({
     category: PropTypes.string,
@@ -212,4 +225,4 @@ Questions.propTypes = {
   })),
 }.isRequired;
 
-export default connect(mapStateToProps, null)(Questions);
+export default connect(mapStateToProps, mapDispatchToProps)(Questions);
