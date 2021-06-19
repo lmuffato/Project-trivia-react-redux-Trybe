@@ -12,6 +12,7 @@ class Header extends React.Component {
             src={ gravatarImg }
             alt="Imagem do Usuário"
             data-testid="header-profile-picture"
+            className="userIMG"
           />
         </div>
         <p data-testid="header-player-name">{name}</p>
