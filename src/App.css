@@ -26,12 +26,12 @@ html {
 }
 
 .card-ol {
+  align-items: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  width: 100%;
   margin: auto;
+  width: 100%;
 }
 
 li {
@@ -51,15 +51,15 @@ li:nth-child(even) {
 
 .title-h1 {
   display: flex;
-  width: 100%;
   justify-content: center;
   padding: 1em;
+  width: 100%;
 }
 
 .card-li {
   display: flex;
-  width: 30%;
   padding: 1em;
+  width: 30%;
 }
 
 .card-title {
@@ -70,18 +70,18 @@ li:nth-child(even) {
 }
 
 .card-p {
+  color: black;
   display: flex;
   font-size: 3em;
   justify-content: center;
-  color: black
 }
 
 .button-rank {
-  display: flex;
-  background-color: #002B8C;
   color: white;
-  margin: auto;
+  background-color: #002B8C;
+  display: flex;
   justify-content: center;
+  margin: auto;
 }
 
 .medal {
