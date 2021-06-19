@@ -51,6 +51,6 @@ html {
 }
 
 .btn-settings {
-  position: fixed;
   font-size: 3rem;
+  position: fixed;
 }
