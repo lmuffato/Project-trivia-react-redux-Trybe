@@ -8,10 +8,7 @@ import md5 from 'crypto-js/md5';
 class Header extends Component {
   constructor() {
     super();
-    // this.state = {
-    //   scoreState: 0,
-    // };
-    // this.getScoreStorage = this.getScoreStorage.bind(this);
+
     this.getAvatar = this.getAvatar.bind(this);
   }
 
@@ -26,14 +23,6 @@ class Header extends Component {
     const avatarGravatar = `https://www.gravatar.com/avatar/${hash}`;
     return avatarGravatar;
   }
-
-  // getScoreStorage() {
-  //   const storagePlayer = JSON.parse(localStorage.getItem('state'));
-  //   console.log(storagePlayer.player.score);
-  //   this.setState({
-  //     scoreState: storagePlayer.player.score,
-  //   });
-  // }
 
   render() {
     // const { userName } = this.props;
