@@ -114,7 +114,6 @@ Questions.propTypes = {
 }.isRequired;
 
 const mapStateToProps = (state) => ({
-  // questions: state.game.questions,
   timesUp: state.gameMatch.timesUp,
   timer: state.gameMatch.timer,
   player: state.player,

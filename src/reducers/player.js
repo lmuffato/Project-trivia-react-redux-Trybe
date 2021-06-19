@@ -16,7 +16,9 @@ const player = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       name: payload.name,
-      gravatarEmail: payload.email,
+      gravatarEmail: payload.gravatarEmail,
+      score: payload.score,
+      assertions: payload.assertions,
     };
   case UPDATE_SCORE:
     return {

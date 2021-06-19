@@ -39,7 +39,6 @@ class Feedback extends React.Component {
       score: 0,
       gravatarEmail: '',
     };
-    // const state = JSON.parse(localStorage.getItem('state'));
     const { score, assertions, resetPlayerState } = this.props;
     console.log(typeof score);
     console.log(typeof assertions);

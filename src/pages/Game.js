@@ -82,12 +82,7 @@ class Game extends React.Component {
       picture: getGravatarImg(playerInfo.gravatarEmail),
     });
 
-    // const UM = 1;
-    ranking.sort((a, b) => b.score - a.score,
-      // if (a.score > b.score) return -UM;
-      // if (a.score < b.score) return UM;
-      // return 0;
-    );
+    ranking.sort((a, b) => b.score - a.score);
 
     localStorage.setItem('ranking', JSON.stringify(ranking));
     console.log(ranking);
