@@ -1,3 +1,5 @@
+import { API_SUCCESS, API_ERROR } from '../actions/index';
+
 const INITIAL_STATE = {
   questions: [],
   questionNumber: 0,
@@ -20,13 +22,13 @@ const INITIAL_STATE = {
 
 export const game = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-  case 'API_SUCCESS':
+  case API_SUCCESS:
     return {
       ...state,
       isLoading: false,
-      questions: state.questions.concat(action.payload),
+      questions: action.payload,
     };
-  case 'API_ERROR':
+  case API_ERROR:
     return {
       ...state,
       error: action.payload,

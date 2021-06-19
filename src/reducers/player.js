@@ -1,3 +1,5 @@
+import { SET_NAME, SET_EMAIL, SET_URL_GRAVATAR, SET_SCORE } from '../actions/index';
+
 const INITIAL_STATE = {
   name: '',
   assertions: '',
@@ -8,25 +10,25 @@ const INITIAL_STATE = {
 
 export const player = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-  case 'SET_NAME':
+  case SET_NAME:
     return {
       ...state,
-      name: action.payload.name,
+      name: action.name,
     };
-  case 'SET_EMAIL':
+  case SET_EMAIL:
     return {
       ...state,
-      gravatarEmail: action.payload.email,
+      gravatarEmail: action.email,
     };
-  case 'SET_URL_GRAVATAR':
+  case SET_URL_GRAVATAR:
     return {
       ...state,
-      gravatar: action.payload.gravatar,
+      gravatar: action.gravatar,
     };
-  case 'SET_SCORE':
+  case SET_SCORE:
     return {
       ...state,
-      score: state.score + action.payload.score,
+      score: action.score,
     };
   default: return state;
   }

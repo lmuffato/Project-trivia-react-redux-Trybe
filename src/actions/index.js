@@ -1,43 +1,39 @@
+export const SET_NAME = 'SET_NAME';
 export const setNameAction = (name) => ({
   type: 'SET_NAME',
-  payload: {
-    name,
-  },
+  name,
 });
 
+export const SET_EMAIL = 'SET_EMAIL';
 export const setEmailAction = (email) => ({
   type: 'SET_EMAIL',
-  payload: {
-    email,
-  },
+  email,
 });
 
+export const SET_URL_GRAVATAR = 'SET_URL_GRAVATAR';
 export const setUrlAction = (gravatar) => ({
   type: 'SET_URL_GRAVATAR',
-  payload: {
-    gravatar,
-  },
+  gravatar,
 });
 
+export const SET_SCORE = 'SET_SCORE';
 export const setScoreAction = (score) => ({
   type: 'SET_SCORE',
-  payload: {
-    score,
-  },
+  score,
 });
 
 // ------- QUESTION API REQUESTS -----------
 
+export const API_SUCCESS = 'API_SUCCESS';
 export const getApiQuestionsSuccess = (payload) => ({
   type: 'API_SUCCESS',
   payload,
 });
 
+export const API_ERROR = 'API_ERROR';
 export const getApiQuestionsError = (payload) => ({
   type: 'API_ERROR',
-  payload: {
-    payload,
-  },
+  payload,
 });
 
 // ----------- thunk --------------
@@ -45,7 +41,7 @@ export const getApiQuestionsError = (payload) => ({
 export const getApiQuestionsThunk = () => async (dispatch) => {
   const verifiedToken = JSON.parse(localStorage.getItem('token')) || [];
   if (verifiedToken.token) {
-    fetch(`https://opentdb.com/api_token.php?command=reset&token=${verifiedToken.token}`);
+    await fetch(`https://opentdb.com/api_token.php?command=reset&token=${verifiedToken.token}`);
     const data = await fetch(`https://opentdb.com/api.php?amount=5&token=${verifiedToken.token}`);
     const result = await data.json();
     dispatch(getApiQuestionsSuccess(result.results));
