@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import styles from './game.module.css';
+import styles from '../../pages/game.module.css';
 
 export default class Footer extends Component {
   render() {

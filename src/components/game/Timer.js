@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { saveTimerAction } from '../redux/actions';
-import styles from '../pages/game.module.css';
+import { saveTimerAction } from '../../redux/actions';
+import styles from '../../pages/game.module.css';
 
 class Timer extends Component {
   constructor() {

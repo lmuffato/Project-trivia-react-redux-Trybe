@@ -10,6 +10,7 @@ class Ranking extends React.Component {
   componentDidMount() {
     this.players();
     this.updateRanking();
+    // localStorage.removeItem('token');
   }
 
   updateRanking() {

@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import md5 from 'crypto-js/md5';
-import { loginAction, getTokenThunk } from '../redux/actions';
+import { loginAction, getQuestionsThunk } from '../redux/actions';
 import styles from './login.module.css';
 import Header from '../components/Login/Header';
 import Footer from '../components/Login/Footer';
+import requestToken from '../services/requestToken';
 
 class Login extends Component {
   constructor(props) {
@@ -24,6 +25,14 @@ class Login extends Component {
 
   componentDidMount() {
     document.title = 'Login';
+    this.getTokenQuestions();
+  }
+
+  async getTokenQuestions() {
+    const { getQuestions } = this.props;
+    const token = await requestToken();
+    localStorage.setItem('token', token);
+    getQuestions(token);
   }
 
   checkInputs() {
@@ -42,10 +51,11 @@ class Login extends Component {
   }
 
   handleClick() {
-    const { getToken, token } = this.props;
-    if (token === null) {
-      getToken();
-    }
+    // this.getTokenQuestions();
+    // const { getToken, token } = this.props;
+    // if (token === null) {
+    //   getToken();
+    // }
     const { state: { name, email }, props: { loginProps, history } } = this;
 
     loginProps({ name, email });
@@ -112,7 +122,8 @@ class Login extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   loginProps: (payload) => dispatch(loginAction(payload)),
-  getToken: () => dispatch(getTokenThunk()),
+  // getToken: () => dispatch(getTokenThunk()),
+  getQuestions: (token) => dispatch(getQuestionsThunk(token)),
 });
 
 const mapStateToProps = (state) => ({
@@ -122,14 +133,15 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
 
 Login.propTypes = {
-  getToken: PropTypes.func.isRequired,
-  token: PropTypes.string,
+  // getToken: PropTypes.func.isRequired,
+  // token: PropTypes.string,
+  getQuestions: PropTypes.func.isRequired,
   loginProps: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
 };
 
-Login.defaultProps = {
-  token: null,
-};
+// Login.defaultProps = {
+//   token: null,
+// };

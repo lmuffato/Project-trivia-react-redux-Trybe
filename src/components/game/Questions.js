@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import styles from '../pages/game.module.css';
-import Loading from './Loading';
+import styles from '../../pages/game.module.css';
+import Loading from '../Loading';
 import Timer from './Timer';
 import './questions.css';
 import {
   setDifficultyAction,
   updateScoreAction,
   calcPointsAction,
-} from '../redux/actions/index';
+} from '../../redux/actions/index';
 
 class Questions extends Component {
   constructor(props) {
