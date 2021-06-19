@@ -93,18 +93,6 @@ class PlayGame extends React.Component {
       </button>);
   }
 
-  // Requisito 10 - Renderiza uma pergunta por vez
-  changeBttNext() {
-    return (
-      <button
-        data-testid="btn-next"
-        type="button"
-        onClick={ () => this.nextQuestion() }
-      >
-        Próxima
-      </button>);
-  }
-
   nextQuestion() {
     const { questions, index } = this.state;
     const { handleTimer, getStateTimer } = this.props;
