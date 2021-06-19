@@ -10,6 +10,14 @@ class Result extends Component {
     this.feedbackMessage = this.feedbackMessage.bind(this);
   }
 
+  componentDidMount() {
+    const { username, score, userImg } = this.props;
+    const previousState = JSON.parse(localStorage.getItem('ranking'));
+    localStorage.setItem('ranking', JSON.stringify(
+      [...previousState, { name: username, score, picture: userImg }],
+    ));
+  }
+
   feedbackMessage() {
     const TRES = 3;
     const { assertions } = this.props;
@@ -36,7 +44,7 @@ class Result extends Component {
           onClick={ () => redirect.call(this, '/ranking') }
           type="button"
         >
-          Jogar Novamente
+          Ver Ranking
         </button>
       </div>
     );
@@ -46,6 +54,9 @@ class Result extends Component {
 function mapStateToProps(state) {
   return {
     assertions: state.trivia.correctAnswers,
+    userImg: state.gravatar.url,
+    username: state.user.username,
+    score: state.trivia.score,
   };
 }
 
