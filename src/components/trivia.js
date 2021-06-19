@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getTrivia as getTriviaThunk } from '../actions';
+import Timer from './Timer';
 
 class Trivia extends Component {
   constructor(props) {
@@ -102,6 +103,7 @@ class Trivia extends Component {
         >
           {`${trivia[0].incorrect_answers[2]}`}
         </button>
+        <Timer />
       </div>
     );
   }
