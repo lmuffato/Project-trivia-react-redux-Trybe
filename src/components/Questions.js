@@ -119,9 +119,11 @@ class Questions extends Component {
   }
 
   addToLocalStorage() {
-    const { name, email, score, assertions } = this.props;
-    const player = { name, email, score, assertions };
-    localStorage.setItem('state', JSON.stringify({ player }));
+    const { score, assertions } = this.props;
+    const { player } = JSON.parse(localStorage.getItem('state'));
+    localStorage.setItem('state', JSON.stringify(
+      { player: { ...player, score, assertions } },
+    ));
   }
 
   handleZero() {
@@ -210,12 +212,10 @@ Questions.propTypes = {
   }).isRequired,
   setDifficultyProps: PropTypes.func.isRequired,
   calc: PropTypes.bool.isRequired,
-  name: PropTypes.string.isRequired,
-  email: PropTypes.string.isRequired,
   score: PropTypes.number.isRequired,
   assertions: PropTypes.number.isRequired,
   updateScoreProps: PropTypes.func.isRequired,
-  timer: PropTypes.number.isRequired,
+  timer: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   difficulty: PropTypes.string.isRequired,
 };
 

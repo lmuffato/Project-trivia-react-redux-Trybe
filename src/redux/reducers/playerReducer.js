@@ -14,15 +14,20 @@ function playReducer(state = INITIAL_STATE, action) {
       ...state,
       name: action.payload.name,
       email: action.payload.email,
+      score: 0,
+      assertions: 0,
     };
   case UPDATE_SCORE:
-    console.log(state.assertions);
-    console.log('payload', action.payload.assertions);
     return {
       ...state,
       score: state.score + parseInt(action.payload.points, 10),
       assertions: state.assertions + action.payload.assertions,
     };
+  // case SET_IMG:
+  //   return {
+  //     ...state,
+  //     img: action.payload,
+  //   };
   default:
     return state;
   }

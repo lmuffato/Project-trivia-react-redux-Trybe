@@ -9,10 +9,12 @@ class Header extends Component {
     super();
 
     this.updateState = this.updateState.bind(this);
+    this.getScore = this.getScore.bind(this);
 
     this.state = {
       name: '',
       img: '',
+      scoreHeader: 0,
     };
   }
 
@@ -20,6 +22,21 @@ class Header extends Component {
     const { email } = this.props;
     const emailConvert = md5(email).toString();
     this.updateState(emailConvert);
+  }
+
+  componentDidUpdate() {
+    const { score } = this.props;
+    const { scoreHeader } = this.state;
+    if (score !== scoreHeader) {
+      this.getScore();
+    }
+  }
+
+  getScore() {
+    const { score } = this.props;
+    this.setState({
+      scoreHeader: score,
+    });
   }
 
   updateState(email) {
@@ -31,7 +48,7 @@ class Header extends Component {
   }
 
   render() {
-    const { img, name } = this.state;
+    const { img, name, scoreHeader } = this.state;
     return (
       <div className={ styles.login_header__wrapper }>
         <header className={ styles.questions__header }>
@@ -46,7 +63,7 @@ class Header extends Component {
             data-testid="header-score"
             className={ styles.questions__header__score }
           >
-            0
+            { scoreHeader }
           </p>
         </header>
       </div>
@@ -57,11 +74,13 @@ class Header extends Component {
 const mapStateToProps = (state) => ({
   email: state.playerReducer.email,
   name: state.playerReducer.name,
+  score: state.playerReducer.score,
 });
 
-export default connect(mapStateToProps, null)(Header);
+export default connect(mapStateToProps)(Header);
 
 Header.propTypes = {
   email: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  score: PropTypes.number.isRequired,
 };

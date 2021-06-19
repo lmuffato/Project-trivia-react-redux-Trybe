@@ -8,6 +8,9 @@ export const loginAction = (payload) => ({ type: LOGIN, payload });
 export const UPDATE_SCORE = 'UPDATE_SCORE';
 export const updateScoreAction = (payload) => ({ type: UPDATE_SCORE, payload });
 
+// export const SET_IMG = 'SET_IMG';
+// export const setImg = (payload) => ({ type: SET_IMG, payload });
+
 // questions
 export const GET_QUESTIONS = 'GET_QUESTIONS';
 export const getQuestions = () => ({ type: GET_QUESTIONS });
