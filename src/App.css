@@ -47,17 +47,17 @@ body {
 }
 
 .userIMG {
-  border-radius: 50px
+  border-radius: 50px;
 }
 
 .textFeed {
   margin-top: 50px;
 }
 
-.fail, .success {
+.sucess, .fail {
   border-radius: 100px;
-  width: 150px;
   height: 150px;
+  width: 150px;
 }
 
 .rankingList {
