@@ -1,6 +1,6 @@
 const INITIAL_STATE = {
   questions: [],
-  questionNumber: 1,
+  questionNumber: 0,
   isLoading: true,
   ranking: [ // Array Ficticio apenas pra testar o map do ranking
     {

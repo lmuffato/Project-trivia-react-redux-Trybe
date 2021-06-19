@@ -7,6 +7,10 @@ import Header from './Header';
 class Game extends React.Component {
   constructor() {
     super();
+    this.state = {
+      questionNumber: 0,
+      nextQuestionBtn: false,
+    };
     this.handlePosition = this.handlePosition.bind(this);
     this.getUserRanking = this.getUserRanking.bind(this);
     this.updateLocalStorage = this.updateLocalStorage.bind(this);
@@ -48,6 +52,7 @@ class Game extends React.Component {
     finalPoint += fixedPoint + (timer * difficultyPoint);
     this.changeBorders();
     this.updateLocalStorage(finalPoint);
+    this.nextQuestion();
   }
 
   changeBorders() {
@@ -67,6 +72,32 @@ class Game extends React.Component {
     ];
     localStorage.setItem('ranking', JSON.stringify(ranking));
     getScore(score);
+  }
+
+  toNextBtn() {
+    const { nextQuestionBtn } = this.state;
+    if (nextQuestionBtn) {
+      return (
+        <button
+          className="next"
+          data-testid="btn-next"
+          type="button"
+          onClick={ this.nextQuestion() }
+        >
+          Próxima
+        </button>
+      );
+    }
+  }
+
+  nextQuestion() {
+    const { questionNumber } = this.state;
+    const maxNumberQuestion = 4;
+    if (questionNumber <= maxNumberQuestion) {
+      this.setState({
+        questionNumber: questionNumber + 1,
+      });
+    }
   }
 
   handlePosition() {
@@ -106,7 +137,7 @@ class Game extends React.Component {
           {category.correct_answer}
 
         </button>
-
+        {this.toNextBtn(category)}
       </div>));
   }
 
