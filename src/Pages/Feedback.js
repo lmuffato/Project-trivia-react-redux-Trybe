@@ -13,11 +13,9 @@ class Feedback extends React.Component {
   }
 
   // Requisito 13 (Método de mensagens de feedback)
-  feedbackMensage() {
-    // const { assertionsState } = this.props;
-    const simulatingHits = 1;
+  feedbackMensage(assertions) {
     const THREE = 3;
-    if (simulatingHits < THREE) {
+    if (assertions < THREE) {
       return 'Podia ser melhor...';
     }
     return 'Mandou bem!';
@@ -26,16 +24,15 @@ class Feedback extends React.Component {
   render() {
     // const { assertionsState, scoreState } = this.props;
     // const scoreState = 10;
-    const assertionsState = 1;
     const storagePlayer = JSON.parse(localStorage.getItem('state'));
-    const { score } = storagePlayer.player;
+    const { score, assertions } = storagePlayer.player;
     return (
       <div>
         {/* Requisito 12 */}
         <Header />
         {/* Requisito 13 */}
         <div className="feedback-mensage">
-          <p data-testid="feedback-text">{ this.feedbackMensage() }</p>
+          <p data-testid="feedback-text">{ this.feedbackMensage(assertions) }</p>
         </div>
         {/* Requisito 14 */}
         <section className="feedback-section">
@@ -43,7 +40,7 @@ class Feedback extends React.Component {
             { `Placar final: ${score}` }
           </p>
           <p data-testid="feedback-total-question">
-            { `Você acertou ${assertionsState} questões` }
+            { `Você acertou ${assertions} questões` }
           </p>
         </section>
         <div className="feedback-buttons">

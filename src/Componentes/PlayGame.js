@@ -7,6 +7,7 @@ import { requestTrivia } from '../Api';
 import Timer from './Timer';
 import './playGame.css';
 import { timerThunk, nextTimer } from '../actions';
+import { getCorrectAnswerStore, calcScore } from './GameMethodsStorage';
 
 const history = createBrowserHistory();
 class PlayGame extends React.Component {
@@ -28,13 +29,11 @@ class PlayGame extends React.Component {
     this.fetchApiTrivia = this.fetchApiTrivia.bind(this);
     this.renderQuestions = this.renderQuestions.bind(this);
     this.renderLoading = this.renderLoading.bind(this);
-    this.nameTheClassBtnAnswer = this.nameTheClassBtnAnswer.bind(this);
     this.colorSelectCorrectAnswer = this.colorSelectCorrectAnswer.bind(this);
     this.colorSelectIncorrectAnswer = this.colorSelectIncorrectAnswer.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
-    this.calcScore = this.calcScore.bind(this);
     this.changeStateDisabeld = this.changeStateDisabeld.bind(this);
-    this.getCorrectAnswerStore = this.getCorrectAnswerStore.bind(this);
+    this.getAssertions = this.getAssertions.bind(this);
   }
 
   componentDidMount() {
@@ -48,16 +47,13 @@ class PlayGame extends React.Component {
     }
   }
 
-  // Requisito 13 - passando a soma dos acertions para o local storage
-  getCorrectAnswerStore() {
-    const localRanking = JSON.parse(localStorage.getItem('state'));
-    // const { player: { assertions } } = localRanking;
+  getAssertions() {
     const { validAcertion } = this.state;
-    const assertion = 0;
     if (validAcertion === true) {
-      const sumAcertions = assertion + 1;
-      localRanking.player.assertions = sumAcertions;
-      localStorage.setItem('state', JSON.stringify(localRanking));
+      getCorrectAnswerStore();
+      this.setState({
+        validAcertion: false,
+      });
     }
   }
 
@@ -74,15 +70,6 @@ class PlayGame extends React.Component {
     }
   }
 
-  // Req 7: Valida se o valor do state é igual ao valor do botão e define o nome da class
-  nameTheClassBtnAnswer(answer) {
-    let nameTheClass = 'gray';
-    const { greenBtn, redBtn } = this.state;
-    if (greenBtn === answer) nameTheClass = 'green';
-    if (redBtn === answer) nameTheClass = 'red';
-    return nameTheClass;
-  }
-
   // Requisito 8 - Atualiza a forma que os botões de resposta são renderizados
   changeStateDisabeld() {
     const { secondsTimer } = this.props;
@@ -90,28 +77,6 @@ class PlayGame extends React.Component {
       this.setState({
         isDisabled: true,
       });
-    }
-  }
-
-  // Requisito 9 - Faz a pontuação dinâmica por dificuldade e salva no localStorage
-  calcScore() {
-    const { questions, index } = this.state;
-    const { timeGotten } = this.props;
-    const hard = 3;
-    const basePoint = 10;
-    const localRanking = JSON.parse(localStorage.getItem('state'));
-    const { player: { score } } = localRanking;
-    if (questions[index].difficulty === 'hard') {
-      localRanking.player.score = score + basePoint + (timeGotten * hard);
-      localStorage.setItem('state', JSON.stringify(localRanking));
-    }
-    if (questions[index].difficulty === 'medium') {
-      localRanking.player.score = score + basePoint + (timeGotten * 2);
-      localStorage.setItem('state', JSON.stringify(localRanking));
-    }
-    if (questions[index].difficulty === 'easy') {
-      localRanking.player.score = score + basePoint + (timeGotten * 1);
-      localStorage.setItem('state', JSON.stringify(localRanking));
     }
   }
 
@@ -139,7 +104,8 @@ class PlayGame extends React.Component {
   }
 
   colorSelectCorrectAnswer(e) {
-    const { handleTimer } = this.props;
+    const { handleTimer, timeGotten } = this.props;
+    const { questions, index } = this.state;
     this.setState({
       answer: e.target.innerText,
       isDisabled: true,
@@ -147,10 +113,9 @@ class PlayGame extends React.Component {
       greenClass: 'green',
       redClass: 'red',
       validAcertion: true,
-    });
+    }, () => this.getAssertions());
     handleTimer(false);
-    this.calcScore();
-    this.getCorrectAnswerStore();
+    calcScore(questions, index, timeGotten);
   }
 
   colorSelectIncorrectAnswer(e) {
