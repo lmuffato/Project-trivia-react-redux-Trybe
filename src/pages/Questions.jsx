@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
+import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import Question from '../components/Question';
 import { getQuestions } from '../services/api';
@@ -55,38 +56,6 @@ class Questions extends Component {
     );
   }
 
-  loadToken() {
-    return localStorage.getItem('token');
-  }
-
-  async loadQuestions() {
-    const questionsResponse = await getQuestions(this.loadToken());
-    this.setState({
-      questions: questionsResponse.results,
-    });
-  }
-
-  selectedAnswer(event) {
-    this.setState({ selected: true });
-    this.calculateScore(event);
-  }
-
-  updateTimer(seconds) {
-    this.setState({ seconds });
-    if (seconds === 0) {
-      this.setState({ selected: true });
-    }
-  }
-
-  time() {
-    const { seconds, selected } = this.state;
-    return (<Timer
-      seconds={ seconds }
-      selected={ selected }
-      updateTimer={ this.updateTimer }
-    />);
-  }
-
   getScoreDifficulty(difficulty) {
     const easy = 1;
     const medium = 2;
@@ -116,8 +85,8 @@ class Questions extends Component {
       this.score += defaultScore + (seconds * scoreDifficulty);
     }
 
-    const { toTest } = this.props;
-    toTest(this.assertions, this.score);
+    const { toScore } = this.props;
+    toScore(this.assertions, this.score);
   }
 
   nextQuestion() {
@@ -126,6 +95,38 @@ class Questions extends Component {
       selected: undefined,
       seconds: 30,
     }));
+  }
+
+  updateTimer(seconds) {
+    this.setState({ seconds });
+    if (seconds === 0) {
+      this.setState({ selected: true });
+    }
+  }
+
+  time() {
+    const { seconds, selected } = this.state;
+    return (<Timer
+      seconds={ seconds }
+      selected={ selected }
+      updateTimer={ this.updateTimer }
+    />);
+  }
+
+  selectedAnswer(event) {
+    this.setState({ selected: true });
+    this.calculateScore(event);
+  }
+
+  async loadQuestions() {
+    const questionsResponse = await getQuestions(this.loadToken());
+    this.setState({
+      questions: questionsResponse.results,
+    });
+  }
+
+  loadToken() {
+    return localStorage.getItem('token');
   }
 
   render() {
@@ -155,7 +156,11 @@ class Questions extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  toTest: (assertions, score) => dispatch(setScore(assertions, score)),
+  toScore: (assertions, score) => dispatch(setScore(assertions, score)),
 });
+
+Questions.propTypes = {
+  toScore: PropTypes.func.isRequired,
+};
 
 export default connect(null, mapDispatchToProps)(Questions);
