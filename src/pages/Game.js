@@ -70,39 +70,32 @@ class Game extends React.Component {
 
   buildRanking() {
     const playerInfo = JSON.parse(localStorage.getItem('state')).player;
-    const rankingStorage = JSON.parse(localStorage.getItem('ranking'));
-    const ranking = {
+    let ranking = JSON.parse(localStorage.getItem('ranking'));
+
+    if (!Array.isArray(ranking)) {
+      ranking = [];
+    }
+
+    ranking.push({
       name: playerInfo.name,
       score: playerInfo.score,
       picture: getGravatarImg(playerInfo.gravatarEmail),
-    };
+    });
 
-    if (rankingStorage) {
-      rankingStorage.push(ranking);
-      localStorage.setItem('ranking', JSON.stringify(rankingStorage));
-    } else {
-      localStorage.setItem('ranking', JSON.stringify([ranking]));
-    }
+    // const UM = 1;
+    ranking.sort((a, b) => b.score - a.score,
+      // if (a.score > b.score) return -UM;
+      // if (a.score < b.score) return UM;
+      // return 0;
+    );
 
-    console.log(rankingStorage);
-    // if (!Array.isArray(ranking)) {
-    //   ranking = [];
-    // }
-
-    // ranking.push({
-    //   name: playerInfo.name,
-    //   score: playerInfo.score,
-    //   picture: getGravatarImg(playerInfo.gravatarEmail),
-    // });
-
-    // localStorage.setItem('ranking', JSON.stringify(ranking));
-    // this.setState({ ranking });
+    localStorage.setItem('ranking', JSON.stringify(ranking));
+    console.log(ranking);
   }
 
   render() {
     const { isLoading, questions, answers, questionIndex } = this.state;
     const { isAnswered } = this.props;
-
     if (isLoading) return <Loading />;
     if (questionIndex > Number('4')) {
       this.buildRanking();
