@@ -1,7 +1,7 @@
-@import "https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css" ;
+@import 'https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css' ;
 
 html {
-  background-color: #FAD06C;
+  background-color: #fad06c;
 }
 
 .header {
@@ -22,7 +22,7 @@ html {
 }
 
 .header-user-info p {
-  color: #f7dfa6; 
+  color: #f7dfa6;
 }
 
 .card-ol {
@@ -64,7 +64,7 @@ li:nth-child( even ) {
 .card-title {
   display: flex;
   font-size: 32px;
-  font-weight: bolder;
+  font-weight: 400;
   justify-content: center;
 }
 
@@ -102,6 +102,7 @@ li:nth-child( 3 ) .medal {
   color: chocolate;
   display: flex;
 }
+
 .time-conteiner {
   align-items: center;
   display: flex;

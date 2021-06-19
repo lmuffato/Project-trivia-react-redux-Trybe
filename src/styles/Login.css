@@ -1,12 +1,12 @@
 html {
-  background-color: #FAD06C;
+  background-color: #fad06c;
 }
 
 .flex {
   display: flex;
   justify-content: center;
-  position: fixed;
   left: 50%;
+  position: fixed;
   top: 45%;
   transform: translate(-50%, -50%);
 }
@@ -22,8 +22,8 @@ html {
 }
 
 .logo-img img {
-  margin-top: 36px;
   height: 40px;
+  margin-top: 36px;
   width: 40px;
 }
 
@@ -40,10 +40,10 @@ html {
 }
 
 .button:hover {
-  width: 100%;
-  margin-top: 20px;
   background-color: #002b8c;
   color: white;
+  margin-top: 20px;
+  width: 100%;
 }
 
 .border {
