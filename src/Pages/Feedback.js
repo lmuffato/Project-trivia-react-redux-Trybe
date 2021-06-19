@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Header from '../Componentes/Header';
 import './feedback.css';
-// import PropTypes from 'prop-types';
 
 class Feedback extends React.Component {
   constructor() {
@@ -22,8 +21,6 @@ class Feedback extends React.Component {
   }
 
   render() {
-    // const { assertionsState, scoreState } = this.props;
-    // const scoreState = 10;
     const storagePlayer = JSON.parse(localStorage.getItem('state'));
     const { score, assertions } = storagePlayer.player;
     return (
@@ -57,15 +54,5 @@ class Feedback extends React.Component {
     );
   }
 }
-
-// Feedback.propTypes = {
-//   assertionsState: PropTypes.number.isRequired,
-//   scoreState: PropTypes.number.isRequired,
-// };
-
-// const mapStateProps = (state) => ({
-//   assertionsState: state.player.assertions,
-//   scoreState: state.player.score,
-// });
 
 export default connect(null, null)(Feedback);

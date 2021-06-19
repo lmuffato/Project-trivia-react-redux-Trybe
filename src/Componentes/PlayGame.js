@@ -34,6 +34,7 @@ class PlayGame extends React.Component {
     this.nextQuestion = this.nextQuestion.bind(this);
     this.changeStateDisabeld = this.changeStateDisabeld.bind(this);
     this.getAssertions = this.getAssertions.bind(this);
+    this.changeBttNext = this.changeBttNext.bind(this);
   }
 
   componentDidMount() {
@@ -81,6 +82,17 @@ class PlayGame extends React.Component {
   }
 
   // Requisito 10 - Renderiza uma pergunta por vez
+  changeBttNext() {
+    return (
+      <button
+        data-testid="btn-next"
+        type="button"
+        onClick={ () => this.nextQuestion() }
+      >
+        Próxima
+      </button>);
+  }
+
   nextQuestion() {
     const { questions, index } = this.state;
     const { handleTimer, getStateTimer } = this.props;
@@ -167,13 +179,7 @@ class PlayGame extends React.Component {
           </div>
         </div>
         <div>
-          <button
-            data-testid="btn-next"
-            type="button"
-            onClick={ () => this.nextQuestion() }
-          >
-            Próxima
-          </button>
+          {isDisabled && this.changeBttNext()}
         </div>
       </>
     );
