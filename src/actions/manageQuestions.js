@@ -41,7 +41,7 @@ export const refreshShuffle = (payload) => ({
   payload,
 });
 
-export const changeAsserions = () => ({
+export const changeAssertions = () => ({
   type: CHANGE_ASSERTIONS,
 });
 

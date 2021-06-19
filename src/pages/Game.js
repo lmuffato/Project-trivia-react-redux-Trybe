@@ -85,7 +85,6 @@ class Game extends Component {
 
   async nextButtonFuncManeger() {
     const { index, history } = this.props;
-    console.log(history);
     const lastQuestion = 4;
     if (index === lastQuestion) return history.push('/feedback');
     this.removeButtonBorder();

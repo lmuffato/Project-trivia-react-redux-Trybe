@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
 import { changeScore, clockStoper, hidden } from '../actions';
-import { changeAsserions, requestQuestionsThunk } from '../actions/manageQuestions';
+import { changeAssertions, requestQuestionsThunk } from '../actions/manageQuestions';
 
 class Question extends Component {
   constructor(props) {
@@ -14,7 +14,8 @@ class Question extends Component {
     this.checkAnswer = this.checkAnswer.bind(this);
     this.answersButtonsFuncManeger = this.answersButtonsFuncManeger.bind(this);
     this.createAnswersButtons = this.createAnswersButtons.bind(this);
-    this.saveLocalStorage = this.saveLocalStorage.bind(this);
+    this.saveStateKeyLocalStorage = this.saveStateKeyLocalStorage.bind(this);
+    this.saveRankingKeyLocalStorage = this.saveRankingKeyLocalStorage.bind(this);
   }
 
   checkAnswer() {
@@ -31,26 +32,37 @@ class Question extends Component {
   }
 
   answersButtonsFuncManeger() {
-    const { editClockStoper } = this.props;
+    const { editClockStoper, index } = this.props;
+    const finalQuestion = 4;
     this.checkAnswer();
     editClockStoper(true);
+    if (index === finalQuestion) this.saveRankingKeyLocalStorage();
   }
 
-  saveLocalStorage(currentScore) {
+  saveRankingKeyLocalStorage() {
+    const { name, email, score } = this.props;
+    const hashGerada = md5(email).toString();
+    const avatar = `https://gravatar.com/avatar/${hashGerada}`;
+    const ranking = JSON.parse(localStorage.getItem('ranking'));
+    const rankingObj = { name, score, picture: avatar };
+    if (ranking !== null) {
+      const currentRanking = [...ranking, rankingObj];
+      return localStorage.setItem('ranking', JSON.stringify(currentRanking));
+    }
+    localStorage.setItem('ranking', JSON.stringify([rankingObj]));
+  }
+
+  saveStateKeyLocalStorage(currentScore) {
     const { editScore, name, email, score, editAssertions } = this.props;
     const totalScore = score + currentScore;
-    const ranking = [];
     this.assertions += 1;
     editScore(currentScore);
     const state = { player: {
       name, assertions: this.assertions, score: totalScore, gravatarEmail: email,
     } };
-    const hashGerada = md5(email).toString();
-    const avatar = `https://gravatar.com/avatar/${hashGerada}`;
     localStorage.setItem('state', JSON.stringify(state));
-    const rankingObj = { name, score: totalScore, picture: avatar };
-    ranking.push(rankingObj);
-    localStorage.setItem('ranking', JSON.stringify(ranking));
+    // console.log(index);
+    // if (index === finalQuestion) this.saveRankingKeyLocalStorage(totalScore);
     editAssertions();
   }
 
@@ -73,14 +85,13 @@ class Question extends Component {
       break;
     }
     const currentScore = (multiplier * currentTime) + factors.increment;
-    this.saveLocalStorage(currentScore);
+    this.saveStateKeyLocalStorage(currentScore);
   }
 
   createAnswersButtons(answer, i) {
     const { props: { questions, disableAnswer, index } } = this;
     const incorrect = questions[index].incorrect_answers;
     if (answer === questions[index].correct_answer) {
-      console.log(questions[index].correct_answer);
       return (
         <button
           key={ i }
@@ -150,7 +161,7 @@ const mapDispatchToProps = (dispatch) => ({
   editClockStoper: (payload) => dispatch(clockStoper(payload)),
   editScore: (payload) => dispatch(changeScore(payload)),
   getQuestions: (payload) => dispatch(requestQuestionsThunk(payload)),
-  editAssertions: () => dispatch(changeAsserions()),
+  editAssertions: () => dispatch(changeAssertions()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Question);

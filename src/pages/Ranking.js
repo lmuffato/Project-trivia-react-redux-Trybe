@@ -45,7 +45,6 @@ class Ranking extends Component {
 
   render() {
     const { ranking } = this.state;
-    console.log(ranking);
     return (
       <div>
         <h1 data-testid="ranking-title">Ranking</h1>

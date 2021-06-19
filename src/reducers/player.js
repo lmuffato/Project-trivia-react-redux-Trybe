@@ -34,7 +34,10 @@ function userReducer(state = INITIAL_STATE, action) {
   case RESET_PLAYER_REDUCER:
     return ({
       ...state,
-      state: INITIAL_STATE,
+      email: '',
+      name: '',
+      token: '',
+      score: 0,
     });
 
   default:

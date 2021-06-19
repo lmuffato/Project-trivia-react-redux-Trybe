@@ -54,7 +54,12 @@ function questionsReducer(state = INITIAL_STATE, action) {
   case RESET_QUESTIONS_REDUCER:
     return ({
       ...state,
-      state: INITIAL_STATE,
+      questions: [],
+      index: 0,
+      isLoading: false,
+      error: null,
+      shuffle: [],
+      assertions: 0,
     });
   default:
     return state;
