@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { func } from 'prop-types';
+import { func, string, number, objectOf, shape } from 'prop-types';
 import {
   lastQuestion,
   nextQuestion,
@@ -8,6 +8,7 @@ import {
   setAnswerVisibility,
   timerThunk,
 } from '../redux/actions/actions';
+import { saveRanking } from '../helpers/storage';
 
 class NextQuestionBtn extends Component {
   constructor(props) {
@@ -25,10 +26,12 @@ class NextQuestionBtn extends Component {
       currentQuestionIndex,
       resetTimerDispatch,
       startTimer,
+      player,
     } = this.props;
 
     if (currentQuestionIndex === questions.length - 1) {
       lastQuestionDispatch(true);
+      saveRanking(player);
     } else {
       nextQuestionDispatch();
       resetTimerDispatch();
@@ -54,6 +57,7 @@ class NextQuestionBtn extends Component {
 const mapStateToProps = ({ game }) => ({
   questions: game.questions,
   currentQuestionIndex: game.currentQuestionIndex,
+  player: game.player,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -68,6 +72,12 @@ NextQuestionBtn.propTypes = {
   nextQuestionDispatch: func,
   setAnswerVisibilityDispatch: func,
   resetTimerDispatch: func,
+  player: objectOf(shape({
+    name: string,
+    gravatarEmail: string,
+    score: number,
+    assertions: number,
+  })),
 }.isRequired;
 
 export default connect(mapStateToProps, mapDispatchToProps)(NextQuestionBtn);
