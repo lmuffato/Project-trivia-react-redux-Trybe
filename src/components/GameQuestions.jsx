@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router';
 import { setQuestions } from '../redux/actions/setQuestions';
 import './GameQuestion.css';
+import { setScore } from '../redux/actions/setScore';
 
 class GameQuestions extends Component {
   constructor(props) {
@@ -156,13 +157,19 @@ class GameQuestions extends Component {
   }
 
   render() {
-    const { fetchQuestions, token, loading, questions } = this.props;
-    const { questionNumber, time, answerClicked, redirect } = this.state;
+    const { fetchQuestions, token, loading, questions, sendScore } = this.props;
+    const { questionNumber, time, answerClicked,
+      redirect, assertions, userPoints,
+    } = this.state;
     if (loading) {
       fetchQuestions(token);
       return <h2>Loading...</h2>;
     }
-    if (redirect) return <Redirect to="/feedback" />;
+    if (redirect) {
+      const score = { assertions, score: userPoints };
+      sendScore(score);
+      return <Redirect to="/feedback" />;
+    }
     this.createStore();
     return (
       <div>
@@ -200,6 +207,7 @@ class GameQuestions extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   fetchQuestions: (token) => dispatch(setQuestions(token)),
+  sendScore: (score) => dispatch(setScore(score)),
 });
 
 const mapStateToProps = (state) => ({
@@ -212,6 +220,7 @@ const mapStateToProps = (state) => ({
 
 GameQuestions.propTypes = {
   fetchQuestions: PropTypes.func,
+  sendScore: PropTypes.func,
   token: PropTypes.string,
   loading: PropTypes.bool,
   questions: PropTypes.arrayOf({}),
