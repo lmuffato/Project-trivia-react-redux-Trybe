@@ -26,7 +26,7 @@ class Question extends Component {
           value={ answer }
           disabled={ selected }
         >
-          {answer}
+          {decode(answer)}
         </button>
       </div>
     );
@@ -48,7 +48,7 @@ class Question extends Component {
           value={ answer }
           disabled={ selected }
         >
-          {answer}
+          {decode(answer)}
         </button>
       </div>
     );

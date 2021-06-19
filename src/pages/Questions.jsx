@@ -119,7 +119,10 @@ class Questions extends Component {
   }
 
   async loadQuestions() {
-    const questionsResponse = await getQuestions(this.loadToken());
+    const { settings } = this.props;
+    const { category, quantity, difficulty } = settings;
+    const token = this.loadToken();
+    const questionsResponse = await getQuestions(token, category, difficulty, quantity);
     this.setState({
       questions: questionsResponse.results,
     });
@@ -159,8 +162,12 @@ const mapDispatchToProps = (dispatch) => ({
   toScore: (assertions, score) => dispatch(setScore(assertions, score)),
 });
 
+const mapStateToProps = (state) => ({
+  settings: state.settings,
+});
+
 Questions.propTypes = {
   toScore: PropTypes.func.isRequired,
 };
 
-export default connect(null, mapDispatchToProps)(Questions);
+export default connect(mapStateToProps, mapDispatchToProps)(Questions);
