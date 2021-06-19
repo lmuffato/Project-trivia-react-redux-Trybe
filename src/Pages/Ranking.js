@@ -32,6 +32,7 @@ class Ranking extends Component {
     // Iteração sobre o objeto
     return (
       <div>
+        <h2 data-testid="ranking-title">Ranking</h2>
         { orderedArray.map((player, index) => (
           <ul key="player-ranking">
             <img src={ player.gravatar } alt="ImagemDoUsuario" />
