@@ -6,10 +6,9 @@ import { createBrowserHistory } from 'history';
 import { requestTrivia } from '../Api';
 import Timer from './Timer';
 import './playGame.css';
-import { timerThunk } from '../actions';
+import { timerThunk, nextTimer } from '../actions';
 
 const history = createBrowserHistory();
-
 class PlayGame extends React.Component {
   constructor() {
     super();
@@ -22,8 +21,8 @@ class PlayGame extends React.Component {
       redAnswer: 'gray',
       greenAnswer: 'gray',
       index: 0,
+      isDisabled: false,
     };
-
     this.fetchApiTrivia = this.fetchApiTrivia.bind(this);
     this.renderQuestions = this.renderQuestions.bind(this);
     this.renderLoading = this.renderLoading.bind(this);
@@ -31,13 +30,19 @@ class PlayGame extends React.Component {
     this.colorSelectCorrectAnswer = this.colorSelectCorrectAnswer.bind(this);
     this.colorSelectIncorrectAnswer = this.colorSelectIncorrectAnswer.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
-    // this.fetchFilterQuestion = this.fetchFilterQuestion.bind(this);
     this.calcScore = this.calcScore.bind(this);
-    // this.validScore = this.validScore.bind(this);
+    this.changeStateDisabeld = this.changeStateDisabeld.bind(this);
   }
 
   componentDidMount() {
     this.fetchApiTrivia();
+  }
+
+  componentDidUpdate(_, prevState) {
+    const { isDisabled } = this.state;
+    if (prevState.isDisabled === isDisabled) {
+      this.changeStateDisabeld();
+    }
   }
 
   async fetchApiTrivia() {
@@ -60,6 +65,16 @@ class PlayGame extends React.Component {
     if (greenBtn === answer) nameTheClass = 'green';
     if (redBtn === answer) nameTheClass = 'red';
     return nameTheClass;
+  }
+
+  // Requisito 8 - Atualiza a forma que os botões de resposta são renderizados
+  changeStateDisabeld() {
+    const { secondsTimer } = this.props;
+    if (secondsTimer === 0) {
+      this.setState({
+        isDisabled: true,
+      });
+    }
   }
 
   // Requisito 9 - Faz a pontuação dinâmica por dificuldade e salva no localStorage
@@ -87,7 +102,7 @@ class PlayGame extends React.Component {
   // Requisito 10 - Renderiza uma pergunta por vez
   nextQuestion() {
     const { questions, index } = this.state;
-    const { handleTimer } = this.props;
+    const { handleTimer, getStateTimer } = this.props;
     const btnClickedFourTimes = 4;
     if (index === btnClickedFourTimes) {
       history.push('/feedback');
@@ -100,63 +115,44 @@ class PlayGame extends React.Component {
       redClass: 'gray',
       redAnswer: 'gray',
       greenAnswer: 'gray',
+      isDisabled: false,
     }));
-    console.log(questions[index].category);
     handleTimer(true);
+    getStateTimer(false);
   }
 
   colorSelectCorrectAnswer(e) {
-    const FIVE_SECONDS = 5000;
     const { handleTimer } = this.props;
     this.setState({
-      greenAnswer: 'pink',
       answer: e.target.innerText,
+      isDisabled: true,
+      greenAnswer: 'green',
+      greenClass: 'green',
+      redClass: 'red',
     });
-    setTimeout(() => {
-      this.setState({
-        greenAnswer: 'green',
-        greenClass: 'green',
-        redClass: 'red',
-      });
-    }, FIVE_SECONDS);
     handleTimer(false);
     this.calcScore();
   }
 
   colorSelectIncorrectAnswer(e) {
-    const FIVE_SECONDS = 5000;
     const { handleTimer } = this.props;
     this.setState({
-      redAnswer: 'pink',
       answer: e.target.innerText,
+      isDisabled: true,
+      redAnswer: 'red',
+      redClass: 'red',
+      greenClass: 'green',
     });
-    setTimeout(() => {
-      this.setState({
-        redAnswer: 'red',
-        redClass: 'red',
-        greenClass: 'green',
-      });
-    }, FIVE_SECONDS);
     handleTimer(false);
   }
 
-  // validScore(answer) {
-  //   const { questions } = this.state;
-  //   questions.forEach((question) => {
-  //     if (answer === question.correct_answer) {
-  //       this.calcScore();
-  //     }
-  //   });
-  // }
-
   renderQuestions() {
     const { questions, greenClass, redClass, index,
-      redAnswer, answer, greenAnswer } = this.state;
+      redAnswer, answer, greenAnswer, isDisabled } = this.state;
     const question = questions[index];
     return (
       <>
         <div>
-          {/* Exibe o timer criado para p requisito 8 */}
           <Timer />
         </div>
         <div>
@@ -168,6 +164,7 @@ class PlayGame extends React.Component {
               type="button"
               onClick={ (e) => this.colorSelectCorrectAnswer(e) }
               className={ answer === question.correct_answer ? greenAnswer : greenClass }
+              disabled={ isDisabled }
             >
               {question.correct_answer}
             </button>
@@ -178,6 +175,7 @@ class PlayGame extends React.Component {
                 key={ indexKey }
                 onClick={ (e) => this.colorSelectIncorrectAnswer(e) }
                 className={ answer === incorrect ? redAnswer : redClass }
+                disabled={ isDisabled }
               >
                 {incorrect}
               </button>
@@ -205,23 +203,21 @@ class PlayGame extends React.Component {
     const { loading } = this.state;
     return (
       <div>
-        { loading ? this.renderLoading() : this.renderQuestions() }
+        { loading ? this.renderLoading() : this.renderQuestions()}
       </div>
     );
   }
 }
-
 const mapStateToProps = (state) => ({
   timeGotten: state.triviaReducer.seconds,
+  secondsTimer: state.triviaReducer.secondsTimer,
 });
-
 const mapDispatchToProps = (dispatch) => ({
   handleTimer: (bool) => dispatch(timerThunk(bool)),
+  getStateTimer: (bool) => dispatch(nextTimer(bool)),
 });
-
 PlayGame.propTypes = {
   timeGotten: PropTypes.number,
   handleTimer: PropTypes.func,
 }.isRequired;
-
 export default connect(mapStateToProps, mapDispatchToProps)(PlayGame);
