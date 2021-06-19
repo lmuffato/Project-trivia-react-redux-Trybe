@@ -6,8 +6,8 @@ html {
   display: flex;
   justify-content: center;
   position: fixed;
-  top: 45%;
   left: 50%;
+  top: 45%;
   transform: translate(-50%, -50%);
 }
 
@@ -23,8 +23,8 @@ html {
 
 .logo-img img {
   margin-top: 36px;
-  width: 40px;
   height: 40px;
+  width: 40px;
 }
 
 .fieldset {
@@ -32,26 +32,25 @@ html {
 }
 
 .button {
-  width: 100%;
-  margin-top: 20px;
-  background-color: #FAD06C !important;
+  background-color: #fad06c;
   color: #001;
+  margin-top: 20px;
   transition: 0.4s ease;
+  width: 100%;
 }
 
 .button:hover {
   width: 100%;
   margin-top: 20px;
-  background-color: #002B8C !important;
+  background-color: #002b8c;
   color: white;
 }
 
 .border {
-  border: 1px solid black
+  border: 1px solid black;
 }
 
 .btn-settings {
   position: fixed;
   font-size: 3rem;
-  left: 0px;
 }

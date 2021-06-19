@@ -1,4 +1,4 @@
-@import "https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css";
+@import "https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css" ;
 
 html {
   background-color: #FAD06C;
@@ -40,13 +40,12 @@ li {
   margin-bottom: 1em;
 }
 
-li:nth-child(odd){
-  background-color: #D99C0D;
-
+li:nth-child( odd ) {
+  background-color: #d99c0d;
 }
 
-li:nth-child(even) {
-  background-color: #FAD06C;
+li:nth-child( even ) {
+  background-color: #fad06c;
 }
 
 .title-h1 {
@@ -64,9 +63,9 @@ li:nth-child(even) {
 
 .card-title {
   display: flex;
-  justify-content: center;
-  font-size: 2em;
+  font-size: 32px;
   font-weight: bolder;
+  justify-content: center;
 }
 
 .card-p {
@@ -77,8 +76,8 @@ li:nth-child(even) {
 }
 
 .button-rank {
+  background-color: #002b8c;
   color: white;
-  background-color: #002B8C;
   display: flex;
   justify-content: center;
   margin: auto;
@@ -90,16 +89,16 @@ li:nth-child(even) {
 }
 
 li:first-child .medal {
-  color: gold ;
+  color: gold;
   display: flex;
 }
 
-li:nth-child(2) .medal {
+li:nth-child( 2 ) .medal {
   color: silver;
   display: flex;
 }
 
-li:nth-child(3) .medal {
+li:nth-child( 3 ) .medal {
   color: chocolate;
   display: flex;
 }
@@ -113,7 +112,7 @@ li:nth-child(3) .medal {
   align-items: center;
   background-color: #bb9950;
   border-radius: 50%;
-  color: #8c733b; 
+  color: #8c733b;
   display: flex;
   height: 60px;
   justify-content: center;

@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import Proptypes from 'prop-types';
 import md5 from 'crypto-js/md5';
 import Header from '../components/Header';
-import '../services/feedback.css';
 
 class Feedback extends Component {
   constructor() {

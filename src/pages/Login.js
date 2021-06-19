@@ -88,7 +88,7 @@ class Login extends React.Component {
               disabled={ disabled }
               data-testid="btn-play"
               type="button"
-              className="button"
+              className="button is-warning"
             >
               Jogar
             </button>
