@@ -15,14 +15,11 @@ class Ranking extends Component {
           .sort((a, b) => b.score - a.score)
           .map((user, index) => (
             <li key={ index }>
-              imgUrl:
               {user.picture}
               <span data-testid={ `player-name-${index}` }>
-                nome:
                 {user.name}
               </span>
               <span data-testid={ `player-score-${index}` }>
-                pontuação:
                 {user.score}
               </span>
             </li>
