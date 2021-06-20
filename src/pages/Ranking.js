@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import styles from './ranking.module.css';
 
 class Ranking extends React.Component {
   constructor(props) {
@@ -10,7 +11,6 @@ class Ranking extends React.Component {
   componentDidMount() {
     this.players();
     this.updateRanking();
-    // localStorage.removeItem('token');
   }
 
   updateRanking() {
@@ -33,26 +33,47 @@ class Ranking extends React.Component {
   render() {
     const { ranking } = this.state;
     return (
-      <div>
+      <main className={ styles.ranking__container }>
         <h1
           data-testid="ranking-title"
+          className={ styles.ranking__title }
         >
           Ranking
         </h1>
         { ranking.map((player, index) => (
-          <ul key={ index }>
-            <li data-testid={ `player-name-${index}` }>{player.name}</li>
-            <li data-testid={ `player-score-${index}` }>{player.score}</li>
+          <ul
+            key={ index }
+            className={ styles.ranking__players }
+          >
+            <li
+              data-testid={ `player-picture-${index}` }
+              className={ styles.ranking__players__picture }
+            >
+              <img src={ player.picture } alt={ `player-${index}` } />
+            </li>
+            <li
+              data-testid={ `player-name-${index}` }
+              className={ styles.ranking__players__name }
+            >
+              {player.name}
+            </li>
+            <li
+              data-testid={ `player-score-${index}` }
+              className={ styles.ranking__players__score }
+            >
+              {player.score}
+            </li>
           </ul>
         ))}
 
         <Link
           to="/"
           data-testid="btn-go-home"
+          className={ styles.ranking__link }
         >
           Login
         </Link>
-      </div>
+      </main>
     );
   }
 }

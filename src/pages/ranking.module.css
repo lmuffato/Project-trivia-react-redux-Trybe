@@ -1,0 +1,13 @@
+.ranking__container {
+  text-align: center;
+}
+
+.ranking__title {
+  color: var(--red);
+  font-family: var(--font-primary);
+  font-size: 2rem;
+}
+
+.ranking__players {
+  margin-bottom: 10px;
+}
