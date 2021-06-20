@@ -17,7 +17,6 @@ img {
 
   --font-secondary: 'Lemonada' , cursive;
 
-
   --red: rgb(239, 91, 73);
 
   --yellow: rgb(243, 161, 64);
@@ -29,26 +28,6 @@ img {
   --blue-dark: rgb(19, 17, 15);
 
   --white: white;
-
-  --gray-50: rgb(247, 248, 250); /* #f7f8fa */
-
-  --gray-100: rgb(230, 232, 235); /* #e6e8eb */
-
-  --gray-200: rgb(175, 178, 177); /* #afb2b1 */
-
-  --gray-500: grey;
-
-  --gray-800: rgb(73, 77, 75);
-
-  --green-500: rgb(4, 211, 97); /* #04d361 */
-
-  --purple-300: rgb(159, 117, 255); /* #9f75ff */
-
-  --purple-400: rgb(145, 100, 250);
-
-  --purple-500: rgb(130, 87, 229);
-
-  --purple-800: rgb(111, 72, 201); /* #6f48c9 */
 }
 
 body {
