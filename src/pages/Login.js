@@ -51,11 +51,6 @@ class Login extends Component {
   }
 
   handleClick() {
-    // this.getTokenQuestions();
-    // const { getToken, token } = this.props;
-    // if (token === null) {
-    //   getToken();
-    // }
     const { state: { name, email }, props: { loginProps, history } } = this;
 
     loginProps({ name, email });
@@ -76,10 +71,10 @@ class Login extends Component {
       <main className={ styles.login_container }>
         <Header />
 
-        <div className={ styles.login_title }>
-          <h1>Trivia Online</h1>
-          <p>Utilize um e-mail do gravatar e jogue agora mesmo!</p>
-        </div>
+        <h1 className={ styles.login_title }>Trivia Online</h1>
+        <p className={ styles.login_paragraph }>
+          Utilize um e-mail do gravatar e jogue agora mesmo!
+        </p>
 
         <div className={ styles.login__form__container }>
           <form className={ styles.login__form }>
@@ -113,7 +108,6 @@ class Login extends Component {
             </button>
           </form>
         </div>
-
         <Footer />
       </main>
     );

@@ -5,7 +5,18 @@ export default class Footer extends Component {
   render() {
     return (
       <footer className={ styles.question__footer }>
-        <span>Desenvolvido e mantido por...</span>
+        <p>
+          Desenvolvido por
+          {' '}
+          <a href="https://github.com/AndersonNascimentoAFSN">Anderson Nascimento</a>
+          {', '}
+          <a href="https://github.com/Derik-tech">Derik</a>
+          {', '}
+          <a href="https://github.com/Rodrigolrech">Rodrigo Rech</a>
+          {', '}
+          <a href="https://github.com">Luiz Vaccari</a>
+          .
+        </p>
       </footer>
     );
   }

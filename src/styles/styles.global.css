@@ -13,6 +13,21 @@ img {
 
 :root {
 
+  --font-primary: 'Mountains of Christmas' , cursive;
+
+  --font-secondary: 'Lemonada' , cursive;
+
+
+  --red: rgb(239, 91, 73);
+
+  --yellow: rgb(243, 161, 64);
+
+  --gray-20: rgb(254, 246, 240);
+
+  --blue: rgb(20, 18, 117);
+
+  --blue-dark: rgb(19, 17, 15);
+
   --white: white;
 
   --gray-50: rgb(247, 248, 250); /* #f7f8fa */
@@ -37,5 +52,5 @@ img {
 }
 
 body {
-  background-color: var(--gray-50);
+  background-color: var(--gray-20);
 }

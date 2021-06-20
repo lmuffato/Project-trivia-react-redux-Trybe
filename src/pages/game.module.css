@@ -8,12 +8,13 @@
 }
 
 .login_header__wrapper {
-  background: linear-gradient(180deg, var(--purple-800), var(--purple-300));
+
+  /* background: linear-gradient(180deg, var(--purple-800), var(--purple-300)); */
 }
 
 .questions__header {
   align-items: center;
-  color: var(--white);
+  color: var(--red);
   display: flex;
   height: 10vh;
   justify-content: space-between;
@@ -22,15 +23,28 @@
 }
 
 .questions__header__avatar {
+  border: 1px solid var(--red);
+
+  /* border: none; */
   border-radius: 50%;
-  padding: 2rem 0;
+  box-shadow: 2px 2px 1px 2px var(--blue-dark);
+
+  /* padding: 2rem 0; */
 }
 
+.questions__header__avatar:hover {
+  box-shadow: 4px 6px 1px 4px var(--blue-dark);
+  opacity: 0.6;
+}
+
+
 .questions__header__title {
+  font-family: var(--font-secondary);
   font-size: 2rem;
 }
 
 .questions__header__score {
+  font-family: var(--font-secondary);
   font-size: 2rem;
 }
 
@@ -53,12 +67,14 @@
 
 .question__card h2 {
   color: var(--gray-800);
-  font-size: 2rem;
+  font-family: var(--font-primary);
+  font-size: 3rem;
   margin-bottom: 1.5rem;
 }
 
 .question__card p {
   color: var(--grey-500);
+  font-family: var(--font-secondary);
   font-size: 1.5rem;
 }
 
@@ -69,13 +85,20 @@
 }
 
 .question__alternatives {
-  background: var(--purple-800);
+  background: var(--yellow);
   border: none;
   border-radius: 1rem;
-  color: var(--white);
+  box-shadow: 2px 2px 1px 2px var(--blue-dark);
+  color: var(--blue-dark);
   cursor: pointer;
+  font-family: var(--font-secondary);
   font-size: 1.225rem;
   padding: 1.5rem;
+}
+
+.question__alternatives:hover {
+  box-shadow: 4px 6px 1px 4px var(--blue-dark);
+  opacity: 0.6;
 }
 
 .question__list li {
@@ -83,30 +106,35 @@
 }
 
 .question__timer p {
-  color: var(--purple-800);
+  color: var(--blue);
   font-size: 2rem;
 }
 
 .question__button {
-  background-color: var(--green-500);
+  background-color: var(--red);
   border: none;
   border-radius: 1rem;
-  color: var(--purple-800);
+  box-shadow: 2px 2px 1px 2px var(--blue-dark);
+  color: var(--blue-dark);
   cursor: pointer;
   font-size: 2rem;
   margin: 0 auto;
   padding: 1rem;
 }
 
+.question__button:hover {
+  box-shadow: 4px 6px 1px 4px var(--blue-dark);
+  opacity: 0.6;
+}
+
 .question__footer {
   align-items: center;
-  background: linear-gradient(180deg, var(--purple-800), var(--purple-300));
-  color: var(--white);
+  color: var(--blue-dark);
   display: flex;
   font-size: 1rem;
   height: 10vh;
   justify-content: center;
   margin: 0 auto;
   padding: 20px;
-  text-align: centers;
+  text-align: center;
 }
