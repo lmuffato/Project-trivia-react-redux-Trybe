@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bool, object } from 'prop-types';
-import Questions from '../components/Questions';
+import GameOperation from '../components/GameOperation';
 import { getQuestion } from '../actions';
 import '../styles/header.css';
 import Header from '../components/Header';
@@ -39,7 +39,7 @@ class Game extends Component {
         <Header />
         <div className="question-main-content">
           {!isLoading
-            ? <Questions history={ history } />
+            ? <GameOperation history={ history } />
             : <p className="loading">Carregando....</p> }
         </div>
       </div>
