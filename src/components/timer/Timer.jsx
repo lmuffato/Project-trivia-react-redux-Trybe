@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import TimerCustom from './TimerCustom';
 
 // parte do codigo retirada de:
 // https://stackoverflow.com/questions/40885923/countdown-timer-in-react
@@ -56,12 +57,12 @@ class Timer extends Component {
     const { seconds } = this.props;
 
     return (
-      <div>
+      <TimerCustom>
         { this.startTimer() }
-        <p>
+        <span>
           { seconds }
-        </p>
-      </div>
+        </span>
+      </TimerCustom>
     );
   }
 }

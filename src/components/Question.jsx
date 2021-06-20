@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { decode } from 'he';
+import Button from './button/Button';
 
 class Question extends Component {
   constructor(props) {
@@ -17,17 +18,16 @@ class Question extends Component {
     if (selected !== undefined) borderClass = 'border-correct';
     return (
       <div>
-        <button
+        <Button
           id="correct-answer"
-          className={ borderClass }
-          data-testid="correct-answer"
+          classList={ borderClass }
+          dataTestId="correct-answer"
           type="button"
-          onClick={ this.handleClick }
+          handleClick={ this.handleClick }
           value={ answer }
           disabled={ selected }
-        >
-          {decode(answer)}
-        </button>
+          text={ decode(answer) }
+        />
       </div>
     );
   }
@@ -38,18 +38,17 @@ class Question extends Component {
     if (selected !== undefined) borderClass = 'border-incorrect';
     return (
       <div>
-        <button
+        <Button
           key={ index }
           id="incorrect-answer"
-          className={ borderClass }
+          classList={ borderClass }
+          dataTestId={ `wrong-answer-${index}` }
           type="button"
-          data-testid={ `wrong-answer-${index}` }
-          onClick={ this.handleClick }
+          handleClick={ this.handleClick }
           value={ answer }
           disabled={ selected }
-        >
-          {decode(answer)}
-        </button>
+          text={ decode(answer) }
+        />
       </div>
     );
   }

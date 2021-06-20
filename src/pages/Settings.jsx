@@ -109,6 +109,7 @@ class Settings extends Component {
             type="button"
             handleClick={ this.save }
             classList="button-primary"
+            key="Salvar-Settings"
           />
         </form>
       </section>

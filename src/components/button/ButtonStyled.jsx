@@ -75,6 +75,14 @@ const ButtonCustom = styled.button`
     margin: 0;
     border-radius: 50%;
   }
+  
+  &.border-incorrect {
+    border: 3px solid red;
+  }
+
+  &.border-correct {
+    border: 3px solid rgb(6, 240, 15);
+  }
 `;
 
 export default ButtonCustom;

@@ -4,10 +4,12 @@ import ButtonCustom from './ButtonStyled';
 
 class Button extends Component {
   getSubmit() {
-    const { text, dataTestId, handleClick, disabled, classIcon } = this.props;
+    const { text, dataTestId, handleClick, disabled, classIcon, key, id } = this.props;
     const classListFinal = this.isRounded();
     return (
       <ButtonCustom
+        key={ key }
+        id={ id }
         className={ classListFinal }
         onClick={ handleClick }
         type="submit"
@@ -21,10 +23,12 @@ class Button extends Component {
   }
 
   getButton() {
-    const { text, dataTestId, handleClick, disabled, classIcon } = this.props;
+    const { text, dataTestId, handleClick, disabled, classIcon, key, id } = this.props;
     const classListFinal = this.isRounded();
     return (
       <ButtonCustom
+        key={ key }
+        id={ id }
         className={ classListFinal }
         onClick={ handleClick }
         type="button"
@@ -52,6 +56,8 @@ class Button extends Component {
 }
 
 Button.propTypes = {
+  id: PropTypes.string,
+  key: PropTypes.string.isRequired,
   text: PropTypes.string,
   type: PropTypes.string.isRequired,
   dataTestId: PropTypes.string,
@@ -63,6 +69,7 @@ Button.propTypes = {
 };
 
 Button.defaultProps = {
+  id: '',
   text: '',
   classIcon: '',
   dataTestId: '',

@@ -69,6 +69,7 @@ class Login extends Component {
           dataTestId="btn-settings"
           classList="button-outline-secondary"
           isRounded
+          key="settings"
         />
         <form onSubmit={ this.submit }>
           <img src={ trivia } alt="logo trivia" className="trivia-logo" />
@@ -92,6 +93,7 @@ class Login extends Component {
             dataTestId="btn-play"
             disabled={ this.validation() }
             classList="button-primary"
+            key="Jogar"
           />
         </form>
       </section>

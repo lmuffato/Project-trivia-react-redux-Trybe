@@ -79,6 +79,20 @@ body {
   top: 32px;
 }
 
+.box-accent {
+  background-color: var(--color-secondary);
+  border-radius: 16px;
+  padding: 32px 64px;
+}
+
+.box-accent h2, .box-accent p {
+  color: var(--color-white);
+}
+
+.box-accent p {
+  font-weight: 700;
+}
+
 .box-settings {
   position: absolute;
   right: 16px;
@@ -127,14 +141,6 @@ body {
   right: 0;
   top: 40px;
   width: 150px;
-}
-
-.border-correct {
-  border: 3px solid rgb(6, 240, 15);
-}
-
-.border-incorrect {
-  border: 3px solid red;
 }
 
 .error {
