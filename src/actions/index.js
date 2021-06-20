@@ -6,6 +6,7 @@ export const USER_INFO = 'USER_INFO';
 export const GAME_TRIVIA = 'GAME_TRIVIA';
 export const TOKEN = 'TOKEN';
 export const ISLOADING = 'ISLOADING';
+export const SET_QUESTIONS = 'SET_QUESTIONS';
 
 export const getUserInfo = (payload) => ({
   type: USER_INFO,
@@ -26,11 +27,15 @@ export const tokenAction = (payload) => ({
   payload,
 });
 
-export const getTrivia = () => async (dispatch) => {
-  dispatch(isLoading());
-// await fetchTrivia()
-//   .then((trivia) => dispatch(sendTrivia(trivia)));
-};
+// export const getTrivia = () => async (dispatch) => {
+//   await fetchTrivia();
+// //   .then((trivia) => dispatch(sendTrivia(trivia)));
+// };
+
+export const setQuestions = (payload) => ({
+  type: SET_QUESTIONS,
+  payload,
+});
 
 export const getToken = () => async (dispatch) => {
   await fetchAPI()
