@@ -41,6 +41,7 @@ class Feedback extends React.Component {
     return (
       <main>
         <Header />
+        <h1 className={ styles.feedback_title }>Feedback</h1>
         <div className={ styles.feedback_container }>
           <p
             data-testid="feedback-text"

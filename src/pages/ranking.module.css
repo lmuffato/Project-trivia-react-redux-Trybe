@@ -1,13 +1,55 @@
 .ranking__container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-secondary);
+  justify-content: center;
   text-align: center;
+}
+
+.ranking__header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 1300px;
+}
+
+.ranking__header__logo {
+  max-width: 200px;
 }
 
 .ranking__title {
   color: var(--red);
   font-family: var(--font-primary);
-  font-size: 2rem;
+  font-size: 3rem;
+  margin-bottom: 50px;
+}
+
+.ranking__title:after {
+  background: var(--yellow);
+  content: '';
+  display: block;
+  height: 4px;
+  margin: 0 auto;
+  text-align: center;
+  width: 80px;
 }
 
 .ranking__players {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  list-style: none;
   margin-bottom: 10px;
+}
+
+.ranking__players__picture img {
+  border: 1px solid var(--red);
+  border-radius: 50%;
+}
+
+.ranking__link img {
+  max-width: 50px;
 }
