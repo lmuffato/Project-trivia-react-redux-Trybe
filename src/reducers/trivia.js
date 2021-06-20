@@ -1,7 +1,8 @@
-import { SET_QUESTIONS } from '../actions';
+import { SET_QUESTIONS, TIMER_OUT } from '../actions';
 
 const INITIAL_STATE = {
   trivia: [],
+  timeOut: false,
 };
 
 const trivia = (state = INITIAL_STATE, action) => {
@@ -10,6 +11,8 @@ const trivia = (state = INITIAL_STATE, action) => {
   //   return { ...state, trivia: action.payload };
   case SET_QUESTIONS:
     return { ...state, trivia: action.payload };
+  case TIMER_OUT:
+    return { ...state, timeOut: !(state.timeOut) };
   default:
     return state;
   }

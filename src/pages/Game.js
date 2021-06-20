@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Trivia from '../components/trivia';
+import Trivia from '../components/Trivia';
 // import user from '../reducers/user';
 
 class Game extends Component {
