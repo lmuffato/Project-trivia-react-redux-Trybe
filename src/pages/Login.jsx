@@ -4,8 +4,10 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router';
 import { login } from '../actions';
 import { getToken } from '../services/api';
-
+import trivia from '../trivia.png';
+import Input from '../components/input/Input';
 import { PATTERN_EMAIL, NAME_LENGTH } from '../const/validation';
+import Button from '../components/button/Button';
 
 class Login extends Component {
   constructor(props) {
@@ -56,48 +58,43 @@ class Login extends Component {
 
   render() {
     const { redirectPlay, redirectSettings } = this.state;
-
     if (redirectPlay) return <Redirect to="/questions" />;
-
     if (redirectSettings) return <Redirect to="/settings" />;
-
     return (
-      <>
-        <form onSubmit={ this.submit }>
-          <input
-            name="name"
-            onChange={ this.handleChange }
-            type="text"
-            placeholder="Nome"
-            aria-label="name"
-            required
-            data-testid="input-player-name"
-          />
-          <input
-            name="email"
-            onChange={ this.handleChange }
-            type="email"
-            placeholder="E-mail"
-            aria-label="email"
-            required
-            data-testid="input-gravatar-email"
-          />
-          <button
-            type="submit"
-            disabled={ this.validation() }
-            data-testid="btn-play"
-          >
-            Jogar
-          </button>
-        </form>
-        <button
+      <section className="container login-container">
+        <Button
           type="button"
-          onClick={ this.handleRedirect }
-          data-testid="btn-settings"
-        >
-          Configurações
-        </button>
-      </>
+          classIcon="bi bi-gear"
+          handleClick={ this.handleRedirect }
+          dataTestId="btn-settings"
+          classList="button-outline-secondary"
+          isRounded
+        />
+        <form onSubmit={ this.submit }>
+          <img src={ trivia } alt="logo trivia" className="trivia-logo" />
+          <Input
+            name="name"
+            type="text"
+            dataTestId="input-player-name"
+            handleChange={ this.handleChange }
+            classIcon="bi bi-person-circle"
+          />
+          <Input
+            name="email"
+            type="email"
+            dataTestId="input-gravatar-email"
+            handleChange={ this.handleChange }
+            classIcon="bi bi-envelope"
+          />
+          <Button
+            text="Jogar"
+            type="submit"
+            dataTestId="btn-play"
+            disabled={ this.validation() }
+            classList="button-primary"
+          />
+        </form>
+      </section>
     );
   }
 }
