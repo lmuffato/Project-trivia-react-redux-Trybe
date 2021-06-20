@@ -19,10 +19,11 @@ class TriviaGame extends Component {
       goFeedback: false,
     };
     this.handleIndexIncrementOnClick = this.handleIndexIncrementOnClick.bind(this);
-    this.changeBorder = this.changeBorder.bind(this);
+    this.handleAnswerClick = this.handleAnswerClick.bind(this);
   }
 
-  changeBorder() {
+  handleAnswerClick() { // onClick Answer
+    const { timerInterval } = this.props;
     const btnAnswers = document.getElementsByName('answer');
     btnAnswers.forEach((btn) => {
       if (btn.getAttribute('data-testid') === 'correct-answer') {
@@ -31,6 +32,7 @@ class TriviaGame extends Component {
         btn.style = 'border: 3px solid rgb(255, 0, 0)';
       }
     });
+    clearInterval(timerInterval);
   }
 
   resetBorder() {
@@ -45,7 +47,7 @@ class TriviaGame extends Component {
     const { index } = this.state;
     console.log('AQUI handleIndexIncrementOnClick()');
     const NUMBER_QUESTIONS = 4;
-    if (index < NUMBER_QUESTIONS) {
+    if (index >= NUMBER_QUESTIONS) {
       this.setState({
         goFeedback: true,
       });
@@ -77,8 +79,7 @@ class TriviaGame extends Component {
         dataTestId: `wrong-answer-${i}`,
       }));
 
-      const answers = [...incorrect,
-        correct];
+      const answers = [...incorrect, correct];
       return shuffle(answers);
     }
   }
@@ -98,7 +99,7 @@ class TriviaGame extends Component {
         <div>
           {questions.length && <Answer
             answers={ questionsRandom }
-            changeBorder={ this.changeBorder }
+            changeBorder={ this.handleAnswerClick }
           />}
           <ButtonNext onClick={ this.handleIndexIncrementOnClick } />
         </div>
@@ -123,7 +124,7 @@ TriviaGame.defaultProps = {
 
 const mapStateToProps = (state) => ({
   // isFetching: state.user.isFetching,
-  // timeInterval: state.timer.timeInterval,
+  timerInterval: state.timer.timerInterval,
   questions: state.user.questions,
 });
 

@@ -5,7 +5,7 @@ function ButtonNext(props) {
   const { onClick } = props;
   return (
     <div>
-      <button type="button" onClick={ onClick }>PROSSEGUIR</button>
+      <button type="button" onClick={ onClick }>Próxima</button>
     </div>
   );
 }
