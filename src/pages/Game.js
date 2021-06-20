@@ -85,7 +85,6 @@ class Game extends Component {
 
   async nextButtonFuncManeger() {
     const { index, history } = this.props;
-    console.log(history);
     const lastQuestion = 4;
     if (index === lastQuestion) return history.push('/feedback');
     this.removeButtonBorder();
@@ -120,8 +119,8 @@ class Game extends Component {
 }
 
 const mapStateToProps = ({
-  player: { email, name, token },
-  gameReducer: { disableAnswer, hiddenBtnNext, currentTime, score },
+  player: { email, name, token, score },
+  gameReducer: { disableAnswer, hiddenBtnNext, currentTime },
   questionsReducer: { questions, index },
 }) => ({
   emailDoUsuario: email,

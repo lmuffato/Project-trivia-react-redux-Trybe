@@ -5,6 +5,7 @@ import {
   REQUEST_API,
   REQUEST_API_ERROR,
   REQUEST_API_SUCESS,
+  RESET_QUESTIONS_REDUCER,
 } from '../actions/manageQuestions';
 
 const INITIAL_STATE = {
@@ -49,6 +50,16 @@ function questionsReducer(state = INITIAL_STATE, action) {
     return ({
       ...state,
       assertions: state.assertions + 1,
+    });
+  case RESET_QUESTIONS_REDUCER:
+    return ({
+      ...state,
+      questions: [],
+      index: 0,
+      isLoading: false,
+      error: null,
+      shuffle: [],
+      assertions: 0,
     });
   default:
     return state;
