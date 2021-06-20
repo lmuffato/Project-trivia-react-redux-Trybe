@@ -10,7 +10,7 @@ class Trivia extends Component {
     super(props);
     this.state = {
       trivia: [],
-      correctAnswerQuantity: 0,
+      // correctAnswerQuantity: 0,
       positionQuestion: 0,
       // isAnswerCorrect: false,
     };
