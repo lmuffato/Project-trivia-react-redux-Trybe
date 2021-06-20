@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Header from '../components/game/Header';
+import style from './feedback.module.css';
 
 class Feedback extends React.Component {
   constructor(props) {
@@ -38,33 +39,48 @@ class Feedback extends React.Component {
     const state = localStorage.getItem('state');
     const a = JSON.parse(state);
     const { player: { score, assertions } } = a;
-
     return (
       <div data-testid="feedback-text">
         <Header />
-        <p data-testid="feedback-text">{ this.mensage() }</p>
-        <p>
-          Placar final:
-          <span data-testid="feedback-total-score">{ score }</span>
-        </p>
-        <p>
-          Acertos:
-          <span data-testid="feedback-total-question">{ assertions }</span>
-        </p>
-        <button
-          data-testid="btn-play-again"
-          type="button"
-          onClick={ this.redirectToLogin }
-        >
-          Jogar novamente
-        </button>
-        <button
-          data-testid="btn-ranking"
-          type="button"
-          onClick={ this.redirectToRanking }
-        >
-          Ver Ranking
-        </button>
+        <section className={ style.feedback_container }>
+          <p data-testid="feedback-text" className={ style.text }>{ this.mensage() }</p>
+          <p className={ style.text }>
+            Placar final:
+            <span
+              data-testid="feedback-total-score"
+              className={ style.text }
+            >
+              { score }
+            </span>
+          </p>
+          <p className={ style.text }>
+            Acertos:
+            <span
+              data-testid="feedback-total-question"
+              className={ style.text }
+            >
+              { assertions }
+            </span>
+          </p>
+          <section className={ style.feedback_buttons_container }>
+            <button
+              className={ style.feedback_buttons }
+              data-testid="btn-play-again"
+              type="button"
+              onClick={ this.redirectToLogin }
+            >
+              Jogar novamente
+            </button>
+            <button
+              className={ style.feedback_buttons }
+              data-testid="btn-ranking"
+              type="button"
+              onClick={ this.redirectToRanking }
+            >
+              Ver Ranking
+            </button>
+          </section>
+        </section>
       </div>
     );
   }
