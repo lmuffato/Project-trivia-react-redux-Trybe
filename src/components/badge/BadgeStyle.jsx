@@ -19,7 +19,11 @@ const BadgeCustom = styled.div`
   }
   
   span:last-child {
-    margin-left: 8px;
+    margin-left: 6px;
+  }
+  
+  i {
+    margin-right: 6px;
   }
 `;
 

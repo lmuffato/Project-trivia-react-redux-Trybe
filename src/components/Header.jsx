@@ -31,11 +31,13 @@ class Header extends Component {
                 text="Jogador"
                 value={ name }
                 classList="badge-secondary"
+                classIcon="bi bi-person-fill"
                 dataTestId="header-player-name"
               />
               <Badge
                 text="Score"
                 value={ score }
+                classIcon="bi bi-trophy-fill"
                 classList="badge-secondary"
                 dataTestId="header-score"
               />

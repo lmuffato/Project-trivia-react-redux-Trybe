@@ -9,6 +9,7 @@ class Badge extends Component {
     return (
       <BadgeCustom className={ classList }>
         <span>
+          <i className={ classIcon } />
           {text}
         </span>
         <span data-testid={ dataTestId }>{value}</span>
