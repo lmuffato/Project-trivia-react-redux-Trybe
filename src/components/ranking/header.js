@@ -15,10 +15,13 @@ export default function Header() {
       <nav className={ styles.ranking_header__nav }>
         <Link
           to="/"
-          data-testid="btn-go-home"
           className={ styles.ranking__link }
         >
-          <img src={ home } alt="go to home" />
+          <img
+            data-testid="btn-go-home"
+            src={ home }
+            alt="go to home"
+          />
         </Link>
       </nav>
     </header>

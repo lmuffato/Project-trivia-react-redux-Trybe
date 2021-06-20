@@ -4,6 +4,8 @@
   flex-direction: column;
   font-family: var(--font-secondary);
   justify-content: center;
+  margin: 0 auto;
+  max-width: 1300px;
   text-align: center;
 }
 
