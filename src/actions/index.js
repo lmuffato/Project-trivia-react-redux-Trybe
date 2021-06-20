@@ -14,6 +14,7 @@ export const DISABLE_ANS = 'DISABLE_ANS';
 export const UPDATE_TIME = 'UPDATE_TIME';
 export const MARK_ANSWERED = 'MARK_ANSWERED';
 export const CLEAR_PLAYER_STATE = 'CLEAR_PLAYER_STATE';
+export const UPDATE_URL = 'UPDATE_URL';
 
 export function requestApi() {
   return {
@@ -113,4 +114,8 @@ export function updateTime(time) {
 
 export function clearPlayerState(payload) {
   return { type: CLEAR_PLAYER_STATE, payload };
+}
+
+export function updateUrl(part) {
+  return { type: UPDATE_URL, part };
 }

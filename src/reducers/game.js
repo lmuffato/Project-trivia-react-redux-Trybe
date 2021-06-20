@@ -4,6 +4,7 @@ import {
   REQUEST_QUESTION_SUCESS,
   REQUEST_QUESTION_FAIL,
   REQUEST_CATEGORIES,
+  UPDATE_URL,
 } from '../actions/index';
 
 const INITIAL_STATE = {
@@ -12,6 +13,7 @@ const INITIAL_STATE = {
   questions: [],
   erro: null,
   categories: [],
+  url: ['https://opentdb.com/api.php?amount=5&encode=url3986'],
 };
 
 const game = (state = INITIAL_STATE, action) => {
@@ -47,7 +49,11 @@ const game = (state = INITIAL_STATE, action) => {
       ...state,
       categories: action.payload,
     };
-
+  case UPDATE_URL:
+    return {
+      ...state,
+      url: [...state.url, action.part],
+    };
   default:
     return state;
   }

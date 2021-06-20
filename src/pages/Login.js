@@ -6,6 +6,7 @@ import {
   getToken,
   getQuestion,
   getPlayer,
+  updateUrl as updateUrlAction,
 } from '../actions/index';
 
 class Login extends Component {
@@ -23,7 +24,7 @@ class Login extends Component {
     };
   }
 
-  handleClick() {
+  async handleClick() {
     const { tokenRequest, dispatchPlayer, history } = this.props;
     const { name, email } = this.state;
     const player = {
@@ -33,13 +34,16 @@ class Login extends Component {
       assertions: 0,
     };
     dispatchPlayer(player);
-    tokenRequest(() => {
-      const { token, questionRequest } = this.props;
+    await tokenRequest(() => {
+      const { token, questionRequest, updateUrl } = this.props;
       localStorage.setItem('token', token);
       localStorage.setItem('state', JSON.stringify({ player }));
-      questionRequest(token);
+      updateUrl(`&token=${token}`);
+      const { url } = this.props;
+      console.log(url);
+      questionRequest(url);
+      history.push('/game');
     });
-    history.push('/game');
   }
 
   validInput() {
@@ -61,8 +65,6 @@ class Login extends Component {
 
   render() {
     const { name, email, validation } = this.state;
-    const { categories } = this.props;
-    console.log(this.props);
 
     return (
       <section>
@@ -115,12 +117,14 @@ Login.propTypes = {
 
 const mapStateToProps = (state) => ({
   token: state.game.token,
+  url: state.game.url,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   tokenRequest: (callback) => dispatch(getToken(callback)),
   dispatchPlayer: (player) => dispatch(getPlayer(player)),
-  questionRequest: (token) => dispatch(getQuestion(token)),
+  questionRequest: (url) => dispatch(getQuestion(url)),
+  updateUrl: (part) => dispatch(updateUrlAction(part)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

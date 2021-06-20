@@ -1,8 +1,7 @@
-const questionsFetch = async (token) => {
-  const url = `https://opentdb.com/api.php?amount=5&token=${token}&encode=url3986`;
+const questionsFetch = async (parts) => {
+  const url = parts.join('');
   const response = await fetch(url);
   const data = await response.json();
-  console.log(data.results);
   return data.results;
 };
 

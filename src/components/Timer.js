@@ -47,8 +47,6 @@ class Timer extends Component {
   }
 
   render() {
-    const { timer } = this.props;
-    console.log(timer);
     const { timeLeft } = this.state;
     return (
       <div>
