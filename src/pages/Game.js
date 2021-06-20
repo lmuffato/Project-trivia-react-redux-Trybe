@@ -104,7 +104,7 @@ class Game extends Component {
       );
     }
     return (
-      <div>
+      <div className="game-conteiner">
         <Header />
         <span>
           Tempo:
