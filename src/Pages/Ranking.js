@@ -11,20 +11,20 @@ class Ranking extends Component {
   renderRanking() {
     // Pega o token do localStorage
     const gravatarImg = localStorage.getItem('token');
-
+    const localRanking = JSON.parse(localStorage.getItem('state'));
+    const ranking = JSON.parse(localStorage.getItem('ranking'));
     // Cria um array de objetos como exemplo do que futuramente vai ser iterado
-    const arrayOfInformations = [
-      {
-        name: 'Samuel',
-        score: 0,
-        gravatar: `https://www.gravatar.com/avatar/${gravatarImg}`,
-      },
-      {
-        name: 'Bruno',
-        score: 10,
-        gravatar: `https://www.gravatar.com/avatar/${gravatarImg}`,
-      },
-    ];
+    const newObj = {
+      name: localRanking.player.name,
+      score: localRanking.player.score,
+      gravatar: `https://www.gravatar.com/avatar/${gravatarImg}`,
+    };
+    let arrayOfInformations = [];
+    if (ranking !== null) {
+      arrayOfInformations = [...ranking];
+    }
+    arrayOfInformations.push(newObj);
+
     // Ordena o Objeto de forma decrescente e salva no localStorage
     const orderedArray = arrayOfInformations.sort((a, b) => b.score - a.score);
     localStorage.setItem('ranking', JSON.stringify(orderedArray));
@@ -37,13 +37,13 @@ class Ranking extends Component {
           <ul key="player-ranking">
             <img src={ player.gravatar } alt="ImagemDoUsuario" />
             <li data-testid={ `player-name-${index}` }>
-              { player.name }
+              {player.name}
             </li>
             <li data-testid={ `player-score-${index}` }>
-              { player.score }
+              {player.score}
             </li>
           </ul>
-        )) }
+        ))}
       </div>
     );
   }
@@ -52,7 +52,7 @@ class Ranking extends Component {
   render() {
     return (
       <div>
-        { this.renderRanking() }
+        { this.renderRanking()}
         <Link to="/">
           <button data-testid="btn-go-home" type="button">Voltar ao início</button>
         </Link>
