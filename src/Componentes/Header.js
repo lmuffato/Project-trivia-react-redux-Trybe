@@ -26,9 +26,10 @@ class Header extends Component {
 
   render() {
     // const { userName } = this.props;
-    const { nextTimerState } = this.props;
+    // const { nextTimerState } = this.props;
     const storagePlayer = JSON.parse(localStorage.getItem('state'));
     const { score } = storagePlayer.player;
+    console.log(score);
     return (
       <header className="header">
         <img
@@ -41,8 +42,9 @@ class Header extends Component {
         <p data-testid="header-player-name">
           { storagePlayer.player.name }
         </p>
-        <p data-testid="header-score">
-          { nextTimerState ? `Score: ${score}` : `Score: ${score}` }
+        <p>
+          Score:
+          <span data-testid="header-score">{ score }</span>
         </p>
       </header>
     );

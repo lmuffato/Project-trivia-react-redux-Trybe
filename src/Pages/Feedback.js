@@ -33,11 +33,16 @@ class Feedback extends React.Component {
         </div>
         {/* Requisito 14 */}
         <section className="feedback-section">
-          <p data-testid="feedback-total-score">
-            { `Placar final: ${score}` }
+          <p>
+            {/* { `Placar final: ${score}` } */}
+            Placar final:
+            <span data-testid="feedback-total-score">{ score }</span>
           </p>
-          <p data-testid="feedback-total-question">
-            { `Você acertou ${assertions} questões` }
+          <p>
+            {/* { `Você acertou ${assertions} questões` } */}
+            { 'Você acertou ' }
+            <span data-testid="feedback-total-question">{ assertions }</span>
+            { ' questões' }
           </p>
         </section>
         <div className="feedback-buttons">
