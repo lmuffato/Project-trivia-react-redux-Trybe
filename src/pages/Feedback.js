@@ -3,6 +3,7 @@ import { shape, string, number } from 'prop-types';
 import { connect } from 'react-redux';
 
 class Feedback extends React.Component {
+
   componentDidMount() {
     const { getName, getUrl, getScore } = this.props;
     const player = {
@@ -19,7 +20,7 @@ class Feedback extends React.Component {
   render() {
     const { getName, getUrl, getScore } = this.props;
     return (
-      <main>
+       <main>
         <header>
           <img
             data-testid="header-profile-picture"
