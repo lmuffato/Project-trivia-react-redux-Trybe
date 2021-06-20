@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { addCategory } from '../redux/actions';
+import '../styles/config.css';
 
 class Config extends Component {
   constructor() {
@@ -12,6 +13,7 @@ class Config extends Component {
       category: '',
     };
     this.handleChange = this.handleChange.bind(this);
+    this.dificcultSettings = this.dificcultSettings.bind(this);
   }
 
   componentDidMount() {
@@ -32,11 +34,27 @@ class Config extends Component {
     }));
   }
 
+  dificcultSettings() {
+    return (
+      <label className="labelDificcult" htmlFor="dificcult">
+        Dificuldade:
+        <select
+          className="selectConfig"
+          id="dificcult"
+          name="category"
+          onChange={ this.handleChange }
+        >
+          <option className="optionConfig">oi</option>
+        </select>
+      </label>);
+  }
+
   render() {
     const { api, category } = this.state;
     const { categoryId } = this.props;
     const result = api.map(({ name, id }) => (
       <option
+        className="optionConfig"
         name="option"
         value={ id }
         key={ id }
@@ -44,26 +62,36 @@ class Config extends Component {
       >
         {name}
       </option>));
-    const anyCategory = <option>Any Category</option>;
+    const anyCategory = <option className="optionConfig">Any Category</option>;
     return (
-      <div>
-        <h1 data-testid="settings-title">Settings</h1>
-        <label htmlFor="categorys">
-          Categorias
-          <select
-            id="categorys"
-            name="category"
-            onChange={ this.handleChange }
-            value={ category }
-          >
-            {anyCategory}
-            {result}
-          </select>
+      <div className="fatherSettings">
+        <h1 className="titleSettings" data-testid="settings-title">Configurações</h1>
+        <div className="labelsConfig">
+          <label className="labelCategorys" htmlFor="categorys">
+            Categorias:
+            <select
+              className="selectConfig"
+              id="categorys"
+              name="category"
+              onChange={ this.handleChange }
+              value={ category }
+            >
+              {anyCategory}
+              {result}
+            </select>
+          </label>
+          {this.dificcultSettings()}
+        </div>
+        <button
+          className="buttonSettingsSend"
+          type="button"
+          onClick={ () => categoryId(category) }
+        >
 
-        </label>
-        <Link to="/">
-          <button type="button" onClick={ () => categoryId(category) }>Enviar</button>
-        </Link>
+          <Link to="/">
+            Enviar
+          </Link>
+        </button>
       </div>
     );
   }

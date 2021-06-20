@@ -1,0 +1,75 @@
+.labelCategorys {
+  color: white;
+  font-family: monospace;
+  font-size: 20px;
+  font-weight: 900;
+  margin-top: 100px;
+}
+
+.titleSettings {
+  color: white;
+  font-family: monospace;
+  font-size: 40px;
+}
+
+.fatherSettings {
+  align-items: center;
+  background: linear-gradient(rgb(76, 76, 161), rgb(68, 0, 253));
+  border-radius: 10px;
+  box-shadow: 4px 4px 4px 4px gray;
+  display: flex;
+  flex-direction: column;
+  height: 800px;
+  margin: auto;
+  margin-top: 50px;
+  width: 30%;
+}
+
+.buttonSettingsSend {
+  background-color: violet;
+  border-color: #df86e2;
+  border-radius: 3px;
+  box-shadow: 0 0 40px 40px #cf59e4 inset , 0 0 0 0 #541268;
+  color: white;
+  cursor: pointer;
+  height: 30px;
+  margin-top: 50px;
+  transition: all 150ms ease-in-out;
+  width: 100px;
+
+}
+
+.buttonSettingsSend:hover {
+  box-shadow: 0 0 10px 0 #c21998 inset , 0 0 10px 4px #e09ce9;
+}
+
+.selectConfig {
+  background-color: rgb(0, 255, 10);
+  border-radius: 10px;
+  color: rgb(88, 88, 88);
+  height: 30px;
+  margin-left: 5px;
+}
+
+.optionConfig {
+  color: rgb(88, 88, 88);
+}
+
+a {
+  color: white;
+  text-decoration: none;
+}
+
+.labelDificcult {
+  color: white;
+  font-family: monospace;
+  font-size: 20px;
+  font-weight: 900;
+  margin-top: 20px;
+}
+
+.labelsConfig {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
