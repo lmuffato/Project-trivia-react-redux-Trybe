@@ -19,12 +19,12 @@ class Feedback extends Component {
           </p>
           <div>
             <span data-testid="feedback-total-score" className="feedback">
-              {` Sua pontuação é:  ${score}`}
+              {score}
             </span>
             <br />
             <br />
             <span data-testid="feedback-total-question" className="feedback">
-              {`Total de acertos:  ${assertions}`}
+              {assertions}
             </span>
           </div>
           <div className="buttons">
