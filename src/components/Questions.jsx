@@ -39,10 +39,6 @@ class Questions extends Component {
     this.runGame();
   }
 
-  componentWillUnmount() {
-    clearInterval(this.timer);
-  }
-
   runGame() {
     const oneSecond = 1000;
 
@@ -69,6 +65,7 @@ class Questions extends Component {
 
   async selectAnswer({ target }) {
     this.setState({ gameOn: false });
+    clearInterval(this.timer);
 
     const { correctAnswer, time, difficulty, scoreMultiplicators } = this.state;
     const { incrementScore } = this.props;

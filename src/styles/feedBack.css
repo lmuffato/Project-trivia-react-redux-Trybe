@@ -30,7 +30,7 @@
   margin-top: 0;
 }
 
-.again-button {
+.play-again-button , .show-ranking-button {
   background-color: #3a2d88;
   border: none;
   border-radius: 2px;
