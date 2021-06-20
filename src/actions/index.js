@@ -26,6 +26,13 @@ export const setScoreAction = (score) => ({
   },
 });
 
+export const AddAssertion = (assertion) => ({
+  type: 'ADD_ASSERTION',
+  payload: {
+    assertion,
+  },
+});
+
 // ------- QUESTION API REQUESTS -----------
 
 export const getApiQuestionsSuccess = (payload) => ({
