@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
+import Dropdown from 'react-dropdown';
 import { getCategories } from '../services/api';
 import { setSettings } from '../actions';
+import Input from '../components/input/Input';
+import 'react-dropdown/style.css';
+import Button from '../components/button/Button';
 
 class Settings extends Component {
   constructor(props) {
@@ -17,7 +22,10 @@ class Settings extends Component {
     };
 
     this.loadCategories = this.loadCategories.bind(this);
+    this.getOptionsCategories = this.getOptionsCategories.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleChangeCategory = this.handleChangeCategory.bind(this);
+    this.handleChangeDifficulty = this.handleChangeDifficulty.bind(this);
     this.save = this.save.bind(this);
   }
 
@@ -26,16 +34,36 @@ class Settings extends Component {
   }
 
   getSelectCategories() {
-    const { categories } = this.state;
     return (
-      <select name="category" onChange={ this.handleChange }>
-        {categories
-          .map((category, index) => (
-            <option value={ category.id } key={ index }>
-              {category.name}
-            </option>))}
-      </select>
+      <Dropdown
+        name="category"
+        onChange={ this.handleChangeCategory }
+        options={ this.getOptionsCategories() }
+        placeholder="Selecione uma categoria"
+      />
     );
+  }
+
+  getOptionsCategories() {
+    const { categories } = this.state;
+    return categories
+      .map((category) => ({ value: category.id, label: category.name }));
+  }
+
+  getOptionsDifficulty() {
+    return ['easy', 'medium', 'hard'];
+  }
+
+  save() {
+    const { category, quantity, difficulty } = this.state;
+    const settings = {
+      category, difficulty, quantity,
+    };
+
+    const { toSettings } = this.props;
+    toSettings(settings);
+
+    this.setState({ save: true });
   }
 
   loadCategories() {
@@ -49,37 +77,41 @@ class Settings extends Component {
     this.setState({ [name]: value });
   }
 
-  save() {
-    const { category, quantity, difficulty } = this.state;
-    const settings = {
-      category, quantity, difficulty,
-    };
+  handleChangeCategory(option) {
+    this.setState({ category: option.value });
+  }
 
-    const { toSettings } = this.props;
-    toSettings(settings);
-
-    this.setState({ save: true });
+  handleChangeDifficulty(option) {
+    this.setState({ difficulty: option.value });
   }
 
   render() {
-    const { categories, quantity, save } = this.state;
+    const { categories, save } = this.state;
 
     if (save) {
       return <Redirect to="/" />;
     }
 
     return (
-      <>
-        <h1 data-testid="settings-title"> Settings </h1>
-        <input name="quantity" onChange={ this.handleChange } value={ quantity } />
-        { categories && this.getSelectCategories() }
-        <select name="difficulty" onChange={ this.handleChange }>
-          <option key="1000" value="easy">Easy</option>
-          <option key="1001" value="medium">Medium</option>
-          <option key="1002" value="hard">Hard</option>
-        </select>
-        <button type="button" onClick={ this.save }>Save</button>
-      </>
+      <section className="container login-container">
+        <h1 data-testid="settings-title"> Configurações </h1>
+        <form>
+          <Input name="quantity" handleChange={ this.handleChange } />
+          { categories && this.getSelectCategories() }
+          <Dropdown
+            name="difficulty"
+            onChange={ this.handleChangeDifficulty }
+            options={ this.getOptionsDifficulty() }
+            placeholder="Selecione uma dificuldade"
+          />
+          <Button
+            text="Salvar"
+            type="button"
+            handleClick={ this.save }
+            classList="button-primary"
+          />
+        </form>
+      </section>
     );
   }
 }
@@ -87,5 +119,9 @@ class Settings extends Component {
 const mapDispatchToProps = (dispatch) => ({
   toSettings: (settings) => dispatch(setSettings(settings)),
 });
+
+Settings.propTypes = {
+  toSettings: PropTypes.func.isRequired,
+};
 
 export default connect(null, mapDispatchToProps)(Settings);

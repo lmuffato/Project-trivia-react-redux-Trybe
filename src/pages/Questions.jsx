@@ -122,7 +122,7 @@ class Questions extends Component {
     const { settings } = this.props;
     const { category, quantity, difficulty } = settings;
     const token = this.loadToken();
-    const questionsResponse = await getQuestions(token, category, difficulty, quantity);
+    const questionsResponse = await getQuestions(token, quantity, category, difficulty);
     this.setState({
       questions: questionsResponse.results,
     });
@@ -168,6 +168,11 @@ const mapStateToProps = (state) => ({
 
 Questions.propTypes = {
   toScore: PropTypes.func.isRequired,
+  settings: PropTypes.shape({
+    category: PropTypes.string.isRequired,
+    quantity: PropTypes.number.isRequired,
+    difficulty: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Questions);

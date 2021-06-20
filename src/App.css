@@ -1,14 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap') ;
+
 @import url('~bootstrap-icons/font/bootstrap-icons.css') ;
 
 :root {
 
   --color-primary: #204056;
+
   --color-primary-hover: #20405699;
-  --color-secondary: #F65A5B;
-  --color-secondary-hover: #F65A5BCC;
-  --color-white: #FFFFFFDD;
-  --color-white-hover: #FFFFFF99;
+
+  --color-secondary: #f65a5b;
+
+  --color-secondary-hover: #f65a5bcc;
+
+  --color-white: #fffd;
+
+  --color-white-hover: #fff9;
+
 }
 
 * {
@@ -16,63 +23,81 @@
 }
 
 body {
+  background-color: var(--color-primary);
   font-family: Roboto , sans-serif;
   overflow: hidden;
-  background-color: var(--color-primary);
 }
 
 .container {
+  margin: 0 auto;
   max-width: 980px;
   padding: 0 16px;
-  margin: 0 auto;
+}
+
+.login-container h1 {
+  color: var(--color-secondary);
+  font-size: 2rem;
+  text-align: center;
 }
 
 .login-container {
-  height: 100vh;
-  padding: 32px;
   display: flex;
   flex-flow: column;
+  height: 100vh;
   justify-content: center;
+  padding: 32px;
 }
 
 .login-container form {
+  align-self: center;
+  background-color: var(--color-secondary);
+  border-radius: 16px;
   max-width: 600px;
   padding: 48px 64px;
-  background-color: var(--color-secondary);
-  /*border: 2px solid var(--color-white);*/
-  border-radius: 16px;
-  align-self: center;
 }
 
 .login-container form input {
   width: 300px;
 }
 
+.login-container .Dropdown-root {
+  margin-top: 16px;
+}
+
+.login-container .Dropdown-root .Dropdown-control {
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.login-container .Dropdown-control:last-child {
+  margin-bottom: 16px;
+}
+
 .login-container button:first-child {
   position: absolute;
-  top: 32px;
   right: 32px;
+  top: 32px;
 }
 
 .box-settings {
   position: absolute;
-  top: 16px;
   right: 16px;
+  top: 16px;
 }
 
 .box-form {
-  width: 100%;
-  max-width: 400px;
-  padding: 32px 64px;
+  background-color: var(--color-primary);
   border: 1px solid var(--color-white);
   border-radius: 8px;
-  background-color: var(--color-primary);
+  max-width: 400px;
+  padding: 32px 64px;
+  width: 100%;
 }
 
 .trivia-logo {
-  max-width: 200px;
-  margin: 0 auto 16px auto;
   display: flex;
+  margin: 0 auto 16px;
+  max-width: 200px;
 }
 
 .badge {

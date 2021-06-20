@@ -45,10 +45,16 @@ class Input extends Component {
 
 Input.propTypes = {
   name: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  dataTestId: PropTypes.string.isRequired,
+  type: PropTypes.string,
+  dataTestId: PropTypes.string,
   handleChange: PropTypes.func.isRequired,
-  classIcon: PropTypes.string.isRequired,
+  classIcon: PropTypes.string,
+};
+
+Input.defaultProps = {
+  type: 'text',
+  dataTestId: '',
+  classIcon: '',
 };
 
 export default Input;
