@@ -1,10 +1,12 @@
 import tokenFetch from '../service/tokenFetch';
 import questionsFetch from '../service/questionsFetch';
+import fetchCategories from '../service/categoriesFetch';
 
 export const REQUEST_API = 'REQUEST_API';
 export const REQUEST_TOKEN = 'REQUEST_TOKEN';
 export const REQUEST_QUESTION_SUCESS = 'REQUEST_QUESTION_SUCESS';
 export const REQUEST_QUESTION_FAIL = 'REQUEST_QUESTION_FAIL';
+export const REQUEST_CATEGORIES = 'REQUEST_CATEGORIES';
 export const GET_PLAYER = 'GET_PLAYER';
 export const UPDATE_SCORE = 'UPDATE_SCORE';
 export const UPDATE_ASSERTIONS = 'UPDATE_ASSERTIONS';
@@ -39,6 +41,16 @@ export function questionsFail(payload) {
     payload,
   };
 }
+
+const dispatchCategories = (payload) => ({
+  type: REQUEST_CATEGORIES,
+  payload,
+});
+
+export const getCategories = () => async (dispatch) => {
+  const categories = await fetchCategories();
+  dispatch(dispatchCategories(categories.trivia_categories));
+};
 
 export const getQuestion = (token) => async (dispatch) => {
   dispatch(requestApi());

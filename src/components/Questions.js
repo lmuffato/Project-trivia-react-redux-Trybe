@@ -9,14 +9,11 @@ import {
 } from '../actions';
 import Timer from './Timer';
 
-import decoder from '../service/decoder';
-
 const CORRECT_ANSWER = 'correct-answer';
 
 // Requisito realizado com a lógica e ajuda de RAFAEL MEDEIROS Turma 10A
 class Questions extends React.Component {
   constructor(props) {
-    console.log(props);
     super(props);
     this.state = {
       randomAnswers: permutate(props.answers),
@@ -38,7 +35,7 @@ class Questions extends React.Component {
   async checkAnswer({ target }, difficulty) {
     const { parentElement, id } = target;
     const TEN = 10;
-    const { timer, updateStorage, markAnswered, disableAnswer } = this.props;
+    const { timer, updateStorage, markAnswered } = this.props;
     const pointsDifficulty = { hard: 3, medium: 2, easy: 1 };
     if (id === CORRECT_ANSWER) {
       const { player: { assertions } } = this.props;
@@ -67,18 +64,19 @@ class Questions extends React.Component {
     if (!questions.length) return <div>Loading...</div>;
     const { randomAnswers } = this.state;
     const { question, category, difficulty } = questions[questionIndex];
-    const questionDecoded = decoder(question);
+    const questionDecoded = decodeURIComponent(question);
+    const categoryDecoded = decodeURIComponent(category);
 
     return (
       <section>
         <h1>Trivia Game!</h1>
         <div className="game-container">
           <Timer />
-          <h3 data-testid="question-category">{category}</h3>
+          <h3 data-testid="question-category">{categoryDecoded}</h3>
           <h4 data-testid="question-text">{questionDecoded}</h4>
           <div className="answers-container">
             {randomAnswers.map((answer, index) => {
-              const answerDecoded = decoder(answer);
+              const answerDecoded = decodeURIComponent(answer);
               return (
                 <button
                   type="button"

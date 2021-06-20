@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { string, func } from 'prop-types';
 import Settings from '../components/Settings';
-import { getToken, getQuestion, getPlayer } from '../actions/index';
+import {
+  getToken,
+  getQuestion,
+  getPlayer,
+} from '../actions/index';
 
 class Login extends Component {
   constructor() {
@@ -19,8 +23,8 @@ class Login extends Component {
     };
   }
 
-  async handleClick() {
-    const { tokenRequest, history, dispatchPlayer } = this.props;
+  handleClick() {
+    const { tokenRequest, dispatchPlayer, history } = this.props;
     const { name, email } = this.state;
     const player = {
       name,
@@ -29,32 +33,36 @@ class Login extends Component {
       assertions: 0,
     };
     dispatchPlayer(player);
-    await tokenRequest(() => {
+    tokenRequest(() => {
       const { token, questionRequest } = this.props;
       localStorage.setItem('token', token);
       localStorage.setItem('state', JSON.stringify({ player }));
       questionRequest(token);
-      history.push('/game');
     });
+    history.push('/game');
   }
 
-  async validInput() {
+  validInput() {
     const { email, name } = this.state;
     const re = /\b[\w.-]+@[\w.-]+\.\w{2,4}\b/gi;
-    await this.setState({
+    this.setState({
       validation: !(re.test(email) && name.length > 1),
     });
   }
 
-  async handleChange({ target: { name, value } }) {
-    await this.setState({
-      [name]: value,
-    });
-    this.validInput();
+  handleChange({ target: { name, value } }) {
+    this.setState(
+      {
+        [name]: value,
+      },
+      () => this.validInput(),
+    );
   }
 
   render() {
     const { name, email, validation } = this.state;
+    const { categories } = this.props;
+    console.log(this.props);
 
     return (
       <section>
