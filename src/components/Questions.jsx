@@ -16,6 +16,7 @@ class Questions extends Component {
     this.saveAtLocalStorage = this.saveAtLocalStorage.bind(this);
     this.timeCounter = this.timeCounter.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
+    this.saveRankAtLocalStorage = this.saveRankAtLocalStorage.bind(this);
 
     this.state = {
       question: '',
@@ -37,6 +38,18 @@ class Questions extends Component {
   componentDidMount() {
     this.sortQuestions();
     this.runGame();
+  }
+
+  saveRankAtLocalStorage() {
+    const { player } = this.props;
+    const { name, score } = player;
+    const saveNewPlayerRank = {
+      name,
+      score,
+    };
+    const rankingStorage = JSON.parse(localStorage.getItem('ranking') || '[]');
+    rankingStorage.push(saveNewPlayerRank);
+    localStorage.setItem('ranking', JSON.stringify(rankingStorage));
   }
 
   runGame() {
@@ -116,8 +129,10 @@ class Questions extends Component {
 
     const { count } = this.state;
 
-    if (count >= questions.length) history.push('/feedback');
-    else {
+    if (count >= questions.length) {
+      this.saveRankAtLocalStorage();
+      history.push('/feedback');
+    } else {
       this.runGame();
       this.sortQuestions();
     }

@@ -8,28 +8,6 @@ import ShowRank from '../components/Buttons/ShowRank';
 import DisplayPerformance from '../components/Buttons/DisplayPerformance';
 
 class FeedBack extends Component {
-  constructor() {
-    super();
-
-    this.setLocalStorage = this.setLocalStorage.bind(this);
-  }
-
-  componentDidMount() {
-    this.setLocalStorage();
-  }
-
-  setLocalStorage() {
-    const { player } = this.props;
-    const { name, score } = player;
-    const saveNewPlayerRank = {
-      name,
-      score,
-    };
-    const rankingStorage = JSON.parse(localStorage.getItem('ranking') || '[]');
-    rankingStorage.push(saveNewPlayerRank);
-    localStorage.setItem('ranking', JSON.stringify(rankingStorage));
-  }
-
   render() {
     const { history, player: { assertions, score } } = this.props;
     return (
