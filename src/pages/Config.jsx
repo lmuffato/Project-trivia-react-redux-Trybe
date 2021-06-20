@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { addCategory } from '../redux/actions';
+import { addOptionsConfig } from '../redux/actions';
 import '../styles/config.css';
+
+const arrayDifficults = ['Any Difficult', 'Easy', 'Medium', 'Hard'];
+const arrayType = ['Any type', 'boolean', 'multiple'];
 
 class Config extends Component {
   constructor() {
@@ -11,6 +14,8 @@ class Config extends Component {
     this.state = {
       api: [],
       category: '',
+      difficult: '',
+      type: '',
     };
     this.handleChange = this.handleChange.bind(this);
     this.dificcultSettings = this.dificcultSettings.bind(this);
@@ -30,28 +35,50 @@ class Config extends Component {
 
   handleChange({ target: { value, name } }) {
     this.setState(({
-      [name]: value,
+      [name]: value.toLowerCase(),
     }));
   }
 
   dificcultSettings() {
+    const { difficult } = this.state;
     return (
-      <label className="labelDificcult" htmlFor="dificcult">
+      <label className="labelDifficult" htmlFor="difficult">
         Dificuldade:
         <select
           className="selectConfig"
-          id="dificcult"
-          name="category"
+          id="difficult"
+          name="difficult"
           onChange={ this.handleChange }
+          value={ difficult }
         >
-          <option className="optionConfig">oi</option>
+          {arrayDifficults
+            .map((element, index) => <option key={ index }>{element}</option>)}
+        </select>
+      </label>);
+  }
+
+  typeSettings() {
+    const { type } = this.state;
+    return (
+      <label className="labelDifficult" htmlFor="type">
+        Tipo de pergunta:
+        <select
+          className="selectConfig"
+          id="type"
+          name="type"
+          onChange={ this.handleChange }
+          value={ type }
+        >
+          {arrayType
+            .map((element, index) => <option key={ index }>{element}</option>)}
         </select>
       </label>);
   }
 
   render() {
-    const { api, category } = this.state;
-    const { categoryId } = this.props;
+    const { api, category, difficult, type } = this.state;
+    const obj = { category, difficult, type };
+    const { objConfig } = this.props;
     const result = api.map(({ name, id }) => (
       <option
         className="optionConfig"
@@ -81,14 +108,15 @@ class Config extends Component {
             </select>
           </label>
           {this.dificcultSettings()}
+          {this.typeSettings()}
         </div>
         <button
           className="buttonSettingsSend"
           type="button"
-          onClick={ () => categoryId(category) }
+          onClick={ () => objConfig(obj) }
         >
 
-          <Link to="/">
+          <Link className="linkConfig" to="/">
             Enviar
           </Link>
         </button>
@@ -98,11 +126,15 @@ class Config extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  categoryId: (id) => dispatch(addCategory(id)),
+  objConfig: (obj) => dispatch(addOptionsConfig(obj)),
 });
 
 Config.propTypes = {
-  categoryId: PropTypes.string.isRequired,
+  objConfig: PropTypes.shape({
+    category: PropTypes.string,
+    difficult: PropTypes.string,
+    amount: PropTypes.string,
+  }).isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Config);

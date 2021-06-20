@@ -20,8 +20,8 @@ class Login extends React.Component {
   }
 
   async handleApi() {
-    const { token, history, categoryId } = this.props;
-    await token(categoryId);
+    const { token, history } = this.props;
+    await token();
     history.push('/play');
   }
 

@@ -1,8 +1,8 @@
 import { UPDATE_CATEGORY } from '../actions/actionsTypes';
 
 const INNITAL_STATE = {
-  categoryID: '',
-  dificullt: '',
+  category: '',
+  difficult: '',
   type: '',
 };
 
@@ -11,7 +11,7 @@ const config = (state = INNITAL_STATE, action) => {
   case UPDATE_CATEGORY:
     return {
       ...state,
-      categoryID: action.payload,
+      ...action.payload,
     };
   default:
     return state;
