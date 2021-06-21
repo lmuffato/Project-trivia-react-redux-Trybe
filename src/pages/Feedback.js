@@ -28,7 +28,7 @@ const header = (user) => (
   </>
 );
 
-export const Feedback = () => {
+const Feedback = () => {
   const user = getLocalStorage('state');
   console.table(user);
   console.log(md5(user.player.gravatarEmail));
