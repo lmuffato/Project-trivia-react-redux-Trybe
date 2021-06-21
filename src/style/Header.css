@@ -1,0 +1,9 @@
+.header-container {
+  border: 4px double white;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 15%;
+  font-family: monospace;
+}

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { requestQuestionThunk } from '../actions';
 import { getTokenFromAPIAndSaveToLS } from '../services/api';
+import '../style/Login.css';
 
 class Login extends Component {
   constructor() {
@@ -83,38 +84,41 @@ class Login extends Component {
       handleChange, requestToken, redirectToConfigsNow } = this;
     return (
       <div>
-        <form>
-          <label htmlFor="name">
-            Name:
-            <input
-              onChange={ handleChange }
-              data-testid="input-player-name"
-              id="name"
-              type="text"
-            />
-          </label>
-          <label htmlFor="email">
-            Email:
-            <input
-              onChange={ handleChange }
-              data-testid="input-gravatar-email"
-              id="email"
-              type="email"
-            />
-          </label>
+        <form className="homepage-container">
+          <div className="login-container">
+            <h1>Trivia</h1>
+            <label htmlFor="name">
+              <input
+                onChange={ handleChange }
+                data-testid="input-player-name"
+                id="name"
+                type="text"
+                placeholder="name"
+              />
+            </label>
+            <label htmlFor="email">
+              <input
+                onChange={ handleChange }
+                data-testid="input-gravatar-email"
+                id="email"
+                type="email"
+                placeholder="email"
+              />
+            </label>
+            <button
+              onClick={ requestToken }
+              disabled={ disabled }
+              data-testid="btn-play"
+              type="button"
+            >
+              Jogar
+            </button>
+          </div>
           <button
-            onClick={ requestToken }
-            disabled={ disabled }
-            data-testid="btn-play"
-            type="button"
-          >
-            Jogar
-          </button>
-          <button
-            style={ { marginLeft: '740px' } }
             type="button"
             data-testid="btn-settings"
             onClick={ redirectToConfigsNow }
+            id="login-config-button"
           >
             configurações
           </button>

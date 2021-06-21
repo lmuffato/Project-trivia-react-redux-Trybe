@@ -34,7 +34,7 @@ class Feedback extends Component {
         <div data-testid="feedback-text">feedback</div>
         <Header />
         <span data-testid="feedback-total-score">{Number(score)}</span>
-        <p data-testid="feedback-total-question">{/* nCorrectAns */ 0}</p>
+        <p data-testid="feedback-total-question">{nCorrectAns}</p>
         <p data-testid="feedback-text">
           {goodScore ? 'Mandou bem!' : 'Podia ser melhor...'}
         </p>

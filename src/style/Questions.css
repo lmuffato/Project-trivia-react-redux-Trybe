@@ -1,0 +1,12 @@
+.question-container {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  width: fit-content;
+  color: white;
+}
+
+.question-container button {
+  width: 200px;
+  margin: 5px auto;
+}

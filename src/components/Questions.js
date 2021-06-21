@@ -6,6 +6,7 @@ import { Redirect } from 'react-router';
 import Timer from './Timer';
 import Header from './Header';
 import { saveNOfCorrectAnswer } from '../actions';
+import '../style/Questions.css';
 
 const correctTestId = 'correct-answer';
 const altButtonsSelector = '.alternative-button';
@@ -183,23 +184,27 @@ class Questions extends Component {
     return (
       <div>
         <Header />
-        {enableNextButton ? null : <Timer
-          stopCountdown={ stopCountdown }
-          addBorderOnClick={ addBorderOnClick }
-          disableAlternativeButtons={ disableAlternativeButtons }
-          setEnableNextButton={ setEnableNextButton }
-          enableNextButton={ enableNextButton }
-        />}
-        <p data-testid="question-category">
-          {validQuestions ? questions[questionIndex].category : 'carregando...'}
-        </p>
-        <p data-testid="question-text">
-          {validQuestions ? questions[questionIndex].question : 'carrengando...'}
-        </p>
-        {validQuestions
-          ? createAlternativesButtons(questions[questionIndex]) : mockAlternatives()}
-        { enableNextButton ? createButtonNext() : null }
-        { redirectToFeedback ? <Redirect to="/feedback" /> : null }
+        <div className="timer-container">
+          {enableNextButton ? null : <Timer
+            stopCountdown={ stopCountdown }
+            addBorderOnClick={ addBorderOnClick }
+            disableAlternativeButtons={ disableAlternativeButtons }
+            setEnableNextButton={ setEnableNextButton }
+            enableNextButton={ enableNextButton }
+          />}
+        </div>
+        <div className="question-container">
+          <p data-testid="question-category">
+            {validQuestions ? questions[questionIndex].category : 'carregando...'}
+          </p>
+          <p data-testid="question-text">
+            {validQuestions ? questions[questionIndex].question : 'carrengando...'}
+          </p>
+          {validQuestions
+            ? createAlternativesButtons(questions[questionIndex]) : mockAlternatives()}
+          { enableNextButton ? createButtonNext() : null }
+          { redirectToFeedback ? <Redirect to="/feedback" /> : null }
+        </div>
       </div>
     );
   }

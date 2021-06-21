@@ -1,0 +1,30 @@
+.homepage-container {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  font-family: monospace;
+}
+
+#login-config-button {
+  padding: 5px;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 20vh;
+}
+
+.login-container h1 {
+  color: white;
+  font-size: 40px;
+}
+
+.login-container button {
+  width: 100%;
+}
