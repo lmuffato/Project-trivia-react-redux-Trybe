@@ -23,6 +23,11 @@ function playReducer(state = INITIAL_STATE, action) {
       score: state.score + parseInt(action.payload.points, 10),
       assertions: state.assertions + action.payload.assertions,
     };
+  // case SET_IMG:
+  //   return {
+  //     ...state,
+  //     img: action.payload,
+  //   };
   default:
     return state;
   }

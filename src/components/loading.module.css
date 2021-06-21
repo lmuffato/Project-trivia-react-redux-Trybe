@@ -1,0 +1,25 @@
+.loading {
+  align-items: center;
+  display: flex;
+  height: 80vh;
+  justify-content: center;
+}
+
+/* https://www.w3schools.com/howto/howto_css_loader.asp */
+.loader {
+  animation: spin 2s linear infinite;
+  border: 16px solid var(--purple-300);
+  border-radius: 50%;
+  border-top: 16px solid var(--purple-800);
+  font-size: 0;
+  height: 120px;
+  width: 120px;
+}
+
+@keyframes spin {
+
+  0% { transform: rotate(0deg); }
+
+  100% { transform: rotate(360deg); }
+}
+

@@ -8,6 +8,9 @@ export const loginAction = (payload) => ({ type: LOGIN, payload });
 export const UPDATE_SCORE = 'UPDATE_SCORE';
 export const updateScoreAction = (payload) => ({ type: UPDATE_SCORE, payload });
 
+// export const SET_IMG = 'SET_IMG';
+// export const setImg = (payload) => ({ type: SET_IMG, payload });
+
 // questions
 export const GET_QUESTIONS = 'GET_QUESTIONS';
 export const getQuestions = () => ({ type: GET_QUESTIONS });
@@ -65,7 +68,6 @@ export const setDifficultyAction = (payload) => ({ type: SET_DIFFICULTY, payload
 // middleware localStorage
 export const localStorage = () => (next) => (action) => {
   if (action.localStorage !== undefined) {
-    console.log('entrou!');
     window.localStorage.setItem(
       action.localStorage,
       JSON.stringify(action.payload),
@@ -73,9 +75,3 @@ export const localStorage = () => (next) => (action) => {
   }
   return next(action);
 };
-
-// export const logger = (store) => (next) => (action) => {
-//   console.log(`action: ${action}`);
-
-//   return next(action);
-// };

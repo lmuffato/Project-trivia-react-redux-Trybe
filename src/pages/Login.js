@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-
-import { getTokenThunk, loginAction } from '../redux/actions';
+import md5 from 'crypto-js/md5';
+import { loginAction, getQuestionsThunk } from '../redux/actions';
+import styles from './login.module.css';
+import Header from '../components/Login/Header';
+import Footer from '../components/Login/Footer';
+import requestToken from '../services/requestToken';
 
 class Login extends Component {
   constructor(props) {
@@ -18,6 +21,18 @@ class Login extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.checkInputs = this.checkInputs.bind(this);
     this.handleClick = this.handleClick.bind(this);
+  }
+
+  componentDidMount() {
+    document.title = 'Login';
+    this.getTokenQuestions();
+  }
+
+  async getTokenQuestions() {
+    const { getQuestions } = this.props;
+    const token = await requestToken();
+    localStorage.setItem('token', token);
+    getQuestions(token);
   }
 
   checkInputs() {
@@ -36,14 +51,15 @@ class Login extends Component {
   }
 
   handleClick() {
-    const { getToken, token } = this.props;
-    if (token === null) {
-      getToken();
-    }
     const { state: { name, email }, props: { loginProps, history } } = this;
+
     loginProps({ name, email });
 
-    const player = { name, email, score: 0, assertions: 0 };
+    const img = `https://www.gravatar.com/avatar/${md5(email).toString()}`;
+
+    const player = {
+      name, email, score: 0, assertions: 0, img };
+
     localStorage.setItem('state', JSON.stringify({ player }));
     history.push('/game');
   }
@@ -52,9 +68,16 @@ class Login extends Component {
     const { email, name, buttonEnable } = this.state;
     const { handleClick, handleChange } = this;
     return (
-      <>
-        <form>
-          <label htmlFor="name">
+      <main className={ styles.login_container }>
+        <Header />
+
+        <h1 className={ styles.login_title }>Trivia Online</h1>
+        <p className={ styles.login_paragraph }>
+          Utilize um e-mail do gravatar e jogue agora mesmo!
+        </p>
+
+        <div className={ styles.login__form__container }>
+          <form className={ styles.login__form }>
             <input
               type="text"
               id="name"
@@ -62,9 +85,9 @@ class Login extends Component {
               data-testid="input-player-name"
               onChange={ handleChange }
               value={ name }
+              placeholder="Nome"
+              required
             />
-          </label>
-          <label htmlFor="email">
             <input
               type="email"
               id="email"
@@ -72,26 +95,29 @@ class Login extends Component {
               data-testid="input-gravatar-email"
               onChange={ handleChange }
               value={ email }
+              placeholder="Email do gravatar"
+              required
             />
-          </label>
-          <button
-            type="button"
-            data-testid="btn-play"
-            disabled={ buttonEnable }
-            onClick={ handleClick }
-          >
-            Jogar
-          </button>
-        </form>
-        <Link to="/Settings" data-testid="btn-settings">Settings</Link>
-      </>
+            <button
+              type="button"
+              data-testid="btn-play"
+              disabled={ buttonEnable }
+              onClick={ handleClick }
+            >
+              Jogar
+            </button>
+          </form>
+        </div>
+        <Footer />
+      </main>
     );
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
   loginProps: (payload) => dispatch(loginAction(payload)),
-  getToken: () => dispatch(getTokenThunk()),
+  // getToken: () => dispatch(getTokenThunk()),
+  getQuestions: (token) => dispatch(getQuestionsThunk(token)),
 });
 
 const mapStateToProps = (state) => ({
@@ -101,10 +127,15 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
 
 Login.propTypes = {
-  getToken: PropTypes.func.isRequired,
-  token: PropTypes.string.isRequired,
+  // getToken: PropTypes.func.isRequired,
+  // token: PropTypes.string,
+  getQuestions: PropTypes.func.isRequired,
   loginProps: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
 };
+
+// Login.defaultProps = {
+//   token: null,
+// };

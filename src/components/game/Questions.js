@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import styles from '../pages/game.module.css';
-import Loading from './Loading';
+import styles from '../../pages/game.module.css';
+import Loading from '../Loading';
 import Timer from './Timer';
 import './questions.css';
 import {
   setDifficultyAction,
   updateScoreAction,
   calcPointsAction,
-} from '../redux/actions/index';
+} from '../../redux/actions/index';
 
 class Questions extends Component {
   constructor(props) {
@@ -119,9 +119,11 @@ class Questions extends Component {
   }
 
   addToLocalStorage() {
-    const { name, email, score, assertions } = this.props;
-    const player = { name, email, score, assertions };
-    localStorage.setItem('state', JSON.stringify({ player }));
+    const { score, assertions } = this.props;
+    const { player } = JSON.parse(localStorage.getItem('state'));
+    localStorage.setItem('state', JSON.stringify(
+      { player: { ...player, score, assertions } },
+    ));
   }
 
   handleZero() {
@@ -137,11 +139,11 @@ class Questions extends Component {
     }
     return (
       <div className={ styles.question__container }>
-        <div>
-          <h2 data-testid="question-category">{questionsFiltered.category}</h2>
-          <p data-testid="question-text">{questionsFiltered.question}</p>
-        </div>
         <div className={ styles.question__card }>
+          <div>
+            <h2 data-testid="question-category">{questionsFiltered.category}</h2>
+            <p data-testid="question-text">{questionsFiltered.question}</p>
+          </div>
           <ul className={ styles.question__list }>
             {questionsFiltered.alternatives.map((question, index) => (
               <li key={ index }>
@@ -159,6 +161,7 @@ class Questions extends Component {
               </li>
             ))}
           </ul>
+          <Timer reset={ reset } stop={ stop } handleZero={ this.handleZero } />
         </div>
         <button
           type="button"
@@ -171,7 +174,6 @@ class Questions extends Component {
         >
           Próxima
         </button>
-        <Timer reset={ reset } stop={ stop } handleZero={ this.handleZero } />
       </div>
     );
   }
@@ -210,8 +212,6 @@ Questions.propTypes = {
   }).isRequired,
   setDifficultyProps: PropTypes.func.isRequired,
   calc: PropTypes.bool.isRequired,
-  name: PropTypes.string.isRequired,
-  email: PropTypes.string.isRequired,
   score: PropTypes.number.isRequired,
   assertions: PropTypes.number.isRequired,
   updateScoreProps: PropTypes.func.isRequired,
