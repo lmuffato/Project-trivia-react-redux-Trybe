@@ -4,7 +4,7 @@
  * @param {String} value Value in localStorage
  * @returns void
  */
-export const setLocalStorage = (key, value) => localStorage.setItem(key, value);
+export const setLocalStorage = (key, value) => localStorage.setItem(key, JSON.stringify(value));
 
 /**
  * Get value for key in localStorage
@@ -12,7 +12,7 @@ export const setLocalStorage = (key, value) => localStorage.setItem(key, value);
  * @returns Returns the current value associated with the given key, or null if the given
  * key does not exist in the list associated with the object.
  */
-export const getLocalStorage = (key) => localStorage.getItem(key);
+export const getLocalStorage = (key) => JSON.parse(localStorage.getItem(key));
 
 export const getRandomNumber = (max, min = 0) => (
   Math.floor(Math.random() * (max + 1 - min) + min)

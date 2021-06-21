@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
 function Question(props) {
+  const isFetching = useSelector((state) => state.questions.isFetching);
   const { questions, index } = props;
   console.log('QUESTOES', questions);
+  if (isFetching) return <p>Carregando</p>;
   return (
     <div className="question">
       <div><p data-testid="question-category">{ questions[index].category }</p></div>
@@ -21,11 +23,7 @@ Question.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  questions: state.user.questions,
+  questions: state.questions.questions,
 });
-
-// const mapDispatchToProps = (dispatch) => ({
-
-// });
 
 export default connect(mapStateToProps, null)(Question);

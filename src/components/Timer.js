@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { updateTimer, timerResetAction, timerIntervalAction } from '../redux/action';
+import { updateTimer, timerResetAction, setIdInterval } from '../redux/action';
 
 export const disableButtons = (bool) => {
   const btnAnswers = document.getElementsByName('answer');
@@ -9,6 +9,21 @@ export const disableButtons = (bool) => {
     btn.disabled = bool;
   });
 };
+
+// export const enableBtnNext = (bool) => {
+//   const btnNext = document.querySelector('#btn-next');
+//   if (bool) {
+//     console.log(btnNext);
+//     btnNext.disabled = true;
+//     // btnNext.removeAttribute('disable');
+//     console.log(btnNext)
+//   } else {
+//     console.log(btnNext)
+//     btnNext.disabled = false;
+//     // btnNext.setAttribute('disable', true);
+//     console.log(btnNext)
+//   }
+// };
 
 const changeBorder = () => {
   const btnAnswers = document.getElementsByName('answer');
@@ -31,10 +46,10 @@ class Timer extends React.Component {
   }
 
   componentDidUpdate() {
-    const { timer, timerInterval } = this.props;
-    if (timer === 0) {
-      console.log('clear timer 25');
-      clearInterval(timerInterval);
+    const { timer } = this.props;
+    if (timer < 0) {
+      console.log('didUpdate TIMER');
+      // clearInterval(timerInterval);
     }
   }
 
@@ -44,10 +59,12 @@ class Timer extends React.Component {
   }
 
   render() {
-    const { timer } = this.props;
+    const { timer, idInterval, enableBtnNext } = this.props;
     if (timer <= 0) {
       disableButtons(true);
       changeBorder();
+      clearInterval(idInterval);
+      enableBtnNext();
     }
 
     return (
@@ -65,18 +82,21 @@ Timer.propTypes = {
   timer: PropTypes.number.isRequired,
   decreaseTimer: PropTypes.func.isRequired,
   timerInterval: PropTypes.number.isRequired,
+  idInterval: PropTypes.number.isRequired,
   setTimerInterval: PropTypes.func.isRequired,
+  enableBtnNext: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
+  idInterval: state.idInterval.id,
   timer: state.timer.time,
-  timerInterval: state.timer.timerInterval,
+  // timerInterval: state.timer.timerInterval,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   decreaseTimer: () => dispatch(updateTimer()),
   timerReset: () => dispatch(timerResetAction()),
-  setTimerInterval: (payload) => dispatch(timerIntervalAction(payload)),
+  setTimerInterval: (payload) => dispatch(setIdInterval(payload)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Timer);

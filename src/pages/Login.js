@@ -42,7 +42,7 @@ class Login extends Component {
 
   async fetchToken() {
     const { email, name } = this.state;
-    const { onSubmit, fetchQuestion } = this.props;
+    const { onSubmit, fetchQuestion, questionSettings } = this.props;
 
     const user = {
       email,
@@ -61,11 +61,10 @@ class Login extends Component {
       const data = await response.json();
       // localStorage.setItem('token', data.token);
       setLocalStorage('token', data.token); // função auxiliar que faz a mesma coisa que a linha acima.
-      setLocalStorage('state', JSON.stringify(player));
+      setLocalStorage('state', player);
 
       onSubmit(user);
-      const AMOUNT_QUESTION = 5;
-      fetchQuestion(AMOUNT_QUESTION, data.token);
+      fetchQuestion(questionSettings, data.token);
 
       this.setState({
         shouldRedirect: true,
@@ -128,12 +127,23 @@ class Login extends Component {
 Login.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   fetchQuestion: PropTypes.func.isRequired,
+  questionSettings: PropTypes.shape({
+    amount: PropTypes.number,
+    category: PropTypes.string,
+    difficulty: PropTypes.string,
+    type: PropTypes.string,
+    encode: PropTypes.string,
+  }).isRequired,
 };
+
+const mapStateToProps = (state) => ({
+  questionSettings: state.settings,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   onSubmit: (payload) => dispatch(loginUserAction(payload)),
-  fetchQuestion: (amountQuestion, token) => (
-    dispatch(getQuestionsActionThunk(amountQuestion, token))),
+  fetchQuestion: (settingsQuestion, token) => (
+    dispatch(getQuestionsActionThunk(settingsQuestion, token))),
 });
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
