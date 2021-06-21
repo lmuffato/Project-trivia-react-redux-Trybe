@@ -19,9 +19,9 @@ body {
 
 .timer {
   color: #513069;
+  display: flex;
   font-size: 40px;
   font-weight: 1000;
-  display: flex;
   justify-content: center;
   margin-bottom: 30px;
   margin-top: -3em;
@@ -31,8 +31,8 @@ body {
   color: white;
   font-size: 20px;
   font-weight: 1000;
-  margin-top: 3em;
   margin-bottom: 3em;
+  margin-top: 3em;
   text-shadow: -2px 0 #513069 , 0 2px #513069 , 2px 0 #513069 , 0 -2px #513069;
 }
 
@@ -50,9 +50,9 @@ body {
   color: #513069;
   font-size: 20px;
   font-weight: 1000;
+  margin-bottom: 2em;
   padding: 10px;
   transition-duration: 0.4s;
-  margin-bottom: 2em;
 }
 
 .questions button:hover {
