@@ -1,3 +1,8 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
 button {
   margin: 5px;
 }
@@ -8,8 +13,4 @@ button {
 
 .green {
   border: 3px solid rgb(6, 240, 15);
-}
-
-.pink {
-  background-color: pink;
 }
