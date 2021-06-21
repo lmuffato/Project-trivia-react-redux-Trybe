@@ -49,12 +49,12 @@ class Question extends Component {
 
   handleLocalStorage() {
     const { userReducer } = this.props;
-    const { email, user, score, assertions } = userReducer;
+    const { email, user, playerScore, assertions } = userReducer;
     const userObject = {
       player: {
         name: user,
         assertions,
-        score,
+        score: playerScore,
         gravatarEmail: email,
       },
     };
