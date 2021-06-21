@@ -2,28 +2,48 @@ import styled from 'styled-components';
 
 const BadgeCustom = styled.div`
   color: var(--color-white);
-  margin: 4px 0;
-  padding: 8px 12px;
+  padding: 8px 0 8px 12px;
   border-radius: 8px;
+  display: flex;
+  flex-flow: row;
   
-  &.badge-primary {
+  &.badge-primary > span:first-child {
     background-color: var(--color-primary);
   }
 
-  &.badge-secondary {
+  &.badge-primary > span:last-child {
+    background-color: var(--color-secondaryy);
+  }
+
+  &.badge-secondary > span:first-child {
     background-color: var(--color-secondary);
+  }
+
+  &.badge-secondary > span:last-child {
+    background-color: var(--color-primary);
+  }
+  
+  span {
+    padding: 8px 12px;
   }
   
   span:first-child {
     font-weight: 700;
+    border-radius: 8px 0 0 8px;
+    flex-basis: 130px;
+    flex-grow: 0;
   }
   
   span:last-child {
-    margin-left: 6px;
+    border-radius: 0 8px 8px 0;
+    flex-grow: 1;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
   }
   
   i {
-    margin-right: 6px;
+    margin-right: 8px;
   }
 `;
 

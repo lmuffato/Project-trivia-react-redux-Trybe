@@ -40,6 +40,10 @@ header {
   width: 100%;
 }
 
+header img {
+  max-width: 200px;
+}
+
 header .container {
   align-items: center;
   display: flex;
@@ -48,21 +52,24 @@ header .container {
   padding: 0;
 }
 
-header img {
-  max-width: 200px;
-}
-
 header .box-score {
   background-color: var(--color-white);
   border-radius: 12px;
   box-shadow: 0 0 8px rgba(0 0 0 0.5);
   display: flex;
+  min-width: 400px;
   padding: 8px 16px;
+}
+
+header .box-score .box-score-badges {
+  display: flex;
+  flex-flow: column;
+  flex-grow: 1;
 }
 
 header .box-score img {
   border-radius: 50%;
-  margin-right: 16px;
+  padding: 8px 0;
 }
 
 .login-container h1 {

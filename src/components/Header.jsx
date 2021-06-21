@@ -26,7 +26,7 @@ class Header extends Component {
               alt="Avatar do Player"
               data-testid="header-profile-picture"
             />
-            <div>
+            <div className="box-score-badges">
               <Badge
                 text="Jogador"
                 value={ name }
