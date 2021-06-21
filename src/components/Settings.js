@@ -168,13 +168,13 @@ class Settings extends Component {
     return (
       <Modal
         show={ show }
-        dialogClassName="settings-container"
+        dialogC
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
         <Modal.Header>
-          <Modal.Title id="contained-modal-title-vcenter">
+          <Modal.Title id="contained-modal-title-vcenter" data-testid="settings-title">
             Configurações
           </Modal.Title>
         </Modal.Header>
