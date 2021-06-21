@@ -4,14 +4,74 @@
 }
 
 body {
-  margin: 252px;
+  margin: 110px;
 }
 
 .game {
-  border: 0.5px solid black;
+  background-color: #b46be8;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   height: 100%;
-  margin-top: 100px;
+  margin-top: 20px;
+  padding: 30px 100px;
 }
 
+.timer {
+  color: #513069;
+  font-size: 40px;
+  font-weight: 1000;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+  margin-top: -3em;
+}
+
+.p {
+  color: white;
+  font-size: 20px;
+  font-weight: 1000;
+  margin-top: 3em;
+  margin-bottom: 3em;
+  text-shadow: -2px 0 #513069 , 0 2px #513069 , 2px 0 #513069 , 0 -2px #513069;
+}
+
+.h {
+  color: #513069;
+  font-size: 30px;
+  font-weight: 1000;
+  margin-bottom: 2em;
+}
+
+.questions button {
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 1.5px 2px #513069;
+  color: #513069;
+  font-size: 20px;
+  font-weight: 1000;
+  padding: 10px;
+  transition-duration: 0.4s;
+  margin-bottom: 2em;
+}
+
+.questions button:hover {
+  background-color: #513069;
+  color: white;
+}
+
+.next-question {
+  background-color: #b46be8;
+  border: 2px solid #513069;
+  border-radius: 8px;
+  box-shadow: 1.5px 2px #513069;
+  color: white;
+  font-size: 20px;
+  padding: 10px;
+  transition-duration: 0.4s;
+}
+
+.next-question:hover {
+  background-color: #513069;
+  color: #b46be8;
+}
