@@ -8,6 +8,7 @@ import {
   getPlayer,
   updateUrl as updateUrlAction,
 } from '../actions/index';
+import LoginForm from '../components/LoginForm';
 
 class Login extends Component {
   constructor() {
@@ -15,13 +16,21 @@ class Login extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.validInput = this.validInput.bind(this);
+    this.setModalShow = this.setModalShow.bind(this);
     this.handleClick = this.handleClick.bind(this);
 
     this.state = {
       name: '',
       email: '',
       validation: true,
+      modalShow: false,
     };
+  }
+
+  setModalShow() {
+    this.setState(({ modalShow }) => ({
+      modalShow: !modalShow,
+    }));
   }
 
   async handleClick() {
@@ -64,47 +73,23 @@ class Login extends Component {
   }
 
   render() {
-    const { name, email, validation } = this.state;
+    const { validation, modalShow } = this.state;
 
     return (
-      <section>
+      <section className="login-page">
         <button
           type="button"
           data-testid="btn-settings"
-          className="bi bi-gear-fill"
+          className="bi bi-gear-fill login-button-settings"
           aria-label="Configurações"
+          onClick={ this.setModalShow }
         />
-        <Settings />
-        <label htmlFor="player-name">
-          Nome:
-          <input
-            type="text"
-            data-testid="input-player-name"
-            name="name"
-            id="player-name"
-            value={ name }
-            onChange={ this.handleChange }
-          />
-        </label>
-        <label htmlFor="player-email">
-          E-mail:
-          <input
-            type="email"
-            data-testid="input-gravatar-email"
-            name="email"
-            id="player-email"
-            value={ email }
-            onChange={ this.handleChange }
-          />
-        </label>
-        <button
-          type="submit"
-          onClick={ () => this.handleClick() }
-          data-testid="btn-play"
-          disabled={ validation }
-        >
-          Jogar
-        </button>
+        <Settings show={ modalShow } onHide={ this.setModalShow } />
+        <LoginForm
+          handleChange={ this.handleChange }
+          handleClick={ this.handleClick }
+          validation={ validation }
+        />
       </section>
     );
   }

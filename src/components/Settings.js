@@ -1,24 +1,37 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Form } from 'react-bootstrap';
+import { Form, Modal, Button } from 'react-bootstrap';
 import '../Settings.css';
-
+// import translate from '@vitalets/google-translate-api';
+import { translate, setCORS } from 'google-translate-api-browser';
 import {
   getCategories as getCategoriesAction,
   updateUrl as updateUrlAction,
+  choseLanguage as choseLanguageAction,
+  updateCategoriesAfterTranslation as updateCategories,
 } from '../actions';
+
+setCORS('https://cors.bridged.cc/');
+// setting up cors-anywhere server address
 
 const difficulties = ['Easy', 'Medium', 'Hard'];
 const types = ['Multiple Choice', 'True / False'];
+let difficultiesTranslated = [];
+let typesTranslated = [];
 
 class Settings extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      language: 'en',
+    };
     this.handleChange = this.handleChange.bind(this);
     this.renderCategorySelect = this.renderCategorySelect.bind(this);
     this.renderDifficultySelect = this.renderDifficultySelect.bind(this);
     this.renderTypeSelect = this.renderTypeSelect.bind(this);
+    this.choseLanguage = this.choseLanguage.bind(this);
+    this.translateToPt = this.translateToPt.bind(this);
   }
 
   componentDidMount() {
@@ -26,23 +39,70 @@ class Settings extends Component {
     getCategories();
   }
 
+  async translateToPt(string) {
+    const translated = await translate(string, { to: 'pt' });
+    return translated;
+    // .then((res) => {
+    //   console.log(res.text);
+    //   //= > I speak English
+    //   // console.log(res.from.language.iso);
+    //   // //= > nl
+    // }).catch((err) => {
+    //   console.error(err);
+    // });
+  }
+
   handleChange({ target: { name, value } }) {
     const { updateUrl } = this.props;
     updateUrl(`&${name}=${value}`);
   }
 
+  choseLanguage() {
+    this.setState(
+      ({ language }) => ({
+        language: language === 'en' ? 'pt' : 'en',
+      }),
+      () => {
+        const { language } = this.state;
+        const { categories, updateCategoriesTranslate } = this.props;
+        if (language === 'pt') {
+          categories.map(async ({ name, id }) => {
+            const translated = await this.translateToPt(name);
+            updateCategoriesTranslate({ name: translated.text, id });
+          });
+          difficulties.map(async (difficulty) => {
+            const translated = await this.translateToPt(difficulty);
+            difficultiesTranslated = [
+              ...difficultiesTranslated,
+              translated.text,
+            ];
+          });
+          types.map(async (type) => {
+            const translated = await this.translateToPt(type);
+            typesTranslated = [...typesTranslated, translated.text];
+          });
+        } else {
+          updateCategoriesTranslate('');
+          difficultiesTranslated = [];
+          typesTranslated = [];
+        }
+      },
+    );
+  }
+
   renderCategorySelect() {
     const { categories } = this.props;
-
+    const { language } = this.state;
     return (
       <Form.Control
         name="category"
         as="select"
-        defaultValue="Categoria"
+        className="settings-select"
+        defaultValue={ language === 'en' ? 'Category' : 'Categoria' }
         onChange={ this.handleChange }
       >
         <option disabled hidden>
-          Categoria
+          {language === 'en' ? 'Category' : 'Categoria'}
         </option>
         {categories.map(({ name, id }) => (
           <option key={ id } value={ id }>
@@ -54,19 +114,23 @@ class Settings extends Component {
   }
 
   renderDifficultySelect() {
+    const { language } = this.state;
     return (
       <Form.Control
         as="select"
         name="difficulty"
-        defaultValue="Dificuldade"
+        className="settings-select"
+        defaultValue={ language === 'en' ? 'Difficulty' : 'Dificuldade' }
         onChange={ this.handleChange }
       >
         <option disabled hidden>
-          Dificuldade
+          {language === 'en' ? 'Difficulty' : 'Dificuldade'}
         </option>
         {difficulties.map((difficulty, i) => (
           <option key={ i } value={ difficulty.toLowerCase() }>
-            {difficulty}
+            {difficultiesTranslated.length
+              ? difficultiesTranslated[i]
+              : difficulty}
           </option>
         ))}
       </Form.Control>
@@ -74,22 +138,24 @@ class Settings extends Component {
   }
 
   renderTypeSelect() {
+    const { language } = this.state;
     return (
       <Form.Control
         as="select"
+        className="settings-select"
         name="type"
-        defaultValue="Tipo"
+        defaultValue={ language === 'en' ? 'Type' : 'Tipo' }
         onChange={ this.handleChange }
       >
         <option disabled hidden>
-          Tipo
+          {language === 'en' ? 'Type' : 'Tipo'}
         </option>
         {types.map((type, i) => (
           <option
             key={ i }
             value={ type === 'True / False' ? 'boolean' : 'multiple' }
           >
-            {type}
+            {typesTranslated.length ? typesTranslated[i] : type}
           </option>
         ))}
       </Form.Control>
@@ -97,36 +163,70 @@ class Settings extends Component {
   }
 
   render() {
+    const { language } = this.state;
+    const { onHide, show } = this.props;
     return (
-      <div className="settings-container">
-        <h1 data-testid="settings-title">Configurações</h1>
-        <Form.Group className="toggle-language-container">
-          <Form.Label>Inglês</Form.Label>
-          <div className="switch__container">
-            <input
-              id="switch-flat"
-              className="switch switch--flat"
-              type="checkbox"
-            />
-            <Form.Label htmlFor="switch-flat" />
+      <Modal
+        show={ show }
+        dialogClassName="settings-container"
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Configurações
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form.Group className="toggle-language-container">
+            <Form.Label>Inglês (English)</Form.Label>
+            <div className="switch__container">
+              <input
+                onChange={ this.choseLanguage }
+                id="switch-flat"
+                checked={ language !== 'en' }
+                className="switch switch--flat"
+                type="checkbox"
+              />
+              <Form.Label htmlFor="switch-flat" />
+            </div>
+            <Form.Label>Português (Portuguese)</Form.Label>
+          </Form.Group>
+          <div className="select-container">
+            {this.renderCategorySelect()}
+            {this.renderDifficultySelect()}
+            {this.renderTypeSelect()}
           </div>
-          <Form.Label>Português</Form.Label>
-        </Form.Group>
-        {this.renderCategorySelect()}
-        {this.renderDifficultySelect()}
-        {this.renderTypeSelect()}
-      </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="danger" onClick={ onHide }>
+            {language === 'en' ? 'Close' : 'Fechar'}
+          </Button>
+          <Button variant="success" onClick={ onHide }>
+            {language === 'en' ? 'Save' : 'Salvar'}
+          </Button>
+        </Modal.Footer>
+      </Modal>
     );
   }
 }
 
-const mapStateToProps = (state) => ({
-  categories: state.game.categories,
-});
+const mapStateToProps = (state) => {
+  const {
+    game: { categories },
+    gameTranslation: { categories: categoriesTranslated },
+  } = state;
+  return {
+    categories: categoriesTranslated.length ? categoriesTranslated : categories,
+  };
+};
 
 const mapDispatchToProps = (dispatch) => ({
   getCategories: () => dispatch(getCategoriesAction()),
   updateUrl: (part) => dispatch(updateUrlAction(part)),
+  choseLanguage: (language) => dispatch(choseLanguageAction(language)),
+  updateCategoriesTranslate: (translated) => dispatch(updateCategories(translated)),
 });
 
 Settings.propTypes = {

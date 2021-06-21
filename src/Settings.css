@@ -1,17 +1,23 @@
 .settings-container {
+  max-width: 600px;
+  width: 600px;
+}
+
+.settings-container button {
   font-size: 1.6rem;
-  width: 300px;
 }
 
 .toggle-language-container {
   align-items: center;
   display: flex;
-  width: 100%;
+  margin: 0 auto;
+  width: 65%;
 }
 
 .switch__container {
   margin: 30px auto;
-  width: 120px;
+
+  /* width: 120px; */
 }
 
 .switch {
@@ -71,4 +77,15 @@
 .switch--flat:checked + label:after {
   background-color: #8ce196;
   margin-left: 30px;
+}
+
+.select-container {
+  display: flex;
+  flex-direction: column;
+  height: 120px;
+  justify-content: space-between;
+}
+
+.settings-select {
+  font-size: 1.6rem;
 }

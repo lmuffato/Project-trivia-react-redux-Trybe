@@ -132,7 +132,7 @@ class Game extends React.Component {
   }
 
   render() {
-    const { isAnswered, timesUp } = this.props;
+    const { isAnswered } = this.props;
     const { isLoading, questions, answers, questionIndex, newQuestion } = this.state;
     if (isLoading) return <Loading />;
     if (questionIndex > Number('4')) {

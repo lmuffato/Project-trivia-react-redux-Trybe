@@ -15,6 +15,8 @@ export const UPDATE_TIME = 'UPDATE_TIME';
 export const MARK_ANSWERED = 'MARK_ANSWERED';
 export const CLEAR_PLAYER_STATE = 'CLEAR_PLAYER_STATE';
 export const UPDATE_URL = 'UPDATE_URL';
+export const CHOSE_LANGUAGE = 'CHOSE_LANGUAGE';
+export const UPDATE_CATEGORIES_AFTER_TRANSLATION = 'UPDATE_CATEGORIES_AFTER_TRANSLATION';
 
 export function requestApi() {
   return {
@@ -118,4 +120,12 @@ export function clearPlayerState(payload) {
 
 export function updateUrl(part) {
   return { type: UPDATE_URL, part };
+}
+
+export function choseLanguage(payload) {
+  return { type: CHOSE_LANGUAGE, payload };
+}
+
+export function updateCategoriesAfterTranslation(payload) {
+  return { type: UPDATE_CATEGORIES_AFTER_TRANSLATION, payload };
 }

@@ -14,6 +14,7 @@ const INITIAL_STATE = {
   erro: null,
   categories: [],
   url: ['https://opentdb.com/api.php?amount=5&encode=url3986'],
+  language: 'en',
 };
 
 const game = (state = INITIAL_STATE, action) => {
@@ -23,21 +24,18 @@ const game = (state = INITIAL_STATE, action) => {
       ...state,
       isLoading: true,
     };
-
   case REQUEST_TOKEN:
     return {
       ...state,
       token: action.payload,
       isLoading: false,
     };
-
   case REQUEST_QUESTION_SUCESS:
     return {
       ...state,
       questions: action.payload,
       isLoading: false,
     };
-
   case REQUEST_QUESTION_FAIL:
     return {
       ...state,
