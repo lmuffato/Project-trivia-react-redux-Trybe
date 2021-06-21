@@ -11,36 +11,12 @@ class Feedback extends React.Component {
     this.renderBadScore = this.renderBadScore.bind(this);
     this.renderGoodScoore = this.renderGoodScoore.bind(this);
     this.rankingLocalStorage = this.rankingLocalStorage.bind(this);
-    this.sortingArr = this.sortingArr.bind(this);
-    // this.sortArray = this.sortArray.bind(this);
     this.handleResetScore = this.handleResetScore.bind(this);
   }
 
   componentDidMount() {
     this.rankingLocalStorage();
   }
-
-  sortingArr(a, b) {
-    const magicNumber = -1;
-    if (b.score > a.score) {
-      return 1;
-    } if (a.score > b.score) {
-      return magicNumber;
-    }
-    return a;
-  }
-
-  // sortArray(a, b) {
-  //   if (b.score > a.score) {
-  //     return b.score - a.score;
-  //   }
-  //   if (a.score > b.score) {
-  //     return a.score - b.score;
-  //   }
-  //   if (a.score === b.score) {
-  //     return b.name - a.name ? -1 : 1;
-  //   }
-  // }
 
   rankingLocalStorage() {
     const rankingOne = [];
