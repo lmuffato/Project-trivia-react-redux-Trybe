@@ -1,10 +1,20 @@
 import React from 'react';
+import '../Style/loading.css';
 
 function Loading() {
   return (
-    <h1>
-      Carregando...
-    </h1>
+    <div>
+      <div className="loading">
+        <div className="obj" />
+        <div className="obj" />
+        <div className="obj" />
+        <div className="obj" />
+        <div className="obj" />
+        <div className="obj" />
+        <div className="obj" />
+        <div className="obj" />
+      </div>
+    </div>
   );
 }
 

@@ -1,0 +1,55 @@
+body {
+  background-color: rgb(56, 50, 50);
+}
+
+.btn {
+  background-color: rgb(53, 56, 50);
+  border: 1px solid rgb(56, 179, 62);
+  border-radius: 5%;
+  color: black;
+  margin-left: 60px;
+  margin-top: 20px;
+  padding: 30px;
+}
+
+button:disabled, button:hover {
+  background-color: rgb(57, 65, 49);
+  color: rgb(56, 179, 62);
+}
+
+.btn-link {
+  background-color: white;
+  text-decoration: none;
+}
+
+.home-btn {
+  background-color: whitesmoke;
+  padding: 0.5%;
+}
+
+.home-btn :link {
+  text-decoration: none;
+}
+
+.login {
+  display: flex;
+  justify-content: center;
+  margin: 50px;
+}
+
+.inputs-login {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding-left: 20px;
+  padding-right: 15px;
+}
+
+.App-logo {
+  display: flex;
+  height: 100px;
+  margin-left: 35%;
+  margin-top: 10%;
+  pointer-events: none;
+}
