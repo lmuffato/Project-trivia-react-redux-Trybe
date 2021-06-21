@@ -83,7 +83,7 @@ class Login extends React.Component {
           type="button"
           data-testid="btn-settings"
         >
-          <Link to="/config">Config</Link>
+          <Link to="/config"><img className="engrenagem" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRG_PVWRkOpvDJXZr0K77D95h_ZocN0RHMjP2pDTuWKe-CwGdhlUUG543pxf0hbwjXH-jg&usqp=CAU" alt="config" /></Link>
         </button>
       </header>
     );
@@ -92,7 +92,11 @@ class Login extends React.Component {
 
 const mapDispatchToProps = (dispatch) => ({
   login: (userInfo) => dispatch(addLogin(userInfo)),
-  token: () => dispatch(fetchToken()),
+  token: (id) => dispatch(fetchToken(id)),
+});
+
+const mapStateToProps = (state) => ({
+  categoryId: state.config.categoryID,
 });
 
 Login.propTypes = {
@@ -101,4 +105,4 @@ Login.propTypes = {
   callApiToQuestions: PropTypes.func,
 }.isRequired;
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

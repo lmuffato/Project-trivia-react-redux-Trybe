@@ -27,8 +27,9 @@ class Play extends Component {
   }
 
   async componentDidMount() {
-    const { callApiToQuestions, questions, token, callUpdateScore } = this.props;
-    if (questions.length === 0) await callApiToQuestions(token);
+    const { callApiToQuestions,
+      token, callUpdateScore, categoryId, difficult, type } = this.props;
+    await callApiToQuestions(token, categoryId, difficult, type);
     this.mountRound();
     this.countdown();
     callUpdateScore({ assertions: 0, score: 0 });
@@ -214,10 +215,15 @@ const mapStateToProps = (state) => ({
   token: state.player.token,
   score: state.player.score,
   assertions: state.player.assertions,
+  categoryId: state.config.category,
+  difficult: state.config.difficult,
+  type: state.config.type,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  callApiToQuestions: (token) => dispatch(fetchQuestion(token)),
+  callApiToQuestions: (token, categoryId, difficult, type) => dispatch(
+    fetchQuestion(token, categoryId, difficult, type),
+  ),
   callUpdateScore: (newScore) => dispatch(updateScore(newScore)),
 });
 
