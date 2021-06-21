@@ -1,0 +1,20 @@
+.questionContainer {
+  border: 2px green solid;
+  border-radius: 10px;
+  color: white;
+  margin: 50px auto;
+  padding: 25px;
+  width: 700px;
+}
+
+.questionContainer > h4 {
+  font-size: 25px;
+}
+
+.questionContainer > h5 {
+  font-size: 15px;
+}
+
+.questionContainer > p {
+  font-size: 20px;
+}
