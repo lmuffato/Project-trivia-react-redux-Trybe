@@ -12,8 +12,6 @@ const INITIAL_STATE = {
   time: 0,
   isTimerActive: true,
   image: '',
-  scoreLocalStorage: 0,
-  isTimerReseted: false,
 };
 
 const userReducer = (state = INITIAL_STATE, { type, payload }) => {
