@@ -123,28 +123,32 @@ class Login extends React.Component {
       return <Redirect to="/settings" />;
     }
     return (
-      <form className="form-login">
-        {this.createInputs('name', 'Nome do jogador:', 'input-player-name', name)}
-        { this.createInputs('email', 'Email', 'input-gravatar-email', email)}
-        <button
-          className="btn-play"
-          type="button"
-          disabled={ isDisabled }
-          data-testid="btn-play"
-          onClick={ this.handleClickPlay }
-        >
-          Jogar
-        </button>
-        {/* Requisito 3 - Botão que redireciona para tela de configuração */}
-        <button
-          className="btn-settings"
-          type="button"
-          data-testid="btn-settings"
-          onClick={ this.handleClickSettings }
-        >
-          Configurar
-        </button>
-      </form>
+      <main>
+        <h1 className="title">TRIVIA</h1>
+        <form className="form-login">
+          {this.createInputs('name', 'Nome do jogador:', 'input-player-name', name)}
+          { this.createInputs('email', 'Email', 'input-gravatar-email', email)}
+          <button
+            className="btn-play"
+            type="button"
+            disabled={ isDisabled }
+            data-testid="btn-play"
+            onClick={ this.handleClickPlay }
+          >
+            Jogar
+          </button>
+          {/* Requisito 3 - Botão que redireciona para tela de configuração */}
+          <button
+            className="btn-settings"
+            type="button"
+            data-testid="btn-settings"
+            onClick={ this.handleClickSettings }
+          >
+            Configurar
+          </button>
+        </form>
+
+      </main>
     );
   }
 }
