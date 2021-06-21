@@ -3,6 +3,19 @@ import { shape, string, number } from 'prop-types';
 import { connect } from 'react-redux';
 
 class Feedback extends React.Component {
+  componentDidMount() {
+    const { getName, getUrl, getScore } = this.props;
+    const player = {
+      player: {
+        name: getName,
+        assertions: 0,
+        score: getScore,
+        gravatarEmail: getUrl,
+      },
+    };
+    localStorage.setItem('state', JSON.stringify(player));
+  }
+
   render() {
     const { getName, getUrl, getScore } = this.props;
     return (
@@ -18,10 +31,12 @@ class Feedback extends React.Component {
             { getName }
           </h3>
           <h3 data-testid="header-score">
-            Pontuação:
             { getScore }
           </h3>
         </header>
+        <h1 data-testid="feedback-text">
+          Mensagem de Feedback
+        </h1>
       </main>
     );
   }
