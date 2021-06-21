@@ -29,17 +29,15 @@ class Feedback extends React.Component {
         <Header />
         {/* Requisito 13 */}
         <div className="feedback-mensage">
-          <p data-testid="feedback-text">{ this.feedbackMensage(assertions) }</p>
+          <h1 data-testid="feedback-text">{ this.feedbackMensage(assertions) }</h1>
         </div>
         {/* Requisito 14 */}
         <section className="feedback-section">
           <p>
-            {/* { `Placar final: ${score}` } */}
-            Placar final:
-            <span data-testid="feedback-total-score">{ score }</span>
+            {'Placar final: '}
+            <span className="blink" data-testid="feedback-total-score">{ score }</span>
           </p>
           <p>
-            {/* { `Você acertou ${assertions} questões` } */}
             { 'Você acertou ' }
             <span data-testid="feedback-total-question">{ assertions }</span>
             { ' questões' }
@@ -48,11 +46,23 @@ class Feedback extends React.Component {
         <div className="feedback-buttons">
           {/* Requisito 15 */}
           <Link to="/">
-            <button data-testid="btn-play-again" type="button">Jogar novamente</button>
+            <button
+              className="feedback-button"
+              data-testid="btn-play-again"
+              type="button"
+            >
+              Jogar novamente
+            </button>
           </Link>
           {/* Requisito 16 */}
           <Link to="/ranking">
-            <button data-testid="btn-ranking" type="button">Ver Ranking</button>
+            <button
+              className="feedback-button"
+              data-testid="btn-ranking"
+              type="button"
+            >
+              Ver Ranking
+            </button>
           </Link>
         </div>
       </div>

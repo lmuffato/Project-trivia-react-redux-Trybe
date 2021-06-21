@@ -4,16 +4,32 @@ body {
 }
 
 .header {
-  background-color: #f1f1f1;
+  background-color: #b46be8;
   box-sizing: border-box;
+  color: white;
   display: flex;
   flex-flow: row-reverse;
+  font-family: Calibri , sans-serif;
   height: 100px;
   justify-content: space-around;
   left: 0;
-  margin-top: -2em;
+  margin-top: -1em;
   padding: 30px;
   position: fixed;
+  text-shadow: -2px 0 #513069 , 0 2px #513069 , 2px 0 #513069 , 0 -2px #513069;
   top: 0;
   width: 100%;
+}
+
+.header img {
+  align-self: center;
+  border: 2px solid #513069;
+  display: flex;
+  margin-top: 15px;
+}
+
+.header h3 {
+  align-items: center;
+  display: flex;
+  margin-top: 15px;
 }
