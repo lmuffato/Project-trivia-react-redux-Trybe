@@ -12,13 +12,13 @@ export function varToString(objAttribute) {
 
 export default class Definition {
   constructor(name, value) {
-    this.#name = name;
+    this.name = name;
     this.value = value;
   }
 
-  get name() { return this.#name; }
+  get name() { return this.name; }
 
-  // set name(value) { this.#name = value; }
+  // set name(value) { this.name = value; }
 
   get value() { return this.value; }
 
