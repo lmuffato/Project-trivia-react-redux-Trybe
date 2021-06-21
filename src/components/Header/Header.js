@@ -37,10 +37,13 @@ function Header({ email, user, score, saveUserImage }) {
           { user }
         </span>
         <br />
-        <span data-testid="header-score">
+        <p>
           Pontuação atual:
-          { score }
-        </span>
+          {' '}
+          <span data-testid="header-score">
+            { score }
+          </span>
+        </p>
       </div>
 
     </div>
