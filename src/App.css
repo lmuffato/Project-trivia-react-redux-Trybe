@@ -1,8 +1,7 @@
 body {
-  background: url(mariosky.png) no-repeat center center fixed; 
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
+  background: url(mariosky.jpg) no-repeat center center fixed;
+  background-position: center;
+  background-repeat: no-repeat;
   background-size: cover;
   background-color: rgb(0, 0, 0);
   font-family: Pixel Sans Serif;
