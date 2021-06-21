@@ -14,7 +14,7 @@ body {
 
 button:disabled, button:hover {
   background-color: rgb(57, 65, 49);
-  color:rgb(56, 179, 62);
+  color: rgb(56, 179, 62);
 }
 
 .btn-link {
@@ -42,8 +42,8 @@ button:disabled, button:hover {
   flex-direction: column;
   justify-content: space-between;
   margin-top: 20px;
-  padding-right: 15px;
   padding-left: 20px;
+  padding-right: 15px;
 }
 
 .App-logo {
