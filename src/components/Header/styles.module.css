@@ -1,0 +1,23 @@
+.headerContent {
+  border: 2px green solid;
+  border-radius: 10px;
+  color: white;
+  display: flex;
+  flex-direction: row;
+  margin: auto;
+  padding: 10px;
+  width: 500px;
+}
+
+.headerContent > img {
+  border-radius: 50px;
+}
+
+.headerText {
+  justify-content: space-between;
+  padding: 15px;
+}
+
+.headerUser {
+  font-size: 20px;
+}
