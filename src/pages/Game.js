@@ -10,12 +10,12 @@ class Game extends Component {
     // this.state = {
     //   email: '',
     // };
-    this.renderHeader = this.renderHeader.bind(this);
+    this.renderGravatar = this.renderGravatar.bind(this);
     this.renderName = this.renderName.bind(this);
     this.renderScore = this.renderScore.bind(this);
   }
 
-  renderHeader() {
+  renderGravatar() {
     return (
       <img
         src=""
@@ -37,11 +37,13 @@ class Game extends Component {
   }
 
   renderScore() {
+    const { pointsGlobal } = this.props;
+
     return (
       <h1
         data-testid="header-score"
       >
-        0
+        { Number(pointsGlobal) }
       </h1>
     );
   }
@@ -50,7 +52,7 @@ class Game extends Component {
     return (
       <>
         <header>
-          {this.renderHeader()}
+          {this.renderGravatar()}
           {this.renderName()}
           {this.renderScore()}
         </header>
@@ -65,10 +67,12 @@ class Game extends Component {
 const mapStateToProps = (state) => ({
   userName: state.user.name,
   // userEmail: state.email,
+  pointsGlobal: state.trivia.points,
 });
 
 Game.propTypes = {
   userName: PropTypes.func.isRequired,
+  pointsGlobal: PropTypes.number.isRequired,
 };
 
 export default connect(mapStateToProps)(Game);

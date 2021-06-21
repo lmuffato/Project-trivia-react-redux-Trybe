@@ -54,7 +54,7 @@ class Timer extends Component {
       <>
         <h3>Contador</h3>
         {/* <button type="button" onClick={ this.startTimer }>Iniciar!</button> */}
-        <span>{ seconds }</span>
+        <span className="counter">{ seconds }</span>
       </>
     );
   }

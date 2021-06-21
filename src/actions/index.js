@@ -28,11 +28,6 @@ export const tokenAction = (payload) => ({
   payload,
 });
 
-// export const getTrivia = () => async (dispatch) => {
-//   await fetchTrivia();
-// //   .then((trivia) => dispatch(sendTrivia(trivia)));
-// };
-
 export const setQuestions = (payload) => ({
   type: SET_QUESTIONS,
   payload,
