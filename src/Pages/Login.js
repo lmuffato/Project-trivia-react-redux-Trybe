@@ -42,7 +42,9 @@ class Login extends React.Component {
   // defini se o botão estará habilitado ou não
   setIsDisabled() {
     const { email, name } = this.state;
-    if (email !== '' && name !== '') {
+    const referenceEmail = /\S+@\S+\.\S+/;
+    const validEmail = referenceEmail.test(email);
+    if (validEmail && name !== '') {
       this.setState({
         isDisabled: false,
       });
