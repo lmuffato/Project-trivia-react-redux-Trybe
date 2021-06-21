@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 import { loginAction, userNameAction } from '../actions';
+import trivia from '../trivia.png';
+import '../Style/login.css';
 
 class Login extends Component {
   constructor(props) {
@@ -61,44 +63,51 @@ class Login extends Component {
   }
 
   render() {
-    const { email, user,
-      shoudlRedirect,
-      isButtonDisabled,
-    } = this.state;
+    const { email, user, shoudlRedirect, isButtonDisabled } = this.state;
     if (shoudlRedirect) {
       return <Redirect to="/game" />;
     }
-
     return (
       <div>
-        <input
-          value={ email }
-          name="email"
-          type="email"
-          data-testid="input-gravatar-email"
-          placeholder="email"
-          onChange={ this.handleChange }
-        />
-        <input
-          value={ user }
-          name="user"
-          type="text"
-          data-testid="input-player-name"
-          placeholder="nome"
-          onChange={ this.handleChange }
-        />
-
-        <button
-          disabled={ isButtonDisabled }
-          type="submit"
-          data-testid="btn-play"
-          onClick={ (event) => this.setTokenStorage(event) }
-        >
-          LOGIN
-        </button>
-        <Link to="/settings">
-          <button type="submit" data-testid="btn-settings"> Configurações </button>
-        </Link>
+        <img src={ trivia } alt="trivia" className="App-logo" />
+        <div className="login">
+          <div className="inputs-login">
+            <input
+              value={ email }
+              name="email"
+              type="email"
+              data-testid="input-gravatar-email"
+              placeholder="EMAIL"
+              onChange={ this.handleChange }
+            />
+            <input
+              value={ user }
+              name="user"
+              type="text"
+              data-testid="input-player-name"
+              placeholder="NOME"
+              onChange={ this.handleChange }
+            />
+          </div>
+          <button
+            className="btn"
+            disabled={ isButtonDisabled }
+            type="submit"
+            data-testid="btn-play"
+            onClick={ (event) => this.setTokenStorage(event) }
+          >
+            JOGAR
+          </button>
+          <Link to="/settings">
+            <button
+              className="btn"
+              type="submit"
+              data-testid="btn-settings"
+            >
+              Configurações
+            </button>
+          </Link>
+        </div>
       </div>
     );
   }
