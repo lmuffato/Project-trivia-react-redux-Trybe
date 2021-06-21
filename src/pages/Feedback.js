@@ -1,18 +1,28 @@
 import React from 'react';
+import { useHistory } from "react-router-dom";
 import { shape, string, number } from 'prop-types';
 import { connect } from 'react-redux';
 
 class Feedback extends React.Component {
-  constructor() {
-    super();
-
-    this.moreThanThreePoins = this.moreThanThreePoins.bind(this);
-    this.lessThanThreePoints = this.lessThanThreePoints.bind(this);
+  constructor(props) {
+    super(props);
     this.redirectToInitialPage = this.redirectToInitialPage.bind(this);
     this.redirectToRanking = this.redirectToRanking.bind(this);
   }
-  // https://stackoverflow.com/questions/34735580/how-to-do-a-redirect-to-another-route-with-react-router
-  // referencia para requisitos 15 e 16
+
+  componentDidMount() {
+    const { getName, getUrl, getScore } = this.props;
+    const player = {
+      player: {
+        name: getName,
+        assertions: 0,
+        score: getScore,
+        gravatarEmail: getUrl,
+      },
+    };
+    localStorage.setItem('state', JSON.stringify(player));
+  }
+  // https://stackoverflow.com/questions/34735580/how-to-do-a-redirect-to-another-route-with-react-router referencia para 15 e 16.
 
   redirectToInitialPage() {
     const { history } = this.props;
@@ -22,18 +32,6 @@ class Feedback extends React.Component {
   redirectToRanking() {
     const { history } = this.props;
     history.push('/ranking');
-  }
-
-  moreThanThreePoins() {
-    return (
-      <p data-testid="feedback-text">Podia ser melhor...</p>
-    );
-  }
-
-  lessThanThreePoints() {
-    return (
-      <p data-testid="feedback-text">Mandou bem!</p>
-    );
   }
 
   render() {
@@ -51,29 +49,27 @@ class Feedback extends React.Component {
             { getName }
           </h3>
           <h3 data-testid="header-score">
-            Pontuação:
             { getScore }
           </h3>
         </header>
+        <h1 data-testid="feedback-text">
+          Mensagem de Feedback
+        </h1>
 
-        <div>
-          <button
-            data-testid="btn-play-again"
-            type="button"
-            onClick={ this.redirectToInitialPage }
-          >
-            Jogar novamente
-          </button>
-        </div>
-        <div>
-          <button
-            data-testid="btn-ranking"
-            type="button"
-            onClick={ this.redirectToRanking }
-          >
-            Ver Ranking
-          </button>
-        </div>
+        <button
+          data-testid="btn-play-again"
+          type="button"
+          onClick={ this.redirectToInitialPage }
+        >
+          Jogar novamente
+        </button>
+        <button
+          data-testid="btn-ranking"
+          type="button"
+          onClick={ this.redirectToRanking }
+        >
+          Ver Ranking
+        </button>
       </main>
 
     );
