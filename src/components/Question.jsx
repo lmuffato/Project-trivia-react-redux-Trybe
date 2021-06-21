@@ -13,7 +13,6 @@ class Question extends Component {
     this.state = {
       isButtonDisabled: false,
       hideButton: 'hide-button',
-      // resetTimer: false,
       red: '',
       green: '',
     };
@@ -23,16 +22,10 @@ class Question extends Component {
     this.restoreTimer = this.restoreTimer.bind(this);
   }
 
-  // componentWillUnmount() {
-  //   this.handleLocalStorage();
-  // }
-
   restoreTimer() {
     const { setTimer, removeQuestionTimerReset } = this.props;
     setTimer(true);
     removeQuestionTimerReset();
-    // resetQuizTimer();
-    // this.setState({ resetTimer: false });
   }
 
   handleStyle() {
@@ -40,7 +33,6 @@ class Question extends Component {
     this.setState({
       green: 'green',
       red: 'red',
-      // resetTimer: true,
       hideButton: '',
       isButtonDisabled: true,
     });
