@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import md5 from 'crypto-js/md5';
+import { getLocalStorage } from '../helper';
 
 const HeaderTriviaGame = (props) => {
-  const { user, points = 0 } = props;
+  const { user } = props;
 
   return (
     <div className="header-trivia-game">
@@ -19,7 +20,13 @@ const HeaderTriviaGame = (props) => {
       <div>
         <span>
           Pontos:
-          <span data-testid="header-score">{ points }</span>
+          <span data-testid="header-score">
+            {
+              getLocalStorage('state').player.score
+                ? getLocalStorage('state').player.score
+                : 0
+            }
+          </span>
         </span>
         <Link to="/settings"><span data-testid="btn-settings">Settings</span></Link>
       </div>
@@ -33,7 +40,7 @@ HeaderTriviaGame.propTypes = {
 
 const mapStateToProps = (state) => ({
   user: state.user,
-  points: state.points,
+  // points: state.points,
 });
 
 // const mapDispatchToProps = (dispatch) => ({

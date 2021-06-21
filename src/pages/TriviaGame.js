@@ -7,9 +7,15 @@ import Question from '../components/Question';
 import Timer from '../components/Timer';
 import Answer from '../components/Answer';
 import ButtonNext from '../components/ButtonNext';
-import { shuffle } from '../helper';
-import { timerResetAction, updateTimer, setIdInterval } from '../redux/action';
+import { getLocalStorage, setLocalStorage, shuffle } from '../helper';
+import {
+  timerResetAction,
+  updateTimer,
+  setIdInterval,
+  setCorrectAnswerAction,
+} from '../redux/action';
 
+const CORRECT_ANSWER = 'correct-answer';
 class TriviaGame extends Component {
   constructor(props) {
     super(props);
@@ -19,7 +25,7 @@ class TriviaGame extends Component {
       goFeedback: false,
       disableBtn: true,
       answersRandom: [],
-      isAnswersRandom: true,
+      shouldChangeAnswer: true,
     };
     this.handleIndexIncrementClick = this.handleIndexIncrementClick.bind(this);
     this.handleAnswerClick = this.handleAnswerClick.bind(this);
@@ -35,10 +41,10 @@ class TriviaGame extends Component {
     const { index } = this.state;
     this.setState({
       answersRandom: this.answersRandom(index),
-      isAnswersRandom: false,
+      shouldChangeAnswer: false,
     }, () => {
       const { answersRandom } = this.state;
-      console.log('AAAAAAAAAAAAAAAA', answersRandom);
+      console.table(answersRandom);
     });
   }
 
@@ -48,18 +54,15 @@ class TriviaGame extends Component {
    */
   handleShowCorrectClick(reset) {
     const btnAnswers = document.getElementsByName('answer');
-    // const btnNext = document.querySelector('#btn-next');
     btnAnswers.forEach((btn) => {
       if (reset) { btn.style = ''; btn.removeAttribute('disabled'); return; }
       btn.setAttribute('disabled', true);
-      if (btn.getAttribute('data-testid') === 'correct-answer') {
+      if (btn.getAttribute('data-testid') === CORRECT_ANSWER) {
         btn.style = 'border: 3px solid rgb(6, 240, 15)';
       } else {
         btn.style = 'border: 3px solid rgb(255, 0, 0)';
       }
     });
-    // console.log(btnNext);
-    // btnNext.removeAttribute('disabled');
   }
 
   enableBtnNext() {
@@ -77,31 +80,39 @@ class TriviaGame extends Component {
     });
   }
 
-  handleAnswerClick() {
+  handleAnswerClick(ev) {
     const { idInterval } = this.props;
+    console.log(ev);
+    if (ev.target.getAttribute('data-testid') === CORRECT_ANSWER) {
+      const user = getLocalStorage('state');
+      user.player.assertions += 1;
+      // adicionar score ( esta sendo adicionado em Answer)
+      setLocalStorage('state', user);
+    }
     this.handleShowCorrectClick();
     // enableBtnNext();
     this.setState({
       disableBtn: false,
+      // shouldChangeAnswer: false,
     });
     clearInterval(idInterval);
   }
 
   handleIndexIncrementClick() {
-    console.log('ROOOOOOOOOOOOOOODA MEU FIH');
     const { timerReset, decreaseTimer, setIntervalID, questions } = this.props;
     const { index } = this.state;
     const NUMBER_QUESTIONS = questions.length - 1;
     if (index >= NUMBER_QUESTIONS) {
+      // adicionar user e score
       this.setState({
         goFeedback: true,
       });
       return;
-    }
+    } // Finish
     this.setState((oldState) => ({
       index: oldState.index + 1,
       disableBtn: true,
-      isAnswersRandom: true,
+      shouldChangeAnswer: true,
     }), () => {
       this.setAnswersRandom();
     });
@@ -117,23 +128,27 @@ class TriviaGame extends Component {
 
   answersRandom(index) {
     const { questions } = this.props;
-    const { answersRandom, isAnswersRandom } = this.state;
-    if (questions.length && isAnswersRandom) {
+    const { answersRandom, shouldChangeAnswer } = this.state;
+    // const { answersRandom } = this.state;
+    if (questions.length && shouldChangeAnswer) {
       const correct = {
         answer: questions[index].correct_answer,
-        dataTestId: 'correct-answer',
+        dataTestId: CORRECT_ANSWER,
         difficulty: questions[index].difficulty,
       };
-
       const incorrect = questions[index].incorrect_answers.map((incorrectAnswer, i) => ({
         answer: incorrectAnswer,
         dataTestId: `wrong-answer-${i}`,
         difficulty: questions[index].difficulty,
       }));
       const answers = [...incorrect, correct];
-      // this.setState({
-      //   isAnswersRandom: false,
-      // });
+
+      if (index === 0 && shouldChangeAnswer) {
+        this.setState({
+          answersRandom: shuffle(answers),
+          shouldChangeAnswer: false,
+        });
+      }
       return shuffle(answers);
     }
     return answersRandom;
@@ -192,6 +207,7 @@ const mapDispatchToProps = (dispatch) => ({
   timerReset: () => dispatch(timerResetAction()),
   decreaseTimer: () => dispatch(updateTimer()),
   setIntervalID: (payload) => dispatch(setIdInterval(payload)),
+  setCorrectAnswer: () => dispatch(setCorrectAnswerAction()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TriviaGame);

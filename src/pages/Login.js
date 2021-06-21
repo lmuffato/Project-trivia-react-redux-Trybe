@@ -50,26 +50,27 @@ class Login extends Component {
     };
 
     const player = {
-      name,
-      assertions: 0,
-      score: 0,
-      gravatarEmail: email,
+      player: {
+        name,
+        assertions: 0,
+        score: 0,
+        gravatarEmail: email,
+      },
     };
 
     try {
-      const response = await fetch('https://opentdb.com/api_token.php?command=request');
-      const data = await response.json();
-      // localStorage.setItem('token', data.token);
-      setLocalStorage('token', data.token); // função auxiliar que faz a mesma coisa que a linha acima.
+      // const response = await fetch('https://opentdb.com/api_token.php?command=request');
+      // const data = await response.json();
+      // setLocalStorage('token', data.token); // função auxiliar que faz a mesma coisa que a linha acima.
       setLocalStorage('state', player);
 
       onSubmit(user);
-      fetchQuestion(questionSettings, data.token);
+      fetchQuestion(questionSettings);
 
       this.setState({
         shouldRedirect: true,
       });
-      return data;
+      // return data;
     } catch (error) {
       // todo: caso o token seja invalido, tratar o erro e buscar um novo token valido
       console.log(error);

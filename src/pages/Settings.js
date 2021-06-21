@@ -120,7 +120,7 @@ class Settings extends Component {
   render() {
     const { category } = this.state;
     const { categories, isFetching } = this.props;
-    if (isFetching) return <p>Carregando...</p>;
+    if (isFetching) return <h1 data-testid="settings-title">Configurações</h1>;
     return (
       <div className="settings">
         <header>
@@ -138,7 +138,7 @@ class Settings extends Component {
                 onChange={ this.handleChange }
                 data-testid="settings-category-input"
               >
-                {this.allCategorys()}
+                {this.allCategories()}
                 {categories.map((cat) => (
                   <option key={ cat.id } value={ cat.id }>{cat.name}</option>
                 ))}

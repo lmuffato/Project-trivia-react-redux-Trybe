@@ -2,32 +2,33 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
+const difficultyLevel = (key) => {
+  const hardpoint = 3;
+  const mediumPOint = 2;
+  const easyPoint = 1;
+  switch (key) {
+  case 'hard':
+    return hardpoint;
+  case 'medium':
+    return mediumPOint;
+  case 'easy':
+    return easyPoint;
+  default:
+    break;
+  }
+};
 function Answer(props) {
   const { answers, onClick } = props;
+  // const answerss = answers();
   const timer = Number(useSelector((state) => state.timer.time));
-
-  const difficultyLevel = (key) => {
-    const hardpoint = 3;
-    const mediumPOint = 2;
-    const easyPoint = 1;
-    switch (key) {
-    case 'hard':
-      return hardpoint;
-    case 'medium':
-      return mediumPOint;
-    case 'easy':
-      return easyPoint;
-    default:
-      break;
-    }
-  };
 
   const scoreLocalStorage = (event, index) => {
     console.log('TIMER', timer);
     if (event.target.getAttribute('data-testid') === 'correct-answer') {
       const state = JSON.parse(localStorage.getItem('state'));
       const hitPoints = 10;
-      state.score += (hitPoints + timer * difficultyLevel(answers[index].difficulty));
+      state.player.score += (hitPoints
+        + timer * difficultyLevel(answers[index].difficulty));
       localStorage.setItem('state', JSON.stringify(state));
     }
   };
@@ -39,7 +40,7 @@ function Answer(props) {
           key={ index }
           type="button"
           onClick={ (ev) => {
-            onClick();
+            onClick(ev);
             scoreLocalStorage(ev, index);
           } }
           data-testid={ answer.dataTestId }
