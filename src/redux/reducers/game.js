@@ -1,4 +1,5 @@
-import { GET_PLACAR, GET_QUESTION, GET_QUESTION_SUCCESS, SAVE_USER } from '../actions';
+import { GET_PLACAR, GET_QUESTION,
+  GET_QUESTION_SUCCESS, SAVE_USER, RESET_PLACAR } from '../actions';
 
 const INITIAL_STATE = {
   placar: 0,
@@ -25,6 +26,8 @@ const gamePage = (state = INITIAL_STATE, { type, payload }) => {
       ...state,
       users: [...state.users, payload],
     };
+  case RESET_PLACAR:
+    return { ...state, placar: 0 };
   default:
     return state;
   }

@@ -30,27 +30,33 @@ class Feedback extends React.Component {
   }
 
   render() {
+    const urlSuccess = <img src="https://media.giphy.com/media/yoJC2GnSClbPOkV0eA/giphy.gif" alt="Success!" className="success" />;
+    const urlFail = <img src="https://media.giphy.com/media/fxZeSkds6bcWGlgevx/source.gif" alt="Fail!" className="fail" />;
     const { score } = this.props;
     const maxAssertions = 2;
     const { assertions, ranking, loginRedirect } = this.state;
     return (
-      <div>
+      <div className="feedback-container">
         <header>
           <Header />
-          <h1 data-testid="feedback-text">
+          <h1 data-testid="feedback-text" className="textFeed">
             {assertions <= maxAssertions ? 'Podia ser melhor...' : 'Mandou bem!'}
           </h1>
-          <h3 data-testid="feedback-total-score">
+          {assertions <= maxAssertions ? urlFail : urlSuccess}
+          <h2>Sua Pontuação: </h2>
+          <h4 data-testid="feedback-total-score">
             {score}
-          </h3>
-          <h3 data-testid="feedback-total-question">
+          </h4>
+          <h2>Respostas corretas: </h2>
+          <h4 data-testid="feedback-total-question">
             {assertions}
-          </h3>
+          </h4>
         </header>
         <button
           type="button"
           data-testid="btn-play-again"
           onClick={ () => this.setState({ loginRedirect: true }) }
+          className="btn btn-success"
         >
           Jogar novamente
         </button>
@@ -59,6 +65,7 @@ class Feedback extends React.Component {
           data-testid="btn-ranking"
           onClick={ () => this.setState({ ranking: true }) }
           type="button"
+          className="btn btn-danger"
         >
           Ver Ranking
         </button>
