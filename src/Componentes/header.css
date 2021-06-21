@@ -4,7 +4,12 @@ body {
 }
 
 .header {
-  background-color: #f1f1f1;
+  background-color: #B46BE8;
+  color: white;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  /* stroke-width: 3px;
+  stroke-dashoffset: white; */
+  text-shadow: -2px 0 #513069, 0 2px #513069, 2px 0 #513069, 0 -2px #513069;
   box-sizing: border-box;
   display: flex;
   flex-flow: row-reverse;
