@@ -17,7 +17,7 @@ class Header extends React.Component {
       <header>
         <img src="" id="image" alt={ name } data-testid="header-profile-picture" />
         <h4 data-testid="header-player-name">{ name }</h4>
-        <h4 data-testid="header-score">{ score }</h4>
+        <h4 id="score" data-testid="header-score">{ score }</h4>
       </header>
     );
   }
@@ -26,7 +26,7 @@ class Header extends React.Component {
 const mapStateToProps = (state) => ({
   email: state.user.email,
   name: state.user.name,
-  score: state.user.score,
+  score: state.questions.score,
   image: state.user.image,
   isLoading: state.user.isLoading,
 });

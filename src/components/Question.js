@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import setLocalStorage from '../services/setLocalStorage';
 import { addCorrectAction } from '../actions/actionQuestions';
-import Timer from './Timer';
+import { pause, start, stop } from './Timer';
 
 const CORRECT_ANSWER = 'correct-answer';
+const init = 30;
 
 const objDifficulty = {
   easy: 1,
@@ -28,9 +29,18 @@ class Question extends Component {
     const { token } = this.props;
 
     setLocalStorage(token.token);
+
+    start(init);
+
+    this.addPointsToStorage();
+  }
+
+  componentDidUpdate() {
+    this.addPointsToStorage();
   }
 
   setBorderColor({ target }) {
+    pause();
     const { addCorrect, questions, idQuestion } = this.props;
     const options = document.querySelectorAll('#options > button');
     options.forEach((op) => {
@@ -41,12 +51,11 @@ class Question extends Component {
       }
     });
     if (target.attributes[1].value === CORRECT_ANSWER) {
-      const time = document.querySelector('#time').innerText;
+      const time = document.querySelector('#timer').innerText;
       const defaultValue = 10;
       const points = defaultValue
-      + parseInt(time, 10)
-      * objDifficulty[questions[idQuestion].difficulty];
-      console.log(points);
+      + (parseInt(time, 10)
+      * objDifficulty[questions[idQuestion].difficulty]);
       addCorrect(points);
     }
     this.setNextButton();
@@ -59,43 +68,38 @@ class Question extends Component {
     }));
   }
 
+  addPointsToStorage() {
+    const {
+      assertions, email, name,
+    } = this.props;
+    const score = document.querySelector('#score').innerText;
+    let newObj = {};
+    newObj = {
+      name,
+      gravatarEmail: email,
+      score,
+      assertions,
+    };
+    localStorage.setItem('state', JSON.stringify({ player: { ...newObj } }));
+  }
+
   resetBorderColor() {
     const options = document.querySelectorAll('#options > button');
     options.forEach((op) => {
       op.style.border = 'none';
+      op.disabled = false;
     });
   }
 
   nextOrFeedback() {
-    const {
-      idQuestion, questions, handleChange, history, assertions, score, email, name,
-    } = this.props;
+    stop();
+    const { idQuestion, questions, history, handleChange } = this.props;
     if (idQuestion !== questions.length - 1) {
+      start(init);
       handleChange();
       this.resetBorderColor();
       this.setNextButton();
     } else {
-      const data = JSON.parse(localStorage.getItem('state'));
-      console.log(data);
-      let newObj = {};
-      if (data) {
-        newObj = {
-          ...data,
-          name,
-          gravatarEmail: email,
-          score,
-          assertions,
-        };
-        localStorage.setItem('state', JSON.stringify(newObj));
-      } else {
-        newObj = {
-          name,
-          gravatarEmail: email,
-          score,
-          assertions,
-        };
-        localStorage.setItem('state', JSON.stringify(newObj));
-      }
       history.push('/feedback');
     }
   }
@@ -111,7 +115,7 @@ class Question extends Component {
     ];
     return (
       <div>
-        <Timer time={ 30 } />
+        <div id="timer">30</div>
         <div data-testid="question-category">
           { `Categoria: ${questions[idQuestion].category}` }
         </div>
@@ -172,11 +176,7 @@ Question.propTypes = {
   history: PropTypes.oneOfType([PropTypes.object]).isRequired,
   addCorrect: PropTypes.func.isRequired,
   assertions: PropTypes.number.isRequired,
-  score: PropTypes.number.isRequired,
-};
-
-Question.propTypes = {
-  token: PropTypes.string.isRequired,
+  token: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Question);
