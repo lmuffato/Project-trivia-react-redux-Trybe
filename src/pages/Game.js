@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { arrayOf, object } from 'prop-types';
+import { translate, setCORS } from 'google-translate-api-browser';
 import Questions from '../components/Questions';
 import {
   disableAnswer as disableAnswerAction,
@@ -11,6 +12,8 @@ import {
 import Header from '../components/Header';
 import Loading from '../components/Loading';
 import getGravatarImg from '../components/getGravatarImg';
+
+setCORS('https://cors.bridged.cc/');
 
 class Game extends React.Component {
   constructor() {
@@ -29,26 +32,46 @@ class Game extends React.Component {
     this.resetStyle = this.resetStyle.bind(this);
     this.setLoadingNewQuestion = this.setLoadingNewQuestion.bind(this);
     this.showNextButton = this.showNextButton.bind(this);
+    this.setQuestionsState = this.setQuestionsState.bind(this);
   }
 
   componentDidMount() {
     this.setLoading();
   }
 
+  setQuestionsState(question) {
+    this.setState(({ questions }) => ({
+      questions: [...questions, question],
+    }));
+  }
+
   setLoading() {
     const timeOut = 3000;
     setTimeout(() => {
-      const { questions } = this.props;
+      const { questions, language } = this.props;
       if (questions.length) {
         // const answers = questions.map((question) => [
         //   question.correct_answer,
         //   ...question.incorrect_answers,
         // ]);
-        this.setAnswers();
-        this.setState({
-          questions,
-          isLoading: false,
-        });
+        if (language !== 'en') {
+          questions.map(async (question) => {
+            const translatedQuestion = await translate(
+              decodeURIComponent(question.question),
+              { to: 'pt' },
+            );
+            this.setQuestionsState({
+              ...question,
+              question: translatedQuestion.text,
+            });
+            this.setAnswers();
+          });
+        } else {
+          this.setState({
+            questions,
+          });
+          this.setAnswers();
+        }
       }
     }, timeOut);
   }
@@ -63,7 +86,7 @@ class Game extends React.Component {
 
   setAnswers() {
     const { questionIndex } = this.state;
-    const { questions } = this.props;
+    const { questions } = this.state;
     if (questions.length) {
       const {
         correct_answer: correctAnswer,
@@ -71,6 +94,7 @@ class Game extends React.Component {
       } = questions[questionIndex];
       this.setState({
         answers: [correctAnswer, ...incorrectAnswers],
+        isLoading: false,
       });
     }
   }
@@ -134,6 +158,7 @@ class Game extends React.Component {
   render() {
     const { isAnswered } = this.props;
     const { isLoading, questions, answers, questionIndex, newQuestion } = this.state;
+    console.log(answers);
     if (isLoading) return <Loading />;
     if (questionIndex > Number('4')) {
       this.buildRanking();
@@ -170,6 +195,7 @@ const mapStateToProps = (state) => ({
   questions: state.game.questions,
   timesUp: state.gameMatch.timesUp,
   isAnswered: state.gameMatch.isAnswered,
+  language: state.gameTranslation.language,
 });
 
 const mapDispatchToProps = (dispatch) => ({

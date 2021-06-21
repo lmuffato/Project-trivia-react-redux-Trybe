@@ -119,7 +119,9 @@ export function clearPlayerState(payload) {
 }
 
 export function updateUrl(part) {
-  return { type: UPDATE_URL, part };
+  return typeof part === 'string'
+    ? { type: UPDATE_URL, part }
+    : { type: UPDATE_URL, ...part };
 }
 
 export function choseLanguage(payload) {

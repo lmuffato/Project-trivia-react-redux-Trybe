@@ -63,6 +63,7 @@ class Questions extends React.Component {
     const { timesUp, questions, questionIndex, isAnswered } = this.props;
     if (!questions.length) return <div>Loading...</div>;
     const { randomAnswers } = this.state;
+    console.log(this.props);
     const { question, category, difficulty } = questions[questionIndex];
     const questionDecoded = decodeURIComponent(question);
     const categoryDecoded = decodeURIComponent(category);

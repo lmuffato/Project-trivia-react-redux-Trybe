@@ -25,13 +25,15 @@ class Settings extends Component {
     super(props);
     this.state = {
       language: 'en',
+      urlParts: [],
     };
     this.handleChange = this.handleChange.bind(this);
     this.renderCategorySelect = this.renderCategorySelect.bind(this);
     this.renderDifficultySelect = this.renderDifficultySelect.bind(this);
     this.renderTypeSelect = this.renderTypeSelect.bind(this);
-    this.choseLanguage = this.choseLanguage.bind(this);
+    this.choseLanguageSettings = this.choseLanguageSettings.bind(this);
     this.translateToPt = this.translateToPt.bind(this);
+    this.saveSettings = this.saveSettings.bind(this);
   }
 
   componentDidMount() {
@@ -42,22 +44,25 @@ class Settings extends Component {
   async translateToPt(string) {
     const translated = await translate(string, { to: 'pt' });
     return translated;
-    // .then((res) => {
-    //   console.log(res.text);
-    //   //= > I speak English
-    //   // console.log(res.from.language.iso);
-    //   // //= > nl
-    // }).catch((err) => {
-    //   console.error(err);
-    // });
   }
 
   handleChange({ target: { name, value } }) {
-    const { updateUrl } = this.props;
-    updateUrl(`&${name}=${value}`);
+    this.setState(({ urlParts }) => ({
+      urlParts: [...urlParts, `&${name}=${value}`],
+    }));
   }
 
-  choseLanguage() {
+  saveSettings() {
+    const { urlParts, language } = this.state;
+    const { updateUrl, choseLanguage, onHide } = this.props;
+    updateUrl(!urlParts.length ? '' : urlParts);
+    if (language !== 'en') {
+      choseLanguage('pt');
+      onHide();
+    }
+  }
+
+  choseLanguageSettings() {
     this.setState(
       ({ language }) => ({
         language: language === 'en' ? 'pt' : 'en',
@@ -168,7 +173,7 @@ class Settings extends Component {
     return (
       <Modal
         show={ show }
-        dialogC
+        dialogClassName="settings-container"
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
@@ -183,7 +188,7 @@ class Settings extends Component {
             <Form.Label>Inglês (English)</Form.Label>
             <div className="switch__container">
               <input
-                onChange={ this.choseLanguage }
+                onChange={ this.choseLanguageSettings }
                 id="switch-flat"
                 checked={ language !== 'en' }
                 className="switch switch--flat"
@@ -203,7 +208,7 @@ class Settings extends Component {
           <Button variant="danger" onClick={ onHide }>
             {language === 'en' ? 'Close' : 'Fechar'}
           </Button>
-          <Button variant="success" onClick={ onHide }>
+          <Button variant="success" onClick={ this.saveSettings }>
             {language === 'en' ? 'Save' : 'Salvar'}
           </Button>
         </Modal.Footer>
