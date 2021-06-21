@@ -49,7 +49,7 @@ const mapDispatchToProps = (dispatch) => ({
 const mapStateToProps = (state) => ({
   email: state.userReducer.email,
   user: state.userReducer.user,
-  score: state.userReducer.score,
+  score: state.userReducer.playerScore,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

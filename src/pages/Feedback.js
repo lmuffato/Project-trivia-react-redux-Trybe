@@ -3,18 +3,44 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
+import { resetScore } from '../actions';
 
 class Feedback extends React.Component {
   constructor(props) {
     super(props);
-
     this.renderBadScore = this.renderBadScore.bind(this);
     this.renderGoodScoore = this.renderGoodScoore.bind(this);
+    this.rankingLocalStorage = this.rankingLocalStorage.bind(this);
+    this.sortingArr = this.sortingArr.bind(this);
+    // this.sortArray = this.sortArray.bind(this);
+    this.handleResetScore = this.handleResetScore.bind(this);
   }
 
   componentDidMount() {
     this.rankingLocalStorage();
   }
+
+  sortingArr(a, b) {
+    const magicNumber = -1;
+    if (b.score > a.score) {
+      return 1;
+    } if (a.score > b.score) {
+      return magicNumber;
+    }
+    return a;
+  }
+
+  // sortArray(a, b) {
+  //   if (b.score > a.score) {
+  //     return b.score - a.score;
+  //   }
+  //   if (a.score > b.score) {
+  //     return a.score - b.score;
+  //   }
+  //   if (a.score === b.score) {
+  //     return b.name - a.name ? -1 : 1;
+  //   }
+  // }
 
   rankingLocalStorage() {
     const rankingOne = [];
@@ -27,11 +53,17 @@ class Feedback extends React.Component {
     };
     if (oldRanking) {
       const rankingArray = [...oldRanking, rankingObject];
-      localStorage.setItem('ranking', JSON.stringify(rankingArray));
+      const sortedRanking = rankingArray.sort((a, b) => b.score - a.score);
+      localStorage.setItem('ranking', JSON.stringify(sortedRanking));
     } else {
       const newRanking = [...rankingOne, rankingObject];
       localStorage.setItem('ranking', JSON.stringify(newRanking));
     }
+  }
+
+  handleResetScore() {
+    const { resetPlayerScore } = this.props;
+    resetPlayerScore();
   }
 
   renderGoodScoore() { return (<h1 data-testid="feedback-text">Mandou bem!</h1>); }
@@ -40,7 +72,6 @@ class Feedback extends React.Component {
 
   render() {
     const { score, assertions } = this.props;
-
     const minimalScore = 3;
 
     return (
@@ -67,7 +98,11 @@ class Feedback extends React.Component {
           </button>
         </Link>
         <Link to="/">
-          <button type="submit" data-testid="btn-play-again">
+          <button
+            type="button"
+            data-testid="btn-play-again"
+            onClick={ this.handleResetScore }
+          >
             Jogar Novamente
           </button>
         </Link>
@@ -77,10 +112,14 @@ class Feedback extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  score: state.userReducer.score,
+  score: state.userReducer.playerScore,
   assertions: state.userReducer.assertions,
   image: state.userReducer.image,
   user: state.userReducer.user,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  resetPlayerScore: () => dispatch(resetScore()),
 });
 
 Feedback.propTypes = {
@@ -88,6 +127,9 @@ Feedback.propTypes = {
   assertions: PropTypes.number.isRequired,
   image: PropTypes.string.isRequired,
   user: PropTypes.string.isRequired,
+  resetPlayerScore: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps)(Feedback);
+export default connect(mapStateToProps, mapDispatchToProps)(Feedback);
+
+// https://pt.stackoverflow.com/questions/46600/como-ordenar-uma-array-de-objetos-com-array-sort

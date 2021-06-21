@@ -2,38 +2,44 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-// import md5 from 'crypto-js';
+import { resetScore } from '../actions';
+// // import md5 from 'crypto-js';
 
 class Ranking extends React.Component {
-  // constructor(props) {
-  //   super(props);
+  constructor() {
+    super();
+    this.handleClick = this.handleClick.bind(this);
+  }
 
-  //   this.renderLocalStorage = this.renderLocalStorage.bind(this);
-  // }
-
-  // renderLocalStorage() {
-  //   const renderRanking = JSON.parse(localStorage.getItem('ranking'));
-  // }
+  handleClick() {
+    const { resetPlayerScore } = this.props;
+    resetPlayerScore();
+  }
 
   render() {
-    // const renderRanking = JSON.parse(localStorage.getItem('ranking'));
+    const renderRanking = JSON.parse(localStorage.getItem('ranking'));
 
-    const { user, score, image } = this.props;
     return (
       <div>
         <h1 data-testid="ranking-title"> RANKING</h1>
-        {/* map no renderRanking ? Math.Max() SERÁ? */}
-        <p>
-          { user }
-        </p>
-        <p>
-          { score }
-        </p>
-        <img src={ image } alt="user" />
+        <ol>
+          {renderRanking.map((ranking, index) => (
+            <li key={ index }>
+              <img src={ ranking.picture } alt="user" />
+              <p data-testid={ `player-name-${index}` }>
+                { ranking.name }
+              </p>
+              <span data-testid={ `player-score-${index}` }>
+                { ranking.score }
+              </span>
+            </li>
+          ))}
+        </ol>
         <Link to="/">
           <button
             data-testid="btn-go-home"
             type="button"
+            onClick={ this.handleClick }
           >
             Início
           </button>
@@ -44,15 +50,17 @@ class Ranking extends React.Component {
 }
 
 Ranking.propTypes = {
-  score: PropTypes.number.isRequired,
-  user: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
+  resetPlayerScore: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  score: state.userReducer.score,
-  user: state.userReducer.user,
-  image: state.userReducer.image,
+// const mapStateToProps = (state) => ({
+//   score: state.userReducer.score,
+//   user: state.userReducer.user,
+//   image: state.userReducer.image,
+// });
+
+const mapDispatchToProps = (dispatch) => ({
+  resetPlayerScore: () => dispatch(resetScore()),
 });
 
-export default connect(mapStateToProps)(Ranking);
+export default connect(null, mapDispatchToProps)(Ranking);

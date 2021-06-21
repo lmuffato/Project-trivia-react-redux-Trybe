@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
-import { loginAction, userNameAction } from '../actions';
+import { loginAction, userNameAction, resetScore } from '../actions';
 
 class Login extends Component {
   constructor(props) {
@@ -107,6 +107,7 @@ class Login extends Component {
 const mapDispatchToProps = (dispatch) => ({
   userLogin: (email) => dispatch(loginAction(email)),
   userNameLogin: (user) => dispatch(userNameAction(user)),
+  resetPlayerScore: () => dispatch(resetScore()),
 });
 
 Login.propTypes = {
