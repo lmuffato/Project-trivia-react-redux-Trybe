@@ -1,8 +1,3 @@
-// tela perguntas em si
-// utiliza header component
-
-// Requisição API
-
 import React from 'react';
 import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
@@ -30,12 +25,6 @@ class GamePage extends React.Component {
     this.fetchApi();
   }
 
-  // componentWillUnmount() {
-  //   this.runTimer();
-  // }
-
-  // renderiza uma pergunta por vez do array de perguntas
-  // controla o index do array de perguntas
   getNextQuestion() {
     const { index, questions } = this.state;
     if (index < questions.length - 1) {
