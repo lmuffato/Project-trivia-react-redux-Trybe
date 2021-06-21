@@ -32,7 +32,7 @@ class Timer extends React.Component {
       }), this.handleReset);
     } else {
       handleStyle();
-      this.setState({ time: 30 });
+      this.setState({ time: 0 });
     }
   }
 

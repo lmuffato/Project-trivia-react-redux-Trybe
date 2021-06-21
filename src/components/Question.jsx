@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { decode } from 'he';
 import Button from './Button';
 import Timer from './Timer';
-// import { shuffleListOfAnswers } from '../services/shuffle';
 import { scoreAndAssertionsAction,
   isTimerActiveAction, resetTimer, removeResetTimer } from '../actions';
 
@@ -90,7 +90,7 @@ class Question extends Component {
         />
         <h4 data-testid="question-category">{ quiz.category }</h4>
         <h5>{ quiz.difficulty }</h5>
-        <p data-testid="question-text">{ quiz.question }</p>
+        <p data-testid="question-text">{ decode(quiz.question)}</p>
         { answers.map((answer, index) => (answer === correctAnswer ? (
           <Button
             key={ answer }
@@ -99,7 +99,7 @@ class Question extends Component {
             onClick={ () => { this.handleStyle(); setScore(verifyScore); } }
             disabled={ isButtonDisabled }
           >
-            { answer }
+            { decode(answer)}
           </Button>
         ) : (
           <Button
@@ -109,7 +109,7 @@ class Question extends Component {
             onClick={ this.handleStyle }
             disabled={ isButtonDisabled }
           >
-            { answer }
+            { decode(answer)}
           </Button>
         )))}
         <div>
