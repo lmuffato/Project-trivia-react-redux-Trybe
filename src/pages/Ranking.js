@@ -39,7 +39,7 @@ class Ranking extends Component {
         </ol>
         <Link to="/">
           <button
-            className="button button-rank"
+            className="button-rank button"
             data-testid="btn-go-home"
             type="button"
           >

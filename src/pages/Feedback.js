@@ -50,14 +50,14 @@ class Feedback extends Component {
   styleScore() {
     const { userAssertions } = this.props;
     return (
-      <div className="inline">
-        <h3 className="title is-4">Quantidades de respostas corretas:</h3>
-        <span
-          className="title is-4"
+      <div>
+        <h3 className="title is-5">Quantidades de respostas corretas:</h3>
+        <h3
+          className="title is-5"
           data-testid="feedback-total-question"
         >
           { userAssertions }
-        </span>
+        </h3>
       </div>
     );
   }
@@ -72,17 +72,19 @@ class Feedback extends Component {
         <Header />
         <section className="xablau">
           <h3 className="title">A sua pontuação total foi: </h3>
+          <h3 className="title is-3">{userScore}</h3>
           {(userAssertions < minScore)
             ? this.styleSpan()
-            : this.stylespan2() }
-          <span
-            className="title is-4"
-            data-testid="feedback-total-score"
-          >
-            {userScore}
-          </span>
-          {this.styleScore()}
-
+            : this.styleSpan2() }
+          <div>
+            <h3 className="title is-5">Quantidades de respostas corretas:</h3>
+            <h3
+              className="title is-5"
+              data-testid="feedback-total-question"
+            >
+              { userAssertions }
+            </h3>
+          </div>
           <Link to="/ranking">
             <button
               className="button"

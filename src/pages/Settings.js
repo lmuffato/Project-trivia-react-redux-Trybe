@@ -19,6 +19,7 @@ class Settings extends Component {
     this.fetchCategories = this.fetchCategories.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.renderTime = this.renderTime.bind(this);
+    this.renderOptions = this.renderOptions.bind(this);
     this.sendConfigs = this.sendConfigs.bind(this);
   }
 
@@ -66,9 +67,10 @@ class Settings extends Component {
 
   renderTime() {
     return (
-      <label htmlFor="time">
-        Tempo para resposta
+      <label className="label" htmlFor="time">
+        <h2 className="subtitle is-5"> Tempo para resposta </h2>
         <input
+          className="input is-rounded"
           type="number"
           min="30"
           max="90"
@@ -78,14 +80,29 @@ class Settings extends Component {
       </label>);
   }
 
+  renderOptions() {
+    return (
+      <select
+        className="select is-rounded"
+        id="difficulty"
+        onChange={ this.handleChange }
+      >
+        <option value="">Todos</option>
+        <option value="easy">Fácil</option>
+        <option value="medium">Médio</option>
+        <option value="hard">Difícil</option>
+      </select>
+    );
+  }
+
   render() {
     const { categories, redirect } = this.state;
     return (
-      <form onSubmit={ this.sendConfigs }>
-        <h1 data-testid="settings-title">Configurações de Jogo</h1>
-        <label htmlFor="category">
-          Categoria
-          <select id="category" onChange={ this.handleChange }>
+      <form onSubmit={ this.sendConfigs } className="setting-forms">
+        <h1 className="title is-2" data-testid="settings-title">Configurações de Jogo</h1>
+        <label className="label" htmlFor="category">
+          <h2 className="subtitle is-5">Categoria</h2>
+          <select className="select" id="category" onChange={ this.handleChange }>
             <option value="">Todos</option>
             {(categories)
               ? categories.trivia_categories.map((categorie, key) => (
@@ -95,35 +112,31 @@ class Settings extends Component {
               : 'Loading...'}
           </select>
         </label>
-        <label htmlFor="difficulty">
-          Dificuldade
-          <select id="difficulty" onChange={ this.handleChange }>
-            <option value="">Todos</option>
-            <option value="easy">Fácil</option>
-            <option value="medium">Médio</option>
-            <option value="hard">Difícil</option>
-          </select>
+        <label className="label" htmlFor="difficulty">
+          <h2 className="subtitle is-5">Dificuldade</h2>
+          { this.renderOptions() }
         </label>
-        <label htmlFor="type">
-          Tipo de questão
-          <select id="type" onChange={ this.handleChange }>
+        <label className="label" htmlFor="type">
+          <h2 className="subtitle is-5">Tipo de questão</h2>
+          <select className="select is-rounded" id="type" onChange={ this.handleChange }>
             <option value="">Ambas</option>
             <option value="boolean">Verdadeiro ou Falso</option>
             <option value="multiple">Múltipla escolha</option>
           </select>
         </label>
-        <label htmlFor="amount">
-          Quantidade de perguntas
+        <label className="label" htmlFor="amount">
+          <h2 className="subtitle is-5">Quantidade de perguntas</h2>
           <input
             type="number"
-            min="5"
-            max="30"
+            className="input is-rounded"
             id="amount"
             onChange={ this.handleChange }
           />
         </label>
         {this.renderTime()}
-        <button type="submit"> Alterar </button>
+        <div>
+          <button className="button is-submit" type="submit"> Alterar </button>
+        </div>
         {redirect && <Redirect to="/" /> }
       </form>
     );

@@ -78,8 +78,6 @@ li:nth-child( even ) {
 .button-rank {
   background-color: #002b8c;
   color: white;
-  display: flex;
-  justify-content: center;
   margin: auto;
 }
 
@@ -128,18 +126,52 @@ li:nth-child( 3 ) .medal {
   width: 100%;
 }
 
+.card {
+  width: 50%;
+}
+
 .card-header {
   align-items: flex-end;
   display: flex;
   flex-direction: column;
+  margin: 20px 40px;
 }
 
-.button-conteiner {
-  align-items: center;
+.card-header-title {
+  justify-content: center;
+  width: 100%;
+}
+
+.easy, .medium, .hard {
   display: flex;
-  flex-direction: column;
+  justify-content: space-around;
+  padding-bottom: 20px;
+}
+
+.easy button, .medium button, .hard button {
+  background-color: #f1d696;
+  border: 1px solid #7c6e4d;
+  border-radius: 10rem;
+  font-size: 18px;
 }
 
 .xablau {
-  margin: 30px;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  padding-top: 5%;
+  text-align: center;
+  width: 100%;
+}
+
+.setting-forms {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.select {
+  border-radius: 12rem;
+  text-align-last: center;
 }
