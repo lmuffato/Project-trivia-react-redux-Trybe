@@ -1,12 +1,3 @@
-* {
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  background: linear-gradient(white, #b46be8);
-}
-
 .feedback-mensage {
   color: #513069;
   font-family: Calibri , sans-serif;

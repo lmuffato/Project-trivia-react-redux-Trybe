@@ -88,6 +88,7 @@ class PlayGame extends React.Component {
   changeBttNext() {
     return (
       <button
+        className="next-question"
         data-testid="btn-next"
         type="button"
         onClick={ () => this.nextQuestion() }
@@ -166,7 +167,7 @@ class PlayGame extends React.Component {
         <div>
           <Timer />
         </div>
-        <div>
+        <div className="questions">
           <div key={ index }>
             <p data-testid="question-category">{question.category}</p>
             <h4 data-testid="question-text">{decode(question.question)}</h4>
