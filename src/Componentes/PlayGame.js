@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createBrowserHistory } from 'history';
+import { decode } from 'he';
 import { requestTrivia } from '../Api';
 import Timer from './Timer';
 import './playGame.css';
@@ -24,6 +25,7 @@ class PlayGame extends React.Component {
       index: 0,
       isDisabled: false,
       validAcertion: false,
+      alternatives: [],
     };
 
     this.fetchApiTrivia = this.fetchApiTrivia.bind(this);
@@ -35,6 +37,7 @@ class PlayGame extends React.Component {
     this.changeStateDisabeld = this.changeStateDisabeld.bind(this);
     this.getAssertions = this.getAssertions.bind(this);
     this.changeBttNext = this.changeBttNext.bind(this);
+    this.randomizeAlternatives = this.randomizeAlternatives.bind(this);
   }
 
   componentDidMount() {
@@ -67,7 +70,7 @@ class PlayGame extends React.Component {
       this.setState({
         questions: dataTrivia.results,
         loading: false,
-      });
+      }, () => this.randomizeAlternatives());
     }
   }
 
@@ -142,9 +145,21 @@ class PlayGame extends React.Component {
     handleTimer(false);
   }
 
+  randomizeAlternatives() {
+    const { questions } = this.state;
+    for (let index = 0; index < questions.length; index += 1) {
+      this.setState((prevState) => ({
+        alternatives: [...prevState.alternatives, [
+          ...questions[index].incorrect_answers,
+          questions[index].correct_answer,
+        ].sort()],
+      }));
+    }
+  }
+
   renderQuestions() {
     const { questions, greenClass, redClass, index,
-      redAnswer, answer, greenAnswer, isDisabled } = this.state;
+      redAnswer, answer, greenAnswer, isDisabled, alternatives } = this.state;
     const question = questions[index];
     return (
       <>
@@ -154,28 +169,36 @@ class PlayGame extends React.Component {
         <div>
           <div key={ index }>
             <p data-testid="question-category">{question.category}</p>
-            <h4 data-testid="question-text">{question.question}</h4>
-            <button
-              data-testid="correct-answer"
-              type="button"
-              onClick={ (e) => this.colorSelectCorrectAnswer(e) }
-              className={ answer === question.correct_answer ? greenAnswer : greenClass }
-              disabled={ isDisabled }
-            >
-              {question.correct_answer}
-            </button>
-            {question.incorrect_answers.map((incorrect, indexKey) => (
-              <button
-                data-testid={ `wrong-answer-${indexKey}` }
-                type="button"
-                key={ indexKey }
-                onClick={ (e) => this.colorSelectIncorrectAnswer(e) }
-                className={ answer === incorrect ? redAnswer : redClass }
-                disabled={ isDisabled }
-              >
-                {incorrect}
-              </button>
-            ))}
+            <h4 data-testid="question-text">{decode(question.question)}</h4>
+            { (alternatives.length > 0) && alternatives[index]
+              .map((alternative, indexKey) => {
+                if (alternative === question.correct_answer) {
+                  return (
+                    <button
+                      data-testid="correct-answer"
+                      key={ alternative }
+                      type="button"
+                      onClick={ (e) => this.colorSelectCorrectAnswer(e) }
+                      className={ answer === alternative ? greenAnswer : greenClass }
+                      disabled={ isDisabled }
+                    >
+                      {decode(alternative)}
+                    </button>
+                  );
+                }
+                return (
+                  <button
+                    data-testid={ `wrong-answer-${indexKey}` }
+                    type="button"
+                    key={ alternative }
+                    onClick={ (e) => this.colorSelectIncorrectAnswer(e) }
+                    className={ answer === alternative ? redAnswer : redClass }
+                    disabled={ isDisabled }
+                  >
+                    {decode(alternative)}
+                  </button>
+                );
+              }) }
           </div>
         </div>
         <div>
