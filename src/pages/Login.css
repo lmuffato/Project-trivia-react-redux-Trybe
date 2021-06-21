@@ -4,16 +4,41 @@
   font-family: sans-serif;
 }
 
+.container {
+  align-items: center;
+  animation: 15s ease infinite;
+  animation-name: colors;
+  background-image: linear-gradient(45deg, rgb(108, 208, 238), rgb(120, 7, 148));
+  background-size: 300% 300%;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+}
+
+@keyframes colors {
+
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 .form-container {
   align-self: center;
-  background-color: #ee4d38;
+  background-color: white;
   border-radius: 20px;
   display: flex;
   height: 360px;
   justify-content: center;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 150px;
   width: 400px;
 }
 
@@ -59,8 +84,9 @@
 }
 
 .config {
-  color: white;
+  color: linear-gradient(45deg, rgb(108, 208, 238), rgb(120, 7, 148));
   font-size: 30px;
+  justify-content: center;
   margin-top: 20px;
 }
 

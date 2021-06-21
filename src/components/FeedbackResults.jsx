@@ -7,18 +7,18 @@ class FeedbackResults extends Component {
     const { score, assertions } = this.props;
     return (
       <div>
-        <p>
+        <h3>
           Total de pontos:
           {' '}
           <span data-testid="feedback-total-score">{ score }</span>
-        </p>
+        </h3>
 
         <p>
-          Acertou
+          Acertou:
+          {' '}
           <span data-testid="feedback-total-question">
             { assertions }
           </span>
-
           {' '}
           {' '}
           perguntas de
