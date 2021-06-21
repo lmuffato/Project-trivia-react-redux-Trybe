@@ -40,12 +40,33 @@ class Feedback extends Component {
     }
   }
 
-  redirectToLogin() {
-    this.setState({ redirectToLogin: true });
+  getBadges(score, assertions) {
+    return (
+      <div className="box-feedback-score">
+        <Badge
+          text="Score"
+          value={ score }
+          classList="badge-primary-white"
+          dataTestId="feedback-total-score"
+          classIcon="bi bi-trophy-fill"
+        />
+        <Badge
+          text="Assertions"
+          value={ assertions }
+          classList="badge-primary-white"
+          dataTestId="feedback-total-question"
+          classIcon="bi bi-bullseye"
+        />
+      </div>
+    );
   }
 
   redirectToRanking() {
     this.setState({ redirectToRanking: true });
+  }
+
+  redirectToLogin() {
+    this.setState({ redirectToLogin: true });
   }
 
   render() {
@@ -59,22 +80,7 @@ class Feedback extends Component {
         <div className="container box-accent box-feedback">
           <h1> Feedback </h1>
           <div className="box-feedback__flex">
-            <div className="box-feedback-score">
-              <Badge
-                text="Score"
-                value={ score }
-                classList="badge-primary-white"
-                dataTestId="feedback-total-score"
-                classIcon="bi bi-trophy-fill"
-              />
-              <Badge
-                text="Assertions"
-                value={ assertions }
-                classList="badge-primary-white"
-                dataTestId="feedback-total-question"
-                classIcon="bi bi-bullseye"
-              />
-            </div>
+            {this.getBadges(score, assertions)}
             <div className="box-feedback-assertions">
               <p data-testid="feedback-text">{ this.getAssertion() }</p>
             </div>
