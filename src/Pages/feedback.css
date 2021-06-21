@@ -1,22 +1,71 @@
-body {
+* {
   margin: 0;
   padding: 0;
 }
 
+body {
+  background: linear-gradient(white, #b46be8);
+}
+
 .feedback-mensage {
-  align-content: flex-end;
-  align-items: center;
-  display: flex;
+  color: #513069;
+  font-family: Calibri , sans-serif;
   font-size: large;
   margin: 100px;
+  margin-top: -50px;
+  padding-top: -100px;
+  text-shadow: -2px 0 #b46be8 , 0 2px #b46be8 , 2px 0 #b46be8 , 0 -2px #b46be8;
+}
+
+@keyframes fa-blink {
+
+  0% { opacity: 1; }
+
+  50% { opacity: 0.5; }
+
+  100% { opacity: 0; }
+}
+
+.feedback-section .blink {
+  animation: fa-blink 0.8s linear infinite;
+  font-size: 40px;
+}
+
+.feedback-section span {
+  color: #513069;
+  font-size: 30px;
 }
 
 .feedback-section {
-  margin-bottom: 50px;
+  color: #b46be8;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 100px;
+}
+
+.feedback-section p {
+  margin: 20px;
 }
 
 .feedback-buttons {
   display: flex;
   flex-flow: row;
-  justify-content: space-around;
+  justify-content: space-between;
+  margin-bottom: 118px;
+}
+
+.feedback-button {
+  background-color: #b46be8;
+  border: 2px solid #513069;
+  border-radius: 8px;
+  box-shadow: 1.5px 2px #513069;
+  color: white;
+  font-size: 20px;
+  padding: 10px;
+  transition-duration: 0.4s;
+}
+
+.feedback-button:hover {
+  background-color: #513069;
+  color: #b46be8;
 }
