@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import fetchToken from '../services/api';
-
 import userEmail from '../redux/actions/userEmail.action';
 import userLogin from '../redux/actions/userLogin.action';
+import ImgLogo from '../components/LoginComponents/ImgLogo';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -23,20 +23,30 @@ export default function Login() {
 
   return (
     <div>
+      <ImgLogo />
       <form onSubmit={ handleSubmit }>
+        <label htmlFor="userEmail">
+          Email:
+          <input
+            id="userEmail"
+            type="email"
+            value={ email }
+            onChange={ (event) => setEmail(event.target.value) }
+            data-testid="input-gravatar-email"
+          />
+        </label>
+        <label htmlFor="playerName">
+          Player:
         <input
-          type="email"
-          value={ email }
-          onChange={ (event) => setEmail(event.target.value) }
-          data-testid="input-gravatar-email"
-        />
-        <input
+          id="playerName"
           type="text"
           value={ name }
           onChange={ (event) => setName(event.target.value) }
           data-testid="input-player-name"
         />
+        </label>
         <button
+          id='play'
           disabled={ email.length === 0 || name.length === 0 }
           type="submit"
           data-testid="btn-play"

@@ -5,6 +5,7 @@ import propTypes from 'prop-types';
 import userScore from '../redux/actions/userScore.action';
 import assertionsAction from '../redux/actions/assertions.action';
 import resetTimer from '../redux/actions/resetTimer.action';
+import SoundCorrect from './Sounds/SoundCorrect';
 
 class GamePlay extends React.Component {
   constructor() {
@@ -13,6 +14,7 @@ class GamePlay extends React.Component {
       clicked: false,
       indexQuestions: 0,
       redirect: false,
+      correctClicked: false,
     };
     this.clickOnOption = this.clickOnOption.bind(this);
     this.scoreCount = this.scoreCount.bind(this);
@@ -39,7 +41,9 @@ class GamePlay extends React.Component {
     if (id === 'correct-answer') {
       this.setState(({ oldScore }) => ({
         assertions: oldScore + 1,
+        correctClicked: true,
       }));
+      setTimeout(() => { this.setState({ correctClicked: false }); }, 1000)
       console.log(assertions);
       const pointsRate = 10;
       const pointsPlayer = pointsRate
@@ -85,10 +89,11 @@ class GamePlay extends React.Component {
   }
 
   render() {
-    const { clicked, indexQuestions, redirect } = this.state;
+    const { clicked, indexQuestions, redirect, correctClicked } = this.state;
     const { questions, time } = this.props;
     return (
       <div>
+        <SoundCorrect correctClicked={ correctClicked } />
         <h1 data-testid="question-category">
           Category:
           {

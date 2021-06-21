@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW 2019 (64 Bit) -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="210mm" height="297mm" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 21000 29700"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <font id="FontID0" horiz-adv-x="718" font-variant="normal" class="str0" style="fill-rule:nonzero" font-style="normal" font-weight="700">
+	<font-face 
+		font-family="Super Mario 256">
+		<font-face-src>
+			<font-face-name name="Super Mario 256"/>
+		</font-face-src>
+	</font-face>
+   <missing-glyph><path d="M0 0z"/></missing-glyph>
+   <glyph unicode="A" horiz-adv-x="718" d="M449.003 741.001l315.999 -689.003 -302.003 -48.0001 -24 177 -243 6.00001 -54.9981 -189 -291.001 52.004 399.001 670.997 200.002 20.002zm-149.002 -261.999l-41.002 -102 153 -4.00394 -34.9961 103.004 -77.0021 3.00001z"/>
+   <glyph unicode="D" horiz-adv-x="634" d="M368.003 744.001l209.995 -172.004 43.004 -400.997 -207 -168.998 -414.001 0 0 696.999 368.003 45.0001zm-139.004 -267.001l0 -218.002 135 47.0021 0 108.998 -135 62.0021z"/>
+   <glyph unicode="E" horiz-adv-x="573" d="M54.0001 744.999l489.999 0 -40.9961 -207 -241.004 -36.9981 -3.00001 -51.0001 213 -15.9981 -9.99805 -159 -189.998 -17.002 16.9961 -54.0001 231 -2.00197 84.9982 -198.998 -550.997 0 -54.0001 477.999 54.0001 264.001z"/>
+   <glyph unicode="G" horiz-adv-x="666" d="M627.001 591.001l-171 -96.0002 -69.0001 37.9961 -102 -30.9981 -60.9982 -144.998 63.9982 -135 183.998 21.9981 4.00394 33.0001 -142.004 -12.9981 18 201 296.003 -3.99804 0 -395.003 -497.003 -63.9982 -150.998 306.999 54.9981 282.001 212.002 153.998 259.997 -18 100.004 -135.998z"/>
+   <glyph unicode="I" horiz-adv-x="365" d="M5.00198 738.999l193.996 12 150 -708.001 -318.001 -34.9961 -25.9961 730.998z"/>
+   <glyph unicode="J" horiz-adv-x="687" d="M0 738.999l219 5.00198 438.999 -20.002 0 -195.998 -198.998 -19.004 73.9962 -346.997 -102.998 -129.998 -195 -32.002 -216.998 0 6.99805 219.998 238.004 17.002 -27.0001 271.997 -236.002 19.004 0 210.998z"/>
+   <glyph unicode="O" horiz-adv-x="759" d="M522.001 732.999l217.996 -270.999 -61.9962 -357.001 -395.003 -102.998 -315.001 277.997 47.0021 312.999 234.998 149.002 272.003 -9.00002zm-213 -252l-51.0001 -114 87.9982 -58.9962 93.0002 33.9981 -4.99607 111 -125.002 27.9981z"/>
+   <glyph unicode="P" horiz-adv-x="636" d="M441.999 739.998l176.002 -120.998 13.9961 -295.997 -177.998 -172.004 -220.996 -13.9961 0 -141 -233.002 0 36.9981 743.996 405.001 0zm-168 -228l-6.99805 -120.998 66.0001 -9.00002 84.0002 99.0002 -143.002 30.9981z"/>
+   <glyph unicode="R" horiz-adv-x="676" d="M414.999 738.999l185.002 -135 16.9961 -232.997 -103.996 -116.002 184.996 -162.998 -216.998 -94.0041 -226.997 194.002 33.9981 -192.998 -230.002 0 -57.9981 707.995 414.999 32.002zm-160.996 -207l-6.00001 -141.998 60.9982 -8.00198 60.9982 88.0041 -115.996 61.9962z"/>
+   <glyph unicode="S" horiz-adv-x="729" d="M724.997 555.999l-129 -159 -150.998 97.0041 -37.9961 -48.0001 269.995 -198 -130.996 -247.004 -321.001 0 -224.002 178.004 97.0041 162.998 192.998 -108.998 29.002 45.0001 -283.004 168 268.004 299.995 240.999 0 178.996 -189.998z"/>
+   <glyph unicode="T" horiz-adv-x="790" d="M0 741.999l738.999 -12.9981 0 -300.001 -249.999 41.002 69.0001 -471.001 -357.999 0 54.0001 471.001 -254.002 12.9981 0 258.999z"/>
+   <glyph unicode="U" horiz-adv-x="729" d="M-9.00002 738.999l323.003 0 -15 -504.999 124.996 90.0002 -36.9981 360.999 306.999 0 0 -486.001 -179.002 -201.998 -376.997 0 -147 180 0 561.999z"/>
+   <glyph unicode="V" horiz-adv-x="843" d="M0 744.999l258.999 -14.002 103.004 -446.995 39.0001 49.9962 110.994 396.999 287.003 14.002 -282.001 -741.999 -348.001 26.002 -168.998 715.997z"/>
+  </font>
+  <style type="text/css">
+   <![CDATA[
+    @font-face { font-family:"Super Mario 256";font-variant:normal;font-style:normal;font-weight:bold;src:url("#FontID0") format(svg)}
+    .str0 {stroke-width:50;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:22.9256}
+    .str1 {stroke:black;stroke-width:84.67;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:22.9256}
+    .fil3 {fill:#00CA07}
+    .fil1 {fill:#05DCFB}
+    .fil4 {fill:#27BDE6}
+    .fil0 {fill:#FA373D}
+    .fil2 {fill:#FFCC1A}
+    .fnt0 {font-weight:bold;font-size:1693.33px;font-family:'Super Mario 256'}
+   ]]>
+  </style>
+ </defs>
+ <g id="Camada_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <text x="7323.97" y="8451.65"  class="fil0 str1 fnt0">S</text>
+  <text x="8627.84" y="8451.65"  class="fil1 str1 fnt0">U</text>
+  <text x="10939.24" y="8451.65"  class="fil1 str1 fnt0">E</text>
+  <text x="9862.28" y="8451.65"  class="fil2 str1 fnt0">P</text>
+  <text x="11909.52" y="8451.65"  class="fil3 str1 fnt0">R</text>
+  <text x="2704.57" y="10122.96"  class="fil3 str1 fnt0">J</text>
+  <text x="11306.7" y="10122.96"  class="fil3 str1 fnt0">T</text>
+  <text x="15839.74" y="10122.96"  class="fil3 str1 fnt0">I</text>
+  <text x="3867.89" y="10122.96"  class="fil4 str1 fnt0">O</text>
+  <text x="5153.13" y="10122.96"  class="fil2 str1 fnt0">G</text>
+  <text x="8414.49" y="10122.96"  class="fil2 str1 fnt0">D</text>
+  <text x="13792.5" y="10122.96"  class="fil2 str1 fnt0">I</text>
+  <text x="6282.58" y="10122.96"  class="fil0 str1 fnt0">O </text>
+  <text x="10460.03" y="10122.96"  class="fil0 str1 fnt0"> </text>
+  <text x="14410.57" y="10122.96"  class="fil0 str1 fnt0">V</text>
+  <text x="9489.75" y="10122.96"  class="fil1 str1 fnt0">E</text>
+  <text x="12646.12" y="10122.96"  class="fil1 str1 fnt0">R</text>
+  <text x="16457.81" y="10122.96"  class="fil1 str1 fnt0">A</text>
+ </g>
+</svg>
