@@ -6,16 +6,20 @@ import Header from '../components/Header';
 
 class Feedback extends Component {
   render() {
-    const { props: { numberOfCorrectAnswers } } = this;
+    const { props: { numberOfCorrectAnswers: nCorrectAns } } = this;
     const numberOfGoodScore = 3;
-    const goodScore = numberOfCorrectAnswers >= numberOfGoodScore;
+    const goodScore = nCorrectAns >= numberOfGoodScore;
+    const store = JSON.parse(localStorage.state);
+    const { player: { score } } = store;
     return (
       <>
         <div data-testid="feedback-text">feedback</div>
         <Header />
-        <span data-testid="feedback-text">
+        <span data-testid="feedback-total-score">{Number(score)}</span>
+        <p data-testid="feedback-total-question">{/* nCorrectAns */ 0}</p>
+        <p data-testid="feedback-text">
           {goodScore ? 'Mandou bem!' : 'Podia ser melhor...'}
-        </span>
+        </p>
         <Link data-testid="btn-ranking" to="/ranking">
           Ver Ranking
         </Link>
