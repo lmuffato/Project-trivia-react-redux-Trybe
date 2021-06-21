@@ -47,13 +47,20 @@ class Ranking extends React.Component {
             VOLTAR
           </Link>
         </button>
-
+        <div>
+          <ol className="title-ranking">
+            <li>User</li>
+            <li>Score</li>
+          </ol>
+        </div>
         <ol className="ranking">
           {ranking
         && ranking.map(({ name, score, gravatarEmail }, index) => (
           <li key={ index } className="ranking-list">
-            <img src={ gravatarEmail } alt="player gravatar" />
-            <h2 data-testid={ `player-name-${index}` }>{ name }</h2>
+            <div className="user-data">
+              <img src={ gravatarEmail } alt="player gravatar" />
+              <h2 data-testid={ `player-name-${index}` }>{ name }</h2>
+            </div>
             <h3 data-testid={ `player-score-${index}` }>{score}</h3>
           </li>
         ))}
