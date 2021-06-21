@@ -38,10 +38,9 @@ class Timer extends React.Component {
 
   handleReset() {
     const { time } = this.state;
-    const { resetTimer, restoreTimer, saveTimeLeft } = this.props;
-    if (resetTimer) {
+    const { resetQuizTimer, restoreTimer, saveTimeLeft } = this.props;
+    if (resetQuizTimer) {
       saveTimeLeft(time);
-      // clearInterval(this.runTimer);
       this.setState({
         time: 30,
       }, restoreTimer());
@@ -61,7 +60,7 @@ class Timer extends React.Component {
 
 Timer.propTypes = {
   saveTimeLeft: PropTypes.func.isRequired,
-  resetTimer: PropTypes.bool.isRequired,
+  resetQuizTimer: PropTypes.bool.isRequired,
   restoreTimer: PropTypes.func.isRequired,
   handleStyle: PropTypes.func.isRequired,
   isTimerActive: PropTypes.bool.isRequired,
@@ -69,6 +68,7 @@ Timer.propTypes = {
 
 const mapStateToProps = (state) => ({
   isTimerActive: state.userReducer.isTimerActive,
+  resetQuizTimer: state.timerReducer.isTimerReseted,
 });
 
 const mapDispatchToProps = (dispatch) => ({

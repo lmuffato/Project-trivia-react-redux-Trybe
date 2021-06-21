@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import Button from './Button';
 import Timer from './Timer';
 // import { shuffleListOfAnswers } from '../services/shuffle';
-import { scoreAndAssertionsAction, isTimerActiveAction } from '../actions';
+import { scoreAndAssertionsAction,
+  isTimerActiveAction, resetTimer, removeResetTimer } from '../actions';
 
 class Question extends Component {
   constructor() {
@@ -12,7 +13,7 @@ class Question extends Component {
     this.state = {
       isButtonDisabled: false,
       hideButton: 'hide-button',
-      resetTimer: false,
+      // resetTimer: false,
       red: '',
       green: '',
     };
@@ -27,24 +28,30 @@ class Question extends Component {
   // }
 
   restoreTimer() {
-    const { setTimer } = this.props;
+    const { setTimer, removeQuestionTimerReset } = this.props;
     setTimer(true);
-    this.setState({ resetTimer: false });
+    removeQuestionTimerReset();
+    // resetQuizTimer();
+    // this.setState({ resetTimer: false });
   }
 
   handleStyle() {
+    const { resetQuizTimer } = this.props;
     this.setState({
       green: 'green',
       red: 'red',
-      resetTimer: true,
+      // resetTimer: true,
       hideButton: '',
       isButtonDisabled: true,
     });
+    resetQuizTimer();
   }
 
   // nextButtonReset
   handleResetColors() {
-    this.setState({ isButtonDisabled: false, green: '', red: '', resetTimer: true });
+    this.setState({ isButtonDisabled: false, green: '', red: '' });
+    const { resetQuizTimer } = this.props;
+    resetQuizTimer();
   }
 
   handleLocalStorage() {
@@ -79,13 +86,13 @@ class Question extends Component {
   render() {
     const { quiz, getNextQuestion, setScore } = this.props;
     const { correct_answer: correctAnswer, incorrect_answers: incorrectAnswers } = quiz;
-    const { isButtonDisabled, resetTimer, red, green, hideButton } = this.state;
+    const { isButtonDisabled, red, green, hideButton } = this.state;
     const answers = [correctAnswer].concat(incorrectAnswers).sort();
     const verifyScore = this.handleScore();
     return (
       <>
         <Timer
-          resetTimer={ resetTimer }
+          // resetTimer={ resetQuizTimer }
           handleStyle={ this.handleStyle }
           handleRestartTimer={ this.handleResetColors }
           restoreTimer={ this.restoreTimer }
@@ -140,6 +147,8 @@ Question.propTypes = {
   time: PropTypes.number.isRequired,
   userReducer: PropTypes.shape(),
   setTimer: PropTypes.func.isRequired,
+  resetQuizTimer: PropTypes.func.isRequired,
+  removeQuestionTimerReset: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -150,6 +159,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   setScore: (score) => dispatch(scoreAndAssertionsAction(score)),
   setTimer: (payload) => dispatch(isTimerActiveAction(payload)),
+  resetQuizTimer: () => dispatch(resetTimer()),
+  removeQuestionTimerReset: () => dispatch(removeResetTimer()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Question);
