@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { decode } from 'he';
 import Button from './button/Button';
+import Badge from './badge/Badge';
 
 class Question extends Component {
   constructor(props) {
@@ -27,6 +28,7 @@ class Question extends Component {
           value={ answer }
           disabled={ selected }
           text={ decode(answer) }
+          key="correct-answer-button"
         />
       </div>
     );
@@ -64,8 +66,7 @@ class Question extends Component {
 
   render() {
     const { questionData } = this.props;
-    const { category } = questionData;
-    const currentQuestion = questionData.question;
+    const { category, question, difficulty } = questionData;
     const correctAnswer = questionData.correct_answer;
     const incorrectAnswers = questionData.incorrect_answers;
 
@@ -73,14 +74,26 @@ class Question extends Component {
 
     return (
       <div>
-        <h2 data-testid="question-text">{decode(currentQuestion)}</h2>
-        <p data-testid="question-category">{category}</p>
+        <h2 data-testid="question-text">{decode(question)}</h2>
         { dataAnswers.map((answer, index) => {
           if (answer === correctAnswer) {
             return this.getButtonCorrectAnswer(index, answer);
           }
           return this.getButtonIncorrectAnswer(index, answer);
         })}
+        <div className="box-question-opt">
+          <Badge
+            text="Category"
+            value={ category }
+            classList="badge-primary-white exact small no-icon"
+            dataTestId="question-category"
+          />
+          <Badge
+            text="Difficulty"
+            value={ difficulty }
+            classList="badge-primary-white exact small no-icon"
+          />
+        </div>
       </div>
     );
   }
@@ -91,6 +104,7 @@ Question.propTypes = {
     category: PropTypes.string,
     question: PropTypes.string,
     correct_answer: PropTypes.string,
+    difficulty: PropTypes.string,
     incorrect_answers: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
   selected: PropTypes.bool.isRequired,

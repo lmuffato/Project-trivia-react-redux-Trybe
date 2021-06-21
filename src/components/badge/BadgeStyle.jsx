@@ -6,6 +6,7 @@ const BadgeCustom = styled.div`
   border-radius: 8px;
   display: flex;
   flex-flow: row;
+  align-items: center;
   
   &.badge-primary > span:first-child {
     background-color: var(--color-primary);
@@ -21,6 +22,15 @@ const BadgeCustom = styled.div`
 
   &.badge-secondary > span:last-child {
     background-color: var(--color-primary);
+  }
+
+  &.badge-primary-white > span:first-child {
+    background-color: var(--color-primary);
+  }
+  
+  &.badge-primary-white > span:last-child {
+    background-color: var(--color-white);
+    color: var(--color-primary);
   }
   
   span {
@@ -44,6 +54,23 @@ const BadgeCustom = styled.div`
   
   i {
     margin-right: 8px;
+  }
+
+  &.exact {
+    padding: 0;
+  }
+  
+  &.exact > span {
+    flex-basis: initial;
+    flex-grow: 0;
+  }
+  
+  &.small > span {
+    font-size: 12px;
+  }
+  
+  &.no-icon i {
+    margin: 0;
   }
 `;
 
