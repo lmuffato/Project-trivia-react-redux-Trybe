@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Trivia from '../components/trivia';
+import Trivia from '../components/Trivia';
 // import user from '../reducers/user';
 
 class Game extends Component {
@@ -10,12 +10,12 @@ class Game extends Component {
     // this.state = {
     //   email: '',
     // };
-    this.renderHeader = this.renderHeader.bind(this);
+    this.renderGravatar = this.renderGravatar.bind(this);
     this.renderName = this.renderName.bind(this);
     this.renderScore = this.renderScore.bind(this);
   }
 
-  renderHeader() {
+  renderGravatar() {
     return (
       <img
         src=""
@@ -27,21 +27,32 @@ class Game extends Component {
 
   renderName() {
     const { userName } = this.props;
+    let nameLS;
+    if (localStorage.getItem('name')) {
+      nameLS = localStorage.getItem('name');
+    }
+    // console.log(nameLS);
     return (
-      <h1
+      <h3
         data-testid="header-player-name"
       >
-        {userName}
-      </h1>
+        {nameLS || userName || 'Nome da pessoa'}
+      </h3>
     );
   }
 
   renderScore() {
+    const { pointsGlobal } = this.props;
+    let scoreLS = null;
+    if (localStorage.getItem('state')) {
+      const stateLS = JSON.parse(localStorage.getItem('state'));
+      scoreLS = stateLS.player.score;
+    }
     return (
       <h1
         data-testid="header-score"
       >
-        0
+        { Number(pointsGlobal) || scoreLS || 0 }
       </h1>
     );
   }
@@ -50,7 +61,7 @@ class Game extends Component {
     return (
       <>
         <header>
-          {this.renderHeader()}
+          {this.renderGravatar()}
           {this.renderName()}
           {this.renderScore()}
         </header>
@@ -65,10 +76,12 @@ class Game extends Component {
 const mapStateToProps = (state) => ({
   userName: state.user.name,
   // userEmail: state.email,
+  pointsGlobal: state.trivia.points,
 });
 
 Game.propTypes = {
   userName: PropTypes.func.isRequired,
+  pointsGlobal: PropTypes.number.isRequired,
 };
 
 export default connect(mapStateToProps)(Game);
