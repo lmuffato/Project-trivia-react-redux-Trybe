@@ -1,10 +1,11 @@
 import React from 'react';
 import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
-import Header from '../components/Header';
+import Header from '../components/Header/Header';
 // import Button from '../components/Button';
-import Question from '../components/Question';
+import Question from '../components/Question/Question';
 import Loading from '../components/Loading';
+import styles from './styles.module.css';
 
 class GamePage extends React.Component {
   constructor(props) {
@@ -69,12 +70,12 @@ class GamePage extends React.Component {
     }
 
     return (
-      <>
+      <div className={ styles.gamePageContent }>
         <Header />
         <div>
           <Question quiz={ questions[index] } getNextQuestion={ this.getNextQuestion } />
         </div>
-      </>
+      </div>
     );
   }
 }

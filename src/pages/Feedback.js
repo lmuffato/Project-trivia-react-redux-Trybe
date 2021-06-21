@@ -2,8 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Header from '../components/Header';
+import Header from '../components/Header/Header';
 import { resetScore } from '../actions';
+import styles from './styles.module.css';
 
 class Feedback extends React.Component {
   constructor(props) {
@@ -51,7 +52,7 @@ class Feedback extends React.Component {
     const minimalScore = 3;
 
     return (
-      <>
+      <div className={ styles.gamePageContent }>
         <Header />
         { assertions >= minimalScore ? this.renderGoodScoore() : this.renderBadScore() }
         <h3>
@@ -82,7 +83,7 @@ class Feedback extends React.Component {
             Jogar Novamente
           </button>
         </Link>
-      </>
+      </div>
     );
   }
 }

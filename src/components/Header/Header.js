@@ -1,10 +1,9 @@
-// header component
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
-import { userImage } from '../actions';
+import { userImage } from '../../actions';
+import styles from './styles.module.css';
 
 function Header({ email, user, score, saveUserImage }) {
   const handleUserImage = () => {
@@ -24,14 +23,29 @@ function Header({ email, user, score, saveUserImage }) {
   // }
 
   return (
-    <div>
+    <div className={ styles.headerContent }>
       <img
         src={ image }
         alt="User"
         data-testid="header-profile-picture"
       />
-      <span data-testid="header-player-name">{ user }</span>
-      <span data-testid="header-score">{ score }</span>
+      <div className={ styles.headerText }>
+        <span
+          className={ styles.headerUser }
+          data-testid="header-player-name"
+        >
+          { user }
+        </span>
+        <br />
+        <p>
+          Pontuação atual:
+          {' '}
+          <span data-testid="header-score">
+            { score }
+          </span>
+        </p>
+      </div>
+
     </div>
   );
 }

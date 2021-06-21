@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Button from './Button';
-import Timer from './Timer';
+import Button from '../Button';
+import Timer from '../Timer';
 // import { shuffleListOfAnswers } from '../services/shuffle';
-import { scoreAndAssertionsAction, isTimerActiveAction } from '../actions';
+import { scoreAndAssertionsAction, isTimerActiveAction } from '../../actions';
+import styles from './styles.module.css';
 
 class Question extends Component {
   constructor() {
@@ -83,7 +84,7 @@ class Question extends Component {
     const answers = [correctAnswer].concat(incorrectAnswers).sort();
     const verifyScore = this.handleScore();
     return (
-      <>
+      <div className={ styles.questionContainer }>
         <Timer
           resetTimer={ resetTimer }
           handleStyle={ this.handleStyle }
@@ -123,7 +124,7 @@ class Question extends Component {
             Próxima
           </Button>
         </div>
-      </>
+      </div>
     );
   }
 }
