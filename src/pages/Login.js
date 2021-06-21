@@ -36,6 +36,10 @@ class Login extends Component {
     await getTokenFromAPIAndSaveToLS();
     await requestQuestions();
     localStorage.setItem('state', JSON.stringify(state));
+    if (!localStorage.getItem('ranking')) {
+      console.log('nao há rnaking');
+      localStorage.setItem('ranking', JSON.stringify([]));
+    }
     return this.redirectToGameNow();
   }
 

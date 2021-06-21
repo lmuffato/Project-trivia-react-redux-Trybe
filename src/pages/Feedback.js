@@ -2,9 +2,27 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import CryptoJS from 'crypto-js';
 import Header from '../components/Header';
 
 class Feedback extends Component {
+  componentDidMount() {
+    this.saveGameToRanking();
+  }
+
+  saveGameToRanking() {
+    const state = JSON.parse(localStorage.getItem('state'));
+    const { player: { name, score, email } } = state;
+    const hash = CryptoJS.MD5(email).toString();
+
+    const LSranking = JSON.parse(localStorage.getItem('ranking'));
+    const updatedRanking = [
+      ...LSranking,
+      { name, score, picture: `https://www.gravatar.com/avatar/${hash}` },
+    ];
+    localStorage.setItem('ranking', JSON.stringify(updatedRanking));
+  }
+
   render() {
     const { props: { numberOfCorrectAnswers } } = this;
     const numberOfGoodScore = 3;
