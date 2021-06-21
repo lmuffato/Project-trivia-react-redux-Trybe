@@ -1,5 +1,6 @@
 const PLAYER = 'PLAYER';
 const SCORE = 'SCORE';
+const SETTINGS = 'SETTINGS';
 
 const login = (name, email, assertions = 0, score = 0) => ({
   type: PLAYER,
@@ -19,9 +20,20 @@ const setScore = (assertions, score) => ({
   },
 });
 
+const setSettings = ({ category, quantity, difficulty }) => ({
+  type: SETTINGS,
+  payload: {
+    category,
+    quantity,
+    difficulty,
+  },
+});
+
 export {
   PLAYER,
   SCORE,
+  SETTINGS,
   login,
   setScore,
+  setSettings,
 };

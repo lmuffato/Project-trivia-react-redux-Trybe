@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
+import Badge from './badge/Badge';
+import logo from '../trivia.png';
 
 class Header extends Component {
   convertEmailToHash(email) {
@@ -12,32 +14,33 @@ class Header extends Component {
   render() {
     const { player: { name, gravatarEmail, score } } = this.props;
     return (
-      <header className="w-100 bg-dark text-white">
-        <div className="container d-flex align-items-center justify-content-between p-3">
+      <header>
+        <div className="container">
           <img
-            src={ this.convertEmailToHash(gravatarEmail) }
-            alt="Avatar do Player"
-            className="rounded-circle"
-            data-testid="header-profile-picture"
+            src={ logo }
+            alt="Logo do Trivia"
           />
-          <div className="d-flex flex-block">
-            <div className="badge bg-primary mb-2">
-              <span>Jogador </span>
-              <span
-                className="bold badge bg-dark"
-                data-testid="header-player-name"
-              >
-                { name }
-              </span>
-            </div>
-            <div className="badge bg-primary">
-              <span>Score </span>
-              <span
-                className="bold badge bg-dark"
-                data-testid="header-score"
-              >
-                { score }
-              </span>
+          <div className="box-score">
+            <img
+              src={ this.convertEmailToHash(gravatarEmail) }
+              alt="Avatar do Player"
+              data-testid="header-profile-picture"
+            />
+            <div className="box-score-badges">
+              <Badge
+                text="Jogador"
+                value={ name }
+                classList="badge-secondary"
+                classIcon="bi bi-person-fill"
+                dataTestId="header-player-name"
+              />
+              <Badge
+                text="Score"
+                value={ score }
+                classIcon="bi bi-trophy-fill"
+                classList="badge-secondary"
+                dataTestId="header-score"
+              />
             </div>
           </div>
         </div>

@@ -4,8 +4,10 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router';
 import { login } from '../actions';
 import { getToken } from '../services/api';
-
-// Link do código do regex: https://regexr.com/2ri2c
+import trivia from '../trivia.png';
+import Input from '../components/input/Input';
+import { PATTERN_EMAIL, NAME_LENGTH } from '../const/validation';
+import Button from '../components/button/Button';
 
 class Login extends Component {
   constructor(props) {
@@ -13,11 +15,13 @@ class Login extends Component {
     this.state = {
       name: '',
       email: '',
-      redirect: false,
+      redirectPlay: false,
+      redirectSettings: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.submit = this.submit.bind(this);
     this.validation = this.validation.bind(this);
+    this.handleRedirect = this.handleRedirect.bind(this);
   }
 
   handleChange(event) {
@@ -25,74 +29,74 @@ class Login extends Component {
     this.setState({ [name]: value });
   }
 
-  submit(event) {
-    event.preventDefault();
-    const { name, email } = this.state;
-    const { toLogin } = this.props;
-    toLogin(name, email);
-    this.saveToken();
-  }
-
-  async saveToken() {
-    await getToken().then((response) => {
-      localStorage.setItem('token', response.token);
-      this.setState({ redirect: true });
-    });
+  handleRedirect() {
+    this.setState({ redirectSettings: true });
   }
 
   validation() {
     const { name, email } = this.state;
-    // Link do código do regex: https://regexr.com/2ri2c
-    const pattern = /\b[\w.-]+@[\w.-]+\.\w{2,4}\b/gi;
-    const nameLength = 3;
-    return !(name.length >= nameLength && email.match(pattern));
+    const nameValidation = name.length >= NAME_LENGTH;
+    const emailValidation = email.match(PATTERN_EMAIL);
+    return !(nameValidation && emailValidation);
+  }
+
+  async submit(event) {
+    event.preventDefault();
+    const { name, email } = this.state;
+    const { toLogin } = this.props;
+
+    toLogin(name, email);
+    await this.saveToken();
+
+    this.setState({ redirectPlay: true });
+  }
+
+  async saveToken() {
+    const { token } = await getToken();
+    localStorage.setItem('token', token);
   }
 
   render() {
-    const { redirect } = this.state;
-
-    if (redirect) {
-      return <Redirect to="/questions" />;
-    }
-
+    const { redirectPlay, redirectSettings } = this.state;
+    if (redirectPlay) return <Redirect to="/questions" />;
+    if (redirectSettings) return <Redirect to="/settings" />;
     return (
-      <>
+      <section className="container login-container">
+        <Button
+          type="button"
+          classIcon="bi bi-gear"
+          handleClick={ this.handleRedirect }
+          dataTestId="btn-settings"
+          classList="button-outline-secondary"
+          isRounded
+          key="settings"
+        />
         <form onSubmit={ this.submit }>
-          <input
-            onChange={ this.handleChange }
-            aria-label="name"
-            data-testid="input-player-name"
-            type="text"
-            placeholder="Your Name"
+          <img src={ trivia } alt="logo trivia" className="trivia-logo" />
+          <Input
             name="name"
-            required
+            type="text"
+            dataTestId="input-player-name"
+            handleChange={ this.handleChange }
+            classIcon="bi bi-person-circle"
           />
-          <input
-            onChange={ this.handleChange }
-            aria-label="email"
-            data-testid="input-gravatar-email"
-            type="email"
-            placeholder="Your E-mail"
+          <Input
             name="email"
-            required
+            type="email"
+            dataTestId="input-gravatar-email"
+            handleChange={ this.handleChange }
+            classIcon="bi bi-envelope"
           />
-          <button
+          <Button
+            text="Jogar"
+            type="submit"
+            dataTestId="btn-play"
             disabled={ this.validation() }
-            type="submit"
-            data-testid="btn-play"
-          >
-            Jogar
-          </button>
+            classList="button-primary"
+            key="Jogar"
+          />
         </form>
-        <form action="/settings">
-          <button
-            type="submit"
-            data-testid="btn-settings"
-          >
-            Configurações
-          </button>
-        </form>
-      </>
+      </section>
     );
   }
 }

@@ -5,8 +5,9 @@ import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import Question from '../components/Question';
 import { getQuestions } from '../services/api';
-import Timer from '../components/Timer';
+import Timer from '../components/timer/Timer';
 import { setScore } from '../actions';
+import Button from '../components/button/Button';
 
 class Questions extends Component {
   constructor(props) {
@@ -36,23 +37,25 @@ class Questions extends Component {
     const { questionIndex, questions } = this.state;
     if (questionIndex >= questions.length - 1) {
       return (
-        <button
+        <Button
+          text="Finalizar"
           type="button"
-          data-testid="btn-next"
-          onClick={ () => this.setState({ redirectToFeedback: true }) }
-        >
-          Finish
-        </button>
+          dataTestId="btn-next"
+          handleClick={ () => this.setState({ redirectToFeedback: true }) }
+          classList="button-primary"
+          key="Finalizar"
+        />
       );
     }
     return (
-      <button
+      <Button
+        text="Proximo"
         type="button"
-        data-testid="btn-next"
-        onClick={ this.nextQuestion }
-      >
-        Next
-      </button>
+        dataTestId="btn-next"
+        handleClick={ this.nextQuestion }
+        classList="button-primary"
+        key="Proximo"
+      />
     );
   }
 
@@ -119,7 +122,10 @@ class Questions extends Component {
   }
 
   async loadQuestions() {
-    const questionsResponse = await getQuestions(this.loadToken());
+    const { settings } = this.props;
+    const { category, quantity, difficulty } = settings;
+    const token = this.loadToken();
+    const questionsResponse = await getQuestions(token, quantity, category, difficulty);
     this.setState({
       questions: questionsResponse.results,
     });
@@ -139,7 +145,8 @@ class Questions extends Component {
     return (
       <>
         <Header />
-        <div className="container">
+        <div className="container box-accent">
+          { this.time() }
           { questions
           && <Question
             nextQuestion={ this.nextQuestion }
@@ -147,7 +154,6 @@ class Questions extends Component {
             selected={ selected }
             selectedAnswer={ this.selectedAnswer }
           /> }
-          { this.time() }
           { selected && this.getNextButton() }
         </div>
       </>
@@ -159,8 +165,17 @@ const mapDispatchToProps = (dispatch) => ({
   toScore: (assertions, score) => dispatch(setScore(assertions, score)),
 });
 
+const mapStateToProps = (state) => ({
+  settings: state.settings,
+});
+
 Questions.propTypes = {
   toScore: PropTypes.func.isRequired,
+  settings: PropTypes.shape({
+    category: PropTypes.string.isRequired,
+    quantity: PropTypes.number.isRequired,
+    difficulty: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
-export default connect(null, mapDispatchToProps)(Questions);
+export default connect(mapStateToProps, mapDispatchToProps)(Questions);

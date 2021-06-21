@@ -1,12 +1,199 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap') ;
 
+@import url('~bootstrap-icons/font/bootstrap-icons.css') ;
+
+:root {
+
+  --color-primary: #204056;
+
+  --color-primary-hover: #20405699;
+
+  --color-secondary: #f65a5b;
+
+  --color-secondary-hover: #f65a5bcc;
+
+  --color-white: #fffd;
+
+  --color-white-hover: #fff9;
+
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
+  background-color: var(--color-primary);
   font-family: Roboto , sans-serif;
   overflow: hidden;
 }
 
-.badge {
-  text-align: left;
+.container {
+  margin: 0 auto;
+  max-width: 980px;
+  padding: 0 16px;
+}
+
+header {
+  margin: 0 0 16px;
+  padding: 16px 0;
+  width: 100%;
+}
+
+header img {
+  max-width: 200px;
+}
+
+header .container {
+  align-items: center;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  padding: 0;
+}
+
+header .box-score {
+  background-color: var(--color-white);
+  border-radius: 12px;
+  box-shadow: 0 0 8px rgba(0 0 0 0.5);
+  display: flex;
+  min-width: 400px;
+  padding: 8px 16px;
+}
+
+header .box-score .box-score-badges {
+  display: flex;
+  flex-flow: column;
+  flex-grow: 1;
+}
+
+header .box-score img {
+  border-radius: 50%;
+  margin-right: 12px;
+  padding: 8px 0;
+}
+
+.login-container h1 {
+  color: var(--color-secondary);
+  font-size: 2rem;
+  text-align: center;
+}
+
+.login-container {
+  display: flex;
+  flex-flow: column;
+  height: 100vh;
+  justify-content: center;
+  padding: 32px;
+}
+
+.login-container form {
+  align-self: center;
+  background-color: var(--color-secondary);
+  border-radius: 16px;
+  max-width: 600px;
+  padding: 48px 64px;
+}
+
+.login-container form input {
+  width: 300px;
+}
+
+.login-container .Dropdown-root {
+  margin-top: 16px;
+}
+
+.login-container .Dropdown-root .Dropdown-control {
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.login-container .Dropdown-control:last-child {
+  margin-bottom: 16px;
+}
+
+.login-container button:first-child {
+  position: absolute;
+  right: 32px;
+  top: 32px;
+}
+
+.box-accent {
+  background-color: var(--color-secondary);
+  border-radius: 16px;
+  padding: 32px 64px;
+}
+
+.box-accent h2 {
+  margin: 0;
+  padding: 0 8px 8px 0;
+}
+
+.box-accent h2, .box-accent h1, .box-accent p {
+  color: var(--color-white);
+}
+
+.box-accent p {
+  font-weight: 700;
+}
+
+.box-question-opt {
+  display: flex;
+}
+
+.box-question-opt .exact {
+  margin: 16px 8px 16px 0;
+  text-transform: capitalize;
+}
+
+.box-feedback__flex {
+  display: flex;
+}
+
+.box-feedback h1 {
+  margin-top: 0;
+}
+
+.box-feedback .box-feedback-assertions {
+  align-items: center;
+  background-color: var(--color-white);
+  border: 2px solid var(--color-primary);
+  border-radius: 16px;
+  display: flex;
+  flex-basis: 200px;
+  flex-grow: 1;
+  height: 100%;
+  justify-content: center;
+  margin: 8px;
+  padding: 17px 32px;
+  width: 100%;
+}
+
+.box-feedback .box-feedback-assertions p {
+  color: var(--color-primary);
+}
+
+.box-feedback-score {
+  padding-right: 8px;
+  width: 50%;
+}
+
+.box-feedback-button {
+  display: flex;
+}
+
+.box-feedback-button button:first-child {
+  margin-right: 8px;
+}
+
+.box-feedback-button button:last-child {
+  margin-left: 8px;
+}
+
+.trivia-logo {
+  display: flex;
+  margin: 0 auto 16px;
+  max-width: 200px;
 }
 
 .flex-block {
@@ -22,7 +209,7 @@ body {
 }
 
 .btn-error {
-  border: 10;
+  border: 10px;
   border-radius: 5px;
   font-weight: 800;
   height: 40px;
@@ -34,18 +221,21 @@ body {
   width: 150px;
 }
 
-.border-correct {
-  border: 3px solid rgb(6, 240, 15);
-}
-
-.border-incorrect {
-  border: 3px solid red;
-}
-
 .error {
   background-image: url('./erro404.jpg');
   background-repeat: no-repeat;
   background-size: contain;
   height: 700px;
   width: 700px;
+}
+
+@keyframes countdown {
+
+  from {
+    stroke-dashoffset: 0;
+  }
+
+  to {
+    stroke-dashoffset: 113px;
+  }
 }
