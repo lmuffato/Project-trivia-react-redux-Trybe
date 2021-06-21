@@ -1,5 +1,4 @@
 import React from 'react';
-import { useHistory } from "react-router-dom";
 import { shape, string, number } from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -22,7 +21,7 @@ class Feedback extends React.Component {
     };
     localStorage.setItem('state', JSON.stringify(player));
   }
-  // https://stackoverflow.com/questions/34735580/how-to-do-a-redirect-to-another-route-with-react-router referencia para 15 e 16.
+  // https://stackoverflow.com/questions/34735580/how-to-do-a-redirect-to-another-route-with-react-router referencia adaptada para 15 e 16.
 
   redirectToInitialPage() {
     const { history } = this.props;
