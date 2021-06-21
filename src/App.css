@@ -1,4 +1,9 @@
 body {
+  background: url(mariosky.png) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
   background-color: rgb(0, 0, 0);
   font-family: Pixel Sans Serif;
   color: rgb(255, 255, 255);
