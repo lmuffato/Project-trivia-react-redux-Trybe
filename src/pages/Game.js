@@ -27,23 +27,32 @@ class Game extends Component {
 
   renderName() {
     const { userName } = this.props;
+    let nameLS;
+    if (localStorage.getItem('name')) {
+      nameLS = localStorage.getItem('name');
+    }
+    // console.log(nameLS);
     return (
-      <h1
+      <h3
         data-testid="header-player-name"
       >
-        {userName}
-      </h1>
+        {nameLS || userName || 'Nome da pessoa'}
+      </h3>
     );
   }
 
   renderScore() {
     const { pointsGlobal } = this.props;
-
+    let scoreLS = null;
+    if (localStorage.getItem('state')) {
+      const stateLS = JSON.parse(localStorage.getItem('state'));
+      scoreLS = stateLS.player.score;
+    }
     return (
       <h1
         data-testid="header-score"
       >
-        { Number(pointsGlobal) }
+        { Number(pointsGlobal) || scoreLS || 0 }
       </h1>
     );
   }

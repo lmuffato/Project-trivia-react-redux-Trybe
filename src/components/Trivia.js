@@ -10,6 +10,7 @@ import handleColors from '../services/handlers';
 
 const TEN = 10; const
   THREE = 3;
+const FOUR = 4;
 
 const correct = 'correct-answer';
 
@@ -35,19 +36,34 @@ class Trivia extends Component {
   }
 
   setLS(points) {
-    // const { points } = this.state;
-    const { user } = this.props;
+    const { user, token } = this.props;
     const objToLS = {
-      name: user.name,
-      assertions: 0,
-      score: points,
+      player: {
+        name: user.name,
+        assertions: 1,
+        score: points,
+        email: user.email,
+      },
     };
-    const stateString = localStorage.getItem('state');
-    const stateObj = JSON.parse(stateString);
-    if (stateString) {
-      objToLS.score = stateObj.score + objToLS.score;
+    const stateObj = JSON.parse(localStorage.getItem('state'));
+    if (stateObj) {
+      objToLS.player.score = stateObj.player.score + objToLS.player.score;
+      objToLS.player.assertions = stateObj.player.assertions + 1;
     }
     localStorage.setItem('state', JSON.stringify(objToLS));
+    if (!localStorage.getItem('token')) localStorage.setItem('token', token); // só vai setar 1 novo token se não tiver nenhum no localstorage.
+    const objToLSRanking = {
+      name: user.name,
+      score: points,
+      picture: 'url-teste',
+    };
+    if (!localStorage.getItem('ranking')) {
+      localStorage.setItem('ranking', JSON.stringify(objToLSRanking));
+    } else {
+      const obj = JSON.parse(localStorage.getItem('ranking'));
+      obj.score += points;
+      localStorage.setItem('ranking', JSON.stringify(obj));
+    }
   }
 
   setTriviaStateLocalAndGlobal(trivia) { // seta nao somente estado local como tb estado global.
@@ -79,6 +95,7 @@ class Trivia extends Component {
         nivel = null;
       }
       const points = TEN + (counter * nivel);
+      console.log(points);
       altTimeOut(points);
       this.setLS(points);
     } else {
@@ -181,6 +198,8 @@ class Trivia extends Component {
       return this.renderQuestion(trivia[2], this.props);
     case THREE:
       return this.renderQuestion(trivia[3], this.props);
+    case FOUR:
+      return this.renderQuestion(trivia[FOUR], this.props);
     default:
       return (<h1>Loading questions</h1>);
     }

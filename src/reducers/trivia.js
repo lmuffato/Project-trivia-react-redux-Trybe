@@ -13,7 +13,9 @@ const trivia = (state = INITIAL_STATE, action) => {
   case SET_QUESTIONS:
     return { ...state, trivia: action.payload };
   case TIMER_OUT:
-    return { ...state, timeOut: !(state.timeOut), points: state.points + action.payload };
+    return { ...state,
+      timeOut: !(state.timeOut),
+      points: state.points + action.payload };
   default:
     return state;
   }
