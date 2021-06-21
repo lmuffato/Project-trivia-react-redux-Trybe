@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { string, shape, func } from 'prop-types';
 import { connect } from 'react-redux';
+import { decode } from 'he';
 import Alternative from './Alternative';
 import Timer from './Timer';
 import { saveStorage } from '../helpers/storage';
 import { updateScore } from '../redux/actions/actions';
+import './Question.css';
 
 class Question extends Component {
   constructor(props) {
@@ -59,26 +61,26 @@ class Question extends Component {
       aleatory_answers = [],
       correct_answer: correctAnswer,
     } } = this.props;
-    const questionReplaced = question
-      .replace(/&quot;/gi, '"')
-      .replace(/&#039;/gi, '\'')
-      .replace(/&rsquo;/gi, '\'')
-      .replace(/&eacute;/gi, 'é');
+    const questionReplaced = decode(question);
 
     return (
       <div>
         <Timer />
-        <p data-testid="question-category">{category}</p>
-        <p data-testid="question-text">{questionReplaced}</p>
-
-        <div className="answers">
-          {aleatory_answers.map((alternative, index) => (
-            <Alternative
-              key={ index }
-              correctAnswer={ correctAnswer }
-              alternative={ alternative }
-              verifyAnswer={ this.verifyAnswer }
-            />))}
+        <div className="question-container">
+          <div className="category">
+            <h3>Category:</h3>
+            <h3 data-testid="question-category">{category}</h3>
+          </div>
+          <h2 data-testid="question-text">{questionReplaced}</h2>
+          <div className="answers">
+            {aleatory_answers.map((alternative, index) => (
+              <Alternative
+                key={ index }
+                correctAnswer={ correctAnswer }
+                alternative={ alternative }
+                verifyAnswer={ this.verifyAnswer }
+              />))}
+          </div>
         </div>
 
       </div>

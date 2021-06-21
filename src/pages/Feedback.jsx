@@ -6,6 +6,7 @@ import Header from '../components/Header';
 import FeedbackMsg from '../components/FeedbackMsg';
 import FeedbackResults from '../components/FeedbackResults';
 import { lastQuestion } from '../redux/actions/actions';
+import './Feedback.css';
 
 class Feedback extends Component {
   componentDidMount() {
@@ -15,22 +16,28 @@ class Feedback extends Component {
 
   render() {
     return (
-      <div>
+      <div className="feedback-container">
         <Header />
-        <FeedbackMsg />
-        <FeedbackResults />
-        <Link
-          to="/"
-          data-testid="btn-play-again"
-        >
-          Jogar novamente
-        </Link>
-        <Link
-          to="/ranking"
-          data-testid="btn-ranking"
-        >
-          Ver Ranking
-        </Link>
+        <div className="feedback">
+          <FeedbackMsg />
+          <FeedbackResults />
+        </div>
+        <div className="btn-play-again">
+          <Link
+            to="/"
+            data-testid="btn-play-again"
+          >
+            Jogar novamente
+          </Link>
+        </div>
+        <div className="btn-ranking">
+          <Link
+            to="/ranking"
+            data-testid="btn-ranking"
+          >
+            Ver Ranking
+          </Link>
+        </div>
       </div>
     );
   }

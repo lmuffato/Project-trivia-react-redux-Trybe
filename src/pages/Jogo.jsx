@@ -30,12 +30,10 @@ class Jogo extends Component {
     }
 
     return (
-      <div>
+      <div className="game-container">
         <div>
           <Header />
         </div>
-        <h1>Página do Jogo</h1>
-
         {questions && questions.length && questions[currentQuestionIndex]
         && <Question question={ questions[currentQuestionIndex] } />}
 

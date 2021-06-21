@@ -61,13 +61,15 @@ class Login extends React.Component {
   render() {
     const { disableBtn } = this.state;
     return (
-      <div className="form-container">
-        <LoginForm
-          onChange={ this.handleInputChange }
-          handleLogin={ this.handleLogin }
-          disableBtn={ disableBtn }
-        />
-        <ReactAudioPlayer src={ showDoMilhao } autoPlay controls className="music" />
+      <div className="container">
+        <div className="form-container">
+          <LoginForm
+            onChange={ this.handleInputChange }
+            handleLogin={ this.handleLogin }
+            disableBtn={ disableBtn }
+          />
+          <ReactAudioPlayer src={ showDoMilhao } autoPlay controls className="music" />
+        </div>
       </div>
     );
   }

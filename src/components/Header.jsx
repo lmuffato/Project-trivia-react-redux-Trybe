@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { string, number } from 'prop-types';
 import { Link } from 'react-router-dom';
+import './Header.css';
 
 class Header extends Component {
   render() {
@@ -13,9 +14,10 @@ class Header extends Component {
             src={ gravatarEmail }
             alt="avatar"
             data-testid="header-profile-picture"
+            className="gravatar-email"
           />
         </Link>
-        <h2 data-testid="header-player-name">{ name }</h2>
+        <h2 data-testid="header-player-name">{ `Name: ${name}` }</h2>
         <p data-testid="header-score" className="score">{ score }</p>
       </header>
     );

@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import ReactAudioPlayer from 'react-audio-player';
+import Audioslave from '../assets/Audioslave.ogg';
 import { getRanking } from '../helpers/storage';
+import './Ranking.css';
 
 class Ranking extends React.Component {
   constructor(props) {
@@ -37,25 +40,32 @@ class Ranking extends React.Component {
   render() {
     const { ranking } = this.state;
     return (
-      <div>
+      <div className="ranking-container">
         <h1 data-testid="ranking-title">Ranking</h1>
-        <Link to="/">
-          <button data-testid="btn-go-home" type="button">
+        <button className="btn-go-home" data-testid="btn-go-home" type="button">
+          <Link to="/">
             VOLTAR
-          </button>
-        </Link>
-
-        <ol>
+          </Link>
+        </button>
+        <div>
+          <ol className="title-ranking">
+            <li>User</li>
+            <li>Score</li>
+          </ol>
+        </div>
+        <ol className="ranking">
           {ranking
         && ranking.map(({ name, score, gravatarEmail }, index) => (
-          <li key={ index }>
-            <img src={ gravatarEmail } alt="player gravatar" />
-            <h2 data-testid={ `player-name-${index}` }>{ name }</h2>
+          <li key={ index } className="ranking-list">
+            <div className="user-data">
+              <img src={ gravatarEmail } alt="player gravatar" />
+              <h2 data-testid={ `player-name-${index}` }>{ name }</h2>
+            </div>
             <h3 data-testid={ `player-score-${index}` }>{score}</h3>
           </li>
         ))}
         </ol>
-
+        <ReactAudioPlayer src={ Audioslave } autoPlay controls className="music" />
       </div>
     );
   }
