@@ -30,6 +30,7 @@ class Feedback extends React.Component {
         <h2
           data-testid="feedback-total-question"
         >
+          Questões corretas:
           { assertions }
         </h2>
         <h2 data-testid="feedback-text">{this.ResponseFeedback()}</h2>
