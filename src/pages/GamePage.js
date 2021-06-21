@@ -1,8 +1,10 @@
 import React from 'react';
 import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
+// import PropTypes from 'prop-types';
 import Header from '../components/Header';
 // import Button from '../components/Button';
+// import { resetTimer } from '../actions';
 import Question from '../components/Question';
 import Loading from '../components/Loading';
 
@@ -78,6 +80,14 @@ class GamePage extends React.Component {
     );
   }
 }
+
+// GamePage.propTypes = {
+//   resetQuizTimer: PropTypes.func.isRequired,
+// };
+
+// const mapDispatchToProps = (dispatch) => ({
+//   resetQuizTimer: () => dispatch(resetTimer()),
+// });
 
 export default connect(null)(GamePage);
 

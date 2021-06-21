@@ -92,7 +92,6 @@ class Question extends Component {
     return (
       <>
         <Timer
-          // resetTimer={ resetQuizTimer }
           handleStyle={ this.handleStyle }
           handleRestartTimer={ this.handleResetColors }
           restoreTimer={ this.restoreTimer }
