@@ -25,6 +25,34 @@ html {
   color: #f7dfa6;
 }
 
+.nature-2 {
+  display: flex;
+  margin:auto;
+  width:calc(6*30px);
+  height: 50px;
+  display: flex;
+  color: #8d7958;
+  filter: drop-shadow(30px 25px 0 currentColor) drop-shadow(60px 0 0 currentColor) drop-shadow(120px 0 0 currentColor);
+  clip-path: inset(0 100% 0 0);
+  animation:a2 2s infinite steps(7);
+}
+.nature-2:before {
+  content: "";
+  width: 30px;
+  height: 25px;
+  --c:radial-gradient(farthest-side,currentColor 92%,#0000);
+  background: 
+    var(--c) left /70% 70%,
+    var(--c) right/20% 20%,
+    var(--c) top    0 right 15%/20% 20%,
+    var(--c) bottom 0 right 15%/20% 20%;
+  background-repeat: no-repeat;
+}
+
+@keyframes a2 {
+  100% {clip-path: inset(0 -30px 0 0)}
+}
+
 .card-ol {
   align-items: center;
   display: flex;

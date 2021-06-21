@@ -130,7 +130,7 @@ class GameScreen extends React.Component {
   }
 
   loading() {
-    return <h1> Loading </h1>;
+    return <div className="nature-2" />;
   }
 
   altBtnBehave(time) {
