@@ -30,6 +30,11 @@ export const player = (state = INITIAL_STATE, action) => {
       ...state,
       score: action.score,
     };
+  case 'ADD_ASSERTION':
+    return {
+      ...state,
+      assertions: state.assertions + action.payload.assertions,
+    };
   default: return state;
   }
 };

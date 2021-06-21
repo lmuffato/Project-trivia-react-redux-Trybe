@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { setScoreAction } from '../actions';
 import Header from './Header';
 
@@ -9,7 +10,6 @@ class Game extends React.Component {
     super(props);
     this.state = {
       questionNumber: 0,
-      appear: 'none',
       seconds: 30,
     };
 
@@ -17,26 +17,39 @@ class Game extends React.Component {
     this.getUserRanking = this.getUserRanking.bind(this);
     this.updateLocalStorage = this.updateLocalStorage.bind(this);
     this.changeBorders = this.changeBorders.bind(this);
-    this.decrementCounter = this.decrementCounter.bind(this);
+    this.handleNextBtn = this.handleNextBtn.bind(this);
+
+    const milliSeconds = 1000;
+
+    this.state = {
+      position: 0,
+      seconds: 30,
+      countDown: setInterval(() => {
+        this.setState(
+          (state) => ({
+            seconds: state.seconds - 1,
+          }),
+        );
+      }, milliSeconds),
+    };
   }
 
   componentDidMount() {
     const player = {
       player: {
-        name: 'Nome da Pessoa',
+        name: 'nome da pessoa',
         assertions: 0,
         score: 0,
-        gravatarEmail: 'email@pessoa.com',
+        gravatarEmail: 'email@dapessoa',
       },
     };
     localStorage.setItem('state', JSON.stringify(player));
   }
 
   componentDidUpdate() {
-    const { seconds } = this.state;
-    this.decrementCounter(seconds);
+    const { seconds, countDown } = this.state;
     if (seconds === 0) {
-      clearInterval(seconds);
+      clearInterval(countDown);
       this.changeBorders();
     }
   }
@@ -62,17 +75,27 @@ class Game extends React.Component {
     this.updateLocalStorage(finalPoint);
   }
 
-  decrementCounter() {
-    let { seconds } = this.state;
-    const miliseconds = 1000;
-    const counting = setInterval(() => {
-      if (seconds > 0) {
-        seconds -= 1;
-      } else {
-        clearInterval(counting);
-        this.changeBorders();
-      }
-    }, miliseconds);
+  setButtonDisplay() {
+    const nextBtn = document.querySelector('.next-btn');
+    nextBtn.style.display = 'block';
+  }
+
+  handleNextBtn() {
+    const nextBtn = document.querySelector('.next-btn');
+    nextBtn.style.display = 'none';
+    const correctAnswer = document.getElementsByClassName('correct-answer');
+    correctAnswer[0].style.border = '2px outset rgb(118, 118, 118)';
+    correctAnswer[0].disabled = false;
+
+    const incorrectAnswer = document.querySelectorAll('.wrong-answer');
+    for (let index = 0; index < incorrectAnswer.length; index += 1) {
+      incorrectAnswer[index].style.border = '2px outset rgb(118, 118, 118)';
+      incorrectAnswer[index].disabled = false;
+    }
+    const { results } = this.props;
+    this.setState((prevState) => ({
+      position: prevState.position < results.length && prevState.position + 1,
+    }));
   }
 
   changeBorders() {
@@ -85,10 +108,9 @@ class Game extends React.Component {
       incorrectAnswer[index].style.border = '3px solid rgb(255, 0, 0)';
       incorrectAnswer[index].disabled = true;
     }
-    this.setState({
-      appear: '',
-    });
-    clearInterval(this.decrementCounter());
+    const { countDown } = this.state;
+    clearInterval(countDown);
+    this.setButtonDisplay();
   }
 
   updateLocalStorage(score) {
@@ -101,7 +123,7 @@ class Game extends React.Component {
         name: getName,
         assertions: 0,
         score,
-        gravatarEmail: 'email@pessoa.com',
+        gravatarEmail: getUrl,
       },
     };
 
@@ -109,12 +131,11 @@ class Game extends React.Component {
     localStorage.setItem('state', JSON.stringify(player));
     getScore(score);
   }
-  // função para quando clicar ir para a proxima pergunta
 
   proximaPergunta() {
-    const { questions } = this.props;
+    const { results } = this.props;
     let { questionNumber } = this.state;
-    if (questionNumber <= questions.length - 1) {
+    if (questionNumber <= results.length - 1) {
       questionNumber += 1;
       this.setState({
         questionNumber: questionNumber + 1,
@@ -124,48 +145,49 @@ class Game extends React.Component {
   }
 
   handlePosition() {
-    const { questions } = this.props;
-    const questionsFilter = questions
-      .filter((question) => questions.indexOf(question) === 0);
-    return questionsFilter.map((question) => (
-      <div key={ question }>
+    const { results } = this.props;
+    const { position } = this.state;
+    if (!results) {
+      return;
+    }
+    const categoryFilter = results.filter((category) => results.indexOf(category)
+      === (position));
+    return categoryFilter.map((category) => (
+      <div key={ category }>
         <h3 data-testid="question-category">
-          {question.category}
+          {results.category}
         </h3>
         <br />
         <h2 data-testid="question-text">
-          {question.question}
+          {results.question}
         </h2>
         <br />
-        {question.incorrect_answers.map((incorrect, index) => (
+        {results.incorrect_answers.map((incorrect, index) => (
           <button
             data-testid={ `wrong-answer-${index}` }
+            className="wrong-answer responses"
             key={ index }
             type="button"
             onClick={ this.changeBorders }
-            className="wrong-answer responses"
           >
             {incorrect}
-
           </button>
         ))}
 
         <button
+          className="correct-answer responses"
           data-testid="correct-answer"
           type="button"
-          onClick={ () => this.getUserRanking(question.difficulty) }
-          className="correct-answer responses"
+          onClick={ () => this.getUserRanking(category.difficulty) }
         >
-          {question.correct_answer}
+          {category.correct_answer}
         </button>
-      </div>
-
-    ));
+      </div>));
   }
 
   render() {
-    const { seconds, appear } = this.state;
-    console.log(this.props);
+    const { seconds, position } = this.state;
+    const limitQuestions = 4;
     return (
       <>
         <Header />
@@ -173,15 +195,31 @@ class Game extends React.Component {
           <span>Tempo Restante: </span>
           <strong>{seconds}</strong>
           {this.handlePosition()}
-          <button
-            style={ { display: appear } }
-            className="next"
-            data-testid="btn-next"
-            type="submit"
-            onClick={ this.proximaPergunta() }
-          >
-            Próxima
-          </button>
+          {position !== limitQuestions ? (
+            <div>
+              <button
+                type="button"
+                className="next-btn"
+                data-testid="btn-next"
+                onClick={ this.handleNextBtn }
+                style={ { display: 'none' } }
+              >
+                Próxima
+              </button>
+            </div>)
+            : (
+              <div>
+                <Link to="/feedback">
+                  <button
+                    type="button"
+                    className="next-btn"
+                    data-testid="btn-next"
+                    style={ { display: 'none' } }
+                  >
+                    Próxima
+                  </button>
+                </Link>
+              </div>)}
         </div>
       </>
     );
@@ -193,15 +231,16 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const mapStateToProps = (state) => ({
-  questions: state.game.questions,
+  results: state.game.questions,
   isLoading: state.game.isLoading,
   getName: state.player.name,
   getScore: state.player.score,
-  getUrl: state.player.gravatar,
+  getUrl: state.player.email,
+
 });
 
 Game.propTypes = {
-  questions: PropTypes.string.isRequired,
+  results: PropTypes.string.isRequired,
   getName: PropTypes.string.isRequired,
   getScore: PropTypes.number.isRequired,
   getUrl: PropTypes.string.isRequired,
