@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import SelectCustom from './SelectStyle';
+import SelectCustom from './SelectStyled';
 
 class Select extends Component {
   render() {

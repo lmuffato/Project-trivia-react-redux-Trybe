@@ -8,10 +8,16 @@ const COLOR_SECONDARY = cssVar('--color-secondary', '#F65A5B').toString();
 
 const ButtonCustom = styled.button`
   padding: 12px 16px;
+  font-weight: 700;
   border: none;
   border-radius: 8px;
   margin-top: 8px;
   width: 100%;
+  
+  &:hover, &:active {
+    background-color: ${shade(SHADOW_DEFAULT, COLOR_PRIMARY)};
+    color: var(--color-white);
+  }
   
   &.button-primary {
     background-color: var(--color-primary);
@@ -52,6 +58,21 @@ const ButtonCustom = styled.button`
 
   &.button-secondary:disabled {
     background-color: ${shade(SHADOW_DISABLED, COLOR_SECONDARY)};
+  }
+
+  &.button-outline-primary {
+    background: transparent;
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary);
+  }
+
+  &.button-outline-primary:hover {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+  }
+
+  &.button-outline-primary:disabled {
+    color: ${shade(SHADOW_DISABLED, COLOR_PRIMARY)};
   }
 
   &.button-outline-secondary {

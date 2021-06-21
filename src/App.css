@@ -69,6 +69,7 @@ header .box-score .box-score-badges {
 
 header .box-score img {
   border-radius: 50%;
+  margin-right: 12px;
   padding: 8px 0;
 }
 
@@ -128,7 +129,7 @@ header .box-score img {
   padding: 0 8px 8px 0;
 }
 
-.box-accent h2, .box-accent p {
+.box-accent h2, .box-accent h1, .box-accent p {
   color: var(--color-white);
 }
 
@@ -143,6 +144,50 @@ header .box-score img {
 .box-question-opt .exact {
   margin: 16px 8px 16px 0;
   text-transform: capitalize;
+}
+
+.box-feedback__flex {
+  display: flex;
+}
+
+.box-feedback h1 {
+  margin-top: 0;
+}
+
+.box-feedback .box-feedback-assertions {
+  align-items: center;
+  background-color: var(--color-white);
+  border: 2px solid var(--color-primary);
+  border-radius: 16px;
+  display: flex;
+  flex-basis: 200px;
+  flex-grow: 1;
+  height: 100%;
+  justify-content: center;
+  margin: 8px;
+  padding: 17px 32px;
+  width: 100%;
+}
+
+.box-feedback .box-feedback-assertions p {
+  color: var(--color-primary);
+}
+
+.box-feedback-score {
+  padding-right: 8px;
+  width: 50%;
+}
+
+.box-feedback-button {
+  display: flex;
+}
+
+.box-feedback-button button:first-child {
+  margin-right: 8px;
+}
+
+.box-feedback-button button:last-child {
+  margin-left: 8px;
 }
 
 .trivia-logo {

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const BadgeCustom = styled.div`
   color: var(--color-white);
-  padding: 8px 0 8px 12px;
+  padding: 8px 0 8px 0;
   border-radius: 8px;
   display: flex;
   flex-flow: row;
