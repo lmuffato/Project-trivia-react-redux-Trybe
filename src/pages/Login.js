@@ -41,13 +41,9 @@ class Login extends Component {
   }
 
   handleClick() {
-    const { sendToken, sendState, token } = this.props;
+    const { sendToken, sendState } = this.props;
     const { name, email } = this.state;
-    sendToken();
-    console.log(token);
-    if (!localStorage.getItem('name')) {
-      localStorage.setItem('name', name);
-    }
+    sendToken(); // coloca token no estado global
     sendState({ name, email });
   }
 
