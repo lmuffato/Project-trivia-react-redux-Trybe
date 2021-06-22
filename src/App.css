@@ -1,7 +1,12 @@
 @import 'https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css' ;
-
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville&family=Open+Sans:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kirang+Haerang&display=swap');
 html {
   background-color: #fad06c;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
 }
 
 .header {
@@ -155,33 +160,28 @@ li:nth-child( 3 ) .medal {
 }
 
 .card {
+  display: flex;
+  flex-direction: column;
   width: 50%;
+  box-shadow: 0 0 1em black, 0 0 1em #fad06c;
+  margin-bottom: 4em;
 }
 
 .card-header {
-  align-items: flex-end;
   display: flex;
+  align-items: flex-end;
   flex-direction: column;
-  margin: 20px 40px;
+  margin: 1.5em;
+  background-color: #fad06c;
+  padding: 1em;
+  box-shadow: 0 0 0.2em black, 0 0 0.3em #fad06c;
 }
 
 .card-header-title {
-  justify-content: center;
-  width: 100%;
-}
-
-.easy, .medium, .hard {
   display: flex;
-  justify-content: space-around;
-  padding-bottom: 20px;
-}
-
-.easy button, .medium button, .hard button {
-  background-color: #f1d696;
-  border: 1px solid #7c6e4d;
-  border-radius: 10rem;
-  font-size: 18px;
-}
+  font-size: 1.3em;
+  width: 100%;
+  font-family: 'Open Sans', sans-serif;}
 
 .xablau {
   align-items: center;
@@ -203,3 +203,55 @@ li:nth-child( 3 ) .medal {
   border-radius: 12rem;
   text-align-last: center;
 }
+
+.easy, .medium, .hard {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  margin: auto;
+  padding: 2em;
+  height:16em;
+}
+
+.wrong, .correct {
+  border: 1px solid black;
+  background-color: #fad06c;
+  padding: 0.3em;
+  margin: 0.1em;
+  font-size: 1.2em;
+  border-radius: 0.3em;
+  color: black;
+}
+
+
+.wrong:hover, .correct:hover {
+  background-color: #D99C0D;
+  padding: 0.5em;
+  transition: padding 0.3s;
+  font-weight: bold;
+}
+
+#next-btn {
+  display: flex;
+  color: black;
+}
+
+.ctn-squirrel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: bottom;
+  align-items: center;
+}
+.title {
+  color: #D99C0D;
+  font-family: 'Kirang Haerang', cursive;
+  margin-top:0;
+  font-size: 4em;
+}
+
+.header {
+  display: flex;
+  padding-bottom: 0;
+}
+
