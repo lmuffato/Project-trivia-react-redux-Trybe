@@ -42,7 +42,8 @@ class Game extends Component {
     return (
       <div>
         <Header />
-        <div>
+        <div className="questions">
+          SUA VEZ
           {
             Object.values(questions).length ? (
               <Question

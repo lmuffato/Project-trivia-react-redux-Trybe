@@ -11,29 +11,28 @@ class Login extends Component {
 
     return (
       <div>
-        <form>
-          <label htmlFor="email">
-            Email:
-            <input
-              type="email"
-              id="email"
-              name="email"
-              data-testid="input-gravatar-email"
-              onChange={ handleChange }
-              value={ email }
-            />
-          </label>
-          <label htmlFor="name">
-            Nome:
-            <input
-              type="text"
-              id="name"
-              name="name"
-              data-testid="input-player-name"
-              onChange={ handleChange }
-              value={ name }
-            />
-          </label>
+        <form className="container">
+          <br />
+          <input
+            placeholder="Email"
+            type="email"
+            id="email"
+            name="email"
+            data-testid="input-gravatar-email"
+            onChange={ handleChange }
+            value={ email }
+          />
+          <br />
+          <input
+            placeholder="Nome"
+            type="text"
+            id="name"
+            name="name"
+            data-testid="input-player-name"
+            onChange={ handleChange }
+            value={ name }
+          />
+          <br />
           <button
             type="button"
             data-testid="btn-play"
@@ -45,6 +44,8 @@ class Login extends Component {
           >
             Jogar
           </button>
+          <br />
+          <br />
           <Link to="/configuration" data-testid="btn-settings">
             Configurações
           </Link>

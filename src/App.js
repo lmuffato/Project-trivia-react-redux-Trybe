@@ -13,7 +13,6 @@ export default function App() {
     <div className="App">
       <header className="App-header">
         <img src={ logo } className="App-logo" alt="logo" />
-        SUA VEZ
         <Switch>
           <Route exact path="/" component={ Login } />
           <Route path="/configuration" component={ Configuration } />

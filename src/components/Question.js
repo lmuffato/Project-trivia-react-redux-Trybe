@@ -77,7 +77,7 @@ class Question extends Component {
     newObj = {
       name,
       gravatarEmail: email,
-      score,
+      score: parseInt(score, 10),
       assertions,
     };
     localStorage.setItem('state', JSON.stringify({ player: { ...newObj } }));
