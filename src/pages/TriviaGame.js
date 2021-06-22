@@ -24,7 +24,6 @@ class TriviaGame extends Component {
       index: 0,
       disableBtn: true,
       goFeedback: false,
-      disableBtn: true,
       answersRandom: [],
       shouldChangeAnswer: true,
     };
