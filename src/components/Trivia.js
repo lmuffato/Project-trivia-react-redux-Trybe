@@ -43,7 +43,7 @@ class Trivia extends Component {
         name: user.name,
         assertions: assertion ? 1 : 0,
         score: points,
-        email: user.email,
+        gravatarEmail: user.email,
       },
     };
     const stateObj = JSON.parse(localStorage.getItem('state'));

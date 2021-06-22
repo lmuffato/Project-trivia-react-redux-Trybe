@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import md5 from 'crypto-js/md5';
 import Trivia from '../components/Trivia';
 // import user from '../reducers/user';
 
@@ -13,12 +14,26 @@ class Game extends Component {
     this.renderGravatar = this.renderGravatar.bind(this);
     this.renderName = this.renderName.bind(this);
     this.renderScore = this.renderScore.bind(this);
+    // this.startLS = this.startLS.bind(this);
   }
 
+  // startLS() {
+  //   const startLSObj = {
+  //     player: {
+  //       name: '',
+  //       assertions: 0,
+  //       score: 0,
+  //       gravatarEmail: '',
+  //     },
+  //   };
+  //   localStorage.setItem('state', JSON.stringify(startLSObj));
+  // }
+
   renderGravatar() {
+    const user = JSON.parse(localStorage.getItem('state')).player.gravatarEmail;
     return (
       <img
-        src=""
+        src={ `https://www.gravatar.com/avatar/${md5(user)}` }
         alt="gravatar"
         data-testid="header-profile-picture"
       />
@@ -27,17 +42,18 @@ class Game extends Component {
 
   renderName() {
     const { userName } = this.props;
-    let nameLS;
-    if (localStorage.getItem('name')) {
-      nameLS = localStorage.getItem('name');
-    }
+    // let nameLS;
+    // if (localStorage.getItem('name')) {
+    // nameLS = localStorage.getItem('name');
+    // }
     // console.log(nameLS);
     return (
-      <h3
+      <span
         data-testid="header-player-name"
       >
-        {nameLS || userName || 'Nome da pessoa'}
-      </h3>
+        {userName}
+        {/* {nameLS || userName || ''} */}
+      </span>
     );
   }
 
@@ -61,6 +77,7 @@ class Game extends Component {
     return (
       <>
         <header>
+          {/* {this.startLS()} */}
           {this.renderGravatar()}
           {this.renderName()}
           {this.renderScore()}

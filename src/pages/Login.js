@@ -40,6 +40,37 @@ class Login extends Component {
     }
   }
 
+  setLSInitialState() {
+    const { name, email } = this.state;
+    const objToLS = {
+      player: {
+        name,
+        assertions: 0,
+        score: 0,
+        gravatarEmail: email,
+      },
+    };
+    // const stateObj = JSON.parse(localStorage.getItem('state'));
+    // if (stateObj) {
+    //   objToLS.player.score = stateObj.player.score + objToLS.player.score;
+    //   objToLS.player.assertions = stateObj.player.assertions + (assertion ? 1 : 0);
+    // }
+    localStorage.setItem('state', JSON.stringify(objToLS));
+    // if (!localStorage.getItem('token')) localStorage.setItem('token', token); // só vai setar 1 novo token se não tiver nenhum no localstorage.
+    // const objToLSRanking = {
+    //   name: user.name,
+    //   score: points,
+    //   picture: 'url-teste',
+    // };
+    // if (!localStorage.getItem('ranking')) {
+    //   localStorage.setItem('ranking', JSON.stringify(objToLSRanking));
+    // } else {
+    //   const obj = JSON.parse(localStorage.getItem('ranking'));
+    //   obj.score += points;
+    //   localStorage.setItem('ranking', JSON.stringify(obj));
+    // }
+  }
+
   handleClick() {
     const { sendToken, sendState } = this.props;
     const { name, email } = this.state;
@@ -93,7 +124,10 @@ class Login extends Component {
           <button
             type="button"
             data-testid="btn-play"
-            onClick={ () => this.handleClick() }
+            onClick={ () => {
+              this.handleClick();
+              this.setLSInitialState();
+            } }
             disabled={ isDisabled }
           >
             Jogar
