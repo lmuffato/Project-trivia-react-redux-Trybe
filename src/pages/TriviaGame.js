@@ -22,6 +22,7 @@ class TriviaGame extends Component {
 
     this.state = {
       index: 0,
+      disableBtn: true,
       goFeedback: false,
       disableBtn: true,
       answersRandom: [],
@@ -48,6 +49,12 @@ class TriviaGame extends Component {
     });
   }
 
+  toggleBtn(bool) {
+    this.setState({
+      disableBtn: bool,
+    });
+  }
+
   /**
    * Show correct and inscorrects answers or clear style buttons
    * @param {boolean?} reset Should clear style buttons
@@ -63,6 +70,7 @@ class TriviaGame extends Component {
         btn.style = 'border: 3px solid rgb(255, 0, 0)';
       }
     });
+    this.toggleBtn(false);
   }
 
   enableBtnNext() {
@@ -201,6 +209,7 @@ const mapStateToProps = (state) => ({
   // isFetching: state.user.isFetching,
   idInterval: state.idInterval.id,
   questions: state.questions.questions,
+
 });
 
 const mapDispatchToProps = (dispatch) => ({
