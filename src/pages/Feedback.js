@@ -54,37 +54,49 @@ class Feedback extends React.Component {
     const goodAssertions = 3;
 
     return (
-      <div>
-        <Header score={ score } />
-        {
-          parseFloat(assertions) < goodAssertions
-            ? <p data-testid="feedback-text">Podia ser melhor...</p>
-            : <p data-testid="feedback-text">Mandou bem!</p>
-        }
-        <p>
-          Acertos:
-          {' '}
-          <span data-testid="feedback-total-question">{assertions}</span>
-        </p>
-        <p>
-          Pontuação:
-          {' '}
-          <span data-testid="feedback-total-score">{score}</span>
-        </p>
-        <button
-          onClick={ this.handleClick }
-          data-testid="btn-play-again"
-          type="button"
+      <div className="container">
+        <div
+          className="card w-80 text-white mb-3"
+          style={ { backgroundColor: 'rgba(255, 255, 255,0)' } }
         >
-          Jogar novamente
-        </button>
-        <button
-          data-testid="btn-ranking"
-          type="button"
-        >
-          <Link to="/ranking">Ver Ranking</Link>
-        </button>
+          <div className="card-header">
+            <Header score={ score } />
+          </div>
+          <div className="card-title, text-center">
+            {
+              parseFloat(assertions) < goodAssertions
+                ? <h1 data-testid="feedback-text">Podia ser melhor...</h1>
+                : <h1 data-testid="feedback-text">Mandou bem!</h1>
+            }
+          </div>
+          <h1 className="text-center">
+            Acertos:
+            {' '}
+            <span data-testid="feedback-total-question">{assertions}</span>
+          </h1>
+          <p className="text-center">
+            Pontuação:
+            {' '}
+            <span data-testid="feedback-total-score">{score}</span>
+          </p>
+          <button
+            className="btn btn-success"
+            onClick={ this.handleClick }
+            data-testid="btn-play-again"
+            type="button"
+          >
+            Jogar novamente
+          </button>
+          <button
+            className="btn btn-info"
+            data-testid="btn-ranking"
+            type="button"
+          >
+            <Link to="/ranking">Ver Ranking</Link>
+          </button>
+        </div>
       </div>
+
     );
   }
 }

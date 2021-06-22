@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { login as loginAction } from '../actions';
+import logo from '../trivia.png';
 
 class Login extends React.Component {
   constructor() {
@@ -75,51 +76,64 @@ class Login extends React.Component {
     event.preventDefault();
   }
 
+  loginInputs(param) {
+    const { name, value, dataID, onChange } = param;
+    return (
+      <div className="form-group mb-3 row justify-content-center">
+        <input
+          className="form-control w-25 p-3 "
+          name={ name }
+          placeholder={ name }
+          type="text"
+          value={ value }
+          data-testid={ dataID }
+          onChange={ onChange }
+        />
+      </div>
+    );
+  }
+
   render() {
     const { name, email, disabled } = this.state;
+    const nameInput = {
+      name: 'name',
+      placeH: 'name',
+      value: name,
+      dataID: 'input-player-name',
+      onChange: (event) => this.handleChange(event) };
+    const emailInput = {
+      name: 'email',
+      placeH: 'email',
+      value: email,
+      dataID: 'input-gravatar-email',
+      onChange: (event) => this.handleChange(event),
+    };
     return (
-      <form>
-        <label htmlFor="name">
-          <input
-            name="name"
-            id="name"
-            type="text"
-            placeholder="name"
-            value={ name }
-            data-testid="input-player-name"
-            onChange={ (event) => this.handleChange(event) }
-          />
-        </label>
-        <label htmlFor="email">
-          <input
-            name="email"
-            id="email"
-            type="text"
-            placeholder="email"
-            value={ email }
-            data-testid="input-gravatar-email"
-            onChange={ (event) => this.handleChange(event) }
-          />
-        </label>
-        <button
-          disabled={ disabled }
-          data-testid="btn-play"
-          type="button"
-          onClick={ this.handleClick }
-        >
-          jogar
-        </button>
-        <button
-          data-testid="btn-settings"
-          type="button"
-        >
-          <Link
-            to="/settings"
-          >
-            Configurações
-          </Link>
-        </button>
-      </form>
+      <div className="container d-grid gap-4">
+        <img src={ logo } alt="imagem" className="img-fluid" />
+        <form>
+          { this.loginInputs(nameInput) }
+          { this.loginInputs(emailInput) }
+          <div className="input-group justify-content-center p-3">
+            <button
+              disabled={ disabled }
+              data-testid="btn-play"
+              type="button"
+              onClick={ this.handleClick }
+              className="btn btn-primary"
+            >
+              Jogar
+            </button>
+            <button
+              data-testid="btn-settings"
+              type="button"
+              className="btn btn-outline-secondary"
+            >
+              <Link to="/settings"> Configurações </Link>
+            </button>
+          </div>
+        </form>
+      </div>
     );
   }
 }

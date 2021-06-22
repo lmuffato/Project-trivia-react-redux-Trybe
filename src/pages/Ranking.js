@@ -22,14 +22,28 @@ class Ranking extends React.Component {
       arr.map((e, i) => {
         const { name, score, index, picture } = e;
         return (
-          <li key={ i }>
+          <li
+            key={ i }
+            className="list-unstyled row p-3 text-center justify-content-center"
+          >
             <img
+              style={ { width: '150px' } }
               src={ picture }
               alt="User"
               data-testid="ranking-profile-picture"
             />
-            <p data-testid={ `player-name-${index}` }>{ name }</p>
-            <p data-testid={ `player-score-${index}` }>{ score }</p>
+            <p
+              className="display-4 col"
+              data-testid={ `player-name-${index}` }
+            >
+              { name }
+            </p>
+            <p
+              className="display-4 col"
+              data-testid={ `player-score-${index}` }
+            >
+              { score }
+            </p>
           </li>
         );
       }));
@@ -37,19 +51,31 @@ class Ranking extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1 data-testid="ranking-title">Ranking</h1>
-        <ul>
-          { this.rankingMap(this.rankingSort()) }
-        </ul>
-        <Link to="/">
-          <button
-            data-testid="btn-go-home"
-            type="button"
+      <div className="container d-grid gap-4 p-3 text-white">
+        <div>
+          <h1
+            data-testid="ranking-title"
+            className="display-2 row justify-content-center"
           >
-            Voltar para tela inicial
-          </button>
-        </Link>
+            Ranking
+          </h1>
+        </div>
+        <div className="container d-grid p-3">
+          <ul>
+            { this.rankingMap(this.rankingSort()) }
+          </ul>
+        </div>
+        <div className="input-group justify-content-center">
+          <Link to="/">
+            <button
+              className="btn btn-secondary row"
+              data-testid="btn-go-home"
+              type="button"
+            >
+              Voltar para tela inicial
+            </button>
+          </Link>
+        </div>
       </div>
     );
   }

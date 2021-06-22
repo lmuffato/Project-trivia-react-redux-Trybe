@@ -1,10 +1,10 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import './App.css';
 import Feedback from './pages/Feedback';
 import Login from './pages/Login';
 import Trivia from './pages/Trivia';
 import Ranking from './pages/Ranking';
+import './App.css';
 import Settings from './pages/Settings';
 
 export default function App() {
