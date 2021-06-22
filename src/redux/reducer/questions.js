@@ -1,18 +1,15 @@
-import { IS_FETCHING, USER_LOGIN } from '../action';
+import { FETCH_QUESTION, IS_FETCHING } from '../action';
 
 const initialState = {
-  email: '',
-  name: '',
+  questions: [],
 };
 
 export default (state = initialState, { type, payload }) => {
   switch (type) {
-  case USER_LOGIN:
-    return { ...state, ...payload };
   case IS_FETCHING:
     return { ...state, isFetching: true };
-  // case GET_QUESTIONS:
-  //   return { ...state, questions: payload };
+  case FETCH_QUESTION:
+    return { ...state, questions: payload, isFetching: false };
   default:
     return state;
   }
