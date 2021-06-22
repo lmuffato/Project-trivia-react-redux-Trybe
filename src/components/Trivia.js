@@ -7,6 +7,7 @@ import suffleArray from '../services/suffleArray';
 import fetchTrivia from '../services/fetchTrivia';
 import Timer from './Timer';
 import handleColors from '../services/handlers';
+import Feedback from '../pages/Feedback';
 
 const TEN = 10; const
   THREE = 3;
@@ -35,12 +36,12 @@ class Trivia extends Component {
     this.setTriviaStateLocalAndGlobal(trivia);
   }
 
-  setLS(points) {
+  setLS(points, assertion) {
     const { user, token } = this.props;
     const objToLS = {
       player: {
         name: user.name,
-        assertions: 1,
+        assertions: assertion ? 1 : 0,
         score: points,
         email: user.email,
       },
@@ -48,7 +49,7 @@ class Trivia extends Component {
     const stateObj = JSON.parse(localStorage.getItem('state'));
     if (stateObj) {
       objToLS.player.score = stateObj.player.score + objToLS.player.score;
-      objToLS.player.assertions = stateObj.player.assertions + 1;
+      objToLS.player.assertions = stateObj.player.assertions + (assertion ? 1 : 0);
     }
     localStorage.setItem('state', JSON.stringify(objToLS));
     if (!localStorage.getItem('token')) localStorage.setItem('token', token); // só vai setar 1 novo token se não tiver nenhum no localstorage.
@@ -97,8 +98,9 @@ class Trivia extends Component {
       const points = TEN + (counter * nivel);
       console.log(points);
       altTimeOut(points);
-      this.setLS(points);
+      this.setLS(points, true);
     } else {
+      this.setLS(0, false);
       altTimeOut(0);
     }
     handleColors();
@@ -183,12 +185,9 @@ class Trivia extends Component {
   render() {
     const { trivia } = this.state;
     const { timeOut } = this.props;
-    if (trivia.length === 0) {
-      return <h1>Loading...</h1>;
-    }
+    if (trivia.length === 0) return (<h1>Loading...</h1>);
     if (timeOut) handleColors();
     const { positionQuestion } = this.state;
-    // const THREE = 3;
     switch (positionQuestion) {
     case 0:
       return this.renderQuestion(trivia[0], this.props);
@@ -201,7 +200,7 @@ class Trivia extends Component {
     case FOUR:
       return this.renderQuestion(trivia[FOUR], this.props);
     default:
-      return (<h1>Loading questions</h1>);
+      return <Feedback />;
     }
   }
 }
