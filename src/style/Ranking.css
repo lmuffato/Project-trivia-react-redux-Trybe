@@ -1,0 +1,10 @@
+.ranking-container {
+  font-family: monospace;
+  color: white;
+}
+
+.ranking-player-container {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+}

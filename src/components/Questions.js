@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './Questions.css';
 import { Redirect } from 'react-router';
+import { decode } from 'he';
 import Timer from './Timer';
 import Header from './Header';
 import { saveNOfCorrectAnswer } from '../actions';
@@ -149,7 +150,7 @@ class Questions extends Component {
           className="alternative-button"
           onClick={ this.alternativeClick }
         >
-          {alt}
+          {decode(alt)}
         </button>
       );
     });
@@ -195,10 +196,11 @@ class Questions extends Component {
         </div>
         <div className="question-container">
           <p data-testid="question-category">
-            {validQuestions ? questions[questionIndex].category : 'carregando...'}
+            {validQuestions ? decode(questions[questionIndex].category) : 'carregando...'}
           </p>
           <p data-testid="question-text">
-            {validQuestions ? questions[questionIndex].question : 'carrengando...'}
+            {validQuestions
+              ? decode(questions[questionIndex].question) : 'carrengando...'}
           </p>
           {validQuestions
             ? createAlternativesButtons(questions[questionIndex]) : mockAlternatives()}

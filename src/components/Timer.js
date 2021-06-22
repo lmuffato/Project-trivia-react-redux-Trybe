@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setTimerID, saveSeconds } from '../actions';
+import '../style/Timer.css';
 
 class Timer extends Component {
   constructor() {

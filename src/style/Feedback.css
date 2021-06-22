@@ -1,0 +1,28 @@
+.feedback-container {
+  color: white;
+  font-family: monospace;
+}
+
+.feedback-info {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  width: fit-content;
+  text-align: center;
+}
+
+.feedback-buttons {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  width: fit-content;
+  text-align: center;
+}
+
+.feedback-buttons a {
+  text-decoration: none;
+  background-color: black;
+  padding: 5px;
+  border-radius: 15px;
+  color: white;
+}

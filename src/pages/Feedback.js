@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import CryptoJS from 'crypto-js';
 import Header from '../components/Header';
+import '../style/Feedback.css';
 
 class Feedback extends Component {
   componentDidMount() {
@@ -30,22 +31,26 @@ class Feedback extends Component {
     const store = JSON.parse(localStorage.state);
     const { player: { score } } = store;
     return (
-      <>
-        <div data-testid="feedback-text">feedback</div>
+      <div className="feedback-container">
+        <h1 data-testid="feedback-text">feedback</h1>
         <Header />
-        <span data-testid="feedback-total-score">{Number(score)}</span>
-        <p data-testid="feedback-total-question">{nCorrectAns}</p>
-        <p data-testid="feedback-text">
-          {goodScore ? 'Mandou bem!' : 'Podia ser melhor...'}
-        </p>
-        <Link data-testid="btn-ranking" to="/ranking">
-          Ver Ranking
-        </Link>
-        <br />
-        <Link data-testid="btn-play-again" to="/">
-          Jogar novamente
-        </Link>
-      </>
+        <div className="feedback-info">
+          <p data-testid="feedback-total-score">{`Score: ${Number(score)}`}</p>
+          <p data-testid="feedback-total-question">{`Correct Answers: ${nCorrectAns}`}</p>
+          <p data-testid="feedback-text">
+            {goodScore ? 'Mandou bem!' : 'Podia ser melhor...'}
+          </p>
+        </div>
+        <div className="feedback-buttons">
+          <Link data-testid="btn-ranking" to="/ranking">
+            Ver Ranking
+          </Link>
+          <br />
+          <Link data-testid="btn-play-again" to="/">
+            Jogar novamente
+          </Link>
+        </div>
+      </div>
     );
   }
 }
