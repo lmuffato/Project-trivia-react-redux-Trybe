@@ -36,7 +36,7 @@ class Feedback extends Component {
         <h3 data-testid="feedback-text">{ feedback }</h3>
         <h3 data-testid="feedback-total-score">{ scoreTotal }</h3>
         <h3 data-testid="feedback-total-question">
-          { assertionsTotal === 0 ? 'Não acertou nenhuma pergunta' : assertionsTotal }
+          { assertionsTotal === 0 ? 0 : assertionsTotal }
         </h3>
       </>
     );
