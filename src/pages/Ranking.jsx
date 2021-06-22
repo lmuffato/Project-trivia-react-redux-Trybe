@@ -1,35 +1,35 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import '../styles/ranking.css';
 
 class Ranking extends Component {
   render() {
-    const { ranking } = this.props;
+    const { ranking, history } = this.props;
     return (
-      <div>
-        <p data-testid="feedback-text">FeedBack text to be put on here</p>
-        <h2 data-testid="ranking-title">Ranking</h2>
-        <ul>
+      <main className="ranking-container">
+        <h2 data-testid="ranking-title" className="ranking-title">Ranking</h2>
+        <ul className="items-ranking-container">
           {ranking
             .sort((a, b) => b.score - a.score)
             .map(({ name, score, gravatar }, index) => (
-              <li key={ index }>
-                <img src={ gravatar } alt="imagem do jogador" />
+              <li key={ index } className="ranking-item">
+                <img src={ gravatar } alt="imagem do jogador" className="avatar-image" />
                 <span data-testid={ `player-name-${index}` }>{name}</span>
                 <span data-testid={ `player-score-${index}` }>{score}</span>
               </li>
             ))}
         </ul>
-        <Link to="/">
-          <button
-            type="button"
-            data-testid="btn-go-home"
-          >
-            Voltar para o inicio
-          </button>
-        </Link>
-      </div>
+        <button
+          type="button"
+          data-testid="btn-go-home"
+          className="button-play-again"
+          onClick={ () => history.push('/') }
+        >
+          Voltar para o inicio
+        </button>
+
+      </main>
     );
   }
 }

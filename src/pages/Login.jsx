@@ -20,7 +20,9 @@ class Login extends React.Component {
   }
 
   async handleApi() {
-    const { token, history } = this.props;
+    const { token, history, login } = this.props;
+    const { name, gravatarEmail } = this.state;
+    login({ name, gravatarEmail });
     await token();
     history.push('/play');
   }
@@ -43,7 +45,6 @@ class Login extends React.Component {
 
   render() {
     const { name, gravatarEmail } = this.state;
-    const { login } = this.props;
     return (
       <header className="App-header">
         <img src={ logo } className="App-logo" alt="logo" />
@@ -72,11 +73,9 @@ class Login extends React.Component {
             disabled={ this.validateLogin() }
             type="button"
             data-testid="btn-play"
-            onClick={ () => login({ name, gravatarEmail }) }
+            onClick={ this.handleApi }
           >
-            <button type="button" onClick={ this.handleApi }>
-              Jogar
-            </button>
+            Jogar
           </button>
         </form>
         <button

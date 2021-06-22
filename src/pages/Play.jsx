@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchQuestion, updateScore } from '../redux/actions';
 import Header from '../components/Header';
+import '../styles/play.css';
 
 const correctAnswerId = 'correct-answer';
 
