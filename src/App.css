@@ -1,11 +1,11 @@
 .correct-answer {
-  border: 1px solid rgb(6, 240, 15);
+  border: 3px solid rgb(6, 240, 15);
   border-radius: 5px;
   margin: 3px;
 }
 
 .wrong-answer-0, .wrong-answer-1, .wrong-answer-2 {
-  border: 1px solid red;
+  border: 3px solid red;
   border-radius: 5px;
   margin: 3px;
 }

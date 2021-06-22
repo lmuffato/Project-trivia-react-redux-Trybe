@@ -54,7 +54,7 @@ class Ranking extends React.Component {
       <div className="container d-grid gap-4 p-3 text-white">
         <div>
           <h1
-            data-testid="ranking-title row "
+            data-testid="ranking-title"
             className="display-2 row justify-content-center"
           >
             Ranking

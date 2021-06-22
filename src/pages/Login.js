@@ -105,7 +105,7 @@ class Login extends React.Component {
       name: 'email',
       placeH: 'email',
       value: email,
-      dataID: 'input-player-email',
+      dataID: 'input-gravatar-email',
       onChange: (event) => this.handleChange(event),
     };
     return (
