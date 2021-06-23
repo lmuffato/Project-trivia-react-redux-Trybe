@@ -28,8 +28,8 @@
   display: flex;
   font-size: 3rem;
   justify-content: center;
-  padding: 20px;
   margin: 0;
+  padding: 20px;
   width: 100vw;
 }
 
@@ -44,8 +44,8 @@
 }
 
 .avatar-image {
-  width: 40px;
   border-radius: 20px;
+  width: 40px;
 }
 
 .items-ranking-container {

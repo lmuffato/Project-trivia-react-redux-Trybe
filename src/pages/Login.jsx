@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link as button } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { addLogin, fetchToken } from '../redux/actions';
 import logo from '../trivia.png';
+import configIcon from '../config.png';
+import '../styles/login.css';
 
 class Login extends React.Component {
   constructor() {
@@ -12,6 +14,7 @@ class Login extends React.Component {
     this.handleChanges = this.handleChanges.bind(this);
     this.validateLogin = this.validateLogin.bind(this);
     this.handleApi = this.handleApi.bind(this);
+    this.formLogin = this.formLogin.bind(this);
 
     this.state = {
       name: '',
@@ -43,48 +46,63 @@ class Login extends React.Component {
     return true;
   }
 
-  render() {
+  formLogin() {
     const { name, gravatarEmail } = this.state;
     return (
-      <header className="App-header">
-        <img src={ logo } className="App-logo" alt="logo" />
-        <form>
-          <label htmlFor="input-player-name">
-            Nome
-            <input
-              type="text"
-              name="name"
-              value={ name }
-              data-testid="input-player-name"
-              onChange={ this.handleChanges }
-            />
-          </label>
-          <label htmlFor="input-gravatar-email">
-            Email
-            <input
-              type="email"
-              name="gravatarEmail"
-              value={ gravatarEmail }
-              data-testid="input-gravatar-email"
-              onChange={ this.handleChanges }
-            />
-          </label>
-          <button
-            disabled={ this.validateLogin() }
-            type="button"
-            data-testid="btn-play"
-            onClick={ this.handleApi }
-          >
-            Jogar
-          </button>
-        </form>
+      <form className="form-login">
+        <label htmlFor="input-player-name" className="label-login">
+          Nome
+          <br />
+          <input
+            type="text"
+            name="name"
+            value={ name }
+            data-testid="input-player-name"
+            onChange={ this.handleChanges }
+            className="input-login"
+          />
+        </label>
+        <label htmlFor="input-gravatar-email" className="label-login">
+          Email
+          <br />
+          <input
+            type="email"
+            name="gravatarEmail"
+            value={ gravatarEmail }
+            data-testid="input-gravatar-email"
+            onChange={ this.handleChanges }
+            className="input-login"
+          />
+        </label>
+        <button
+          disabled={ this.validateLogin() }
+          type="button"
+          data-testid="btn-play"
+          onClick={ this.handleApi }
+          className="buttons-login"
+        >
+          Jogar
+        </button>
+      </form>
+    );
+  }
+
+  render() {
+    const { history } = this.props;
+    return (
+      <main className="login-container">
+        <img src={ logo } className="logo" alt="logo" />
+        {this.formLogin()}
         <button
           type="button"
           data-testid="btn-settings"
+          onClick={ () => history.push('/config') }
+          className="buttons-login config-button"
         >
-          <Link to="/config"><img className="engrenagem" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRG_PVWRkOpvDJXZr0K77D95h_ZocN0RHMjP2pDTuWKe-CwGdhlUUG543pxf0hbwjXH-jg&usqp=CAU" alt="config" /></Link>
+          <img src={ configIcon } alt="config" className="config-icon" />
+          Configurações
         </button>
-      </header>
+      </main>
     );
   }
 }

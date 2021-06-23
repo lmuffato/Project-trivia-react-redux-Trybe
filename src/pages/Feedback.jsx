@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import { addRank } from '../redux/actions';
+import '../styles/feedback.css';
 
 class Feedback extends Component {
   render() {
