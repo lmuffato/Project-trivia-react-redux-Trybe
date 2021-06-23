@@ -1,0 +1,19 @@
+.header {
+  align-items: center;
+  background-color: #242f40;
+  color: #cca43b;
+  display: flex;
+  font-size: 3rem;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.header-name {
+  margin-left: 10px;
+  width: 90%;
+}
+
+.avatar-header {
+  border-radius: 30px;
+  width: 60px;
+}

@@ -42,7 +42,7 @@ class Config extends Component {
   dificcultSettings() {
     const { difficult } = this.state;
     return (
-      <label className="labelDifficult" htmlFor="difficult">
+      <label className="labels-setting" htmlFor="difficult">
         Dificuldade:
         <select
           className="selectConfig"
@@ -60,7 +60,7 @@ class Config extends Component {
   typeSettings() {
     const { type } = this.state;
     return (
-      <label className="labelDifficult" htmlFor="type">
+      <label className="labels-setting" htmlFor="type">
         Tipo de pergunta:
         <select
           className="selectConfig"
@@ -81,7 +81,6 @@ class Config extends Component {
     const { objConfig } = this.props;
     const result = api.map(({ name, id }) => (
       <option
-        className="optionConfig"
         name="option"
         value={ id }
         key={ id }
@@ -91,10 +90,10 @@ class Config extends Component {
       </option>));
     const anyCategory = <option className="optionConfig">Any Category</option>;
     return (
-      <div className="fatherSettings">
+      <main className="fatherSettings">
         <h1 className="titleSettings" data-testid="settings-title">Configurações</h1>
-        <div className="labelsConfig">
-          <label className="labelCategorys" htmlFor="categorys">
+        <section className="settings-container">
+          <label className="labels-setting" htmlFor="categorys">
             Categorias:
             <select
               className="selectConfig"
@@ -109,7 +108,7 @@ class Config extends Component {
           </label>
           {this.dificcultSettings()}
           {this.typeSettings()}
-        </div>
+        </section>
         <button
           className="buttonSettingsSend"
           type="button"
@@ -117,10 +116,10 @@ class Config extends Component {
         >
 
           <Link className="linkConfig" to="/">
-            Enviar
+            Salvar configurações
           </Link>
         </button>
-      </div>
+      </main>
     );
   }
 }

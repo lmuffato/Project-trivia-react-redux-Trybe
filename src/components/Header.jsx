@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import { addGravatar } from '../redux/actions';
+import '../styles/header.css';
 
 class Header extends React.Component {
   constructor() {
@@ -22,7 +23,12 @@ class Header extends React.Component {
     const { name = 'user Name', score = 0 } = this.props;
     return (
       <header className="header">
-        <img src={ this.getGravatar() } alt="user" data-testid="header-profile-picture" />
+        <img
+          src={ this.getGravatar() }
+          alt="user"
+          data-testid="header-profile-picture"
+          className="avatar-header"
+        />
         <span data-testid="header-player-name" className="header-name">{ name }</span>
         <span data-testid="header-score">{ score }</span>
       </header>
