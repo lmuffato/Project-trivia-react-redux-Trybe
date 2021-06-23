@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import '../styles.css';
-import SingleQuestion from './SingueQuestion';
 import { Redirect } from 'react-router-dom';
+import SingleQuestion from './SingueQuestion';
 
 class Questions extends Component {
   constructor() {
@@ -14,11 +14,11 @@ class Questions extends Component {
       reset: false,
     };
 
-  this.callNext = this.callNext.bind(this);
+    this.callNext = this.callNext.bind(this);
   }
 
   componentDidUpdate() {
-    console.log("Componente pai montou");
+    console.log('Componente pai montou');
   }
 
   callNext() {
@@ -28,19 +28,20 @@ class Questions extends Component {
       this.setState({
         index: index + next,
         reset: false,
-      })
+      });
     } else {
       return (
-        <Redirect to="/ranking"/>
-      )
+        <Redirect to="/ranking" />
+      );
     }
   }
 
   render() {
     const { index } = this.state;
+    const { updateScore } = this.props;
     return (
       <div>
-          <SingleQuestion index={index} callNext={this.callNext}/>
+        <SingleQuestion index={ index } callNext={ this.callNext } updateScore={ updateScore } />
       </div>
     );
   }
