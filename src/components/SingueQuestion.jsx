@@ -8,6 +8,7 @@ class SingleQuestion extends Component {
 
     this.timer = this.timer.bind(this);
     this.answerClick = this.answerClick.bind(this);
+    this.randomizeQuestions = this.randomizeQuestions.bind(this);
 
     this.state = {
       chosedQuestion: false,
@@ -29,8 +30,24 @@ class SingleQuestion extends Component {
   }
 
   componentDidMount() {
+    const { loading } = this.props;
     const second = 1000;
     this.intervalFunc = setInterval(() => this.timer(), second);
+  }
+
+  randomizeQuestions() {
+    const { questions, index, loading } = this.props;
+    const randomQuestions = questions[index].incorrect_answers
+      .concat(questions[index].correct_answer);
+    // for (let i = randomQuestions.length - 1; i > 0; i -= 1) {
+    //   const j = Math.floor(Math.random() * i);
+    //   const k = randomQuestions[i];
+    //   randomQuestions[i] = randomQuestions[j];
+    //   randomQuestions[j] = k;
+    //   console.log(randomQuestions);
+    // }
+    console.log(randomQuestions);
+    return randomQuestions;
   }
 
   timer() {
@@ -43,7 +60,7 @@ class SingleQuestion extends Component {
         disableBtn: true,
       });
       callNext();
-    } else if (index === 4) {
+    } else if (index === four) {
       console.log('cabo o jogo, vai lavar louça');
       history.push('/feedback');
     }
@@ -68,7 +85,7 @@ class SingleQuestion extends Component {
 
   sumScore() {
     const { time } = this.state;
-    const { questions, index } = this.props;
+    const { questions, index, updateScore } = this.props;
     let newScore = 0;
     const ten = 10;
     const one = 1;
@@ -76,24 +93,21 @@ class SingleQuestion extends Component {
     const three = 3;
     const objState = JSON.parse(localStorage.getItem('state'));
     const { score, assertions, ...spread } = objState.player;
-    if (questions[index].difficulty === 'easy') {
-      newScore = (time * one) + ten;
-    } else if (questions[index].difficulty === 'medium') {
-      newScore = (time * two) + ten;
-    } else if (questions[index].difficulty === 'hard') {
-      newScore = (time * three) + ten;
-    }
+    if (questions[index].difficulty === 'easy') newScore = (time * one) + ten;
+    else if (questions[index].difficulty === 'medium') newScore = (time * two) + ten;
+    else if (questions[index].difficulty === 'hard') newScore = (time * three) + ten;
     const player = { player: { ...spread,
       assertions: assertions + 1,
       score: score + newScore,
     } };
-
+    updateScore(newScore);
     return localStorage.setItem('state', JSON.stringify(player));
   }
 
   render() {
     const { index, questions, loading, callNext } = this.props;
     const { chosedQuestion, disableBtn, time } = this.state;
+
     return (
       <div>
         {loading === true ? <p>carregando...</p>
@@ -130,9 +144,11 @@ class SingleQuestion extends Component {
                   {ia}
                 </button>
               ))}
-            </div>}
+          </div>}
         {disableBtn === false ? null
-          : <button data-testid="btn-next" onClick={ () => { callNext(); this.resetBtn(); } }>Pŕoxima</button>}
+          : <button type="button" data-testid="btn-next" onClick={ () => { callNext(); this.resetBtn(); } }>
+            Pŕoxima
+            </button>}
       </div>
     );
   }

@@ -13,11 +13,11 @@ class Questions extends Component {
       reset: false,
     };
 
-  this.callNext = this.callNext.bind(this);
+    this.callNext = this.callNext.bind(this);
   }
 
   componentDidUpdate() {
-    console.log("Componente pai montou");
+    console.log('Componente pai montou');
   }
 
   callNext() {
@@ -28,19 +28,18 @@ class Questions extends Component {
       this.setState({
         index: index + next,
         reset: false,
-      })
+      });
     } else {
       history.push('/feedback');
-    
     }
   }
 
   render() {
     const { index } = this.state;
-    const { history } = this.props;
+    const { updateScore, history } = this.props;
     return (
       <div>
-          <SingleQuestion history={history} index={index} callNext={this.callNext}/>
+        <SingleQuestion history={history} index={ index } callNext={ this.callNext } updateScore={ updateScore } />
       </div>
     );
   }
