@@ -74,4 +74,12 @@ class Login extends Component {
 const mapDispatchToProps = (dispatch) => ({
   handleClick: () => dispatch(requestAPIthunk()),
 });
+
+Login.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+  handleClick: PropTypes.func.isRequired,
+};
+
 export default connect(null, mapDispatchToProps)(Login);

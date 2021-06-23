@@ -20,13 +20,13 @@ class Feedback extends Component {
 
   render() {
     const state = JSON.parse(localStorage.getItem('state'));
-
+    const condition = 3;
     return (
       <div>
         <Header />
 
         <h2 data-testid="feedback-text">
-          {state.player.assertions < 3 ? 'Podia ser melhor...' : 'Mandou bem!' }
+          {state.player.assertions < condition ? 'Podia ser melhor...' : 'Mandou bem!' }
         </h2>
         <p data-testid="feedback-total-score">{state.player.score}</p>
         <p data-testid="feedback-total-question">{state.player.assertions}</p>
@@ -48,5 +48,11 @@ class Feedback extends Component {
     );
   }
 }
+
+Feedback.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
 
 export default Feedback;

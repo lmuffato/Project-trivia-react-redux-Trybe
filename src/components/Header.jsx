@@ -2,12 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 class Header extends Component {
-
-  componentDidMount() {
-    const stateInfo = localStorage.getItem('state');
-    const stateJson = JSON.parse(stateInfo);
-    console.log(stateJson)
-  }
   render() {
     const rankingInfo = localStorage.getItem('ranking');
     const rankingJson = JSON.parse(rankingInfo);
@@ -23,7 +17,7 @@ class Header extends Component {
             alt="Foto do Usuario"
           />
           <h3 data-testid="header-player-name">{ rankingJson.name }</h3>
-          <p data-testid="header-score">{score}</p>
+          <p data-testid="header-score">{ score }</p>
         </header>
       </div>
     );
@@ -34,5 +28,9 @@ const mapStateToProps = (state) => ({
   questions: state.questions.questions.results,
   loading: state.questions.loading,
 });
+
+Header.propTypes = {
+  score: PropTypes.number,
+}.isRequired;
 
 export default connect(mapStateToProps, null)(Header);
