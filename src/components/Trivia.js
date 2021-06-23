@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setQuestions as setQuestionsAction,
@@ -9,8 +10,8 @@ import Timer from './Timer';
 import handleColors from '../services/handlers';
 import Feedback from '../pages/Feedback';
 
-const TEN = 10; const
-  THREE = 3;
+const TEN = 10;
+const THREE = 3;
 const FOUR = 4;
 
 const correct = 'correct-answer';
@@ -28,6 +29,7 @@ class Trivia extends Component {
     this.setTriviaStateLocalAndGlobal = this.setTriviaStateLocalAndGlobal.bind(this);
     this.handleNext = this.handleNext.bind(this);
     this.setLS = this.setLS.bind(this);
+    this.renderBtnPlayAgain = this.renderBtnPlayAgain.bind(this);
   }
 
   async componentDidMount() {
@@ -182,6 +184,19 @@ class Trivia extends Component {
     );
   }
 
+  renderBtnPlayAgain() {
+    return (
+      <Link to="/">
+        <button
+          type="button"
+          data-testid="btn-play-again"
+        >
+          Jogar novamente
+        </button>
+      </Link>
+    );
+  }
+
   render() {
     const { trivia } = this.state;
     const { timeOut } = this.props;
@@ -198,7 +213,10 @@ class Trivia extends Component {
     case THREE:
       return this.renderQuestion(trivia[3], this.props);
     case FOUR:
-      return this.renderQuestion(trivia[FOUR], this.props);
+      return (
+        this.renderQuestion(trivia[FOUR], this.props),
+        this.renderBtnPlayAgain()
+      );
     default:
       return <Feedback />;
     }

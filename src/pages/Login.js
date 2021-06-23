@@ -4,9 +4,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getToken as getTokenThunk, getUserInfo } from '../actions/index';
 
-// import fetchAPI from '../services/fetchtoken';
-// import logo from '../trivia.png';
-
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -15,23 +12,9 @@ class Login extends Component {
       name: '',
       isDisabled: true,
     };
-    // this.renderLogo = this.renderLogo.bind(this);
     this.renderLogin = this.renderLogin.bind(this);
     this.handleClick = this.handleClick.bind(this);
   }
-
-  // renderLogo() {
-  //   return (
-  //     <div className="App">
-  //       <header className="App-header">
-  //         <img src={ logo } className="App-logo" alt="logo" />
-  //         <p>
-  //           SUA VEZ
-  //         </p>
-  //       </header>
-  //     </div>
-  //   );
-  // }
 
   componentDidUpdate(prevProps, prevState) {
     const { email, name } = this.state;
@@ -50,25 +33,8 @@ class Login extends Component {
         gravatarEmail: email,
       },
     };
-    // const stateObj = JSON.parse(localStorage.getItem('state'));
-    // if (stateObj) {
-    //   objToLS.player.score = stateObj.player.score + objToLS.player.score;
-    //   objToLS.player.assertions = stateObj.player.assertions + (assertion ? 1 : 0);
-    // }
+
     localStorage.setItem('state', JSON.stringify(objToLS));
-    // if (!localStorage.getItem('token')) localStorage.setItem('token', token); // só vai setar 1 novo token se não tiver nenhum no localstorage.
-    // const objToLSRanking = {
-    //   name: user.name,
-    //   score: points,
-    //   picture: 'url-teste',
-    // };
-    // if (!localStorage.getItem('ranking')) {
-    //   localStorage.setItem('ranking', JSON.stringify(objToLSRanking));
-    // } else {
-    //   const obj = JSON.parse(localStorage.getItem('ranking'));
-    //   obj.score += points;
-    //   localStorage.setItem('ranking', JSON.stringify(obj));
-    // }
   }
 
   handleClick() {
@@ -148,7 +114,6 @@ class Login extends Component {
   render() {
     return (
       <>
-        {/* {this.renderLogo()} */}
         {this.renderLogin()}
       </>
     );
