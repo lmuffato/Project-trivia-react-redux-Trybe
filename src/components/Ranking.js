@@ -5,6 +5,7 @@ class Ranking extends Component {
   render() {
     return (
       <div>
+        <h3 data-testid="ranking-title"> Ranking </h3>
         <Link to="/" data-testid="btn-go-home">
           Voltar ao início
         </Link>
