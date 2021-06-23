@@ -11,29 +11,41 @@ class Timer extends React.Component {
       second: 1000,
     };
     this.runCountdown = this.runCountdown.bind(this);
+    this.handleReset = this.handleReset.bind(this);
+    this.stopTimer = this.stopTimer.bind(this);
+    this.startTimer = this.startTimer.bind(this);
   }
 
   componentDidMount() {
+    this.startTimer();
+  }
+
+  componentWillUnmount() {
+    this.stopTimer();
+  }
+
+  startTimer() {
     const { second } = this.state;
     this.runTimer = setInterval(() => this.runCountdown(), second);
   }
 
-  componentWillUnmount() {
-    clearInterval(this.runTimer);
-  }
-
   runCountdown() {
     const { time } = this.state;
+    const timeLeft = time - 1;
     const timeLimit = 30;
     const { handleStyle, isTimerActive } = this.props;
     if (time > 0 && time <= timeLimit && isTimerActive) {
-      this.setState((previousState) => ({
-        time: previousState.time - 1,
+      this.setState(() => ({
+        time: timeLeft,
       }), this.handleReset);
     } else {
       handleStyle();
-      this.setState({ time: 0 });
+      this.setState({ time: 30 });
     }
+  }
+
+  stopTimer() {
+    clearInterval(this.runTimer);
   }
 
   handleReset() {
@@ -81,4 +93,13 @@ export default connect(mapStateToProps, mapDispatchToProps)(Timer);
 // PR ---> https://github.com/tryber/sd-07-project-trivia-react-redux/pull/545/files
 // Repositório de @tspeed90 --> https://github.com/tspeed90/quiz-game/blob/master/src/components/timer.js
 // Referência do log de erro semelhante ao que estávamos encontrando: https://stackoverflow.com/questions/53949393/cant-perform-a-react-state-update-on-an-unmounted-component
+// Referências p/ refatoração parcial do timer:
+// ---> https://stackoverflow.com/questions/31545982/how-to-fire-periodic-actions-using-settimeout-and-dispatcher-in-redux/32921787#32921787
+// ---> https://www.pluralsight.com/guides/how-to-use-requestanimationframe-with-react
+// ---> https://jsfiddle.net/andykenward/9y1jjsuz
+// ---> https://jsfiddle.net/ab1n5vf9/
+// ---> https://jsbin.com/dupeji/12/edit?js,output
+// ---> https://jsbin.com/xusoqupipa/edit?js,output
+// ---> https://jsfiddle.net/a94jabzd/1/
+// ---> https://stackoverflow.com/questions/34577012/creating-a-stopwatch-with-redux
 // Agradecimento especial ao Coruja que deu a ideia de conectar o componente Timer ao estado global do redux!!
