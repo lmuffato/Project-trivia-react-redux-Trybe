@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { setStateInReduxAction, fetchCategoriesThunk } from '../redux/action';
+import { Link } from 'react-router-dom';
+import { fetchCategoriesThunk } from '../redux/action';
+import StateInRedux from '../redux/reducer/setStateInRedux';
 
 class Settings extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       amount: 5,
       category: 'any',
       difficulty: 'any',
       type: 'any',
-      enconde: '',
+      encode: '',
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -23,18 +24,21 @@ class Settings extends Component {
     fetchCategories();
   }
 
-  varToString(objAttribute) {
-    if (typeof objAttribute !== 'object') return 'objAttribute should be object';
-    return Object.keys(objAttribute)[0];
+  componentDidUpdate() {
+    // this.stateRedux.setStateInRedux();
+
+    // Outra forma de fazer a mesma coisa, posso usar o mapDispatchToProps
+    const { setStateInRedux } = this.props;
+    setStateInRedux(this.stateRedux.action());
   }
 
+  get stateRedux() { return new StateInRedux(Settings, this); }
+
   handleChange({ target: { name, type, value, checked } }) {
-    const { setStateInRedux } = this.props;
     const finalValue = type === 'checkbox' ? checked : value;
     this.setState({
       [name]: finalValue,
-    }, () => setStateInRedux(this.state));
-    // setStateInRedux(this.state);
+    });
   }
 
   inputAmount() {
@@ -44,7 +48,7 @@ class Settings extends Component {
         Quantidade:
         <input
           id="settings-amount-input"
-          type="text"
+          type="number"
           name="amount"
           value={ amount }
           onChange={ this.handleChange }
@@ -101,14 +105,18 @@ class Settings extends Component {
     return (
       <label htmlFor="settings-encode-input">
         Encode:
-        <input
+        <select
           id="settings-encode-input"
-          type="text"
           name="encode"
           value={ encode }
           onChange={ this.handleChange }
           data-testid="settings-encode-input"
-        />
+        >
+          <option value="default">Default Encoding</option>
+          <option value="urlLegacy">Legacy URL Encoding</option>
+          <option value="url3986">URL Encoding (RFC 3986)</option>
+          <option value="base64">Base64 Encoding</option>
+        </select>
       </label>
     );
   }
@@ -148,6 +156,7 @@ class Settings extends Component {
             {this.inputType()}
             {this.inputEncode()}
           </div>
+          <Link to="/">Login</Link>
         </main>
       </div>
     );
@@ -157,8 +166,12 @@ class Settings extends Component {
 Settings.propTypes = {
   setStateInRedux: PropTypes.func.isRequired,
   fetchCategories: PropTypes.func.isRequired,
-  categories: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
+  categories: PropTypes.arrayOf(PropTypes.object.isRequired),
   isFetching: PropTypes.bool.isRequired,
+};
+
+Settings.defaultProps = {
+  categories: [],
 };
 
 const mapStateToProps = (state) => ({
@@ -168,8 +181,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  setStateInRedux: (value) => dispatch(setStateInReduxAction(value)),
   fetchCategories: () => dispatch(fetchCategoriesThunk()),
+  ...StateInRedux.setStateInRedux(dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Settings);

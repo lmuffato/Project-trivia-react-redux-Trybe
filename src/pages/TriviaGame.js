@@ -12,7 +12,7 @@ import {
   timerResetAction,
   updateTimer,
   setIdInterval,
-  setCorrectAnswerAction,
+  // setCorrectAnswerAction,
 } from '../redux/action';
 
 const CORRECT_ANSWER = 'correct-answer';
@@ -48,12 +48,6 @@ class TriviaGame extends Component {
     });
   }
 
-  toggleBtn(bool) {
-    this.setState({
-      disableBtn: bool,
-    });
-  }
-
   /**
    * Show correct and inscorrects answers or clear style buttons
    * @param {boolean?} reset Should clear style buttons
@@ -69,7 +63,6 @@ class TriviaGame extends Component {
         btn.style = 'border: 3px solid rgb(255, 0, 0)';
       }
     });
-    this.toggleBtn(false);
   }
 
   enableBtnNext() {
@@ -97,16 +90,19 @@ class TriviaGame extends Component {
       setLocalStorage('state', user);
     }
     this.handleShowCorrectClick();
-    // enableBtnNext();
-    this.setState({
-      disableBtn: false,
-      // shouldChangeAnswer: false,
-    });
+    this.enableBtnNext();
     clearInterval(idInterval);
   }
 
   handleIndexIncrementClick() {
-    const { timerReset, decreaseTimer, setIntervalID, questions } = this.props;
+    const {
+      timerReset,
+      decreaseTimer,
+      setIntervalID,
+      questions,
+      idInterval,
+    } = this.props;
+
     const { index } = this.state;
     const NUMBER_QUESTIONS = questions.length - 1;
     if (index >= NUMBER_QUESTIONS) {
@@ -115,18 +111,18 @@ class TriviaGame extends Component {
         goFeedback: true,
       });
       return;
-    } // Finish
+    } // Last question = Finish = Redirect Feedback
     this.setState((oldState) => ({
       index: oldState.index + 1,
-      disableBtn: true,
+      disableBtn: true, // => this.enableBtnNext();
       shouldChangeAnswer: true,
     }), () => {
       this.setAnswersRandom();
     });
     this.handleShowCorrectClick(true);
-    this.disableBtnAnwser(false);
     timerReset();
     // ------------------------
+    clearInterval(idInterval);
     const oneSecond = 1000;
     setIntervalID(setInterval(() => {
       decreaseTimer();
@@ -215,7 +211,7 @@ const mapDispatchToProps = (dispatch) => ({
   timerReset: () => dispatch(timerResetAction()),
   decreaseTimer: () => dispatch(updateTimer()),
   setIntervalID: (payload) => dispatch(setIdInterval(payload)),
-  setCorrectAnswer: () => dispatch(setCorrectAnswerAction()),
+  // setCorrectAnswer: () => dispatch(setCorrectAnswerAction()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TriviaGame);

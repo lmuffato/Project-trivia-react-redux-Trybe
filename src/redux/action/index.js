@@ -10,7 +10,7 @@ export const QUESTION_LENGTH = 'QUESTION_LENGTH';
 export const SETTINGS = 'SETTINGS';
 export const FETCH_QUESTION = 'FETCH_QUESTION';
 export const SET_CATEGORIES = 'SET_CATEGORIES';
-export const SET_SETTINGS = 'SET_SETTINGS';
+export const SET_STATE_CLASS = 'SET_STATE_CLASS';
 export const SET_CORRECT_ANSWER = 'SET_CORRECT_ANSWER';
 
 export const loginUserAction = (payload) => ({
@@ -41,8 +41,8 @@ const settings = (settingsQuestion) => {
     ? `&difficulty=${settingsQuestion.difficulty}` : '';
   const type = settingsQuestion.type !== 'any'
     ? `&type=${settingsQuestion.type}` : '';
-  const encode = settingsQuestion.enconde !== ''
-    ? `&encode=${settingsQuestion.enconde}` : '';
+  const encode = settingsQuestion.encode !== ''
+    ? `&encode=${settingsQuestion.encode}` : '';
   return [amount, category, difficulty, type, encode];
 };
 
@@ -114,26 +114,56 @@ const fetchToken = async () => {
   return data.token;
 };
 
-export const getQuestionsActionThunk = (settingsQuestion) => async (dispatch) => {
-  try {
-    const tokenNow = getLocalStorage('token')
-      ? getLocalStorage('token') : await fetchToken();
-    const [amount, category, difficulty, type, encode] = settings(settingsQuestion);
-    dispatch(isFetchingAction());
-    const fq = `https://opentdb.com/api.php?${amount}${category}${difficulty}${type}${encode}&token=${tokenNow}`;
-    console.log(fq);
-    const response = await fetch(fq);
-    const json = await response.json();
-    if (json.response_code === 0) {
-      console.table(json.results);
-      dispatch(fetchQuestionsAction(json.results));
-    } else {
-      throw new Error('Token inválido, tentando atualizar o token, aguarde.');
-    }
-  } catch (error) {
-    console.error(error);
+const fetchQuestions = async (settingsQuestion, dispatch) => {
+  const tokenNow = getLocalStorage('token')
+    ? getLocalStorage('token') : await fetchToken();
+  const [amount, category, difficulty, type, encode] = settings(settingsQuestion);
+  dispatch(isFetchingAction());
+  const trivia = `https://opentdb.com/api.php?${amount}${category}${difficulty}${type}${encode}&token=${tokenNow}`;
+  console.log('eita ein fetchQuestions');
+  const response = await fetch(trivia);
+  return response.json();
+};
+
+const responseType = async (json, settingsQuestion, dispatch) => {
+  const RESPONSE_CODE_0 = 0;
+  const RESPONSE_CODE_3 = 3;
+  const RESPONSE_CODE_4 = 4;
+  let jsonNew;
+
+  switch (json.response_code) {
+  case RESPONSE_CODE_0:
+    dispatch(fetchQuestionsAction(json.results));
+    return;
+  case RESPONSE_CODE_3:
+  case RESPONSE_CODE_4:
+    await fetchToken();
+    jsonNew = await fetchQuestions(settingsQuestion, dispatch);
+    dispatch(fetchQuestionsAction(jsonNew.results));
+    return jsonNew;
+  default:
+    console.log('ta tirando ein');
+    break;
   }
 };
+
+const initialSettings = {
+  amount: 5,
+  category: 'any',
+  difficulty: 'any',
+  type: 'any',
+  encode: '',
+};
+
+export const getQuestionsActionThunk = (settingsQuestion = initialSettings) => (
+  async (dispatch) => {
+    try {
+      const json = await fetchQuestions(settingsQuestion, dispatch);
+      responseType(json, settingsQuestion, dispatch);
+    } catch (error) {
+      console.error(error);
+    }
+  });
 
 export const updateTimer = () => ({
   type: UPDATE_TIMER,
@@ -153,10 +183,10 @@ export const setQuestionLengthAction = (payload) => ({
   payload,
 });
 
-export const setStateInReduxAction = (state) => ({
-  type: SET_SETTINGS,
-  payload: state,
-});
+// export const setStateInReduxAction = (state) => ({
+//   type: SET_STATE_CLASS, // SET_STATE_CLASS
+//   payload: state, // { nameClass, stateClass }
+// });
 
 export const setQuestionAction = (payload) => ({
   type: FETCH_QUESTION,
@@ -174,8 +204,3 @@ export const fetchCategoriesThunk = () => async (dispatch) => {
   const categories = await response.json();
   dispatch(setCategories(categories));
 };
-
-export const setCorrectAnswerAction = (payload) => ({
-  type: SET_CORRECT_ANSWER,
-  payload,
-});

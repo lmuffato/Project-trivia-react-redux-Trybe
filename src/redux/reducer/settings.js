@@ -1,4 +1,4 @@
-import { IS_FETCHING, SETTINGS, SET_CATEGORIES, SET_SETTINGS } from '../action';
+import { IS_FETCHING, SETTINGS, SET_CATEGORIES } from '../action';
 
 const initialState = {
   amount: 5,
@@ -17,9 +17,6 @@ export default (state = initialState, { type, payload }) => {
     return { ...state, isFetching: true };
   case SET_CATEGORIES:
     return { ...state, categories: payload.trivia_categories, isFetching: false };
-  case SET_SETTINGS:
-    console.log(payload);
-    return { ...state, ...payload };
   default:
     return state;
   }

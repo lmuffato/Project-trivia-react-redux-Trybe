@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import { getQuestionsActionThunk, loginUserAction } from '../redux/action';
 import { setLocalStorage } from '../helper';
+import Header from '../components/Header';
 
 class Login extends Component {
   constructor(props) {
@@ -43,7 +44,6 @@ class Login extends Component {
   async fetchToken() {
     const { email, name } = this.state;
     const { onSubmit, fetchQuestion, questionSettings } = this.props;
-
     const user = {
       email,
       name,
@@ -59,9 +59,6 @@ class Login extends Component {
     };
 
     try {
-      // const response = await fetch('https://opentdb.com/api_token.php?command=request');
-      // const data = await response.json();
-      // setLocalStorage('token', data.token); // função auxiliar que faz a mesma coisa que a linha acima.
       setLocalStorage('state', player);
 
       onSubmit(user);
@@ -70,9 +67,7 @@ class Login extends Component {
       this.setState({
         shouldRedirect: true,
       });
-      // return data;
     } catch (error) {
-      // todo: caso o token seja invalido, tratar o erro e buscar um novo token valido
       console.log(error);
     }
   }
@@ -85,6 +80,7 @@ class Login extends Component {
       <div>
         <header>
           <Link to="/settings" data-testid="btn-settings">Config</Link>
+          <Header />
         </header>
         <main>
           <form>
@@ -138,7 +134,8 @@ Login.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  questionSettings: state.settings,
+  // questionSettings: state.settings, // funcionando
+  questionSettings: state.allClass.Settings,
 });
 
 const mapDispatchToProps = (dispatch) => ({

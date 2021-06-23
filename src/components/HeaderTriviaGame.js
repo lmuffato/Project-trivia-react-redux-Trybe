@@ -35,16 +35,14 @@ const HeaderTriviaGame = (props) => {
 };
 
 HeaderTriviaGame.propTypes = {
-  user: PropTypes.shape({}),
-}.isRequired;
+  user: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+  }).isRequired,
+};
 
 const mapStateToProps = (state) => ({
   user: state.user,
-  // points: state.points,
 });
-
-// const mapDispatchToProps = (dispatch) => ({
-// onClick: (ev) => dispatch(answerAction(ev)),
-// });
 
 export default connect(mapStateToProps, null)(HeaderTriviaGame);

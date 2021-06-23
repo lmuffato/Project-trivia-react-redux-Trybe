@@ -11,8 +11,6 @@ export default (state = initialState, { type, payload }) => {
     return { ...state, ...payload };
   case IS_FETCHING:
     return { ...state, isFetching: true };
-  // case GET_QUESTIONS:
-  //   return { ...state, questions: payload };
   default:
     return state;
   }
