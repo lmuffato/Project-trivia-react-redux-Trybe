@@ -25,13 +25,15 @@ class Ranking extends React.Component {
         <ol>
           {renderRanking.map((ranking, index) => (
             <li key={ index }>
-              <img src={ ranking.picture } alt="user" />
               <p data-testid={ `player-name-${index}` }>
                 { ranking.name }
               </p>
               <span data-testid={ `player-score-${index}` }>
                 { ranking.score }
               </span>
+              <div>
+                <img src={ ranking.picture } alt="user" />
+              </div>
             </li>
           ))}
         </ol>

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { decode } from 'he';
 import Button from '../Button';
 import Timer from '../Timer';
-// import { shuffleListOfAnswers } from '../services/shuffle';
-import { scoreAndAssertionsAction, isTimerActiveAction } from '../../actions';
+import { scoreAndAssertionsAction,
+  isTimerActiveAction, resetTimer, removeResetTimer } from '../../actions';
 import styles from './styles.module.css';
 
 class Question extends Component {
@@ -13,7 +14,6 @@ class Question extends Component {
     this.state = {
       isButtonDisabled: false,
       hideButton: 'hide-button',
-      resetTimer: false,
       red: '',
       green: '',
     };
@@ -23,29 +23,28 @@ class Question extends Component {
     this.restoreTimer = this.restoreTimer.bind(this);
   }
 
-  // componentWillUnmount() {
-  //   this.handleLocalStorage();
-  // }
-
   restoreTimer() {
-    const { setTimer } = this.props;
+    const { setTimer, removeQuestionTimerReset } = this.props;
     setTimer(true);
-    this.setState({ resetTimer: false });
+    removeQuestionTimerReset();
   }
 
   handleStyle() {
+    const { resetQuizTimer } = this.props;
     this.setState({
       green: 'green',
       red: 'red',
-      resetTimer: true,
       hideButton: '',
       isButtonDisabled: true,
     });
+    resetQuizTimer();
   }
 
   // nextButtonReset
   handleResetColors() {
-    this.setState({ isButtonDisabled: false, green: '', red: '', resetTimer: true });
+    this.setState({ isButtonDisabled: false, green: '', red: '' });
+    const { resetQuizTimer } = this.props;
+    resetQuizTimer();
   }
 
   handleLocalStorage() {
@@ -80,20 +79,19 @@ class Question extends Component {
   render() {
     const { quiz, getNextQuestion, setScore } = this.props;
     const { correct_answer: correctAnswer, incorrect_answers: incorrectAnswers } = quiz;
-    const { isButtonDisabled, resetTimer, red, green, hideButton } = this.state;
+    const { isButtonDisabled, red, green, hideButton } = this.state;
     const answers = [correctAnswer].concat(incorrectAnswers).sort();
     const verifyScore = this.handleScore();
     return (
       <div className={ styles.questionContainer }>
         <Timer
-          resetTimer={ resetTimer }
           handleStyle={ this.handleStyle }
           handleRestartTimer={ this.handleResetColors }
           restoreTimer={ this.restoreTimer }
         />
         <h4 data-testid="question-category">{ quiz.category }</h4>
         <h5>{ quiz.difficulty }</h5>
-        <p data-testid="question-text">{ quiz.question }</p>
+        <p data-testid="question-text">{ decode(quiz.question)}</p>
         { answers.map((answer, index) => (answer === correctAnswer ? (
           <Button
             key={ answer }
@@ -102,7 +100,7 @@ class Question extends Component {
             onClick={ () => { this.handleStyle(); setScore(verifyScore); } }
             disabled={ isButtonDisabled }
           >
-            { answer }
+            { decode(answer)}
           </Button>
         ) : (
           <Button
@@ -112,7 +110,7 @@ class Question extends Component {
             onClick={ this.handleStyle }
             disabled={ isButtonDisabled }
           >
-            { answer }
+            { decode(answer)}
           </Button>
         )))}
         <div>
@@ -141,6 +139,8 @@ Question.propTypes = {
   time: PropTypes.number.isRequired,
   userReducer: PropTypes.shape(),
   setTimer: PropTypes.func.isRequired,
+  resetQuizTimer: PropTypes.func.isRequired,
+  removeQuestionTimerReset: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -151,6 +151,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   setScore: (score) => dispatch(scoreAndAssertionsAction(score)),
   setTimer: (payload) => dispatch(isTimerActiveAction(payload)),
+  resetQuizTimer: () => dispatch(resetTimer()),
+  removeQuestionTimerReset: () => dispatch(removeResetTimer()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Question);

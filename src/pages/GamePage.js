@@ -2,7 +2,6 @@ import React from 'react';
 import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
 import Header from '../components/Header/Header';
-// import Button from '../components/Button';
 import Question from '../components/Question/Question';
 import Loading from '../components/Loading';
 import styles from './styles.module.css';

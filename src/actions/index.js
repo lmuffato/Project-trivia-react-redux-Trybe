@@ -7,6 +7,8 @@ export const USER_IMAGE = 'USER_IMAGE';
 export const SCORE_RANKING = 'SCORE_RANKIG';
 export const UPDATE_RANKING = 'UPDATE_RANKING';
 export const RESET_SCORE = 'RESET_SCORE';
+export const RESET_TIMER = 'RESET_TIMER';
+export const REMOVE_RESET_TIMER = 'REMOVE_RESET_TIMER';
 
 export const loginAction = (payload) => ({ type: USER_LOGIN, payload });
 export const userNameAction = (payload) => ({ type: USER_NAME, payload });
@@ -16,3 +18,5 @@ export const isTimerActiveAction = (payload) => ({ type: SET_TIMER_ACTIVE, paylo
 export const userImage = (payload) => ({ type: USER_IMAGE, payload });
 export const scoreRankig = (payload) => ({ type: SCORE_RANKING, payload });
 export const resetScore = () => ({ type: RESET_SCORE });
+export const resetTimer = () => ({ type: RESET_TIMER });
+export const removeResetTimer = () => ({ type: REMOVE_RESET_TIMER });
