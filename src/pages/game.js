@@ -18,10 +18,12 @@ class Game extends Component {
 
   render() {
     const { score } = this.state;
+    const { history } = this.props;
+
     return (
       <div>
         <Header score={ score } />
-        <Questions updateScore={ this.updateScore } />
+        <Questions history={history} updateScore={ this.updateScore } />
       </div>
     );
   }

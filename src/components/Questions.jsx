@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import '../styles.css';
-import { Redirect } from 'react-router-dom';
 import SingleQuestion from './SingueQuestion';
 
 class Questions extends Component {
@@ -23,6 +22,7 @@ class Questions extends Component {
 
   callNext() {
     const { index } = this.state;
+    const { history } = this.props; 
     const next = 1;
     if (index < 4) {
       this.setState({
@@ -30,18 +30,16 @@ class Questions extends Component {
         reset: false,
       });
     } else {
-      return (
-        <Redirect to="/ranking" />
-      );
+      history.push('/feedback');
     }
   }
 
   render() {
     const { index } = this.state;
-    const { updateScore } = this.props;
+    const { updateScore, history } = this.props;
     return (
       <div>
-        <SingleQuestion index={ index } callNext={ this.callNext } updateScore={ updateScore } />
+        <SingleQuestion history={history} index={ index } callNext={ this.callNext } updateScore={ updateScore } />
       </div>
     );
   }

@@ -52,9 +52,8 @@ class SingleQuestion extends Component {
 
   timer() {
     const { time } = this.state;
-    const { callNext, index } = this.props;
-    const four = 4;
-    if (time === 1 && index <= four) {
+    const { callNext, index, history } = this.props;
+    if (time === 1 && index <= 4) {
       clearInterval(this.intervalFunc);
       this.setState({
         chosedQuestion: true,
@@ -63,7 +62,7 @@ class SingleQuestion extends Component {
       callNext();
     } else if (index === four) {
       console.log('cabo o jogo, vai lavar louça');
-      // Rota para /ranking
+      history.push('/feedback');
     }
     return this.setState({ time: time - 1 });
   }

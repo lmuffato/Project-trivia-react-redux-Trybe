@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 class Header extends Component {
+
+  componentDidMount() {
+    const stateInfo = localStorage.getItem('state');
+    const stateJson = JSON.parse(stateInfo);
+    console.log(stateJson)
+  }
   render() {
     const rankingInfo = localStorage.getItem('ranking');
     const rankingJson = JSON.parse(rankingInfo);
