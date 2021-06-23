@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 
 class Header extends Component {
+
+  componentDidMount() {
+    const stateInfo = localStorage.getItem('state');
+    const stateJson = JSON.parse(stateInfo);
+    console.log(stateJson)
+  }
   render() {
     const rankingInfo = localStorage.getItem('ranking');
     const rankingJson = JSON.parse(rankingInfo);
@@ -15,7 +21,7 @@ class Header extends Component {
             alt="Foto do Usuario"
           />
           <h3 data-testid="header-player-name">{ rankingJson.name }</h3>
-          <p data-testid="header-score">{ console.log(stateJson.player.score) }</p>
+          <p data-testid="header-score">{stateJson.player.score }</p>
         </header>
       </div>
     );
