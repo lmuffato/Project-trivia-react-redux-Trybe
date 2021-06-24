@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import '../styles.css';
+import PropTypes from 'prop-types';
+import QuestionHeader from './QuestionHeader';
 
 class SingleQuestion extends Component {
   constructor() {
@@ -111,13 +113,10 @@ class SingleQuestion extends Component {
         {loading === true ? <p>carregando...</p>
           : <div>
             <h1>
-              Questão
               {`${index + 1}`}
             </h1>
             <h1>{ time }</h1>
-            <p data-testid="question-category">{questions[index].category}</p>
-            <p>{questions[index].difficulty}</p>
-            <p data-testid="question-text">{questions[index].question}</p>
+            <QuestionHeader question={ questions[index] } />
             <button
               type="button"
               data-testid="correct-answer"
@@ -140,17 +139,15 @@ class SingleQuestion extends Component {
                   disabled={ chosedQuestion }
                 >
                   { ia }
-                </button>
-              ))
-            }
+                </button>))}
             { disableBtn === false ? null
               : <button
-               type="button"
-               data-testid="btn-next"
-               onClick={ () => { callNext(); this.resetBtn(); } }
+                  type="button"
+                  data-testid="btn-next"
+                  onClick={ () => { callNext(); this.resetBtn(); } }
                 >
-                Pŕoxima
-                </button> }
+                  Pŕoxima
+                </button>}
           </div>}
       </div>
     );

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Questions from '../components/Questions';
 import Header from '../components/Header';
 
