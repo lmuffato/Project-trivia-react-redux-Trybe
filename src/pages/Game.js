@@ -8,26 +8,10 @@ import Trivia from '../components/Trivia';
 class Game extends Component {
   constructor(props) {
     super(props);
-    // this.state = {
-    //   email: '',
-    // };
     this.renderGravatar = this.renderGravatar.bind(this);
     this.renderName = this.renderName.bind(this);
     this.renderScore = this.renderScore.bind(this);
-    // this.startLS = this.startLS.bind(this);
   }
-
-  // startLS() {
-  //   const startLSObj = {
-  //     player: {
-  //       name: '',
-  //       assertions: 0,
-  //       score: 0,
-  //       gravatarEmail: '',
-  //     },
-  //   };
-  //   localStorage.setItem('state', JSON.stringify(startLSObj));
-  // }
 
   renderGravatar() {
     const user = JSON.parse(localStorage.getItem('state')).player.gravatarEmail;
@@ -42,17 +26,11 @@ class Game extends Component {
 
   renderName() {
     const { userName } = this.props;
-    // let nameLS;
-    // if (localStorage.getItem('name')) {
-    // nameLS = localStorage.getItem('name');
-    // }
-    // console.log(nameLS);
     return (
       <span
         data-testid="header-player-name"
       >
         {userName}
-        {/* {nameLS || userName || ''} */}
       </span>
     );
   }
@@ -77,7 +55,6 @@ class Game extends Component {
     return (
       <>
         <header>
-          {/* {this.startLS()} */}
           {this.renderGravatar()}
           {this.renderName()}
           {this.renderScore()}
@@ -92,7 +69,6 @@ class Game extends Component {
 
 const mapStateToProps = (state) => ({
   userName: state.user.name,
-  // userEmail: state.email,
   pointsGlobal: state.trivia.points,
 });
 
