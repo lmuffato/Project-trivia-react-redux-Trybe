@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import '../styles.css';
+import PropTypes from 'prop-types';
+import QuestionHeader from './QuestionHeader';
+// import NextButton from './NextButton';
 
 class SingleQuestion extends Component {
   constructor() {
@@ -9,6 +12,7 @@ class SingleQuestion extends Component {
     this.timer = this.timer.bind(this);
     this.answerClick = this.answerClick.bind(this);
     this.randomizeQuestions = this.randomizeQuestions.bind(this);
+    this.renderBtn = this.renderBtn.bind(this);
 
     this.state = {
       chosedQuestion: false,
@@ -102,56 +106,61 @@ class SingleQuestion extends Component {
     return localStorage.setItem('state', JSON.stringify(player));
   }
 
-  render() {
-    const { index, questions, loading, callNext } = this.props;
-    const { chosedQuestion, disableBtn, time } = this.state;
-
-    return (
+  renderBtn() {
+    const { disableBtn } = this.state;
+    const { callNext } = this.props;
+    if (disableBtn === false) {
+      return null;
+    } return (
       <div>
-        {loading === true ? <p>carregando...</p>
-          : <div>
-            <h1>
-              Questão
-              {`${index + 1}`}
-            </h1>
-            <h1>{ time }</h1>
-            <p data-testid="question-category">{questions[index].category}</p>
-            <p>{questions[index].difficulty}</p>
-            <p data-testid="question-text">{questions[index].question}</p>
+        <button
+          type="button"
+          data-testid="btn-next"
+          onClick={ () => { callNext(); this.resetBtn(); } }
+        >
+          Pŕoxima
+        </button>
+      </div>
+    );
+  }
+
+  render() {
+    const { index, questions, loading } = this.props;
+    const { chosedQuestion, time } = this.state;
+
+    if (loading === true) {
+      return (
+        <p> Carregando... </p>
+      );
+    } return (
+      <div>
+        <h1>{` Questão ${index + 1}`}</h1>
+        <h1>{ time }</h1>
+        <QuestionHeader question={ questions[index] } />
+        <button
+          type="button"
+          data-testid="correct-answer"
+          onClick={ this.answerClick }
+          value={ questions[index].correct_answer }
+          className={ chosedQuestion ? 'correct' : null }
+          disabled={ chosedQuestion }
+        >
+          { questions[index].correct_answer }
+        </button>
+        { questions[index].incorrect_answers
+          .map((ia, i) => (
             <button
               type="button"
-              data-testid="correct-answer"
+              data-testid={ `wrong-answer-${i}` }
+              key={ i }
               onClick={ this.answerClick }
-              value={ questions[index].correct_answer }
-              className={ chosedQuestion ? 'correct' : null }
+              value={ ia }
+              className={ chosedQuestion ? 'incorrect' : null }
               disabled={ chosedQuestion }
             >
-              { questions[index].correct_answer }
-            </button>
-            { questions[index].incorrect_answers
-              .map((ia, i) => (
-                <button
-                  type="button"
-                  data-testid={ `wrong-answer-${i}` }
-                  key={ i }
-                  onClick={ this.answerClick }
-                  value={ ia }
-                  className={ chosedQuestion ? 'incorrect' : null }
-                  disabled={ chosedQuestion }
-                >
-                  { ia }
-                </button>
-              ))
-            }
-            { disableBtn === false ? null
-              : <button
-               type="button"
-               data-testid="btn-next"
-               onClick={ () => { callNext(); this.resetBtn(); } }
-                >
-                Pŕoxima
-                </button> }
-          </div>}
+              { ia }
+            </button>))}
+        { this.renderBtn() }
       </div>
     );
   }
