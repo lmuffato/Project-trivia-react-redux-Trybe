@@ -10,7 +10,6 @@ class Ranking extends Component {
         OLá mundo, aqui é a págiana de Ranking
         <Link exact to="/">
           <button type="button" data-testid="btn-go-home">Jogue Denovo</button>
-          {/* provavelmente quando clicar no botão será necessario rodar a API novamente */}
         </Link>
       </div>
     );

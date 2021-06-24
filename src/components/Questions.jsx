@@ -10,7 +10,6 @@ class Questions extends Component {
 
     this.state = {
       index: 0,
-      reset: false,
     };
 
     this.callNext = this.callNext.bind(this);
@@ -22,12 +21,12 @@ class Questions extends Component {
 
   callNext() {
     const { index } = this.state;
-    const { history } = this.props; 
+    const { history } = this.props;
     const next = 1;
-    if (index < 4) {
+    const maxIndex = 4;
+    if (index < maxIndex) {
       this.setState({
         index: index + next,
-        reset: false,
       });
     } else {
       history.push('/feedback');
@@ -39,7 +38,12 @@ class Questions extends Component {
     const { updateScore, history } = this.props;
     return (
       <div>
-        <SingleQuestion history={history} index={ index } callNext={ this.callNext } updateScore={ updateScore } />
+        <SingleQuestion
+          history={ history }
+          index={ index }
+          callNext={ this.callNext }
+          updateScore={ updateScore }
+        />
       </div>
     );
   }
@@ -52,11 +56,14 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, null)(Questions);
 
-Questions.propTypes = {
-  questions: PropTypes.arrayOf(Object),
-  loading: PropTypes.bool.isRequired,
-};
+// Questions.defaultProps = {
+//   questions: [],
+// };
 
-Questions.defaultProps = {
-  questions: [],
+Questions.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+  updateScore: PropTypes.number.isRequired,
+  // questions: PropTypes.shape(Object),
 };

@@ -23,10 +23,16 @@ class Game extends Component {
     return (
       <div>
         <Header score={ score } />
-        <Questions history={history} updateScore={ this.updateScore } />
+        <Questions history={ history } updateScore={ this.updateScore } />
       </div>
     );
   }
 }
+
+Game.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
 
 export default Game;

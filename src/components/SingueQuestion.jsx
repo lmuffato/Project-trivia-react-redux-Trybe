@@ -21,6 +21,12 @@ class SingleQuestion extends Component {
     this.sumScore = this.sumScore.bind(this);
   }
 
+  componentDidMount() {
+    // const { loading } = this.props;
+    const second = 1000;
+    this.intervalFunc = setInterval(() => this.timer(), second);
+  }
+
   resetBtn() {
     this.setState({
       chosedQuestion: false,
@@ -29,14 +35,8 @@ class SingleQuestion extends Component {
     });
   }
 
-  componentDidMount() {
-    const { loading } = this.props;
-    const second = 1000;
-    this.intervalFunc = setInterval(() => this.timer(), second);
-  }
-
   randomizeQuestions() {
-    const { questions, index, loading } = this.props;
+    const { questions, index } = this.props;
     const randomQuestions = questions[index].incorrect_answers
       .concat(questions[index].correct_answer);
     // for (let i = randomQuestions.length - 1; i > 0; i -= 1) {
@@ -52,17 +52,15 @@ class SingleQuestion extends Component {
 
   timer() {
     const { time } = this.state;
-    const { callNext, index, history } = this.props;
-    if (time === 1 && index <= 4) {
+    const { callNext, index } = this.props;
+    const maxIndex = 4;
+    if (time === 1 && index <= maxIndex) {
       clearInterval(this.intervalFunc);
       this.setState({
         chosedQuestion: true,
         disableBtn: true,
       });
       callNext();
-    } else if (index === four) {
-      console.log('cabo o jogo, vai lavar louça');
-      history.push('/feedback');
     }
     return this.setState({ time: time - 1 });
   }
@@ -128,9 +126,9 @@ class SingleQuestion extends Component {
               className={ chosedQuestion ? 'correct' : null }
               disabled={ chosedQuestion }
             >
-              {questions[index].correct_answer}
+              { questions[index].correct_answer }
             </button>
-            {questions[index].incorrect_answers
+            { questions[index].incorrect_answers
               .map((ia, i) => (
                 <button
                   type="button"
@@ -141,14 +139,19 @@ class SingleQuestion extends Component {
                   className={ chosedQuestion ? 'incorrect' : null }
                   disabled={ chosedQuestion }
                 >
-                  {ia}
+                  { ia }
                 </button>
-              ))}
+              ))
+            }
+            { disableBtn === false ? null
+              : <button
+               type="button"
+               data-testid="btn-next"
+               onClick={ () => { callNext(); this.resetBtn(); } }
+                >
+                Pŕoxima
+                </button> }
           </div>}
-        {disableBtn === false ? null
-          : <button type="button" data-testid="btn-next" onClick={ () => { callNext(); this.resetBtn(); } }>
-            Pŕoxima
-            </button>}
       </div>
     );
   }
@@ -157,5 +160,12 @@ const mapStateToProps = (state) => ({
   questions: state.questions.questions.results,
   loading: state.questions.loading,
 });
+
+SingleQuestion.propTypes = {
+  callNext: PropTypes.func,
+  questions: PropTypes.arrayOf(Object),
+  index: PropTypes.number,
+  loading: PropTypes.bool,
+}.isRequired;
 
 export default connect(mapStateToProps, null)(SingleQuestion);
