@@ -1,4 +1,5 @@
 const PLAYER = 'PLAYER';
+const RANKING = 'RANKING';
 const SCORE = 'SCORE';
 const SETTINGS = 'SETTINGS';
 
@@ -29,11 +30,22 @@ const setSettings = ({ category, quantity, difficulty }) => ({
   },
 });
 
+const setRanking = ({ name, score, picture }) => ({
+  type: RANKING,
+  payload: {
+    name,
+    score,
+    picture,
+  },
+});
+
 export {
   PLAYER,
+  RANKING,
   SCORE,
   SETTINGS,
   login,
   setScore,
   setSettings,
+  setRanking,
 };
