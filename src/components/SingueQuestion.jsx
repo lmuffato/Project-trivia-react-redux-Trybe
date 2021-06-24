@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import '../styles.css';
 import PropTypes from 'prop-types';
 import QuestionHeader from './QuestionHeader';
+// import NextButton from './NextButton';
 
 class SingleQuestion extends Component {
   constructor() {
@@ -112,7 +113,7 @@ class SingleQuestion extends Component {
       <div>
         {loading === true ? <p>carregando...</p>
           : <div>
-            <h1>{`${index + 1}`}</h1>
+            <h1>{` Questão ${index + 1}`}</h1>
             <h1>{ time }</h1>
             <QuestionHeader question={ questions[index] } />
             <button
@@ -138,7 +139,7 @@ class SingleQuestion extends Component {
                 >
                   { ia }
                 </button>))}
-            { disableBtn === false ? null
+            {disableBtn === false ? null
               : <div>
                 <button
                   type="button"
