@@ -14,6 +14,7 @@ class Login extends Component {
     };
     this.renderLogin = this.renderLogin.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.renderRanking = this.renderRanking.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -111,10 +112,24 @@ class Login extends Component {
     );
   }
 
+  renderRanking() {
+    return (
+      <Link to="/ranking">
+        <button
+          type="button"
+          data-testid="btn-ranking"
+        >
+          Ver Ranking
+        </button>
+      </Link>
+    );
+  }
+
   render() {
     return (
       <>
         {this.renderLogin()}
+        {this.renderRanking()}
       </>
     );
   }
