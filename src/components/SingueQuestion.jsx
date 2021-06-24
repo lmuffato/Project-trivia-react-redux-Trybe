@@ -112,9 +112,7 @@ class SingleQuestion extends Component {
       <div>
         {loading === true ? <p>carregando...</p>
           : <div>
-            <h1>
-              {`${index + 1}`}
-            </h1>
+            <h1>{`${index + 1}`}</h1>
             <h1>{ time }</h1>
             <QuestionHeader question={ questions[index] } />
             <button
@@ -141,13 +139,15 @@ class SingleQuestion extends Component {
                   { ia }
                 </button>))}
             { disableBtn === false ? null
-              : <button
+              : <div>
+                <button
                   type="button"
                   data-testid="btn-next"
                   onClick={ () => { callNext(); this.resetBtn(); } }
                 >
                   Pŕoxima
-                </button>}
+                </button>
+              </div>}
           </div>}
       </div>
     );
