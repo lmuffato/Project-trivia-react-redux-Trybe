@@ -126,14 +126,14 @@ class Trivia extends Component {
   }
 
   renderQuestion(question, { timeOut }) {
-    // esta função renderiza apenas 1 questão, fiz ela p/ utilizar num switch na render do componente.
-    // ela é uma cópia da 'renderQuestionS()'.
     const { positionQuestion } = this.state;
     let options = question.incorrect_answers;
     if (!options.includes(question.correct_answer)) {
       options.push(question.correct_answer);
       options = suffleArray(options); // embaralhando array
     }
+    const lessOne = -1;
+    let answerIndex = lessOne;
     return (
       <div>
         <h1>{`Question ${positionQuestion + 1}`}</h1>
@@ -144,20 +144,23 @@ class Trivia extends Component {
         >
           {`Question : ${question.question}`}
         </h2>
-        { options.map((answer, key) => (
-          <button
-            type="button"
-            data-testid={ answer === question.correct_answer
-              ? correct : `wrong-answer-${key}` }
-            className={ answer === question.correct_answer
-              ? correct : `wrong-answer-${key}` }
-            onClick={ (e) => this.handleCickInAnswer(e) }
-            disabled={ timeOut }
-            key={ key }
-          >
-            { answer }
-          </button>
-        ))}
+        { options.map((answer) => {
+          if (answer !== question.correct_answer) { answerIndex += 1; }
+          return (
+            <button
+              type="button"
+              data-testid={ answer === question.correct_answer
+                ? correct : `wrong-answer-${answerIndex}` }
+              className={ answer === question.correct_answer
+                ? correct : `wrong-answer-${answerIndex}` }
+              onClick={ (e) => this.handleCickInAnswer(e) }
+              disabled={ timeOut }
+              key={ answerIndex }
+            >
+              { answer }
+            </button>
+          );
+        })}
         { !timeOut ? (<Timer />) : ( // timer só será exibido enquanto tempo ainda nao tiver excedido
           <>
             <h3>Contador</h3>
@@ -214,7 +217,7 @@ class Trivia extends Component {
       return this.renderQuestion(trivia[3], this.props);
     case FOUR:
       return (
-        this.renderQuestion(trivia[FOUR], this.props),
+        this.renderQuestion(trivia[4], this.props), // ESTA QUESTÃO NÃO RENDERIZA + ALGUNS BOTÕES DE ALTERNATIVA NÃO FUNCIONAM
         this.renderBtnPlayAgain()
       );
     default:
@@ -231,7 +234,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  // getTrivia: (trivia) => dispatch(getTriviaThunk(trivia)),
   setQuestions: (trivia) => dispatch(setQuestionsAction(trivia)),
   altTimeOut: (seconds) => dispatch(timerOutAction(seconds)),
 });
