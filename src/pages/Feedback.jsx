@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
+import md5 from 'crypto-js/md5';
 import Header from '../components/Header';
 import Badge from '../components/badge/Badge';
 import Button from '../components/button/Button';
+import { setRanking } from '../actions';
 
 class Feedback extends Component {
   constructor(props) {
@@ -61,7 +63,16 @@ class Feedback extends Component {
     );
   }
 
+  convertEmailToHash(email) {
+    const hash = md5(email).toString();
+    return `https://www.gravatar.com/avatar/${hash}`;
+  }
+
   redirectToRanking() {
+    const { player: { name, score, gravatarEmail }, toRanking } = this.props;
+    const picture = this.convertEmailToHash(gravatarEmail);
+    const toRankingData = { name, score, picture };
+    toRanking(toRankingData);
     this.setState({ redirectToRanking: true });
   }
 
@@ -113,11 +124,18 @@ const mapStateToProps = (state) => ({
   player: state.player,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  toRanking: (playerData) => dispatch(setRanking(playerData)),
+});
+
 Feedback.propTypes = {
   player: PropTypes.shape({
+    name: PropTypes.string,
+    gravatarEmail: PropTypes.string,
     score: PropTypes.number,
     assertions: PropTypes.number,
   }).isRequired,
+  toRanking: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, null)(Feedback);
+export default connect(mapStateToProps, mapDispatchToProps)(Feedback);
