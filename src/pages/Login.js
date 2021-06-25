@@ -71,6 +71,7 @@ class Login extends Component {
           Digite seu nome:
           <input
             type="text"
+            required
             id="name"
             name="name"
             data-testid="input-player-name"
