@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import md5 from 'md5';
 import setLocalStorage from '../services/setLocalStorage';
 import { addCorrectAction } from '../actions/actionQuestions';
 import { pause, start, stop } from './Timer';
@@ -91,16 +92,38 @@ class Question extends Component {
     });
   }
 
+  togoFeedback(name, score, url, history) {
+    const newPlayer = { name, score, picture: url };
+    const rank = JSON.parse(localStorage.getItem('ranking'));
+    if (!rank) {
+      localStorage.setItem('ranking', JSON.stringify([newPlayer]));
+    } else {
+      const newElement = [...rank, newPlayer];
+      localStorage.setItem('ranking', JSON.stringify(newElement));
+    }
+    history.push('/feedback');
+  }
+
   nextOrFeedback() {
     stop();
-    const { idQuestion, questions, history, handleChange } = this.props;
+    const {
+      idQuestion,
+      questions,
+      history,
+      handleChange,
+      name,
+      score,
+      email,
+    } = this.props;
+    const hash = md5(email);
+    const url = `https://www.gravatar.com/avatar/${hash}.jpg`;
     if (idQuestion !== questions.length - 1) {
       start(init);
       handleChange();
       this.resetBorderColor();
       this.setNextButton();
     } else {
-      history.push('/feedback');
+      this.togoFeedback(name, score, url, history);
     }
   }
 
@@ -170,6 +193,7 @@ const mapDispatchToProps = (dispatch) => ({
 Question.propTypes = {
   name: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
+  score: PropTypes.string.isRequired,
   idQuestion: PropTypes.number.isRequired,
   questions: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleChange: PropTypes.func.isRequired,
