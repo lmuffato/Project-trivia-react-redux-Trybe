@@ -5,7 +5,7 @@ class Config extends Component {
     return (
       <div>
         <h1 data-testid="settings-title">Config</h1>
-        OLá mundo, aqaui é a página de Config
+        Config
       </div>
     );
   }
