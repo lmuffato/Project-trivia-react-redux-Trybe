@@ -54,52 +54,80 @@ class Login extends React.Component {
     history.push('/gameplay');
   }
 
-  renderInputs() {
-    const { name, email, playButton } = this.state;
+  renderNameInput() {
+    const { name } = this.state;
+    return (
+      <Form.Label htmlFor="name" className="labels">
+        Name
+        <Form.Control
+          type="text"
+          id="name"
+          data-testid="input-player-name"
+          value={ name }
+          placeholder="Type Your Name Here"
+          onChange={ this.handleChange }
+        />
+      </Form.Label>
+    );
+  }
+
+  renderEmailInput() {
+    const { email } = this.state;
+    return (
+      <Form.Label htmlFor="email" className="labels">
+        E-mail
+        <Form.Control
+          type="email"
+          id="email"
+          value={ email }
+          placeholder="Type Your Email Here"
+          data-testid="input-gravatar-email"
+          onChange={ this.handleChange }
+        />
+      </Form.Label>
+    );
+  }
+
+  renderPlayButton() {
+    const { playButton } = this.state;
+    return (
+      <Button
+        className="buttons-login-page"
+        variant="primary"
+        type="button"
+        data-testid="btn-play"
+        disabled={ !playButton }
+        onClick={ this.startGame }
+      >
+        Jogar
+      </Button>
+    );
+  }
+
+  renderSettingsButton() {
     const { history } = this.props;
+    return (
+      <Button
+        className="buttons-login-page"
+        variant="secondary"
+        type="button"
+        data-testid="btn-settings"
+        onClick={ () => history.push('/settings') }
+      >
+        Configurações
+      </Button>
+    );
+  }
+
+  renderInputs() {
     return (
       <Form>
         <Form.Group>
-          <Form.Label htmlFor="name">
-            Name
-            <Form.Control
-              type="text"
-              id="name"
-              data-testid="input-player-name"
-              value={ name }
-              onChange={ this.handleChange }
-            />
-          </Form.Label>
-          <Form.Label htmlFor="name">
-            E-mail
-            <Form.Control
-              type="email"
-              id="email"
-              value={ email }
-              data-testid="input-gravatar-email"
-              onChange={ this.handleChange }
-            />
-          </Form.Label>
+          {this.renderNameInput()}
+          {this.renderEmailInput()}
         </Form.Group>
-        <Button
-          className="buttons-login-page"
-          variant="primary"
-          type="button"
-          data-testid="btn-play"
-          disabled={ !playButton }
-          onClick={ this.startGame }
-        >
-          Jogar
-        </Button>
-        <Button
-          className="buttons-login-page"
-          variant="secondary"
-          type="button"
-          data-testid="btn-settings"
-          onClick={ () => history.push('/settings') }
-        >
-          Configurações
-        </Button>
+        {this.renderPlayButton()}
+        {this.renderSettingsButton()}
       </Form>
     );
   }

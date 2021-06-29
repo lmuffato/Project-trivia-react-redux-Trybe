@@ -1,5 +1,5 @@
 .App {
-  margin-top: 12vh;
+  margin-top: 5vh;
   text-align: center;
   padding: 5vw;
 }
@@ -7,6 +7,10 @@
 .App-logo {
   width: 40vmin;
   pointer-events: none;
+}
+
+.labels {
+  padding: 2vh;
 }
 
 .buttons-login-page {
