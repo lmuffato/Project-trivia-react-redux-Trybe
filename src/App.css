@@ -1,10 +1,16 @@
-/* .App {
+.App {
+  margin-top: 12vh;
   text-align: center;
-} */
+  padding: 5vw;
+}
 
 .App-logo {
-  height: 40vmin;
+  width: 40vmin;
   pointer-events: none;
+}
+
+.buttons-login-page {
+  margin: 1vw;
 }
 
 .red-border {

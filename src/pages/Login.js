@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import '../App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Button, Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import trivia from '../trivia.png';
 import { login, fetchToken } from '../actions';
@@ -56,43 +58,49 @@ class Login extends React.Component {
     const { name, email, playButton } = this.state;
     const { history } = this.props;
     return (
-      <>
-        <label htmlFor="name">
-          Name
-          <input
-            type="text"
-            id="name"
-            data-testid="input-player-name"
-            value={ name }
-            onChange={ this.handleChange }
-          />
-        </label>
-        <label htmlFor="name">
-          E-mail
-          <input
-            type="email"
-            id="email"
-            value={ email }
-            data-testid="input-gravatar-email"
-            onChange={ this.handleChange }
-          />
-        </label>
-        <button
+      <Form>
+        <Form.Group>
+          <Form.Label htmlFor="name">
+            Name
+            <Form.Control
+              type="text"
+              id="name"
+              data-testid="input-player-name"
+              value={ name }
+              onChange={ this.handleChange }
+            />
+          </Form.Label>
+          <Form.Label htmlFor="name">
+            E-mail
+            <Form.Control
+              type="email"
+              id="email"
+              value={ email }
+              data-testid="input-gravatar-email"
+              onChange={ this.handleChange }
+            />
+          </Form.Label>
+        </Form.Group>
+        <Button
+          className="buttons-login-page"
+          variant="primary"
           type="button"
           data-testid="btn-play"
           disabled={ !playButton }
           onClick={ this.startGame }
         >
           Jogar
-        </button>
-        <button
+        </Button>
+        <Button
+          className="buttons-login-page"
+          variant="secondary"
           type="button"
           data-testid="btn-settings"
           onClick={ () => history.push('/settings') }
         >
           Configurações
-        </button>
-      </>
+        </Button>
+      </Form>
     );
   }
 
