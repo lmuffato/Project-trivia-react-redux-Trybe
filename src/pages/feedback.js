@@ -24,7 +24,7 @@ class Feedback extends Component {
     const condition = 3;
     return (
       <div>
-        <Header />
+        <Header score={ state.player.score } />
 
         <h2 data-testid="feedback-text">
           {state.player.assertions < condition ? 'Podia ser melhor...' : 'Mandou bem!' }
