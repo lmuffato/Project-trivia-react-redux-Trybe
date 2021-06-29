@@ -8,7 +8,9 @@ class Header extends Component {
     const rankingJson = JSON.parse(rankingInfo);
     // const stateInfo = localStorage.getItem('state');
     // const stateJson = JSON.parse(stateInfo);
+    console.log(this.props);
     const { score } = this.props;
+    console.log(score);
     return (
       <div>
         <header>
@@ -17,8 +19,8 @@ class Header extends Component {
             src={ rankingJson.picture }
             alt="Foto do Usuario"
           />
-          <h3 data-testid="header-player-name">{ rankingJson.name }</h3>
-          <p data-testid="header-score">{ score }</p>
+          <h3 data-testid="header-player-name">{ `Nome:${rankingJson.name}` }</h3>
+          <p data-testid="header-score">{score}</p>
         </header>
       </div>
     );
