@@ -1,0 +1,35 @@
+.loginFix {
+  margin: auto;
+  margin-top: 30vh;
+  background-color: #AD94E8;
+  height: 40vh;
+  width: 80%;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.loginFather {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 128px;
+  margin-top: 40px;
+  padding: 20px;
+}
+
+.input {
+  height: 30px;
+  border-radius: 10px;
+  margin-top: 5px;
+  padding: 20px;
+}
+
+.input:focus {
+  border: 2px solid pink;
+}
+
+.btn-primary {
+   margin-top: 20px;
+   align-self:center;
+   color:Red;
+}
