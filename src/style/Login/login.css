@@ -31,5 +31,6 @@
 .btn-primary {
    margin-top: 20px;
    align-self:center;
-   color:Red;
+   background-color: red;
+   width: 50%;
 }

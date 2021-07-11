@@ -1,2 +1,2 @@
 export const USER_INFOS = 'USER_INFOS';
-export const CARDS = 'CARDS';
+export const GET_TOKEN = 'GET_TOKEN';
