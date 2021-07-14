@@ -13,6 +13,7 @@ class Login extends React.Component {
   constructor() {
     super();
     this.state = {
+      id: 0,
       name: '',
       email: '',
       isDisabled: true,
@@ -71,17 +72,30 @@ class Login extends React.Component {
 
   // Requisito 2 - Redirenciona para pagina de games e faz a requisição do token na api;
   async handleClickPlay() {
-    const { name, userName, email } = this.state;
+    const { name, userName, email, id } = this.state;
     const { getLogin } = this.props;
-    const localStorageFormat = {
-      player: {
-        name,
-        assertions: 0,
-        score: 0,
-        gravatarEmail: email,
-      },
-    };
-    localStorage.setItem('state', JSON.stringify(localStorageFormat));
+    const token = localStorage.getItem('token');
+    if (token !== null) {
+      const localStorageFormat = {
+        player: {
+          id: id + 1,
+          name,
+          assertions: 0,
+          score: 0,
+          gravatarEmail: token,
+        },
+      };
+
+      // https://medium.com/@lameckanao/armazenando-e-manipulando-dados-no-localstorage-7bcc901ba12b
+      if (localStorage.getItem('state') === null) {
+        localStorage.setItem('state', JSON.stringify([localStorageFormat]));
+      } else {
+        localStorage.setItem('state',
+          JSON.stringify([...JSON.parse(localStorage.getItem('state')),
+            localStorageFormat]));
+      }
+    }
+
     getLogin({ userName, email });
     const getToken = await requestToken();
     // https://pt.stackoverflow.com/questions/369892/como-redirecionar-para-uma-rota-usando-onclick-e-react-router

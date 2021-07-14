@@ -9,32 +9,20 @@ class Ranking extends Component {
 
   // Requisito 17 - a função renderiza o ranking dos player em forma decrescente
   renderRanking() {
-    // Pega o token do localStorage
-    const gravatarImg = localStorage.getItem('token');
+    const players = JSON.parse(localStorage.getItem('state'));
+    console.log(players);
 
-    // Cria um array de objetos como exemplo do que futuramente vai ser iterado
-    const arrayOfInformations = [
-      {
-        name: 'Samuel',
-        score: 0,
-        gravatar: `https://www.gravatar.com/avatar/${gravatarImg}`,
-      },
-      {
-        name: 'Bruno',
-        score: 10,
-        gravatar: `https://www.gravatar.com/avatar/${gravatarImg}`,
-      },
-    ];
     // Ordena o Objeto de forma decrescente e salva no localStorage
-    const orderedArray = arrayOfInformations.sort((a, b) => b.score - a.score);
+    const orderedArray = players.sort((a, b) => b.score - a.score);
     localStorage.setItem('ranking', JSON.stringify(orderedArray));
 
     // Iteração sobre o objeto
     return (
       <div>
-        { orderedArray.map((player, index) => (
+        { orderedArray.map(({ player }, index) => (
           <ul key="player-ranking">
-            <img src={ player.gravatar } alt="ImagemDoUsuario" />
+            { console.log(player) }
+            <img src={ `https://www.gravatar.com/avatar/${player.gravatarEmail}` } alt="ImagemDoUsuario" />
             <li data-testid={ `player-name-${index}` }>
               { player.name }
             </li>
